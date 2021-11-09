@@ -43,11 +43,13 @@ module.exports = function (api) {
           development: isDevelopmentEnv || isTestEnv,
           useBuiltIns: true,
         },
-      ],,
-      ['@babel/preset-typescript', { 'allExtensions': true, 'isTSX': true }]
+      ],
+      ,
+      ["@babel/preset-typescript", { allExtensions: true, isTSX: true }],
     ].filter(Boolean),
     plugins: [
       "babel-plugin-macros",
+      "babel-plugin-styled-components",
       "@babel/plugin-syntax-dynamic-import",
       isTestEnv && "babel-plugin-dynamic-import-node",
       "@babel/plugin-transform-destructuring",
@@ -89,7 +91,6 @@ module.exports = function (api) {
           async: false,
         },
       ],
-      process.env.WEBPACK_DEV_SERVER && "react-refresh/babel",
       isProductionEnv && [
         "babel-plugin-transform-react-remove-prop-types",
         {

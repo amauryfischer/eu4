@@ -5,9 +5,10 @@ import * as React from "react"
 import { useEffect } from "react"
 import Flex from "../styles/Flex"
 import useResources from "../hooks/useResources"
-import { addResource } from "../redux/resources/resourcesReducer"
+import { addResource } from "../reducer/resources/resourcesReducer"
 import { useDispatch, useSelector } from "react-redux"
 import AutomaticService from "../services/AutomaticService"
+import ResourcesService from "services/ResourcesService"
 const ResourcesBox = styled.div`
   width: fit-content;
 `
@@ -22,15 +23,17 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     setInterval(() => AutomaticService.gameLoop(state, dispatch), 10000)
   }, [])
-
+  const allResources = ResourcesService.getAllResources()
   return (
     <StyledAppBar position="static">
-      <Flex gap="1rem">
+      <Flex gap="1.5rem">
         {Object.entries(resources).map(([key, value]) => (
           <ResourcesBox key={key}>
-            <Box>
-              {key} : {value}
-            </Box>
+            <Flex alignItems="center" gap="0.5rem">
+              <img src={allResources[key].img} width={25} height={25} />
+              <div>{key}</div>
+              <div>{value}</div>
+            </Flex>
           </ResourcesBox>
         ))}
       </Flex>

@@ -1,28 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit"
-
-export const TITANIUM = "TITANIUM"
-export const COPPER = "COPPER"
-export const IRON = "IRON"
-export const ALUMINUM = "ALUMINUM"
-export const URANIUM = "URANIUM"
-export const MERCURE = "MERCURE"
-export const SILICIUM = "SILICIUM"
-export const KRYPTON = "KRYPTON"
-export const AZOTE = "AZOTE"
-export const HYDROGENE = "HYDROGENE"
+import {
+  ALUMINUM,
+  AZOTE,
+  CUIVRE,
+  FER,
+  HYDROGENE,
+  SILICIUM,
+  TITANE,
+  URANIUM,
+} from "services/ResourcesService"
 export const counterSlice = createSlice({
   name: "resources",
   initialState: {
-    [TITANIUM]: 0,
-    [COPPER]: 0,
-    [IRON]: 0,
-    [ALUMINUM]: 0,
-    [MERCURE]: 0,
-    [SILICIUM]: 0,
-    [URANIUM]: 0,
-    [KRYPTON]: 0,
-    [AZOTE]: 0,
-    [HYDROGENE]: 0,
+    [TITANE.name]: 0,
+    [AZOTE.name]: 0,
+    [ALUMINUM.name]: 0,
+    [CUIVRE.name]: 0,
+    [FER.name]: 0,
+    [URANIUM.name]: 0,
+    [HYDROGENE.name]: 0,
+    [SILICIUM.name]: 0,
   },
   reducers: {
     addResource: (state, { payload: { type, amount } }) => {

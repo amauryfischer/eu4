@@ -1,21 +1,27 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["es6", "dom"],
     "module": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "jsx": "react",
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "paths": {
+      "services/*": ["app/javascript/app/services/*"],
+      "redux2/*": ["app/javascript/app/reducer/*"],
+      "hooks/*": ["app/javascript/app/hooks/*"],
+      "styles/*": ["app/javascript/app/styles/*"],
+      "components/*": ["app/javascript/app/components/*"]
+    }
   },
-  "exclude": [
-    "**/*.spec.ts",
-    "node_modules",
-    "vendor",
-    "public"
-  ],
+
+  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }

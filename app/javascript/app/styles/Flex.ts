@@ -7,5 +7,10 @@ const Flex = styled.div<{ gap: string }>`
     css`
       gap: ${gap};
     `}
+  ${({ alignItems }) =>
+    alignItems &&
+    css`
+      align-items: ${alignItems};
+    `}
 `
 export default Flex

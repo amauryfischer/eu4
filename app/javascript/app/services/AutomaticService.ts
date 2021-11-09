@@ -1,4 +1,4 @@
-import { addResource } from "../redux/resources/resourcesReducer"
+import { addResource } from "../reducer/resources/resourcesReducer"
 
 const addResources = ({ resources, dispatch }) => {
   Object.keys(resources).forEach((resource) => {

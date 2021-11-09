@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "es2020",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "paths": {
+      "services/*": ["app/javascript/app/services/*"],
+      "redux/*": ["app/javascript/app/redux/*"],
+      "hooks/*": ["app/javascript/app/hooks/*"],
+      "styles/*": ["app/javascript/app/styles/*"],
+      "components/*": ["app/javascript/app/components/*"]
+    }
+  },
+  "exclude": ["node_modules", "public"]
+}

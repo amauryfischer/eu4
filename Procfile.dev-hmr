@@ -1,6 +1,6 @@
 # Procfile for development using HMR
 
-web: rails s -p 3000
+web: rails s -p 3100
 
 # Note, hot and live reloading don't work with the default generator setup on
 # top of the rails/webpacker Webpack config with server rendering.
