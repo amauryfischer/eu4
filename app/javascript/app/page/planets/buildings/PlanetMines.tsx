@@ -1,11 +1,17 @@
 import ReactDOM from "react-dom"
-import { Canvas, useFrame } from "@react-three/fiber"
-import { Physics, usePlane, useBox } from "@react-three/cannon"
+import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import { Physics, usePlane, useSphere } from "@react-three/cannon"
 import useKeyboardJs from "react-use/lib/useKeyboardJs"
 import React, { useState, useEffect, useRef } from "react"
 import { useDrag } from "@use-gesture/react"
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
+import {
+  FlyControls,
+  OrbitControls,
+  PerspectiveCamera,
+} from "@react-three/drei"
 
+import { useGesture } from "react-use-gesture"
+import clamp from "lodash/clamp"
 function Plane(props) {
   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
   return (
@@ -15,59 +21,59 @@ function Plane(props) {
     </mesh>
   )
 }
-function Cube(props) {
-  const [ref, api] = useBox(() => ({
+function Sphere({ speed = 1000, radius = 3, color = "blue" }) {
+  const [ref, api] = useSphere(() => ({
     mass: 1,
     position: [0, 5, 0],
     rotation: [0.4, 0.2, 0.5],
-    ...props,
   }))
   useFrame((state, delta) => {
     api.position.set(
-      Math.cos(((Date.now() % 1000) / 1000) * Math.PI),
+      Math.cos(((Date.now() % speed) / speed) * Math.PI * 2) * radius,
       2,
-      -Math.sin(((Date.now() % 1000) / 1000) * Math.PI),
+      -Math.sin(((Date.now() % speed) / speed) * Math.PI * 2) * radius,
     )
   })
   return (
     <mesh receiveShadow castShadow ref={ref}>
-      <boxGeometry />
-      <meshLambertMaterial color="hotpink" />
+      <sphereGeometry />
+      <meshLambertMaterial color={color} />
     </mesh>
   )
 }
 
-const PlanetMines = () => {
-  const [cameraPosition, setCameraPosition] = useState([10, 10, -10])
-  const [isPressed] = useKeyboardJs("up")
-  useEffect(() => {
-    if (isPressed) {
-      console.log("yeah")
-      setCameraPosition([
-        cameraPosition[0],
-        cameraPosition[1] - 10,
-        cameraPosition[2] - 10,
-      ])
+function Controls() {
+  const [isPressedUp] = useKeyboardJs("up")
+  const [isPressedDown] = useKeyboardJs("down")
+  const ref = useRef()
+  const { camera } = useThree()
+  useFrame(() => {
+    if (isPressedUp) {
+      camera.position.z = camera.position.z + 0.1
     }
-  }, [isPressed])
+    if (isPressedDown) {
+      camera.position.z = camera.position.z - 0.1
+    }
+    camera.updateMatrixWorld()
+  })
+  // @ts-ignore
+  return <camera ref={ref} args={[camera]} />
+}
+const PlanetMines = () => {
   return (
-    <Canvas
-      shadows
-      dpr={[1, 2]}
-      gl={{ alpha: false }}
-      camera={{ position: cameraPosition, fov: 45 }}
-    >
-      <color attach="background" args={["lightblue"]} />
+    <Canvas shadows dpr={[1, 2]} gl={{ alpha: false }}>
       <ambientLight />
-
+      <Controls />
       <directionalLight
         position={[10, 10, 10]}
         castShadow
         shadow-mapSize={[2048, 2048]}
       />
       <Physics gravity={[0, 0, 0]}>
-        <Plane position={[0, 0, 0]} />
-        <Cube position={[0.1, 5, 0]} />
+        <Sphere radius={0} color="yellow" />
+        <Sphere radius={5} color="red" />
+        <Sphere radius={8} speed={1500} />
+        <Sphere radius={12} speed={7000} color="green" />
       </Physics>
     </Canvas>
   )
