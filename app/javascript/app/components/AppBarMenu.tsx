@@ -5,10 +5,10 @@ import * as React from "react"
 import { useEffect } from "react"
 import Flex from "../styles/Flex"
 import useResources from "../hooks/useResources"
-import { addResource } from "../reducer/resources/resourcesReducer"
 import { useDispatch, useSelector } from "react-redux"
 import AutomaticService from "../services/AutomaticService"
 import ResourcesService from "services/ResourcesService"
+import usePlanets from "hooks/usePlanets"
 const ResourcesBox = styled.div`
   width: fit-content;
 `
@@ -17,22 +17,36 @@ const StyledAppBar = styled(AppBar)`
   padding: 0.25rem;
 `
 export default function PrimarySearchAppBar() {
-  const resources = useResources()
+  const planets = usePlanets()
+  const currentPlanets = Object.values(planets)?.[0] ?? ({} as any)
   const dispatch = useDispatch()
   const state = useSelector((state) => state)
   useEffect(() => {
+    AutomaticService.gameLoop(state, dispatch)
     setInterval(() => AutomaticService.gameLoop(state, dispatch), 10000)
   }, [])
   const allResources = ResourcesService.getAllResources()
+  const renderValue = (value) => {
+    if (value < 1_000) {
+      return value
+    }
+    if (value < 1_000_000) {
+      return `${(value / 1_000).toFixed(2)}k`
+    }
+    if (value < 1_000_000_000) {
+      return `${(value / 1_000_000).toFixed(2)}M`
+    }
+    return `${(value / 1_000_000_000).toFixed(2)}B`
+  }
   return (
     <StyledAppBar position="static">
       <Flex gap="1.5rem">
-        {Object.entries(resources).map(([key, value]) => (
+        {Object.entries(currentPlanets?.resources ?? {}).map(([key, value]) => (
           <ResourcesBox key={key}>
             <Flex alignItems="center" gap="0.5rem">
               <img src={allResources[key].img} width={25} height={25} />
               <div>{key}</div>
-              <div>{value}</div>
+              <div>{renderValue(value)}</div>
             </Flex>
           </ResourcesBox>
         ))}

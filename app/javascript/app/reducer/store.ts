@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
-import resourcesReducer from "./resources/resourcesReducer"
+import planetReducer from "./planets/planetReducer"
 export default configureStore({
   reducer: {
-    resources: resourcesReducer,
+    planets: planetReducer,
   },
 })

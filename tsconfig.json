@@ -15,7 +15,7 @@
     "skipLibCheck": true,
     "paths": {
       "services/*": ["app/javascript/app/services/*"],
-      "redux2/*": ["app/javascript/app/reducer/*"],
+      "reducer/*": ["app/javascript/app/reducer/*"],
       "hooks/*": ["app/javascript/app/hooks/*"],
       "styles/*": ["app/javascript/app/styles/*"],
       "components/*": ["app/javascript/app/components/*"]
