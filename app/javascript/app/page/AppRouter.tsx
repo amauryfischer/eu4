@@ -14,19 +14,23 @@ import PlanetMines from "./planets/buildings/PlanetMines"
 import PlanetFabric from "./planets/buildings/PlanetFabric"
 import PlanetCaserne from "./planets/buildings/PlanetCaserne"
 import PlanetUniversity from "./planets/buildings/PlanetUniversity"
+import ShipBuilder from "./planets/buildings/ShipBuilder"
 
 // app:javascript:app:components:AppRouter.tsx
 const debug = Debug("app:javascript:app:components:AppRouter")
 debug.log = console.log.bind(console)
 
-const AppRouter = ({}) => {
+const AppRouter = ({ children }) => {
   return (
     <BrowserRouter>
+      {children}
       <Routes>
         <Route path="/planets">
           <Route path=":id" element={<PlanetMain />} />
           <Route path=":id/research" element={<PlanetResearch />} />
-          <Route path=":id/spatioport" element={<PlanetSpatioport />} />
+          <Route path=":id/spatioport" element={<PlanetSpatioport />}>
+            <Route path=":id/spatioport/:name" element={<ShipBuilder />} />
+          </Route>
           <Route path=":id/mines" element={<PlanetMines />} />
           <Route path=":id/fabric" element={<PlanetFabric />} />
           <Route path=":id/caserne" element={<PlanetCaserne />} />

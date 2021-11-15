@@ -12,8 +12,9 @@ const App = (props) => {
     <>
       <Provider store={store}>
         <GlobalStyle />
-        <AppBarMenu />
-        <AppRouter />
+        <AppRouter>
+          <AppBarMenu />
+        </AppRouter>
       </Provider>
     </>
   )

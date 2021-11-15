@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_10_220106) do
+ActiveRecord::Schema.define(version: 2021_11_14_164541) do
 
   create_table "planets", force: :cascade do |t|
     t.json "coordinates"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 2021_11_10_220106) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "resourcesMultiplicator"
+  end
+
+  create_table "ships", force: :cascade do |t|
+    t.string "user_id"
+    t.json "location"
+    t.string "class"
+    t.json "modules"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
