@@ -1,3 +1,4 @@
+import IShip from "../type/IShip"
 import {
   TITANE,
   HYDROGENE,
@@ -9,7 +10,7 @@ import {
   SILICIUM,
 } from "./ResourcesService"
 
-const getAllShips = () => ({
+const getAllShips: () => { [name: string]: IShip } = () => ({
   apollo: {
     name: "Apollo",
     key: "apollo",
@@ -20,12 +21,13 @@ const getAllShips = () => ({
     },
     img: "/images/enhanced/apollo.jpg",
     emplacement: 10,
-    fuel_space: 25_000,
+    fuelSpace: 25_000,
     multiplier: {
       warp: 1,
       impulse: 1,
       conso: 1,
     },
+    baseCoque: 100,
   },
   arc: {
     name: "Arc",
@@ -45,6 +47,7 @@ const getAllShips = () => ({
       impulse: 0.3,
       conso: 15,
     },
+    baseCoque: 1000,
   },
   //   "artemis",
   //   "athena",
