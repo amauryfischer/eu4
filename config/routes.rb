@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   put '/api/planets/:id', to: 'planets#update'
 
   get '/api/ships', to: 'ships#get'
+  put '/api/ships/:id', to: 'ships#update'
+  post '/api/ships', to: 'ships#create'
 
   get '/', to: 'app#index'
   get '*path', to: 'app#index'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
