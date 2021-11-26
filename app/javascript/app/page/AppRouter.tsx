@@ -28,8 +28,11 @@ const AppRouter = ({ children }) => {
         <Route path="/planets">
           <Route path=":id" element={<PlanetMain />} />
           <Route path=":id/research" element={<PlanetResearch />} />
-          <Route path=":id/spatioport" element={<PlanetSpatioport />}>
-            <Route path=":id/spatioport/:name" element={<ShipBuilder />} />
+          <Route path=":id/spatioport">
+            <Route path="choose" element={<PlanetSpatioport />} />
+            <Route path="build">
+              <Route path=":name" element={<ShipBuilder />} />
+            </Route>
           </Route>
           <Route path=":id/mines" element={<PlanetMines />} />
           <Route path=":id/fabric" element={<PlanetFabric />} />

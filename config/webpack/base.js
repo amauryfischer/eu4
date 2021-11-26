@@ -51,6 +51,7 @@ module.exports = merge(webpackConfig, {
         "..",
         "app/javascript/app/reducer",
       ),
+      type: path.resolve(__dirname, "..", "..", "app/javascript/app/type"),
     },
   },
 

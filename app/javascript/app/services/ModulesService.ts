@@ -1,4 +1,4 @@
-import IModule, { IModifier } from "../type/IModule"
+import { IModifier, IModule } from "../type/IModule"
 import {
   AZOTE,
   CUIVRE,
@@ -26,7 +26,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     emplacement: 5,
     modifier: {
       [IModifier.CARGO]: 10_000,
-      [IModifier.FUEL]: 100,
+      [IModifier.CONSO]: 100,
     },
     cost: {
       [TITANE.name]: 1_500,
@@ -44,7 +44,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     emplacement: 10,
     modifier: {
       [IModifier.CARGO]: 25_000,
-      [IModifier.FUEL]: 200,
+      [IModifier.CONSO]: 200,
     },
     cost: {
       [TITANE.name]: 3_500,
@@ -62,7 +62,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     emplacement: 1,
     modifier: {
       [IModifier.IMPULSION]: 50,
-      [IModifier.FUEL]: 10,
+      [IModifier.CONSO]: 10,
     },
     cost: {
       [TITANE.name]: 1_000,
@@ -81,7 +81,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     emplacement: 2,
     modifier: {
       [IModifier.IMPULSION]: 120,
-      [IModifier.FUEL]: 22,
+      [IModifier.CONSO]: 22,
     },
     cost: {
       [TITANE.name]: 3_000,
@@ -98,8 +98,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     img: "",
     emplacement: 3,
     modifier: {
-      [IModifier.WRAP]: 100,
-      [IModifier.FUEL]: 100,
+      [IModifier.WARP]: 100,
+      [IModifier.CONSO]: 100,
     },
     cost: {
       [TITANE.name]: 1_000,
@@ -116,8 +116,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     img: "",
     emplacement: 6,
     modifier: {
-      [IModifier.WRAP]: 200,
-      [IModifier.FUEL]: 190,
+      [IModifier.WARP]: 200,
+      [IModifier.CONSO]: 190,
     },
     cost: {
       [TITANE.name]: 2_000,

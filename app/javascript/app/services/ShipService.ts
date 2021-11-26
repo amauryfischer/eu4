@@ -1,4 +1,5 @@
 import IShip from "../type/IShip"
+import IShipDesign from "../type/IShipDesign"
 import {
   TITANE,
   HYDROGENE,
@@ -10,10 +11,10 @@ import {
   SILICIUM,
 } from "./ResourcesService"
 
-const getAllShips: () => { [name: string]: IShip } = () => ({
+const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   apollo: {
     name: "Apollo",
-    key: "apollo",
+    class: "apollo",
     cost: {
       [TITANE.name]: 500,
       [CUIVRE.name]: 500,
@@ -31,7 +32,7 @@ const getAllShips: () => { [name: string]: IShip } = () => ({
   },
   arc: {
     name: "Arc",
-    key: "arc",
+    class: "arc",
     cost: {
       [TITANE.name]: 500,
       [CUIVRE.name]: 500,

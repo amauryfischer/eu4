@@ -3,6 +3,6 @@ import { IPosition } from "./IPosition"
 export interface IFleet {
   name: string
   id: string
-  ships: string[]
+  shipIds: string[]
   position: IPosition
 }

@@ -17,7 +17,7 @@ const PlanetMain = ({}) => {
       <Link to={`/planets/${planetId}/research`}>
         <PrimaryButton>Centre de recherche</PrimaryButton>
       </Link>
-      <Link to={`/planets/${planetId}/spatioport`}>
+      <Link to={`/planets/${planetId}/spatioport/choose`}>
         <PrimaryButton>Spatioport</PrimaryButton>
       </Link>
       <Link to={`/planets/${planetId}/mines`}>

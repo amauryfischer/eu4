@@ -45,7 +45,7 @@ const PlanetSpatioport = ({}) => {
                         />
                         <CardContent sx={{ flex: "1 0 auto" }}>
                           <Typography component="div" variant="h5">
-                            {ship.name}
+                            {ship.class}
                           </Typography>
                         </CardContent>
                         <CardContent>
@@ -65,7 +65,7 @@ const PlanetSpatioport = ({}) => {
                           <IconButton
                             onClick={() => {
                               navigate(
-                                `/planets/${currentPlanetId}/spatioport/${ship.key}`,
+                                `/planets/${currentPlanetId}/spatioport/build/${ship.class}`,
                               )
                             }}
                           >

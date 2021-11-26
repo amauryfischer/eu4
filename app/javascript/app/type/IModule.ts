@@ -1,18 +1,18 @@
 export enum IModifier {
   IMPULSION = "impulsion",
-  WRAP = "wrap",
-  EMPLACEMENT = "emplacement",
+  WARP = "warp",
   COQUE = "coque",
   SHIELD = "shield",
   FUEL = "FUEL",
   CARGO = "cargo",
+  CONSO = "conso",
 }
 export enum IDamage {
   LASER = "laser",
   MISSILE = "missile",
   ION = "ion",
 }
-interface IModule {
+export interface IModule {
   name: string
   description: string
   type: string
@@ -30,4 +30,3 @@ interface IModule {
     [name: string]: number
   }
 }
-export default IModule
