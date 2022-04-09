@@ -1,16 +1,26 @@
 import React from "react"
 import styled, { css } from "styled-components"
-const Flex = styled.div<{ gap: string }>`
+const Flex = styled.div<{
+  direction?: "row" | "column" | "row-reverse" | "column-reverse"
+  wrap?: "nowrap" | "wrap" | "wrap-reverse"
+  justifyContent?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+  alignContent?: "start" | "end" | "center" | "between" | "around" | "stretch"
+  alignItems?: "start" | "end" | "center" | "baseline" | "stretch"
+  gap?: string
+  fullWidth?: boolean
+}>`
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
   display: flex;
-  ${({ gap }) =>
-    gap &&
-    css`
-      gap: ${gap};
-    `}
-  ${({ alignItems }) =>
-    alignItems &&
-    css`
-      align-items: ${alignItems};
-    `}
+  flex-direction: ${({ direction }) => direction || "row"};
+  flex-wrap: ${({ wrap }) => wrap || "nowrap"};
+  justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+  align-items: ${({ alignItems }) => alignItems || "stretch"};
+  align-content: ${({ alignContent }) => alignContent || "stretch"};
+  gap: ${({ gap }) => gap || "0"};
 `
 export default Flex

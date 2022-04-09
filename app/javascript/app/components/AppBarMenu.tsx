@@ -19,6 +19,10 @@ const ResourcesBox = styled.div`
 const StyledAppBar = styled(AppBar)`
   padding: 0.25rem;
 `
+
+const StyledHomeIcon = styled(HomeIcon)`
+  color: white;
+`
 export default function PrimarySearchAppBar() {
   const planets = usePlanets()
   const navigate = useNavigate()
@@ -44,13 +48,13 @@ export default function PrimarySearchAppBar() {
   }
   return (
     <StyledAppBar position="static">
-      <Flex gap="1.5rem">
+      <Flex gap="1.5rem" alignItems="center">
         <IconButton
           onClick={() => {
             navigate("/")
           }}
         >
-          <HomeIcon />
+          <StyledHomeIcon />
         </IconButton>
         {Object.entries(currentPlanets?.resources ?? {}).map(([key, value]) => (
           <ResourcesBox key={key}>

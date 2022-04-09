@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Debug from "debug"
 import styled, { css } from "styled-components"
-import { PrimaryButton } from "styles/button"
+import { BlueButton } from "styles/button"
 import { useParams } from "react-router"
 import { Link } from "react-router-dom"
 
@@ -15,22 +15,22 @@ const PlanetMain = ({}) => {
   return (
     <>
       <Link to={`/planets/${planetId}/research`}>
-        <PrimaryButton>Centre de recherche</PrimaryButton>
+        <BlueButton>Centre de recherche</BlueButton>
       </Link>
       <Link to={`/planets/${planetId}/spatioport/choose`}>
-        <PrimaryButton>Spatioport</PrimaryButton>
+        <BlueButton>Spatioport</BlueButton>
       </Link>
       <Link to={`/planets/${planetId}/mines`}>
-        <PrimaryButton>Mines</PrimaryButton>
+        <BlueButton>Mines</BlueButton>
       </Link>
       <Link to={`/planets/${planetId}/fabric`}>
-        <PrimaryButton>Fabrique</PrimaryButton>
+        <BlueButton>Fabrique</BlueButton>
       </Link>
       <Link to={`/planets/${planetId}/caserne`}>
-        <PrimaryButton>Caserne</PrimaryButton>
+        <BlueButton>Caserne</BlueButton>
       </Link>
       <Link to={`/planets/${planetId}/university`}>
-        <PrimaryButton>Université</PrimaryButton>
+        <BlueButton>Université</BlueButton>
       </Link>
     </>
   )

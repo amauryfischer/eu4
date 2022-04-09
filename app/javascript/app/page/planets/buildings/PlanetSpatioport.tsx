@@ -15,12 +15,21 @@ import Flex from "styles/Flex"
 import ResourcesService from "services/ResourcesService"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
+import styled from "styled-components"
+
 // app:javascript:app:page:planets:buildings:PlanetSpatioport.tsx
 const debug = Debug(
   "app:javascript:app:page:planets:buildings:PlanetSpatioport",
 )
 debug.log = console.log.bind(console)
-
+const StyledCard = styled(Card)`
+  margin: 2rem;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+`
 const PlanetSpatioport = ({}) => {
   const ships = ShipService.getAllShips()
   const allResources = ResourcesService.getAllResources()
@@ -33,14 +42,14 @@ const PlanetSpatioport = ({}) => {
           {
             key: "Vaisseaux",
             render: (
-              <>
+              <Flex direction="column">
                 {Object.values(ships).map((ship) => (
                   <>
-                    <Card>
+                    <StyledCard>
                       <Flex>
                         <CardMedia
                           component="img"
-                          sx={{ width: 151 }}
+                          sx={{ width: 200, height: "auto" }}
                           image={ship.img}
                         />
                         <CardContent sx={{ flex: "1 0 auto" }}>
@@ -52,8 +61,8 @@ const PlanetSpatioport = ({}) => {
                           {Object.keys(ship.cost).map((resource) => (
                             <Flex alignItems="center" gap="0.5rem">
                               <img
-                                width={40}
-                                height={40}
+                                width={20}
+                                height={20}
                                 src={allResources[resource].img}
                               />
                               <div>{allResources[resource].name}</div>
@@ -73,10 +82,10 @@ const PlanetSpatioport = ({}) => {
                           </IconButton>
                         </CardContent>
                       </Flex>
-                    </Card>
+                    </StyledCard>
                   </>
                 ))}
-              </>
+              </Flex>
             ),
           },
           {

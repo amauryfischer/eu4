@@ -9,7 +9,7 @@ import CustomTabs from "components/CustomTabs"
 import DeblurIcon from "@mui/icons-material/Deblur"
 import ModulesService, { IModuleType } from "services/ModulesService"
 import { Button } from "@mui/material"
-import { PrimaryButton } from "styles/button"
+import { BlueButton } from "styles/button"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import { createShip } from "reducer/ships/shipResource"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
@@ -112,12 +112,12 @@ const ShipBuilder = ({}) => {
         <div>Conso</div>
         {totalConso}
       </Flex>
-      <PrimaryButton
+      <BlueButton
         disabled={modulesEmplacement > currentShip.emplacement}
         onClick={onSubmit}
       >
         Créer
-      </PrimaryButton>
+      </BlueButton>
       <CustomTabs
         tabChildrens={[
           { label: "Moteurs", type: IModuleType.ENGINE },

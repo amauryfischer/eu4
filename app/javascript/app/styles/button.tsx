@@ -1,86 +1,74 @@
-import Button from "@mui/material/Button"
-import React from "react"
+import { Button } from "@mui/material"
 import styled, { css } from "styled-components"
-import AddIcon from "@mui/icons-material/Add"
-import CloseIcon from "@mui/icons-material/Close"
-import EditIcon from "@mui/icons-material/Edit"
+import React from "react"
 
-/**
- * New buttons
- */
-
-export const StandardButton = styled(Button)`
-  transition: all 0.3s !important;
-  color: ${({ textColor }: any) =>
-    textColor ? textColor : "white"} !important;
-  font-size: 14px !important;
+const BaseButton = styled(Button)<{ $color: string; $textColor: string }>`
+  transition: 0.2s !important;
+  box-shadow: 0 0 4px #999;
   text-transform: none !important;
-  border-radius: 4px;
-  font-weight: 400 !important;
-  padding-right: 16px !important;
-  padding-left: 16px !important;
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  height: fit-content !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  width: fit-content;
+  text-decoration: none !important;
+  ${({ $color }) =>
+    css`
+      background: !important;
+      background: linear-gradient(
+          to left,
+          var(--${$color}500) 50%,
+          var(--${$color}700) 50%
+        )
+        right !important;
+    `};
+
+  color: ${({ $textColor }) =>
+    $textColor ? `var(--${$textColor}900)` : "white"} !important;
+
+  background-size: 200% !important;
+
   &:hover {
-    transition: all 0.3s !important;
-    //transform: scale(1.05);
+    transform: translateY(-0.2rem);
+    background-position: left !important;
+    ${({ $color }) =>
+      css`
+        box-shadow: rgba(var(--${$color}500-rgb), 0.5) 0px 3px 6px -2px,
+          rgba(var(--${$color}500-rgb), 0.2) 0px 8px 10px 0px,
+          rgba(var(--${$color}500-rgb), 0.1) 0px 2px 20px 0px;
+      `};
   }
-` as any
 
-const buildVar = (color: string, suffix = "") => `var(--${color}${suffix})`
-
-const createColorButton = (color: string) => styled(StandardButton)`
-  transition: 0.3s;
-  background-color: ${buildVar(color, "700")} !important;
-  &:hover {
-    background-color: ${buildVar(color, "850")} !important;
-    box-shadow: 0 14px 26px -12px ${buildVar(color, "850t42")},
-      0 4px 23px 0px rgb(0 0 0 / 12%),
-      0 8px 10px -5px ${buildVar(color, "850t20")};
+  &:active {
+    transform: scale(0.9);
+    ${({ $color }) =>
+      css`
+        box-shadow: rgba(var(--${$color}500-rgb), 0.2) 0px 1px 3px -1px,
+          rgba(var(--${$color}500-rgb), 0.18) 0px 4px 5px 0px,
+          rgba(var(--${$color}500-rgb), 0.12) 0px 1px 10px 0px;
+      `};
   }
 `
 
-const createOutlinedColorButton = (color: string) => styled(StandardButton)`
-  transition: 0.3s;
-  color: ${buildVar(color, "700")} !important;
-  border: 1px solid ${buildVar(color, "700t42")} !important;
-  &:hover {
-    border: 1px solid ${buildVar(color, "700")} !important;
-  }
-`
-
-export const PrimaryButton = createColorButton("primary") as any
-export const RedButton = createColorButton("red") as any
-export const GreenButton = createColorButton("green") as any
-export const OrangeButton = createColorButton("orange") as any
-export const YellowButton = createColorButton("yellow") as any
-export const PrimaryOutlinedButton = createOutlinedColorButton("primary") as any
-export const GreenOutlinedButton = createOutlinedColorButton("green") as any
-export const RedOutlinedButton = createOutlinedColorButton("red") as any
-
-export const CreateButton = (props: any) => (
-  <PrimaryButton {...props} startIcon={<AddIcon />}>
-    Créer
-  </PrimaryButton>
-)
-
-export const ModifyOutlinedButton = (props: any) => (
-  <PrimaryOutlinedButton {...props}>Modifier</PrimaryOutlinedButton>
-)
-
-export const EditButton = (props: any) => (
-  <PrimaryButton {...props}>Enregistrer</PrimaryButton>
-)
-
-export const DeleteButton = (props: any) => (
-  <StandardButton variant="outlined" textColor="black" {...props}>
-    Supprimer
-  </StandardButton>
-)
-
-export const CancelButton = (props: any) => (
-  <Button variant="text" {...props}>
-    Annuler
-  </Button>
-)
+export const BlueButton = (props: any) => {
+  return <BaseButton {...props} $color="blue" />
+}
+export const PurpleButton = (props: any) => {
+  return <BaseButton {...props} $color="purple" />
+}
+export const GreenButton = (props: any) => {
+  return <BaseButton {...props} $color="green" />
+}
+export const YellowButton = (props: any) => {
+  return <BaseButton {...props} $color="yellow" />
+}
+export const RedButton = (props: any) => {
+  return <BaseButton {...props} $color="red" />
+}
+export const CyanButton = (props: any) => {
+  return <BaseButton {...props} $color="cyan" $textColor="grey" />
+}
+export const PinkButton = (props: any) => {
+  return <BaseButton {...props} $color="pink" />
+}
+export const GreyButton = (props: any) => {
+  return <BaseButton {...props} $color="grey" />
+}
