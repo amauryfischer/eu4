@@ -12,32 +12,29 @@
 
 ActiveRecord::Schema.define(version: 2021_11_26_132747) do
 
-  create_table "fleets", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
+  enable_extension "plpgsql"
+
+  create_table "fleets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "user_id"
-    t.string "name"
-    t.string "shipIds"
-    t.json "position", default: {}
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "planets", force: :cascade do |t|
-    t.json "coordinates"
-    t.json "resources"
+  create_table "planets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.json "data"
     t.string "user_id"
-    t.json "buildings"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.json "resourcesMultiplicator"
   end
 
-  create_table "ships", force: :cascade do |t|
+  create_table "ships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "user_id"
-    t.string "class"
+    t.json "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.json "modules", default: []
-    t.string "name"
   end
 
 end

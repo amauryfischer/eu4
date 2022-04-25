@@ -1,8 +1,8 @@
 import Axios from "axios"
 
 const getShips = async () => {
-  const ships = await Axios.get("/api/ships")
-  return ships
+  const response = await Axios.get("/api/ships")
+  return response.data
 }
 
 const createShip = async (ship) => {

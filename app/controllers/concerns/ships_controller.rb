@@ -1,7 +1,7 @@
-class ShipsController
-  def get
-    @ship = Ship.find(params[:id])
-    render json: @ship
+class ShipsController < ApplicationController
+  def get_all
+    @ships = Ship.all
+    render json: @ships.map(&:to_format)
   end
 
   def update
@@ -11,8 +11,7 @@ class ShipsController
   end
 
   def create
-    @ship = Ship.new(ship_params)
-    @ship.save
-    render json: @ship
+    @ship = Ship.create(data: params.permit!.to_h)
+    render json: @ship.to_format
   end
 end

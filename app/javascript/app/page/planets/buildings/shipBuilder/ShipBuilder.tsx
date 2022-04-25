@@ -9,7 +9,7 @@ import CustomTabs from "components/CustomTabs"
 import DeblurIcon from "@mui/icons-material/Deblur"
 import ModulesService, { IModuleType } from "services/ModulesService"
 import { Button } from "@mui/material"
-import { BlueButton } from "styles/button"
+import { BlueButton, GreenButton, PinkButton, RedButton } from "styles/button"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import { createShip } from "reducer/ships/shipResource"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
@@ -19,9 +19,15 @@ import Inventory2Icon from "@mui/icons-material/Inventory2"
 import SecurityIcon from "@mui/icons-material/Security"
 import Flex from "styles/Flex"
 import { IModifier, IModule } from "type/IModule"
+import ModuleShipBuilder from "./ModuleShipBuilder"
 // app:javascript:app:page:planets:buildings:ShipBuilder.tsx
 const debug = Debug("app:javascript:app:page:planets:buildings:ShipBuilder")
 debug.log = console.log.bind(console)
+
+const ShipPropertyContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 15fr);
+`
 
 const ShipBuilder = ({}) => {
   const { name } = useParams()
@@ -74,50 +80,64 @@ const ShipBuilder = ({}) => {
     })
   })
   return (
-    <>
-      <img src={currentShip.img} height={40} width={40} />
-      Emplacements : {modulesEmplacement} / {currentShip.emplacement}
-      <Flex gap="1rem">
-        <Inventory2Icon />
-        <div>Cargo</div>
-        {totalCargo}
+    <Flex direction="column">
+      <Flex justifyContent="space-between">
+        <img src={currentShip.img} height={200} />
+        Emplacements : {modulesEmplacement} / {currentShip.emplacement}
+        <Flex direction="column">
+          {[
+            {
+              name: "Cargo",
+              icon: <Inventory2Icon />,
+              totalAmount: totalCargo,
+            },
+            {
+              name: "Impulsion",
+              icon: <DeblurIcon />,
+              totalAmount: totalImpulsion,
+            },
+            {
+              name: "Shield",
+              icon: <SecurityIcon />,
+              totalAmount: totalShield,
+            },
+            {
+              name: "Warp",
+              icon: <RocketLaunchIcon />,
+              totalAmount: totalWarp,
+            },
+            {
+              name: "Fuel",
+              icon: <BatteryCharging80Icon />,
+              totalAmount: totalFuel,
+            },
+            {
+              name: "Coque",
+              icon: <FavoriteIcon />,
+              totalAmount: totalCoque,
+            },
+            {
+              name: "Conso",
+              icon: <LocalGasStationIcon />,
+              totalAmount: totalConso,
+            },
+          ].map((shipProperty) => (
+            <ShipPropertyContainer>
+              <Flex gap="0.5rem">
+                <div>{shipProperty.icon}</div>
+                <div>{shipProperty.name}</div>
+              </Flex>
+              <div>{shipProperty.totalAmount}</div>
+            </ShipPropertyContainer>
+          ))}
+        </Flex>
+        <BlueButton
+          disabled={modulesEmplacement > currentShip.emplacement}
+          onClick={onSubmit}
+        >
+          Créer
+        </BlueButton>
       </Flex>
-      <Flex gap="1rem">
-        <DeblurIcon />
-        <div>Impulsion</div>
-        {totalImpulsion}
-      </Flex>
-      <Flex gap="1rem">
-        <SecurityIcon />
-        <div>Shield</div>
-        {totalShield}
-      </Flex>
-      <Flex gap="1rem">
-        <RocketLaunchIcon />
-        <div>Warp</div>
-        {totalWarp}
-      </Flex>
-      <Flex gap="1rem">
-        <BatteryCharging80Icon />
-        <div>Fuel</div>
-        {totalFuel}
-      </Flex>
-      <Flex gap="1rem">
-        <FavoriteIcon />
-        <div>Coque</div>
-        {totalCoque}
-      </Flex>
-      <Flex gap="1rem">
-        <LocalGasStationIcon />
-        <div>Conso</div>
-        {totalConso}
-      </Flex>
-      <BlueButton
-        disabled={modulesEmplacement > currentShip.emplacement}
-        onClick={onSubmit}
-      >
-        Créer
-      </BlueButton>
       <CustomTabs
         tabChildrens={[
           { label: "Moteurs", type: IModuleType.ENGINE },
@@ -133,36 +153,18 @@ const ShipBuilder = ({}) => {
                 {modules
                   .filter((m) => m.type === category.type)
                   .map((module) => (
-                    <>
-                      <img src={module.img} height={40} width={40} />
-                      <p>{module.name}</p>
-                      <i>{module.description}</i>
-                      <Button
-                        onClick={() => {
-                          setSelectedModules([...selectedModules, module])
-                        }}
-                      >
-                        Ajouter
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          setSelectedModules(
-                            selectedModules.filter(
-                              (m) => m.name !== module.name,
-                            ),
-                          )
-                        }}
-                      >
-                        Retirer
-                      </Button>
-                    </>
+                    <ModuleShipBuilder
+                      module={module}
+                      setSelectedModules={setSelectedModules}
+                      selectedModules={selectedModules}
+                    />
                   ))}
               </>
             ),
           }
         })}
       />
-    </>
+    </Flex>
   )
 }
 

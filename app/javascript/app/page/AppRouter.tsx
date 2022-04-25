@@ -14,7 +14,7 @@ import PlanetMines from "./planets/buildings/PlanetMines"
 import PlanetFabric from "./planets/buildings/PlanetFabric"
 import PlanetCaserne from "./planets/buildings/PlanetCaserne"
 import PlanetUniversity from "./planets/buildings/PlanetUniversity"
-import ShipBuilder from "./planets/buildings/ShipBuilder"
+import ShipBuilder from "./planets/buildings/shipBuilder/ShipBuilder"
 
 // app:javascript:app:components:AppRouter.tsx
 const debug = Debug("app:javascript:app:components:AppRouter")

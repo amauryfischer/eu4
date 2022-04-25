@@ -1,10 +1,8 @@
 class AddTableShip < ActiveRecord::Migration[6.1]
   def change
-    create_table :ships do |t|
+    create_table :ships, id: :uuid do |t|
       t.string :user_id
-      t.json :location
-      t.string :class
-      t.json :modules
+      t.json :data
       t.timestamps
     end
   end

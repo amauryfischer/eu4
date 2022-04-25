@@ -2,14 +2,24 @@ import { Button } from "@mui/material"
 import styled, { css } from "styled-components"
 import React from "react"
 
-const BaseButton = styled(Button)<{ $color: string; $textColor: string }>`
+const BaseButton = styled(Button)<{
+  $color: string
+  $textColor: string
+  disabled: boolean
+}>`
   transition: 0.2s !important;
   box-shadow: 0 0 4px #999;
   text-transform: none !important;
   padding-left: 0.75rem !important;
   padding-right: 0.75rem !important;
   width: fit-content;
+  height: fit-content;
   text-decoration: none !important;
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.6;
+    `}
   ${({ $color }) =>
     css`
       background: !important;

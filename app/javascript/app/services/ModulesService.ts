@@ -20,7 +20,9 @@ export enum IModuleType {
 const getAllModules: () => { [name: string]: IModule } = () => ({
   cargos: {
     name: "Cargo S",
-    description: "Cargo S",
+    description:
+      // TODO replace lorem
+      "description Et voluptatem numquam. Molestias tenetur asperiores. Repellat quidem et aut ducimus a quasi. Reprehenderit quis quis.",
     img: "",
     type: IModuleType.CARGO,
     emplacement: 5,
@@ -38,7 +40,9 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
   },
   cargom: {
     name: "Cargo M",
-    description: "Cargo M",
+    // TODO replace lorem
+    description:
+      "Cargo M description Nihil ut fugit et mollitia consequatur aspernatur nam quia eos. Vitae vero temporibus sed sed voluptatem dolorem. Sed perferendis reprehenderit ullam cupiditate dolorem labore ut. Aliquid numquam dolorem sed doloribus aperiam exercitationem ipsum. Ducimus dolor dolore ea ut architecto dolor modi.",
     img: "",
     type: IModuleType.CARGO,
     emplacement: 10,
@@ -56,7 +60,9 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
   },
   gps1: {
     name: "GPS 1",
-    description: "GPS 1",
+    // TODO replace lorem
+    description:
+      "GPS 1 Doloribus ut laboriosam ab. Aut aperiam adipisci. Sit quos nobis quibusdam consectetur veritatis et dolor unde.",
     type: IModuleType.ENGINE,
     img: "",
     emplacement: 1,
@@ -75,7 +81,9 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 
   gps2: {
     name: "GPS 2",
-    description: "GPS 2",
+    // TODO replace lorem
+    description:
+      "GPS 2 Voluptatem veritatis corrupti nisi similique necessitatibus voluptate ducimus dolores culpa. Quas cumque voluptatem voluptatem. Quia libero optio quibusdam magnam porro qui sit doloremque id. Sint sunt accusantium atque. Facere maiores expedita vel assumenda minus odio et fuga unde.",
     type: IModuleType.ENGINE,
     img: "",
     emplacement: 2,
@@ -93,7 +101,9 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
   },
   warp1: {
     name: "Warp 1",
-    description: "Warp 1",
+    // TODO replace lorem
+    description:
+      "Warp 1 Qui eligendi et dolore ratione laudantium. Sit fugiat voluptatibus possimus reprehenderit velit omnis. Est voluptas maiores quo dolor dolorem.",
     type: IModuleType.ENGINE,
     img: "",
     emplacement: 3,
@@ -111,7 +121,9 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
   },
   warp2: {
     name: "Warp 2",
-    description: "Warp 2",
+    // TODO replace lorem
+    description:
+      "Warp 2 Autem dolorem odit ipsum dolorem cumque. Ab corporis aliquam omnis autem laudantium est ex. Dolor nihil facere est excepturi dolores id et sapiente.",
     type: IModuleType.ENGINE,
     img: "",
     emplacement: 6,

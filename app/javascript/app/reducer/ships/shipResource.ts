@@ -14,7 +14,7 @@ export const createShip = createAsyncThunk(
   },
 )
 
-export const getShips = (dispatch) => {
-  const ships = ShipApi.getShips()
+export const getShips = async (dispatch) => {
+  const ships = await ShipApi.getShips()
   dispatch(setShips({ ships }))
 }
