@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import Debug from "debug"
 import styled, { css } from "styled-components"
 import { BlueButton } from "styles/button"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { Link } from "react-router-dom"
+import usePlanets from "hooks/usePlanets"
 
 // app:javascript:app:page:planets:PlanetMain.tsx
 const debug = Debug("app:javascript:app:page:planets:PlanetMain")
@@ -12,6 +13,11 @@ debug.log = console.log.bind(console)
 
 const PlanetMain = ({}) => {
   const { id: planetId } = useParams()
+  const planets = usePlanets()
+  const navigate = useNavigate()
+  if (!planets[planetId]) {
+    navigate(`/planets/${Object.keys(planets)?.[0]}`)
+  }
   return (
     <>
       <Link to={`/planets/${planetId}/research`}>

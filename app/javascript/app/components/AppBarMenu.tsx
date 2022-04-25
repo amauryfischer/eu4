@@ -18,6 +18,7 @@ const ResourcesBox = styled.div`
 
 const StyledAppBar = styled(AppBar)`
   padding: 0.25rem;
+  background-color: black !important;
 `
 
 const StyledHomeIcon = styled(HomeIcon)`
@@ -56,15 +57,17 @@ export default function PrimarySearchAppBar() {
         >
           <StyledHomeIcon />
         </IconButton>
-        {Object.entries(currentPlanets?.resources ?? {}).map(([key, value]) => (
-          <ResourcesBox key={key}>
-            <Flex alignItems="center" gap="0.5rem">
-              <img src={allResources[key].img} width={25} height={25} />
-              <div>{key}</div>
-              <div>{renderValue(value)}</div>
-            </Flex>
-          </ResourcesBox>
-        ))}
+        {Object.entries(currentPlanets?.data?.resources ?? {}).map(
+          ([key, value]) => (
+            <ResourcesBox key={key}>
+              <Flex alignItems="center" gap="0.5rem">
+                <img src={allResources[key].img} width={25} height={25} />
+                <div>{key}</div>
+                <div>{renderValue(value)}</div>
+              </Flex>
+            </ResourcesBox>
+          ),
+        )}
       </Flex>
     </StyledAppBar>
   )
