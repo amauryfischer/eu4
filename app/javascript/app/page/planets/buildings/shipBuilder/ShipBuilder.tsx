@@ -9,7 +9,13 @@ import CustomTabs from "components/CustomTabs"
 import DeblurIcon from "@mui/icons-material/Deblur"
 import ModulesService, { IModuleType } from "services/ModulesService"
 import { Button } from "@mui/material"
-import { BlueButton, GreenButton, PinkButton, RedButton } from "styles/button"
+import {
+  BlueButton,
+  GreenButton,
+  PinkButton,
+  RedButton,
+  YellowButton,
+} from "styles/button"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import { createShip } from "reducer/ships/shipResource"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
@@ -20,6 +26,8 @@ import SecurityIcon from "@mui/icons-material/Security"
 import Flex from "styles/Flex"
 import { IModifier, IModule } from "type/IModule"
 import ModuleShipBuilder from "./ModuleShipBuilder"
+import { number } from "prop-types"
+import BuildIcon from "@mui/icons-material/Build"
 // app:javascript:app:page:planets:buildings:ShipBuilder.tsx
 const debug = Debug("app:javascript:app:page:planets:buildings:ShipBuilder")
 debug.log = console.log.bind(console)
@@ -79,11 +87,27 @@ const ShipBuilder = ({}) => {
       }
     })
   })
+  const numberModulePerName = {}
+  selectedModules.forEach((module) => {
+    if (!numberModulePerName[module.name]) {
+      numberModulePerName[module.name] = 0
+    }
+    numberModulePerName[module.name] += 1
+  })
   return (
     <Flex direction="column">
       <Flex justifyContent="space-between">
         <img src={currentShip.img} height={200} />
-        Emplacements : {modulesEmplacement} / {currentShip.emplacement}
+        <Flex direction="column">
+          <div>
+            Emplacements : {modulesEmplacement} / {currentShip.emplacement}
+          </div>
+          {Object.keys(numberModulePerName).map((moduleName) => (
+            <div>
+              {numberModulePerName[moduleName]} x {moduleName}
+            </div>
+          ))}
+        </Flex>
         <Flex direction="column">
           {[
             {
@@ -131,12 +155,13 @@ const ShipBuilder = ({}) => {
             </ShipPropertyContainer>
           ))}
         </Flex>
-        <BlueButton
+        <YellowButton
+          startIcon={<BuildIcon />}
           disabled={modulesEmplacement > currentShip.emplacement}
           onClick={onSubmit}
         >
           Créer
-        </BlueButton>
+        </YellowButton>
       </Flex>
       <CustomTabs
         tabChildrens={[

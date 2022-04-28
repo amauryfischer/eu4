@@ -176,8 +176,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    color: var(--grey900);
-    background-color: var(--grey100);
+    color: white;
+    background-color: black;
     margin: 0;
   }
   a {
