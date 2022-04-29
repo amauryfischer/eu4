@@ -9,12 +9,12 @@ import Fleet from "./fleets/Fleet"
 import Universe from "./universe/Universe"
 import UniverseParcel from "./universe/UniverseParcel"
 import PlanetResearch from "./planets/buildings/PlanetResearch"
-import PlanetSpatioport from "./planets/buildings/PlanetSpatioport"
 import PlanetMines from "./planets/buildings/PlanetMines"
 import PlanetFabric from "./planets/buildings/PlanetFabric"
 import PlanetCaserne from "./planets/buildings/PlanetCaserne"
 import PlanetUniversity from "./planets/buildings/PlanetUniversity"
 import ShipBuilder from "./planets/buildings/shipBuilder/ShipBuilder"
+import PlanetShipFactory from "./planets/buildings/PlanetShipFactory"
 
 // app:javascript:app:components:AppRouter.tsx
 const debug = Debug("app:javascript:app:components:AppRouter")
@@ -28,8 +28,8 @@ const AppRouter = ({ children }) => {
         <Route path="/planets">
           <Route path=":id" element={<PlanetMain />} />
           <Route path=":id/research" element={<PlanetResearch />} />
-          <Route path=":id/spatioport">
-            <Route path="choose" element={<PlanetSpatioport />} />
+          <Route path=":id/shipfactory">
+            <Route path="choose" element={<PlanetShipFactory />} />
             <Route path="build">
               <Route path=":name" element={<ShipBuilder />} />
             </Route>

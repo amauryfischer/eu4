@@ -3,6 +3,7 @@ import Debug from "debug"
 import { useSelector, useDispatch } from "react-redux"
 import styled from "styled-components"
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router"
 import ShipService from "services/ShipService"
 import _ from "lodash"
 import CustomTabs from "components/CustomTabs"
@@ -43,6 +44,8 @@ const ShipBuilder = ({}) => {
   const modules = Object.values(ModulesService.getAllModules())
   const [selectedModules, setSelectedModules] = useState<IModule[]>([])
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { id } = useParams()
   const modulesEmplacement = _.sumBy(selectedModules, (m) => m.emplacement)
   const onSubmit = () => {
     dispatch(
@@ -54,6 +57,7 @@ const ShipBuilder = ({}) => {
         },
       }),
     )
+    navigate(`/planets/${id}`)
   }
   let totalCargo = 0
   let totalImpulsion = 0

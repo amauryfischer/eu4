@@ -3,6 +3,5 @@ export interface IPosition {
   system: {
     x: number
     y: number
-    z: number
   }
 }

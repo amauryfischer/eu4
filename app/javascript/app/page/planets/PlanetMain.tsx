@@ -11,12 +11,6 @@ import usePlanets from "hooks/usePlanets"
 const debug = Debug("app:javascript:app:page:planets:PlanetMain")
 debug.log = console.log.bind(console)
 
-const StyledCard = styled.div`
-  width: 500px;
-  height: 300px;
-  background: linear-gradient(45deg, var(--blue700), var(--blue900));
-`
-
 const PlanetMain = ({}) => {
   const { id: planetId } = useParams()
   const planets = usePlanets()
@@ -29,8 +23,8 @@ const PlanetMain = ({}) => {
       <Link to={`/planets/${planetId}/research`}>
         <YellowButton>Centre de recherche</YellowButton>
       </Link>
-      <Link to={`/planets/${planetId}/spatioport/choose`}>
-        <YellowButton>Spatioport</YellowButton>
+      <Link to={`/planets/${planetId}/shipfactory/choose`}>
+        <YellowButton>Usine à vaisseaux</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/mines`}>
         <YellowButton>Mines</YellowButton>
@@ -44,7 +38,6 @@ const PlanetMain = ({}) => {
       <Link to={`/planets/${planetId}/university`}>
         <YellowButton>Université</YellowButton>
       </Link>
-      <StyledCard></StyledCard>
     </>
   )
 }
