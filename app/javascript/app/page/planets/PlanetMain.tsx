@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Debug from "debug"
 import styled, { css } from "styled-components"
-import { YellowButton } from "styles/button"
+import { PurpleButton, YellowButton } from "styles/button"
 import { useNavigate, useParams } from "react-router"
 import { Link } from "react-router-dom"
 import usePlanets from "hooks/usePlanets"
@@ -22,28 +22,31 @@ const PlanetMain = ({}) => {
   return (
     <Flex gap="2rem">
       <Link to={`/planets/${planetId}/research`}>
-        <YellowButton>Centre de recherche</YellowButton>
+        <YellowButton disabled>Centre de recherche</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/shipfactory/choose`}>
         <YellowButton>Usine à vaisseaux</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/mines`}>
-        <YellowButton>Mines</YellowButton>
+        <YellowButton disabled>Mines</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/fabric`}>
-        <YellowButton>Fabrique</YellowButton>
+        <YellowButton disabled>Fabrique</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/caserne`}>
-        <YellowButton>Caserne</YellowButton>
+        <YellowButton disabled>Caserne</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/university`}>
-        <YellowButton>Université</YellowButton>
+        <YellowButton disabled>Université</YellowButton>
       </Link>
       <Link to={`/planets/${planetId}/spatioport`}>
         <YellowButton>Spatioport</YellowButton>
       </Link>
       <Link to={`/fleets/list`}>
         <YellowButton>Fleets</YellowButton>
+      </Link>
+      <Link to={`/universe`}>
+        <PurpleButton>Univers</PurpleButton>
       </Link>
     </Flex>
   )

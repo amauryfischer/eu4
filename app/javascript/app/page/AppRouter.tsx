@@ -33,7 +33,7 @@ const AppRouter = ({ children }) => {
           <Route path=":id/shipfactory">
             <Route path="choose" element={<PlanetShipFactory />} />
             <Route path="build">
-              <Route path=":name" element={<ShipBuilder />} />
+              <Route path=":shipClass" element={<ShipBuilder />} />
             </Route>
           </Route>
           <Route path=":id/mines" element={<PlanetMines />} />

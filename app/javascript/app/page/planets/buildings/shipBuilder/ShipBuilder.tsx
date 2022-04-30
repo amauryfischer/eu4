@@ -30,6 +30,16 @@ import ModuleShipBuilder from "./ModuleShipBuilder"
 import { number } from "prop-types"
 import BuildIcon from "@mui/icons-material/Build"
 import { YellowTextField } from "styles/testField"
+import ResourcesService, {
+  ALUMINUM,
+  AZOTE,
+  CUIVRE,
+  FER,
+  HYDROGENE,
+  SILICIUM,
+  TITANE,
+  URANIUM,
+} from "services/ResourcesService"
 // app:javascript:app:page:planets:buildings:ShipBuilder.tsx
 const debug = Debug("app:javascript:app:page:planets:buildings:ShipBuilder")
 debug.log = console.log.bind(console)
@@ -37,11 +47,12 @@ debug.log = console.log.bind(console)
 const ShipPropertyContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 15fr);
+  column-gap: 2em;
 `
 
 const ShipBuilder = ({}) => {
-  const { name } = useParams()
-  const currentShip = ShipService.getAllShips()[name]
+  const { shipClass } = useParams()
+  const currentShipClass = ShipService.getAllShips()[shipClass]
   const modules = Object.values(ModulesService.getAllModules())
   const [selectedModules, setSelectedModules] = useState<IModule[]>([])
   const [shipName, setShipName] = useState("")
@@ -53,44 +64,62 @@ const ShipBuilder = ({}) => {
     dispatch(
       createShip({
         data: {
-          ...currentShip,
           name: shipName,
           modules: selectedModules,
+          class: shipClass,
         },
       }),
     )
     navigate(`/planets/${id}`)
   }
-  let totalCargo = 0
-  let totalImpulsion = 0
-  let totalShield = 0
-  let totalWarp = 0
-  let totalFuel = currentShip.fuelSpace
-  let totalCoque = currentShip.baseCoque
-  let totalConso = 0
+
+  const totalStat = {
+    cargo: 0,
+    impulsion: 0,
+    shield: 0,
+    warp: 0,
+    fuel: currentShipClass.fuelSpace,
+    coque: currentShipClass.baseCoque,
+    conso: 0,
+  }
+  const totalResources = {
+    [TITANE.name]: currentShipClass.cost[TITANE.name] ?? 0,
+    [CUIVRE.name]: currentShipClass.cost[CUIVRE.name] ?? 0,
+    [FER.name]: currentShipClass.cost[FER.name] ?? 0,
+    [ALUMINUM.name]: currentShipClass.cost[ALUMINUM.name] ?? 0,
+    [SILICIUM.name]: currentShipClass.cost[SILICIUM.name] ?? 0,
+    [URANIUM.name]: currentShipClass.cost[URANIUM.name] ?? 0,
+    [AZOTE.name]: currentShipClass.cost[AZOTE.name] ?? 0,
+    [HYDROGENE.name]: currentShipClass.cost[HYDROGENE.name] ?? 0,
+  }
+
   selectedModules.forEach((m) => {
     Object.keys(m.modifier).forEach((mod) => {
       if (mod === IModifier.CARGO) {
-        totalCargo += m.modifier[mod]
+        totalStat.cargo += m.modifier[mod]
       }
       if (mod === IModifier.IMPULSION) {
-        totalImpulsion += m.modifier[mod] * currentShip.multiplier.impulse
+        totalStat.impulsion +=
+          m.modifier[mod] * currentShipClass.multiplier.impulse
       }
       if (mod === IModifier.SHIELD) {
-        totalShield += m.modifier[mod]
+        totalStat.shield += m.modifier[mod]
       }
       if (mod === IModifier.WARP) {
-        totalWarp += m.modifier[mod] * currentShip.multiplier.warp
+        totalStat.warp += m.modifier[mod] * currentShipClass.multiplier.warp
       }
       if (mod === IModifier.FUEL) {
-        totalFuel += m.modifier[mod]
+        totalStat.fuel += m.modifier[mod]
       }
       if (mod === IModifier.COQUE) {
-        totalCoque += m.modifier[mod]
+        totalStat.coque += m.modifier[mod]
       }
       if (mod === IModifier.CONSO) {
-        totalConso += m.modifier[mod] * currentShip.multiplier.conso
+        totalStat.conso += m.modifier[mod] * currentShipClass.multiplier.conso
       }
+    })
+    Object.entries(m.cost).map(([resourceName, resourceAmount]) => {
+      totalResources[resourceName] += resourceAmount
     })
   })
   const numberModulePerName = {}
@@ -102,45 +131,45 @@ const ShipBuilder = ({}) => {
   })
   return (
     <Flex direction="column">
-      <Flex gap="2rem">
-        <img src={currentShip.img} height={200} />
+      <Flex gap="4rem">
+        <img src={currentShipClass.img} height={200} />
 
         <Flex direction="column">
           {[
             {
               name: "Cargo",
               icon: <Inventory2Icon />,
-              totalAmount: totalCargo,
+              totalAmount: totalStat.cargo,
             },
             {
               name: "Impulsion",
               icon: <DeblurIcon />,
-              totalAmount: totalImpulsion,
+              totalAmount: totalStat.impulsion,
             },
             {
               name: "Shield",
               icon: <SecurityIcon />,
-              totalAmount: totalShield,
+              totalAmount: totalStat.shield,
             },
             {
               name: "Warp",
               icon: <RocketLaunchIcon />,
-              totalAmount: totalWarp,
+              totalAmount: totalStat.warp,
             },
             {
               name: "Fuel",
               icon: <BatteryCharging80Icon />,
-              totalAmount: totalFuel,
+              totalAmount: totalStat.fuel,
             },
             {
               name: "Coque",
               icon: <FavoriteIcon />,
-              totalAmount: totalCoque,
+              totalAmount: totalStat.coque,
             },
             {
               name: "Conso",
               icon: <LocalGasStationIcon />,
-              totalAmount: totalConso,
+              totalAmount: totalStat.conso,
             },
           ].map((shipProperty) => (
             <ShipPropertyContainer>
@@ -154,12 +183,23 @@ const ShipBuilder = ({}) => {
         </Flex>
         <Flex direction="column">
           <div>
-            Emplacements : {modulesEmplacement} / {currentShip.emplacement}
+            Emplacements : {modulesEmplacement} / {currentShipClass.emplacement}
           </div>
           {Object.keys(numberModulePerName).map((moduleName) => (
             <div>
               {numberModulePerName[moduleName]} x {moduleName}
             </div>
+          ))}
+        </Flex>
+        <Flex direction="column">
+          {Object.values(ResourcesService.getAllResources()).map((resource) => (
+            <ShipPropertyContainer>
+              <Flex gap="0.5rem">
+                <img src={resource.img} height={30} />
+                <div>{resource.name}</div>
+              </Flex>
+              <div>{totalResources[resource.name]}</div>
+            </ShipPropertyContainer>
           ))}
         </Flex>
         <Flex gap="1rem" align-items="center">
@@ -169,7 +209,7 @@ const ShipBuilder = ({}) => {
           />
           <YellowButton
             startIcon={<BuildIcon />}
-            disabled={modulesEmplacement > currentShip.emplacement}
+            disabled={modulesEmplacement > currentShipClass.emplacement}
             onClick={onSubmit}
           >
             Créer

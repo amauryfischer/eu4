@@ -1,5 +1,6 @@
 import { IModifier, IModule } from "../type/IModule"
 import {
+  ALUMINUM,
   AZOTE,
   CUIVRE,
   FER,
@@ -73,7 +74,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     cost: {
       [TITANE.name]: 1_000,
       [CUIVRE.name]: 1_200,
-      [AZOTE.name]: 2_00,
+      [AZOTE.name]: 2_000,
       [URANIUM.name]: 4_400,
       [HYDROGENE.name]: 1_300,
     },
@@ -138,6 +139,61 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
       [URANIUM.name]: 9_000,
       [HYDROGENE.name]: 6_500,
       [FER.name]: 7_500,
+    },
+  },
+  shield1: {
+    name: "Shield 1",
+    description: "Provident molestiae occaecati rem quos provident animi.",
+    type: IModuleType.DEFENSE,
+    img: "",
+    emplacement: 2,
+    modifier: {
+      [IModifier.SHIELD]: 200,
+    },
+    cost: {
+      [URANIUM.name]: 1_000,
+      [ALUMINUM.name]: 3_200,
+    },
+  },
+  shield2: {
+    name: "Shield 2",
+    description:
+      "Ducimus est sint animi repudiandae placeat tempore molestiae magnam. Rerum id similique ut non qui quia. Similique est in odit vel sit culpa repellat reprehenderit. Nostrum maxime ad pariatur aut dolores. Officiis quam debitis alias provident magni eum.",
+    type: IModuleType.DEFENSE,
+    img: "",
+    emplacement: 4,
+    modifier: {
+      [IModifier.SHIELD]: 450,
+    },
+    cost: {
+      [URANIUM.name]: 3_000,
+      [ALUMINUM.name]: 12_000,
+    },
+  },
+  coque1: {
+    name: "Coque 1",
+    description: "Quidem aut autem et rerum minus incidunt aut.",
+    type: IModuleType.DEFENSE,
+    img: "",
+    emplacement: 1,
+    modifier: {
+      [IModifier.COQUE]: 80,
+    },
+    cost: {
+      [ALUMINUM.name]: 1_500,
+    },
+  },
+  coque2: {
+    name: "Coque 2",
+    description: "Quidem aut autem et rerum minus incidunt aut.",
+    type: IModuleType.DEFENSE,
+    img: "",
+    emplacement: 2,
+    modifier: {
+      [IModifier.COQUE]: 200,
+    },
+    cost: {
+      [ALUMINUM.name]: 9_000,
     },
   },
 })

@@ -33,13 +33,13 @@ export const SILICIUM = {
 const getAllResources = () => {
   return {
     [TITANE.name]: TITANE,
-    [AZOTE.name]: AZOTE,
-    [ALUMINUM.name]: ALUMINUM,
     [CUIVRE.name]: CUIVRE,
     [FER.name]: FER,
-    [URANIUM.name]: URANIUM,
-    [HYDROGENE.name]: HYDROGENE,
+    [ALUMINUM.name]: ALUMINUM,
     [SILICIUM.name]: SILICIUM,
+    [URANIUM.name]: URANIUM,
+    [AZOTE.name]: AZOTE,
+    [HYDROGENE.name]: HYDROGENE,
   }
 }
 export default {
