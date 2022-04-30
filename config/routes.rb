@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   put '/api/ships/:id', to: 'ships#update'
   post '/api/ships', to: 'ships#create'
 
+  get '/api/fleets', to: 'fleets#get_all'
+  post '/api/fleets', to: 'fleets#create'
+  put '/api/fleets', to: 'fleets#update'
+
   get '/', to: 'app#index'
   get '*path', to: 'app#index'
 end

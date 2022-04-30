@@ -15,6 +15,8 @@ import PlanetCaserne from "./planets/buildings/PlanetCaserne"
 import PlanetUniversity from "./planets/buildings/PlanetUniversity"
 import ShipBuilder from "./planets/buildings/shipBuilder/ShipBuilder"
 import PlanetShipFactory from "./planets/buildings/PlanetShipFactory"
+import PlanetSpatioport from "./planets/buildings/PlanetSpatioport"
+import FleetManager from "./fleets/FleetManager"
 
 // app:javascript:app:components:AppRouter.tsx
 const debug = Debug("app:javascript:app:components:AppRouter")
@@ -38,8 +40,14 @@ const AppRouter = ({ children }) => {
           <Route path=":id/fabric" element={<PlanetFabric />} />
           <Route path=":id/caserne" element={<PlanetCaserne />} />
           <Route path=":id/university" element={<PlanetUniversity />} />
+          <Route path=":id/spatioport" element={<PlanetSpatioport />} />
         </Route>
-        <Route path="/fleets" element={<Fleet />} />
+        <Route path="/fleets">
+          <Route path="list" element={<Fleet />} />
+          <Route path="manager">
+            <Route path=":id" element={<FleetManager />} />
+          </Route>
+        </Route>
         <Route path="/universe" element={<Universe />}>
           <Route path=":id" element={<UniverseParcel />} />
         </Route>

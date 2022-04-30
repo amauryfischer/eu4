@@ -11,7 +11,7 @@ class ShipsController < ApplicationController
   end
 
   def create
-    @ship = Ship.create(data: params.permit!.to_h)
+    @ship = Ship.create(data: params.permit!.to_h['data'])
     render json: @ship.to_format
   end
 end

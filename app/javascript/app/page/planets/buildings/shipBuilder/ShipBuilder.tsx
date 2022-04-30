@@ -9,7 +9,7 @@ import _ from "lodash"
 import CustomTabs from "components/CustomTabs"
 import DeblurIcon from "@mui/icons-material/Deblur"
 import ModulesService, { IModuleType } from "services/ModulesService"
-import { Button } from "@mui/material"
+import { Button, TextField } from "@mui/material"
 import {
   BlueButton,
   GreenButton,
@@ -29,6 +29,7 @@ import { IModifier, IModule } from "type/IModule"
 import ModuleShipBuilder from "./ModuleShipBuilder"
 import { number } from "prop-types"
 import BuildIcon from "@mui/icons-material/Build"
+import { YellowTextField } from "styles/testField"
 // app:javascript:app:page:planets:buildings:ShipBuilder.tsx
 const debug = Debug("app:javascript:app:page:planets:buildings:ShipBuilder")
 debug.log = console.log.bind(console)
@@ -43,6 +44,7 @@ const ShipBuilder = ({}) => {
   const currentShip = ShipService.getAllShips()[name]
   const modules = Object.values(ModulesService.getAllModules())
   const [selectedModules, setSelectedModules] = useState<IModule[]>([])
+  const [shipName, setShipName] = useState("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -50,10 +52,10 @@ const ShipBuilder = ({}) => {
   const onSubmit = () => {
     dispatch(
       createShip({
-        ship: {
-          modules,
-          selectedModules,
+        data: {
           ...currentShip,
+          name: shipName,
+          modules: selectedModules,
         },
       }),
     )
@@ -100,18 +102,9 @@ const ShipBuilder = ({}) => {
   })
   return (
     <Flex direction="column">
-      <Flex justifyContent="space-between">
+      <Flex gap="2rem">
         <img src={currentShip.img} height={200} />
-        <Flex direction="column">
-          <div>
-            Emplacements : {modulesEmplacement} / {currentShip.emplacement}
-          </div>
-          {Object.keys(numberModulePerName).map((moduleName) => (
-            <div>
-              {numberModulePerName[moduleName]} x {moduleName}
-            </div>
-          ))}
-        </Flex>
+
         <Flex direction="column">
           {[
             {
@@ -159,13 +152,29 @@ const ShipBuilder = ({}) => {
             </ShipPropertyContainer>
           ))}
         </Flex>
-        <YellowButton
-          startIcon={<BuildIcon />}
-          disabled={modulesEmplacement > currentShip.emplacement}
-          onClick={onSubmit}
-        >
-          Créer
-        </YellowButton>
+        <Flex direction="column">
+          <div>
+            Emplacements : {modulesEmplacement} / {currentShip.emplacement}
+          </div>
+          {Object.keys(numberModulePerName).map((moduleName) => (
+            <div>
+              {numberModulePerName[moduleName]} x {moduleName}
+            </div>
+          ))}
+        </Flex>
+        <Flex gap="1rem" align-items="center">
+          <YellowTextField
+            value={shipName}
+            onChange={(e) => setShipName(e.target.value)}
+          />
+          <YellowButton
+            startIcon={<BuildIcon />}
+            disabled={modulesEmplacement > currentShip.emplacement}
+            onClick={onSubmit}
+          >
+            Créer
+          </YellowButton>
+        </Flex>
       </Flex>
       <CustomTabs
         tabChildrens={[

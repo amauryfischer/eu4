@@ -5,7 +5,6 @@ export const shipSlice = createSlice({
   initialState: {},
   reducers: {
     setShips: (state, { payload: { ships } }) => {
-      debugger
       ships.forEach((ship) => {
         state[ship.id] = ship
       })

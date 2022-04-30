@@ -1,9 +1,12 @@
 import { IModule } from "./IModule"
 
 interface IShip {
-  name: string
-  class: string
-  modules?: IModule[]
+  id?: string
+  data: {
+    name: string
+    class: string
+    modules?: IModule[]
+  }
 }
 
 export default IShip

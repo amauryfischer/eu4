@@ -6,6 +6,7 @@ import store from "./reducer/store"
 import GlobalStyle from "./styles/GlobalStyle"
 import AppRouter from "./page/AppRouter"
 import Axios from "axios"
+import SynchroWrapper from "./SynchroWrapper"
 
 const csrfToken = document
   .querySelector("meta[name=csrf-token]")
@@ -19,10 +20,12 @@ const App = (props) => {
   return (
     <>
       <Provider store={store}>
-        <GlobalStyle />
-        <AppRouter>
-          <AppBarMenu />
-        </AppRouter>
+        <SynchroWrapper>
+          <GlobalStyle />
+          <AppRouter>
+            <AppBarMenu />
+          </AppRouter>
+        </SynchroWrapper>
       </Provider>
     </>
   )

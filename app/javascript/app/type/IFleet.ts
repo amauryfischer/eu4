@@ -1,8 +1,10 @@
 import { IPosition } from "./IPosition"
 
 export interface IFleet {
-  name: string
-  id: string
-  shipIds: string[]
-  position: IPosition
+  id?: string
+  data: {
+    name: string
+    shipIds: string[]
+    position: IPosition
+  }
 }

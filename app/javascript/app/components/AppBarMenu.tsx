@@ -27,7 +27,7 @@ const StyledHomeIcon = styled(HomeIcon)`
 export default function PrimarySearchAppBar() {
   const planets = usePlanets()
   const navigate = useNavigate()
-  const currentPlanets = Object.values(planets)?.[0] ?? ({} as any)
+  const currentPlanet = Object.values(planets)?.[0] ?? ({} as any)
   const dispatch = useDispatch()
   const state = useSelector((state) => state)
   useEffect(() => {
@@ -52,12 +52,12 @@ export default function PrimarySearchAppBar() {
       <Flex gap="1.5rem" alignItems="center">
         <IconButton
           onClick={() => {
-            navigate("/")
+            navigate(`/planets/${currentPlanet.id}`)
           }}
         >
           <StyledHomeIcon />
         </IconButton>
-        {Object.entries(currentPlanets?.data?.resources ?? {}).map(
+        {Object.entries(currentPlanet?.data?.resources ?? {}).map(
           ([key, value]) => (
             <ResourcesBox key={key}>
               <Flex alignItems="center" gap="0.5rem">

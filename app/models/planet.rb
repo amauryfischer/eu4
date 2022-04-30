@@ -2,6 +2,13 @@ class Planet < ApplicationRecord
   def self.create_one
     Planet.create(
       data: {
+        position: {
+          galaxy: '8752',
+          system: {
+            x: 78,
+            y: 50
+          }
+        },
         resources: {
           Titane: 0,
           Azote: 0,

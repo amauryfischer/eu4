@@ -58,6 +58,51 @@ const BaseButton = styled(Button)<{
   }
 `
 
+const BaseButtonOutlined = styled(Button)<{
+  $color: string
+  $textColor: string
+  disabled: boolean
+}>`
+  transition: 0.2s !important;
+  text-transform: none !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  width: fit-content;
+  height: fit-content;
+  text-decoration: none !important;
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.6;
+    `}
+  ${({ $color }) =>
+    css`
+      color: var(--${$color}500) !important;
+      border-color: var(--${$color}500) !important;
+    `};
+
+  &:hover {
+    transform: translateY(-0.2rem);
+    background-position: left !important;
+    ${({ $color }) =>
+      css`
+        box-shadow: rgba(var(--${$color}500-rgb), 0.5) 0px 3px 6px -2px,
+          rgba(var(--${$color}500-rgb), 0.2) 0px 8px 10px 0px,
+          rgba(var(--${$color}500-rgb), 0.1) 0px 2px 20px 0px;
+      `};
+  }
+
+  &:active {
+    transform: scale(0.9);
+    ${({ $color }) =>
+      css`
+        box-shadow: rgba(var(--${$color}500-rgb), 0.2) 0px 1px 3px -1px,
+          rgba(var(--${$color}500-rgb), 0.18) 0px 4px 5px 0px,
+          rgba(var(--${$color}500-rgb), 0.12) 0px 1px 10px 0px;
+      `};
+  }
+`
+
 export const BlueButton = (props: any) => {
   return <BaseButton {...props} $color="blue" />
 }
@@ -81,4 +126,8 @@ export const PinkButton = (props: any) => {
 }
 export const GreyButton = (props: any) => {
   return <BaseButton {...props} $color="grey" />
+}
+
+export const YellowButtonOutlined = (props: any) => {
+  return <BaseButtonOutlined variant="outlined" {...props} $color="yellow" />
 }
