@@ -7,7 +7,7 @@ import PlanetMain from "./planets/PlanetMain"
 import { Navigate } from "react-router"
 import Fleet from "./fleets/Fleet"
 import Universe from "./universe/Universe"
-import UniverseParcel from "./universe/UniverseParcel"
+import UniverseParcel from "./universe/SolarSystem"
 import PlanetResearch from "./planets/buildings/PlanetResearch"
 import PlanetMines from "./planets/buildings/PlanetMines"
 import PlanetFabric from "./planets/buildings/PlanetFabric"
@@ -17,6 +17,8 @@ import ShipBuilder from "./planets/buildings/shipBuilder/ShipBuilder"
 import PlanetShipFactory from "./planets/buildings/PlanetShipFactory"
 import PlanetSpatioport from "./planets/buildings/PlanetSpatioport"
 import FleetManager from "./fleets/FleetManager"
+import ParcelDetails from "./universe/ParcelDetails"
+import SolarSystem from "./universe/SolarSystem"
 
 // app:javascript:app:components:AppRouter.tsx
 const debug = Debug("app:javascript:app:components:AppRouter")
@@ -48,8 +50,12 @@ const AppRouter = ({ children }) => {
             <Route path=":id" element={<FleetManager />} />
           </Route>
         </Route>
-        <Route path="/universe" element={<Universe />}>
-          <Route path=":id" element={<UniverseParcel />} />
+        <Route path="/universe" element={<Universe />} />
+        <Route path="/system">
+          <Route path=":id" element={<SolarSystem />} />
+          <Route path="/system/:id/parcelDetails">
+            <Route path=":parcelId" element={<ParcelDetails />} />
+          </Route>
         </Route>
         <Route path="/" element={<Navigate replace to="/planets/0" />} />
         <Route path="*" element={<Navigate replace to="/planets/0" />} />

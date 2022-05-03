@@ -8,7 +8,10 @@ Rails.application.routes.draw do
 
   get '/api/fleets', to: 'fleets#get_all'
   post '/api/fleets', to: 'fleets#create'
-  put '/api/fleets', to: 'fleets#update'
+  put '/api/fleets/:id', to: 'fleets#update'
+
+  # fetch parcel details
+  get '/api/parcelDetails/:system', to: 'parcel#details'
 
   get '/', to: 'app#index'
   get '*path', to: 'app#index'

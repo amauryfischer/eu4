@@ -1,6 +1,6 @@
 export interface IPosition {
-  galaxy: string
-  system: {
+  system: string
+  systemPosition: {
     x: number
     y: number
   }

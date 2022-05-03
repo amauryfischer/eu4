@@ -3,8 +3,8 @@ class Planet < ApplicationRecord
     Planet.create(
       data: {
         position: {
-          galaxy: '8752',
-          system: {
+          system: '1111',
+          systemPosition: {
             x: 78,
             y: 50
           }
@@ -43,7 +43,8 @@ class Planet < ApplicationRecord
 
   def to_format
     {
-      data: data
+      data: data,
+      id: id
     }
   end
 end

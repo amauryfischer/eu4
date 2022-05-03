@@ -6,7 +6,7 @@ class FleetsController < ApplicationController
 
   def update
     @fleet = Fleet.find(params[:id])
-    @fleet.update(fleet_params)
+    @fleet.update(data: params.permit!.to_h['data'])
     render json: @fleet
   end
 

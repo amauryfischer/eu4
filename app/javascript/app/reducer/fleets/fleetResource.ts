@@ -15,6 +15,18 @@ export const createFleet = createAsyncThunk(
   },
 )
 
+export const updateFleet = createAsyncThunk(
+  "data/fleet/updateFleet",
+  async (fleet: IFleet, { dispatch, getState }) => {
+    try {
+      await FleetApi.updateFleet(fleet)
+      dispatch(getFleets())
+    } catch (error) {
+      console.error(error)
+    }
+  },
+)
+
 export const getFleets = createAsyncThunk(
   "data/fleet/getFleets",
   async (_props, { dispatch, getState }) => {

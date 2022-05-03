@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Debug from "debug"
 import styled, { css } from "styled-components"
 import _ from "lodash"
+import { useNavigate } from "react-router"
 // app:javascript:app:page:universe:Universe.tsx
 const debug = Debug("app:javascript:app:page:universe:Universe")
 debug.log = console.log.bind(console)
@@ -39,19 +40,39 @@ const Universe = ({}) => {
 }
 // @ts-ignore
 const Universe2 = React.memo(({ setcurrentSystemHovered }) => {
+  const navigate = useNavigate()
   return (
     <UniverseContainer>
       {universeGrid.map((universeColumn, indexColumn) => (
         <GridColumn>
-          {universeColumn.map((universeCell, indexCell) => (
-            <div>
-              <Square
-                onMouseEnter={() =>
-                  setcurrentSystemHovered(`${indexCell}${indexColumn}`)
-                }
-              />
-            </div>
-          ))}
+          {universeColumn.map((universeCell, indexCell) => {
+            let prefixUniverseCell = ""
+            let prefixUniverseColumn = ""
+            if (indexCell < 10) {
+              prefixUniverseCell = "0"
+            }
+            if (indexColumn < 10) {
+              prefixUniverseColumn = "0"
+            }
+            return (
+              <div
+                key={`${prefixUniverseCell}${indexCell}${prefixUniverseColumn}${indexColumn}`}
+              >
+                <Square
+                  onMouseEnter={() =>
+                    setcurrentSystemHovered(
+                      `${prefixUniverseCell}${indexCell}${prefixUniverseColumn}${indexColumn}`,
+                    )
+                  }
+                  onClick={() =>
+                    navigate(
+                      `/system/${prefixUniverseCell}${indexCell}${prefixUniverseColumn}${indexColumn}`,
+                    )
+                  }
+                />
+              </div>
+            )
+          })}
         </GridColumn>
       ))}
     </UniverseContainer>
