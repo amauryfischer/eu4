@@ -131,3 +131,6 @@ export const GreyButton = (props: any) => {
 export const YellowButtonOutlined = (props: any) => {
   return <BaseButtonOutlined variant="outlined" {...props} $color="yellow" />
 }
+export const RedButtonOutlined = (props: any) => {
+  return <BaseButtonOutlined variant="outlined" {...props} $color="red" />
+}

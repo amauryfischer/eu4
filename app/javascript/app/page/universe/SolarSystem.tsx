@@ -7,9 +7,12 @@ import { useNavigate, useParams } from "react-router"
 import ParcelService from "services/ParcelService"
 import ShipService from "services/ShipService"
 import useShips from "hooks/useShips"
+import ModalPlanet from "./ModalPlanet"
 // app:javascript:app:page:universe:Universe.tsx
 const debug = Debug("app:javascript:app:page:universe:Universe")
 debug.log = console.log.bind(console)
+
+const SQUARE_HEIGHT = 15
 
 const UniverseContainer = styled.div`
   display: grid;
@@ -18,15 +21,15 @@ const UniverseContainer = styled.div`
   width: fit-content;
 `
 const Sun = styled.div`
-  width: 15px;
-  height: 15px;
+  width: ${SQUARE_HEIGHT}px;
+  height: ${SQUARE_HEIGHT}px;
   border: 1px solid var(--yellow500);
   background-color: yellow;
   border-radius: 4rem;
 `
 const Square = styled.div`
-  width: 15px;
-  height: 15px;
+  width: ${SQUARE_HEIGHT}px;
+  height: ${SQUARE_HEIGHT}px;
   border: 1px solid blue;
   cursor: ${({ $entity }) => ($entity ? "pointer" : "default")};
   ${({ $entity }) => {
@@ -41,11 +44,16 @@ const Square = styled.div`
   }}
 `
 const StyledImgContainer = styled.div`
+  transition: all 0.2s ease-in-out;
   display: flex;
-  height: 15px;
-  width: 15px;
+  height: ${SQUARE_HEIGHT}px;
+  width: ${SQUARE_HEIGHT}px;
   border: 1px solid white;
   cursor: pointer;
+  &:hover {
+    transform: scale(10);
+    border: none;
+  }
 `
 const GridColumn = styled.div``
 
@@ -72,6 +80,7 @@ const SolarSystem2 = React.memo(({ setcurrentSystemHovered }) => {
   const { id } = useParams()
   const [fleets, setFleets] = useState(undefined)
   const [planets, setPlanets] = useState(undefined)
+  const [selectedPlanet, setSelectedPlanet] = useState(undefined)
   const ships = useShips()
   useEffect(() => {
     const fetch = async () => {
@@ -116,6 +125,7 @@ const SolarSystem2 = React.memo(({ setcurrentSystemHovered }) => {
                 planet.data.position.systemPosition.y === indexColumn
               ) {
                 entityType = "planet"
+                entity = planet
               }
             })
             if (entityType === "fleet") {
@@ -126,10 +136,24 @@ const SolarSystem2 = React.memo(({ setcurrentSystemHovered }) => {
                 <StyledImgContainer>
                   <img
                     src={shipImg}
-                    width={15}
-                    height={15}
+                    width={SQUARE_HEIGHT}
+                    height={SQUARE_HEIGHT}
                     onClick={() => {
                       navigate(`/fleets/manager/${entity.id}`)
+                    }}
+                  />
+                </StyledImgContainer>
+              )
+            }
+            if (entityType === "planet") {
+              return (
+                <StyledImgContainer>
+                  <img
+                    src="https://eu4.s3.eu-west-3.amazonaws.com/gas_belt_1.gif"
+                    width={SQUARE_HEIGHT}
+                    height={SQUARE_HEIGHT}
+                    onClick={() => {
+                      setSelectedPlanet(entity)
                     }}
                   />
                 </StyledImgContainer>
@@ -146,17 +170,16 @@ const SolarSystem2 = React.memo(({ setcurrentSystemHovered }) => {
                       `${prefixUniverseCell}${indexCell}${prefixUniverseColumn}${indexColumn}`,
                     )
                   }
-                  onClick={() => {
-                    // if (entity === "fleet") {
-                    //   navigate(`/fleets/manager/${entity.id}`)
-                    // }
-                  }}
                 />
               </div>
             )
           })}
         </GridColumn>
       ))}
+      <ModalPlanet
+        selectedPlanet={selectedPlanet}
+        setSelectedPlanet={setSelectedPlanet}
+      />
     </UniverseContainer>
   )
 })
