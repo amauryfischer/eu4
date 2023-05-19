@@ -9,17 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.3",
+    "@nextui-org/react": "1.0.0-beta.12",
+    "@prisma/client": "4.14.1",
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.1.7",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "lord-icon-element": "^4.1.1",
+    "lottie-web": "^5.11.0",
     "next": "13.4.2",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-use": "^17.4.0",
+    "rome": "^12.1.1",
+    "styled-components": "^6.0.0-rc.1",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "yup": "^1.1.1"
+  },
+  "devDependencies": {
+    "prisma": "^4.14.1"
   }
 }
