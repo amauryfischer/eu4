@@ -15,10 +15,16 @@ model Employee {
   nom     String
   salaire     Int
   type     String    @default("")
+  dateDebut     String    @default("")
+  dateFin     String    @default("")
 }
 
 model Charge {
   id        String   @id @default(uuid())
   nom     String
   montant     Int
+  type     String    @default("")
+  frequency     String    @default("")
+  dateDebut     String    @default("")
+  dateFin     String    @default("")
 }

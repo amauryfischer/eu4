@@ -11,20 +11,18 @@ import FText from "@/ui/molecules/FText"
 import changePrimary from "@/utils/changePrimary"
 import { Button, Modal, Table, useModal } from "@nextui-org/react"
 import { Charge } from "@prisma/client"
-import { set } from "cypress/types/lodash"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { styled } from "styled-components"
 
-const ChargesFixesContainer = styled.div`
-	${changePrimary("caramel")}
+const ChargesVariablesContainer = styled.div`
+	${changePrimary("purple")}
 `
 
-interface ChargeFixesPageProps {
+interface ChargeVariablesPageProps {
 	charges: Charge[]
 }
-const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
-	debugger
+const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 	const [modifyCharge, setModifyCharge] = useState<Charge | null>(null)
 	const { setVisible, bindings } = useModal()
 	const { createCharge, deleteCharge, updateCharge } = useChargesActions()
@@ -43,18 +41,18 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 	}, [modifyCharge])
 
 	return (
-		<ChargesFixesContainer>
+		<ChargesVariablesContainer>
 			<div className="container flex justify-between w-full mx-auto flex-col gap-4 my-16">
 				<div className="container flex justify-between w-full mx-auto">
 					<h1 className="text-4xl font-bold text-center text-gray-900">
-						Charges fixes
+						Charges variables
 					</h1>
 					<AddButton
 						handleClick={() => {
 							setModifyCharge(null)
 							setVisible(true)
 						}}
-						label="Ajouter une charge fixe"
+						label="Ajouter une charge variable"
 					/>
 				</div>
 			</div>
@@ -74,18 +72,7 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 					{charges.map((charge) => (
 						<Table.Row key={charge.id}>
 							<Table.Cell>{charge.nom}</Table.Cell>
-							<Table.Cell>
-								{charge.montant > 0 && (
-									<div className="text-green-500 font-bold leading-8">
-										+{charge.montant}
-									</div>
-								)}
-								{charge.montant < 0 && (
-									<div className="text-red-500 font-bold leading-8">
-										{charge.montant}
-									</div>
-								)}
-							</Table.Cell>
+							<Table.Cell>{charge.montant}</Table.Cell>
 							<Table.Cell>
 								<div className="flex flex-row gap-2">
 									<BaseButton
@@ -154,8 +141,8 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 					</Modal.Footer>
 				</Modal>
 			</FormProvider>
-		</ChargesFixesContainer>
+		</ChargesVariablesContainer>
 	)
 }
 
-export default ChargesFixesPage
+export default ChargesVariablesPage

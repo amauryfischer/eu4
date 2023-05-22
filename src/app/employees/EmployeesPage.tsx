@@ -7,39 +7,18 @@ import { Employee } from "@prisma/client"
 import { FormProvider, useForm } from "react-hook-form"
 import db from "../db"
 import { useEffect, useState, useTransition } from "react"
-import useEmployeesActions from "./use-employees-actions.hook"
+import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
 import styled from "styled-components"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
 import FSelect from "@/ui/molecules/FSelect"
+import changePrimary from "@/utils/changePrimary"
+import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
+import FDate from "@/ui/molecules/FDate"
 
 const EmployeeContainer = styled.div`
-  --primary: var(--blue);
-  --primary-hue: var(--blue-hue);
-  --primary-saturation: var(--blue-saturation);
-  --primary-lightness: var(--blue-lightness);
-  --primary-text-color: var(--blue-text-color);
-  --primary50: var(--blue50);
-  --primary50-lightness: var(--blue50-lightness);
-  --primary100: var(--blue100);
-  --primary100-lightness: var(--blue100-lightness);
-  --primary200: var(--blue200);
-  --primary200-lightness: var(--blue200-lightness);
-  --primary300: var(--blue300);
-  --primary300-lightness: var(--blue300-lightness);
-  --primary400: var(--blue400);
-  --primary400-lightness: var(--blue400-lightness);
-  --primary500: var(--blue500);
-  --primary500-lightness: var(--blue500-lightness);
-  --primary600: var(--blue600);
-  --primary600-lightness: var(--blue600-lightness);
-  --primary700: var(--blue700);
-  --primary700-lightness: var(--blue700-lightness);
-  --primary800: var(--blue800);
-  --primary800-lightness: var(--blue800-lightness);
-  --primary900: var(--blue900);
-  --primary900-lightness: var(--blue900-lightness);
+	${changePrimary("blue")}
 `
 
 const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
@@ -101,7 +80,7 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 								<Table.Cell>{employee.salaire}</Table.Cell>
 								<Table.Cell>
 									<div className="flex flex-row gap-2">
-										<Button
+										<BaseButton
 											color="primary"
 											auto
 											ghost
@@ -111,7 +90,7 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 											}}
 										>
 											Modifier
-										</Button>
+										</BaseButton>
 										<Button
 											color="error"
 											auto
@@ -152,6 +131,16 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 									{ label: "Stage", value: "Stage" },
 									{ label: "Gérant", value: "Gérant" },
 								]}
+							/>
+							<FDate
+								name="dateDebut"
+								label="Date de début"
+								placeholder="Date de début"
+							/>
+							<FDate
+								name="dateFin"
+								label="Date de fin"
+								placeholder="Date de fin"
 							/>
 						</Modal.Body>
 						<Modal.Footer>

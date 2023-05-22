@@ -19,6 +19,10 @@ const GlobalStyle = createGlobalStyle`
             outline: none;
         }
     }
+    body {
+        height: 100vh;
+        background-color: white;
+    }
     
 `
 

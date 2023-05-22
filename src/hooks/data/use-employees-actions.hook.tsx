@@ -1,10 +1,10 @@
-import { Employee } from "@prisma/client"
-import { useTransition } from "react"
 import {
 	createEmployeeAction,
 	deleteEmployeeAction,
 	updateEmployeeAction,
-} from "./action"
+} from "@/actions/data/employeeActions"
+import { Employee } from "@prisma/client"
+import { useTransition } from "react"
 
 const useEmployeesActions = () => {
 	const [_isPending, startTransition] = useTransition()

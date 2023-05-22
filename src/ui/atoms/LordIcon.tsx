@@ -3,6 +3,7 @@ import { defineElement } from "lord-icon-element"
 import React from "react"
 import { Player } from "@lottiefiles/react-lottie-player"
 // define "lord-icon" custom element with default properties
+// @ts-ignore
 defineElement(lottie.loadAnimation)
 import styled from "styled-components"
 import colored from "@/utils/colored"

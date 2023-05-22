@@ -1,7 +1,7 @@
 "use server"
 
+import db from "@/app/db"
 import { Employee } from "@prisma/client"
-import db from "../db"
 import { revalidatePath } from "next/cache"
 
 export const deleteEmployeeAction = async (id: string) => {

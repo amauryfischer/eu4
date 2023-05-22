@@ -80,7 +80,7 @@ const TopBar = () => {
 								noLoop
 								width="40px"
 								strokeWidth="1.4rem"
-								color="yellow600"
+								color="purple700"
 							/>
 						}
 					>
