@@ -2,6 +2,7 @@ import BaseButton from "../BaseButton/BaseButton"
 import { useHover, useHoverDirty } from "react-use"
 import { useRef } from "react"
 import Add from "@/ui/fondations/icons/Add"
+import { Button } from "@nextui-org/react"
 interface SaveButtonProps {
 	handleClick: () => void
 }
@@ -11,9 +12,9 @@ const SaveButton = ({ handleClick }: SaveButtonProps) => {
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<BaseButton onClick={handleClick} color="emerald700" auto>
+			<Button onClick={handleClick} color="success">
 				Sauvegarder
-			</BaseButton>
+			</Button>
 		</div>
 	)
 }

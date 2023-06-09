@@ -17,6 +17,7 @@ model Employee {
   type     String    @default("")
   dateDebut     String    @default("")
   dateFin     String    @default("")
+  scenario     String    @default("")
 }
 
 model Charge {
@@ -27,4 +28,5 @@ model Charge {
   frequency     String    @default("")
   dateDebut     String    @default("")
   dateFin     String    @default("")
+  scenario     String    @default("")
 }

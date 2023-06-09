@@ -1,9 +1,19 @@
 "use client"
 import Add from "@/ui/fondations/icons/Add"
 import ArrowDown from "@/ui/fondations/icons/ArrowDown"
-import { Button, Dropdown, Navbar, Text } from "@nextui-org/react"
-import { useRouter } from "next/navigation"
-import { useRef, useState } from "react"
+import {
+	Button,
+	Dropdown,
+	DropdownItem,
+	Kbd,
+	Link,
+	Navbar,
+	NavbarBrand,
+	NavbarContent,
+	NavbarItem,
+} from "@nextui-org/react"
+import { usePathname, useRouter } from "next/navigation"
+import { useEffect, useRef, useState } from "react"
 import { useHover, useHoverDirty } from "react-use"
 import { styled } from "styled-components"
 import DropDownTopBar from "./DropDownTopBar"
@@ -14,45 +24,70 @@ import Loan from "@/ui/fondations/icons/Loan"
 import People from "@/ui/fondations/icons/People"
 
 const SNavbar = styled(Navbar)`
-	--nextui--navbarContainerMaxWidth: 100%;
+	background-color: white !important;
+	z-index: 999 !important;
 `
 
 const TopBar = () => {
 	const router = useRouter()
-	const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+	const pathName = usePathname()
 	const ref = useRef(null)
-	const isHovering = useHoverDirty(ref)
-	const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+	// shortcut
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "a") {
+				router.push("/employees")
+			}
+			if (e.key === "b") {
+				router.push("/charges_fixes")
+			}
+			if (e.key === "c") {
+				router.push("/charges_variables")
+			}
+		}
+		window.addEventListener("keydown", handleKeyDown)
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown)
+		}
+	}, [])
 	return (
 		<SNavbar isBordered variant="sticky">
-			<Navbar.Brand>
+			<NavbarBrand>
 				<div className="flex items-center gap-2">
 					<img
 						src="https://numerisk.fr/wp-content/themes/understrap/img/logo.png"
 						width="30px"
 						height="30px"
 					/>
-					<Text b color="inherit">
-						Numérisk
-					</Text>
+					<div>Numérisk</div>
 				</div>
-			</Navbar.Brand>
-			<Navbar.Content
-				enableCursorHighlight
-				activeColor="secondary"
-				hideIn="xs"
-				variant="underline"
-			>
-				<DropDownTopBar
-					selectedKey="/employees"
-					title="Charges"
-					setSelectedKeys={setSelectedKeys}
+			</NavbarBrand>
+			<NavbarContent className="">
+				<NavbarItem
+					className="min-w-16"
+					as={Link}
+					isActive={pathName === "/dashboard"}
+					color="foreground"
+					href="#"
+					onClick={() => {
+						router.push("/dashboard")
+					}}
 				>
-					<Dropdown.Item
+					Dashboard
+				</NavbarItem>
+				<DropDownTopBar
+					title="Charges"
+					isActive={
+						pathName === "/employees" ||
+						pathName === "/charges_fixes" ||
+						pathName === "/charges_variables"
+					}
+				>
+					<DropdownItem
 						key="/employees"
-						showFullDescription
 						description="ACME scales apps to meet user demand, automagically, based on load."
-						icon={
+						startContent={
 							<People
 								noLoop
 								width="40px"
@@ -60,22 +95,23 @@ const TopBar = () => {
 								color="blue600"
 							/>
 						}
+						shortcut="A"
 					>
 						Employées
-					</Dropdown.Item>
-					<Dropdown.Item
+					</DropdownItem>
+					<DropdownItem
 						key="/charges_fixes"
-						showFullDescription
 						description="ACME scales apps to meet user demand, automagically, based on load."
-						icon={<Bitcoin noLoop width="40px" strokeWidth="1.4rem" />}
+						startContent={<Bitcoin noLoop width="40px" strokeWidth="1.4rem" />}
+						shortcut="Z"
 					>
 						Charges fixes
-					</Dropdown.Item>
-					<Dropdown.Item
+					</DropdownItem>
+					<DropdownItem
 						key="/charges_variables"
-						showFullDescription
 						description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
-						icon={
+						shortcut="E"
+						startContent={
 							<CreditCard
 								noLoop
 								width="40px"
@@ -85,18 +121,17 @@ const TopBar = () => {
 						}
 					>
 						Charges variables
-					</Dropdown.Item>
+					</DropdownItem>
 				</DropDownTopBar>
 				<DropDownTopBar
-					selectedKey="/employees"
+					isActive={pathName === "/clients" || pathName === "/autres"}
 					title="Revenue"
-					setSelectedKeys={setSelectedKeys}
 				>
-					<Dropdown.Item
+					<DropdownItem
 						key="/clients"
-						showFullDescription
+						shortcut={<Kbd className="w-20">Ctrl + K</Kbd>}
 						description="ACME scales apps to meet user demand, automagically, based on load."
-						icon={
+						startContent={
 							<Sell
 								noLoop
 								width="40px"
@@ -106,29 +141,33 @@ const TopBar = () => {
 						}
 					>
 						Clients
-					</Dropdown.Item>
-					<Dropdown.Item
+					</DropdownItem>
+					<DropdownItem
 						key="autres"
-						showFullDescription
 						description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
-						icon={
+						startContent={
 							<Loan noLoop width="40px" strokeWidth="1.4rem" color="cyan400" />
 						}
 					>
 						Autres
-					</Dropdown.Item>
+					</DropdownItem>
 				</DropDownTopBar>
-			</Navbar.Content>
-			<Navbar.Content>
-				<Navbar.Link color="inherit" href="#">
+				<NavbarItem
+					className="min-w-16 flex-1"
+					as={Link}
+					color="foreground"
+					href="#"
+				>
 					Login
-				</Navbar.Link>
-				<Navbar.Item>
-					<Button auto flat href="#">
+				</NavbarItem>
+			</NavbarContent>
+			<NavbarContent justify="end">
+				<NavbarItem as={Link} color="foreground" href="#">
+					<Button variant="light" href="#">
 						Sign Up
 					</Button>
-				</Navbar.Item>
-			</Navbar.Content>
+				</NavbarItem>
+			</NavbarContent>
 		</SNavbar>
 	)
 }

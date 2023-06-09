@@ -1,29 +1,49 @@
 "use client"
 
-import FNumber from "@/ui/molecules/FNumber"
-import FText from "@/ui/molecules/FText"
-import { Button, Modal, Table, useModal } from "@nextui-org/react"
-import { Employee } from "@prisma/client"
-import { FormProvider, useForm } from "react-hook-form"
-import db from "../db"
-import { useEffect, useState, useTransition } from "react"
-import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
-import styled from "styled-components"
-import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
+import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
+import FNumber from "@/ui/molecules/FNumber"
 import FSelect from "@/ui/molecules/FSelect"
+import FText from "@/ui/molecules/FText"
 import changePrimary from "@/utils/changePrimary"
-import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
-import FDate from "@/ui/molecules/FDate"
+import {
+	Button,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	Table,
+	TableBody,
+	TableCell,
+	TableColumn,
+	TableHeader,
+	TableRow,
+	tv,
+	useDisclosure,
+} from "@nextui-org/react"
+import { Employee } from "@prisma/client"
+import moment from "moment"
+import { useEffect, useState, useTransition } from "react"
+import { FormProvider, useForm } from "react-hook-form"
+import styled from "styled-components"
+import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
 `
+const styleTableRow = tv({
+	base: "bg-neutral-50 hover:drop-shadow-2xl hover:border-blue-500 hover:border-opacity-100 hover:bg-white hover:cursor-pointer rounded px-4",
+})
+const styleTableCell = tv({
+	base: "first:rounded-bl-lg last:rounded-br-lg first:rounded-tl-lg last:rounded-tr-lg",
+})
 
 const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
-	const { setVisible, bindings } = useModal()
-	let [isPending, startTransition] = useTransition()
+	const { isOpen, onOpen, onOpenChange } = useDisclosure({
+		defaultOpen: false,
+	})
 	const { createEmployee, deleteEmployee, updateEmployee } =
 		useEmployeesActions()
 	const methods = useForm<Employee>()
@@ -36,6 +56,9 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 				nom: "",
 				salaire: 0,
 				type: "",
+				dateDebut: moment().format("DD/MM/YYYY"),
+				dateFin: moment().format("DD/MM/YYYY"),
+				scenario: "",
 			})
 		}
 	}, [modifyEmployee])
@@ -51,7 +74,7 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 					<AddButton
 						handleClick={() => {
 							setModifyEmployee(null)
-							setVisible(true)
+							onOpenChange()
 						}}
 						label="Ajouter un employé"
 					/>
@@ -59,106 +82,128 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 
 				<Table
 					aria-label="Example table with static content"
-					css={{
-						height: "auto",
-						minWidth: "100%",
-					}}
+					className="bg-neutral-50"
+					shadow="none"
 				>
-					<Table.Header>
-						<Table.Column>ID</Table.Column>
-						<Table.Column>Nom</Table.Column>
-						<Table.Column>Type</Table.Column>
-						<Table.Column>Salaire</Table.Column>
-						<Table.Column>Action</Table.Column>
-					</Table.Header>
-					<Table.Body>
+					<TableHeader>
+						<TableColumn>Nom</TableColumn>
+						<TableColumn>Type</TableColumn>
+						<TableColumn>Salaire</TableColumn>
+						<TableColumn>Date de début</TableColumn>
+						<TableColumn>Date de fin</TableColumn>
+						<TableColumn>Scenario</TableColumn>
+						<TableColumn className="w-32">Action</TableColumn>
+					</TableHeader>
+					<TableBody>
 						{employees.map((employee) => (
-							<Table.Row key={employee.id}>
-								<Table.Cell>{employee.id}</Table.Cell>
-								<Table.Cell>{employee.nom}</Table.Cell>
-								<Table.Cell>{employee.type}</Table.Cell>
-								<Table.Cell>{employee.salaire}</Table.Cell>
-								<Table.Cell>
+							<TableRow key={employee.id} className={styleTableRow()}>
+								<TableCell className={styleTableCell()}>
+									{employee.nom}
+								</TableCell>
+								<TableCell className={styleTableCell()}>
+									{employee.type}
+								</TableCell>
+								<TableCell className={styleTableCell()}>
+									{employee.salaire}
+								</TableCell>
+								<TableCell className={styleTableCell()}>
+									{employee.dateDebut}
+								</TableCell>
+								<TableCell className={styleTableCell()}>
+									{employee.dateFin}
+								</TableCell>
+								<TableCell className={styleTableCell()}>
+									{employee.scenario}
+								</TableCell>
+								<TableCell className={styleTableCell()}>
 									<div className="flex flex-row gap-2">
-										<BaseButton
+										<Button
 											color="primary"
-											auto
-											ghost
-											onClick={() => {
+											variant="light"
+											onPress={() => {
 												setModifyEmployee(employee)
-												setVisible(true)
+												onOpenChange()
 											}}
 										>
 											Modifier
-										</BaseButton>
+										</Button>
 										<Button
-											color="error"
-											auto
-											ghost
-											onClick={() => {
+											color="danger"
+											onPress={() => {
 												deleteEmployee(employee.id)
 											}}
 										>
 											Supprimer
 										</Button>
 									</div>
-								</Table.Cell>
-							</Table.Row>
+								</TableCell>
+							</TableRow>
 						))}
-					</Table.Body>
+					</TableBody>
 				</Table>
 				<FormProvider {...methods}>
-					<Modal scroll {...bindings}>
-						<Modal.Header>
-							<div className="text-2xl font-bold text-center text-gray-900">
-								{modifyEmployee ? "Modifier" : "Ajouter"} un employé
-							</div>
-						</Modal.Header>
-						<Modal.Body>
-							<FText
-								name="nom"
-								label="Nom"
-								placeholder="Entrez le nom de l'employé"
-							/>
-							<FNumber name="salaire" label="Salaire" placeholder="Salaire" />
-							<FSelect
-								name="type"
-								label="Type"
-								placeholder="Type"
-								options={[
-									{ label: "CDI", value: "CDI" },
-									{ label: "Alternance", value: "Alternance" },
-									{ label: "Stage", value: "Stage" },
-									{ label: "Gérant", value: "Gérant" },
-								]}
-							/>
-							<FDate
-								name="dateDebut"
-								label="Date de début"
-								placeholder="Date de début"
-							/>
-							<FDate
-								name="dateFin"
-								label="Date de fin"
-								placeholder="Date de fin"
-							/>
-						</Modal.Body>
-						<Modal.Footer>
-							<CancelButton handleClick={() => setVisible(false)} />
+					<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+						<ModalContent>
+							<ModalHeader>
+								<div className="text-2xl font-bold text-center text-gray-900">
+									{modifyEmployee ? "Modifier" : "Ajouter"} un employé
+								</div>
+							</ModalHeader>
+							<ModalBody>
+								<FText
+									name="nom"
+									label="Nom"
+									placeholder="Entrez le nom de l'employé"
+								/>
+								<FNumber name="salaire" label="Salaire" placeholder="Salaire" />
+								<FSelect
+									name="type"
+									label="Type"
+									placeholder="Type"
+									options={[
+										{ label: "CDI", value: "CDI" },
+										{ label: "Alternance", value: "Alternance" },
+										{ label: "Stage", value: "Stage" },
+										{ label: "Gérant", value: "Gérant" },
+									]}
+								/>
+								<FText
+									name="dateDebut"
+									label="Date de début"
+									placeholder="Date de début"
+								/>
+								<FText
+									name="dateFin"
+									label="Date de fin"
+									placeholder="Date de fin"
+								/>
+								<FSelect
+									name="scenario"
+									label="Scenario"
+									placeholder="Scenario"
+									options={[
+										{ label: "Scénario 1", value: "Scenario 1" },
+										{ label: "Pas de scenario", value: "" },
+									]}
+								/>
+							</ModalBody>
+							<ModalFooter>
+								<CancelButton handleClick={() => onOpenChange()} />
 
-							<SaveButton
-								handleClick={() => {
-									methods.handleSubmit((data) => {
-										if (modifyEmployee) {
-											updateEmployee(modifyEmployee.id, data)
-										} else {
-											createEmployee(data)
-										}
-									})()
-									return setVisible(false)
-								}}
-							/>
-						</Modal.Footer>
+								<SaveButton
+									handleClick={() => {
+										methods.handleSubmit((data) => {
+											if (modifyEmployee) {
+												updateEmployee(modifyEmployee.id, data)
+											} else {
+												createEmployee(data)
+											}
+										})()
+										return onOpenChange()
+									}}
+								/>
+							</ModalFooter>
+						</ModalContent>
 					</Modal>
 				</FormProvider>
 			</div>

@@ -1,3 +1,5 @@
+"use client"
+
 import lottie from "lottie-web"
 import { defineElement } from "lord-icon-element"
 import React from "react"

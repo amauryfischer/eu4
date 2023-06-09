@@ -2,6 +2,7 @@ import Add from "@/ui/fondations/icons/Add"
 import BaseButton from "../BaseButton/BaseButton"
 import { useHover, useHoverDirty } from "react-use"
 import { useRef } from "react"
+import { Button } from "@nextui-org/react"
 interface AddButtonProps {
 	handleClick: () => void
 	label: string
@@ -12,15 +13,14 @@ const AddButton = ({ handleClick, label }: AddButtonProps) => {
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<BaseButton
-				onClick={handleClick}
+			<Button
+				onPress={handleClick}
 				color="primary"
-				auto
-				shadow
-				icon={<Add color="grey100" isHovering={isHovering} />}
+				variant="shadow"
+				startIcon={<Add color="grey100" isHovering={isHovering} />}
 			>
 				{label}
-			</BaseButton>
+			</Button>
 		</div>
 	)
 }

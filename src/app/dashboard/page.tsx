@@ -1,6 +1,6 @@
-import { data } from "autoprefixer"
-import ClientPage from "./ClientPage"
 import { Coda } from "coda-js"
+import DashboardPage from "./DashboardPage"
+import db from "../db"
 
 const Page = async () => {
 	const coda = new Coda("d2d96ef8-15a8-40cb-9853-748bd1faac52") // insert your token
@@ -47,7 +47,12 @@ const Page = async () => {
 			return data
 		}),
 	)
-	return <ClientPage clients={tables[0].rows} />
+	const clients = tables[0].rows
+	const charges = await db.charge.findMany()
+	const employees = await db.employee.findMany()
+	return (
+		<DashboardPage clients={clients} charges={charges} employees={employees} />
+	)
 }
 
 export default Page

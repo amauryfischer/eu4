@@ -1,4 +1,10 @@
-import { Dropdown, Input } from "@nextui-org/react"
+import {
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
+	Input,
+} from "@nextui-org/react"
 import { useFormContext, useController } from "react-hook-form"
 
 interface FSelectProps {
@@ -17,11 +23,10 @@ const FSelect = ({ label, placeholder, name, options }: FSelectProps) => {
 	} = useController({
 		name,
 		control,
-		rules: { required: true },
 	})
 	return (
 		<Dropdown>
-			<Dropdown.Trigger>
+			<DropdownTrigger>
 				<div className="flex flex-col gap-2">
 					<label htmlFor={name}>{label}</label>
 					<Input
@@ -31,8 +36,8 @@ const FSelect = ({ label, placeholder, name, options }: FSelectProps) => {
 						value={field.value}
 					/>
 				</div>
-			</Dropdown.Trigger>
-			<Dropdown.Menu
+			</DropdownTrigger>
+			<DropdownMenu
 				aria-label="Single selection actions"
 				color="secondary"
 				disallowEmptySelection
@@ -44,9 +49,11 @@ const FSelect = ({ label, placeholder, name, options }: FSelectProps) => {
 				}}
 			>
 				{options.map((option) => (
-					<Dropdown.Item key={option.value}>{option.label}</Dropdown.Item>
+					<DropdownItem className="h-12 w-96 min-w-full" key={option.value}>
+						{option.label}
+					</DropdownItem>
 				))}
-			</Dropdown.Menu>
+			</DropdownMenu>
 		</Dropdown>
 	)
 }
