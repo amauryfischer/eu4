@@ -3,9 +3,9 @@
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
-import FNumber from "@/ui/molecules/FNumber"
-import FSelect from "@/ui/molecules/FSelect"
-import FText from "@/ui/molecules/FText"
+import FNumber from "@/ui/molecules/forms/FNumber"
+import FSelect from "@/ui/molecules/forms/FSelect"
+import FText from "@/ui/molecules/forms/FText"
 import changePrimary from "@/utils/changePrimary"
 import {
 	Button,
@@ -29,6 +29,7 @@ import { useEffect, useState, useTransition } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import styled from "styled-components"
 import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
+import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
@@ -117,7 +118,7 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 								</TableCell>
 								<TableCell className={styleTableCell()}>
 									<div className="flex flex-row gap-2">
-										<Button
+										<BaseButton
 											color="primary"
 											variant="light"
 											onPress={() => {
@@ -126,7 +127,7 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 											}}
 										>
 											Modifier
-										</Button>
+										</BaseButton>
 										<Button
 											color="danger"
 											onPress={() => {

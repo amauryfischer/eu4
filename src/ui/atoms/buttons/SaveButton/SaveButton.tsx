@@ -12,9 +12,9 @@ const SaveButton = ({ handleClick }: SaveButtonProps) => {
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<Button onClick={handleClick} color="success">
-				Sauvegarder
-			</Button>
+			<BaseButton onClick={handleClick} color="primary">
+				Sauvegarder !
+			</BaseButton>
 		</div>
 	)
 }

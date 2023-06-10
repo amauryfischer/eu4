@@ -15,10 +15,10 @@ import {
 	YAxis,
 } from "recharts"
 import moment from "moment"
-import { Table } from "@nextui-org/react"
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import { styled } from "styled-components"
 import { FormProvider, useForm } from "react-hook-form"
-import FSelect from "@/ui/molecules/FSelect"
+import FSelect from "@/ui/molecules/forms/FSelect"
 
 interface DashboardPageProps {
 	clients: Client[]
@@ -29,9 +29,6 @@ interface DashboardPageProps {
 const NUMBER_YEARS = 2
 
 const DashboardPageContainer = styled.div`
-    * {
-        stroke-width: 2px !important;
-    }
 `
 
 const isInDateRange = (
@@ -346,21 +343,21 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 					/>
 				</LineChart>
 				<Table>
-					<Table.Header>
-						<Table.Column>Mois</Table.Column>
-						<Table.Column>Coût</Table.Column>
-						<Table.Column>Logs charges</Table.Column>
-						<Table.Column>Logs clients</Table.Column>
-						<Table.Column>Logs salaires</Table.Column>
-						<Table.Column>Total</Table.Column>
-					</Table.Header>
-					<Table.Body>
+					<TableHeader>
+						<TableColumn>Mois</TableColumn>
+						<TableColumn>Coût</TableColumn>
+						<TableColumn>Logs charges</TableColumn>
+						<TableColumn>Logs clients</TableColumn>
+						<TableColumn>Logs salaires</TableColumn>
+						<TableColumn>Total</TableColumn>
+					</TableHeader>
+					<TableBody>
 						{calculatedCostEachMonths.map((cost, index) => (
-							<Table.Row key={index}>
-								<Table.Cell>
+							<TableRow key={index}>
+								<TableCell>
 									{Moment.unix(cost.time).format("MM/YYYY")}
-								</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>
 									<div
 										className={
 											Math.round(cost.cost) > 0
@@ -370,8 +367,8 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 									>
 										{Math.round(cost.cost)}€
 									</div>
-								</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>
 									<div className="flex flex-col">
 										{cost.logs
 											.filter((log) => log.type.includes("charges"))
@@ -379,8 +376,8 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 												<div key={log.details}>{log.details}</div>
 											))}
 									</div>
-								</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>
 									<div className="flex flex-col">
 										{cost.logs
 											.filter((log) => log.type.includes("clients"))
@@ -388,8 +385,8 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 												<div key={log.details}>{log.details}</div>
 											))}
 									</div>
-								</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>
 									<div className="flex flex-col">
 										{cost.logs
 											.filter((log) => log.type.includes("salaires"))
@@ -397,9 +394,9 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 												<div key={log.details}>{log.details}</div>
 											))}
 									</div>
-								</Table.Cell>
+								</TableCell>
 
-								<Table.Cell>
+								<TableCell>
 									<b>
 										Total :{" "}
 										{Math.round(
@@ -407,10 +404,10 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 										)}
 										€
 									</b>
-								</Table.Cell>
-							</Table.Row>
+								</TableCell>
+							</TableRow>
 						))}
-					</Table.Body>
+					</TableBody>
 				</Table>
 			</div>
 		</DashboardPageContainer>

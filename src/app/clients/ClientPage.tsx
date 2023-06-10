@@ -1,6 +1,6 @@
 "use client"
 
-import { Table } from "@nextui-org/react"
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import React, { useMemo } from "react"
 import Moment from "moment"
 
@@ -68,45 +68,45 @@ const ClientPage = ({ clients }: { clients: Client[] }) => {
 	return (
 		<div>
 			<Table>
-				<Table.Header>
-					<Table.Column>Commune</Table.Column>
-					<Table.Column>Type de prestation</Table.Column>
-					<Table.Column>Facturation</Table.Column>
-					<Table.Column>Prix</Table.Column>
-					<Table.Column>Payé jusqu&apos;à année</Table.Column>
-					<Table.Column>Date de signature</Table.Column>
-					<Table.Column>Date de fin de contrat</Table.Column>
-					<Table.Column>Paiement annuel</Table.Column>
-					<Table.Column>Nb années license</Table.Column>
-					<Table.Column>Nb jours avant paiement</Table.Column>
-					<Table.Column>Prix annuel</Table.Column>
-				</Table.Header>
-				<Table.Body>
+				<TableHeader>
+					<TableColumn>Commune</TableColumn>
+					<TableColumn>Type de prestation</TableColumn>
+					<TableColumn>Facturation</TableColumn>
+					<TableColumn>Prix</TableColumn>
+					<TableColumn>Payé jusqu&apos;à année</TableColumn>
+					<TableColumn>Date de signature</TableColumn>
+					<TableColumn>Date de fin de contrat</TableColumn>
+					<TableColumn>Paiement annuel</TableColumn>
+					<TableColumn>Nb années license</TableColumn>
+					<TableColumn>Nb jours avant paiement</TableColumn>
+					<TableColumn>Prix annuel</TableColumn>
+				</TableHeader>
+				<TableBody>
 					{sortedClients.map((client) => {
 						return (
-							<Table.Row key={client.Commune + client["Type de prestation"]}>
-								<Table.Cell>{client.Commune}</Table.Cell>
-								<Table.Cell>
+							<TableRow key={client.Commune + client["Type de prestation"]}>
+								<TableCell>{client.Commune}</TableCell>
+								<TableCell>
 									<div
 										className={prestationStyle(client["Type de prestation"])}
 									>
 										{client["Type de prestation"]}
 									</div>
-								</Table.Cell>
-								<Table.Cell>{client.Facturation}</Table.Cell>
-								<Table.Cell>{client.Prix}</Table.Cell>
-								<Table.Cell>{client["Payé jusqu'à année"]}</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>{client.Facturation}</TableCell>
+								<TableCell>{client.Prix}</TableCell>
+								<TableCell>{client["Payé jusqu'à année"]}</TableCell>
+								<TableCell>
 									{Moment(client["Date de signature"]).format("DD/MM/YYYY")}
-								</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>
 									{Moment(client["Date de fin de contrat"]).format(
 										"DD/MM/YYYY",
 									)}
-								</Table.Cell>
-								<Table.Cell>{client["Paiement annuel"]}</Table.Cell>
-								<Table.Cell>{client["Nb années license"]}</Table.Cell>
-								<Table.Cell>
+								</TableCell>
+								<TableCell>{client["Paiement annuel"]}</TableCell>
+								<TableCell>{client["Nb années license"]}</TableCell>
+								<TableCell>
 									{nbJoursAvantPaiement(client) < 0 && (
 										<div className="text-red-500">
 											{nbJoursAvantPaiement(client)} jours
@@ -117,12 +117,12 @@ const ClientPage = ({ clients }: { clients: Client[] }) => {
 											{nbJoursAvantPaiement(client)} jours
 										</div>
 									)}
-								</Table.Cell>
-								<Table.Cell>{client["Prix annuel"]}</Table.Cell>
-							</Table.Row>
+								</TableCell>
+								<TableCell>{client["Prix annuel"]}</TableCell>
+							</TableRow>
 						)
 					})}
-				</Table.Body>
+				</TableBody>
 			</Table>
 		</div>
 	)

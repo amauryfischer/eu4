@@ -13,14 +13,13 @@ const AddButton = ({ handleClick, label }: AddButtonProps) => {
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<Button
+			<BaseButton
 				onPress={handleClick}
 				color="primary"
-				variant="shadow"
 				startIcon={<Add color="grey100" isHovering={isHovering} />}
 			>
 				{label}
-			</Button>
+			</BaseButton>
 		</div>
 	)
 }
