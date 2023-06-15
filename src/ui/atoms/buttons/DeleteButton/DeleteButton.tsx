@@ -17,9 +17,9 @@ const DeleteButton = ({
 		<div ref={ref}>
 			<BaseButton
 				onPress={handleClick}
-				color="primary"
+				color="red"
 				variant="shadow"
-				startIcon={<Delete color="grey200" isHovering={isHovering} />}
+				startIcon={<Delete color="white" isHovering={isHovering} />}
 				isIconOnly
 			>
 				{children}

@@ -26,7 +26,7 @@ const FText = ({ label, placeholder, name }: FTextProps) => {
 			placeholder={placeholder}
 			width="100%"
 			{...field}
-			helperText={error?.message}
+			errorMessage={error?.message}
 		/>
 	)
 }

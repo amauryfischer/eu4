@@ -28,7 +28,7 @@ const FNumber = ({ label, placeholder, name }: FNumberProps) => {
 			step="1"
 			{...field}
 			onChange={(event) => field.onChange(+event.target.value)}
-			helperText={error?.message}
+			errorMessage={error?.message}
 		/>
 	)
 }

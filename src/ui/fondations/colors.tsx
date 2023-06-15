@@ -184,6 +184,55 @@ const colors = css`
     var(--blue900-lightness)
   );
 
+
+  /**
+    ██████  ███████ ██████  
+    ██   ██ ██      ██   ██ 
+    ██████  █████   ██   ██ 
+    ██   ██ ██      ██   ██ 
+    ██   ██ ███████ ██████  
+  */
+  --red-hue: 345.29;
+  --red-saturation: 82.7%;
+  //--red-lightness: 40.8%;
+
+  --red-text-color: white;
+  
+  --red50-lightness: 95%;
+  --red100-lightness: 90%;
+  --red200-lightness: 80%;
+  --red300-lightness: 70%;
+  --red400-lightness: 60%;
+  --red500-lightness: 50%;
+  --red600-lightness: 40%;
+  --red700-lightness: 30%;
+  --red800-lightness: 20%;
+  --red900-lightness: 10%;
+
+  --red-lightness: var(--red500-lightness);
+  
+  // hsl(345.29, 82.7%, 50%)
+  --red: hsl(
+    var(--red-hue),
+    var(--red-saturation),
+    var(--red-lightness)
+  );
+
+  // hsl(345.29, 82.7%, 90%)
+
+  --red100: hsl(var(--red-hue), var(--red-saturation), var(--red100-lightness));
+  --red200: hsl(var(--red-hue), var(--red-saturation), var(--red200-lightness));
+  --red300: hsl(var(--red-hue), var(--red-saturation), var(--red300-lightness));
+  --red400: hsl(var(--red-hue), var(--red-saturation), var(--red400-lightness));
+  --red500: hsl(var(--red-hue), var(--red-saturation), var(--red500-lightness));
+  --red600: hsl(var(--red-hue), var(--red-saturation), var(--red600-lightness));
+  --red700: hsl(var(--red-hue), var(--red-saturation), var(--red700-lightness));
+  --red800: hsl(var(--red-hue), var(--red-saturation), var(--red800-lightness));
+  --red900: hsl(var(--red-hue), var(--red-saturation), var(--red900-lightness));
+
+
+
+
   /**
      ██████  █████  ██████   █████  ███    ███ ███████ ██      
     ██      ██   ██ ██   ██ ██   ██ ████  ████ ██      ██      

@@ -38,8 +38,11 @@ const BTable = <T extends object>({
 			newColumns.push({
 				id: "actions",
 				header: "Actions",
+				size: 80,
+				maxSize: 80,
+				minSize: 80,
 				cell: ({ row }) => (
-					<div className="flex gap-8">
+					<div className="grid gap-8 grid-cols-2">
 						{onEditClick && (
 							<ModifyButton
 								handleClick={() => {
@@ -65,6 +68,8 @@ const BTable = <T extends object>({
 		data,
 		columns: augmentedColumns,
 		getCoreRowModel: getCoreRowModel(),
+		columnResizeMode: "onChange",
+		enableColumnResizing: true,
 	})
 	return (
 		<>

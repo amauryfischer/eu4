@@ -27,7 +27,7 @@ const FDate = ({ label, placeholder, name }: FDateProps) => {
 			width="100%"
 			type="date"
 			{...field}
-			helperText={error?.message}
+			errorMessage={error?.message}
 		/>
 	)
 }

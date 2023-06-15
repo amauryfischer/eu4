@@ -1,5 +1,5 @@
 import Add from "@/ui/fondations/icons/Add"
-import { Dropdown } from "@nextui-org/react"
+import { Dropdown, DropdownItem } from "@nextui-org/react"
 import { title } from "process"
 import { useRef } from "react"
 import { useHoverDirty } from "react-use"
@@ -16,14 +16,9 @@ const DropDownItem = ({ key, title, description, icon }: DropDownItemProps) => {
 	const isHovering = useHoverDirty(ref)
 
 	return (
-		<Dropdown.Item
-			key={key}
-			showFullDescription
-			description={description}
-			icon={icon}
-		>
+		<DropdownItem key={key} description={description}>
 			{title}
-		</Dropdown.Item>
+		</DropdownItem>
 	)
 }
 

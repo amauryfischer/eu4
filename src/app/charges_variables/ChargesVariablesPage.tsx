@@ -132,62 +132,6 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 				}}
 			/>
 
-			<Table aria-label="Example table with static content">
-				<TableHeader>
-					<TableColumn>Nom</TableColumn>
-					<TableColumn>Montant</TableColumn>
-					<TableColumn>Fréquence</TableColumn>
-					<TableColumn>Date de début</TableColumn>
-					<TableColumn>Date de fin</TableColumn>
-					<TableColumn>Scenario</TableColumn>
-					<TableColumn className="w-16">Action</TableColumn>
-				</TableHeader>
-				<TableBody>
-					{charges.map((charge) => (
-						<TableRow key={charge.id}>
-							<TableCell>{charge.nom}</TableCell>
-							<TableCell>
-								{charge.montant > 0 && (
-									<div className="text-emerald-600 font-bold leading-8">
-										+{charge.montant}
-									</div>
-								)}
-								{charge.montant < 0 && (
-									<div className="text-red-600 font-bold leading-8">
-										{charge.montant}
-									</div>
-								)}
-							</TableCell>
-							<TableCell>{charge.frequency}</TableCell>
-							<TableCell>{charge.dateDebut}</TableCell>
-							<TableCell>{charge.dateFin}</TableCell>
-							<TableCell>{charge.scenario}</TableCell>
-							<TableCell>
-								<div className="flex flex-row gap-2">
-									<BaseButton
-										color="primary"
-										variant="light"
-										onPress={() => {
-											setModifyCharge(charge)
-											onOpenChange()
-										}}
-									>
-										Modifier
-									</BaseButton>
-									<Button
-										color="danger"
-										onPress={() => {
-											deleteCharge(charge.id)
-										}}
-									>
-										Supprimer
-									</Button>
-								</div>
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
 			<FormProvider {...methods}>
 				<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 					<ModalContent>

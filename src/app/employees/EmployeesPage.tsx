@@ -30,6 +30,7 @@ import { FormProvider, useForm } from "react-hook-form"
 import styled from "styled-components"
 import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
 import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
+import BTable from "@/ui/molecules/BTable/BTable"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
@@ -64,6 +65,33 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 		}
 	}, [modifyEmployee])
 
+	const columns = [
+		{
+			header: "Nom",
+			accessor: "nom",
+		},
+		{
+			header: "Type",
+			accessor: "type",
+		},
+		{
+			header: "Salaire",
+			accessor: "salaire",
+		},
+		{
+			header: "Date de début",
+			accessor: "dateDebut",
+		},
+		{
+			header: "Date de fin",
+			accessor: "dateFin",
+		},
+		{
+			header: "Scenario",
+			accessor: "scenario",
+		},
+	]
+
 	return (
 		<EmployeeContainer>
 			<div className="container flex justify-between w-full mx-auto flex-col gap-4 my-16">
@@ -81,67 +109,18 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 					/>
 				</div>
 
-				<Table
-					aria-label="Example table with static content"
-					className="bg-neutral-50"
-					shadow="none"
-				>
-					<TableHeader>
-						<TableColumn>Nom</TableColumn>
-						<TableColumn>Type</TableColumn>
-						<TableColumn>Salaire</TableColumn>
-						<TableColumn>Date de début</TableColumn>
-						<TableColumn>Date de fin</TableColumn>
-						<TableColumn>Scenario</TableColumn>
-						<TableColumn className="w-32">Action</TableColumn>
-					</TableHeader>
-					<TableBody>
-						{employees.map((employee) => (
-							<TableRow key={employee.id} className={styleTableRow()}>
-								<TableCell className={styleTableCell()}>
-									{employee.nom}
-								</TableCell>
-								<TableCell className={styleTableCell()}>
-									{employee.type}
-								</TableCell>
-								<TableCell className={styleTableCell()}>
-									{employee.salaire}
-								</TableCell>
-								<TableCell className={styleTableCell()}>
-									{employee.dateDebut}
-								</TableCell>
-								<TableCell className={styleTableCell()}>
-									{employee.dateFin}
-								</TableCell>
-								<TableCell className={styleTableCell()}>
-									{employee.scenario}
-								</TableCell>
-								<TableCell className={styleTableCell()}>
-									<div className="flex flex-row gap-2">
-										<BaseButton
-											color="primary"
-											variant="light"
-											onPress={() => {
-												setModifyEmployee(employee)
-												onOpenChange()
-											}}
-										>
-											Modifier
-										</BaseButton>
-										<Button
-											color="danger"
-											onPress={() => {
-												deleteEmployee(employee.id)
-											}}
-										>
-											Supprimer
-										</Button>
-									</div>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
+				<BTable
+					columns={columns}
+					data={employees}
+					onEditClick={(employee) => {
+						setModifyEmployee(employee)
+						onOpenChange()
+					}}
+					onDeleteClick={(employee) => {
+						deleteEmployee(employee.id)
+					}}
+				/>
+
 				<FormProvider {...methods}>
 					<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 						<ModalContent>

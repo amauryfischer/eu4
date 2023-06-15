@@ -5,11 +5,21 @@ import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
-import FNumber from "@/ui/molecules/FNumber"
-import FSelect from "@/ui/molecules/FSelect"
-import FText from "@/ui/molecules/FText"
+import BTable from "@/ui/molecules/BTable/BTable"
+import FNumber from "@/ui/molecules/forms/FNumber"
+import FSelect from "@/ui/molecules/forms/FSelect"
+import FText from "@/ui/molecules/forms/FText"
 import changePrimary from "@/utils/changePrimary"
-import { Button, Modal, Table, useModal } from "@nextui-org/react"
+import {
+	Button,
+	Modal,
+	ModalBody,
+	ModalFooter,
+	ModalHeader,
+	Table,
+	useDisclosure,
+	useModal,
+} from "@nextui-org/react"
 import { Charge } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -25,7 +35,9 @@ interface ChargeFixesPageProps {
 const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 	debugger
 	const [modifyCharge, setModifyCharge] = useState<Charge | null>(null)
-	const { setVisible, bindings } = useModal()
+	const { isOpen, onOpen, onOpenChange } = useDisclosure({
+		defaultOpen: false,
+	})
 	const { createCharge, deleteCharge, updateCharge } = useChargesActions()
 
 	const methods = useForm<Charge>()
@@ -41,6 +53,17 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 		}
 	}, [modifyCharge])
 
+	const columns = [
+		{
+			header: "Nom",
+			accessor: "nom",
+		},
+		{
+			header: "Montant",
+			accessor: "montant",
+		},
+	]
+
 	return (
 		<ChargesFixesContainer>
 			<div className="container flex justify-between w-full mx-auto flex-col gap-4 my-16">
@@ -51,73 +74,28 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 					<AddButton
 						handleClick={() => {
 							setModifyCharge(null)
-							setVisible(true)
+							onOpenChange()
 						}}
 						label="Ajouter une charge fixe"
 					/>
 				</div>
 			</div>
-			<Table
-				aria-label="Example table with static content"
-				css={{
-					height: "auto",
-					minWidth: "100%",
+			<BTable
+				data={charges}
+				columns={columns}
+				onEditClick={(charge) => {
+					setModifyCharge(charge)
+					onOpenChange()
 				}}
-			>
-				<Table.Header>
-					<Table.Column>Nom</Table.Column>
-					<Table.Column>Montant</Table.Column>
-					<Table.Column>Action</Table.Column>
-				</Table.Header>
-				<Table.Body>
-					{charges.map((charge) => (
-						<Table.Row key={charge.id}>
-							<Table.Cell>{charge.nom}</Table.Cell>
-							<Table.Cell>
-								{charge.montant > 0 && (
-									<div className="text-green-500 font-bold leading-8">
-										+{charge.montant}
-									</div>
-								)}
-								{charge.montant < 0 && (
-									<div className="text-red-500 font-bold leading-8">
-										{charge.montant}
-									</div>
-								)}
-							</Table.Cell>
-							<Table.Cell>
-								<div className="flex flex-row gap-2">
-									<BaseButton
-										color="primary"
-										auto
-										ghost
-										onClick={() => {
-											setModifyCharge(charge)
-											setVisible(true)
-										}}
-									>
-										Modifier
-									</BaseButton>
-									<Button
-										color="error"
-										auto
-										ghost
-										onClick={() => {
-											deleteCharge(charge.id)
-										}}
-									>
-										Supprimer
-									</Button>
-								</div>
-							</Table.Cell>
-						</Table.Row>
-					))}
-				</Table.Body>
-			</Table>
+				onDeleteClick={(charge) => {
+					deleteCharge(charge.id)
+				}}
+			/>
+
 			<FormProvider {...methods}>
-				<Modal {...bindings}>
-					<Modal.Header>{modifyCharge ? "Edit" : "Add"} Charge</Modal.Header>
-					<Modal.Body>
+				<Modal isOpen={isOpen} onClose={onOpenChange}>
+					<ModalHeader>{modifyCharge ? "Edit" : "Add"} Charge</ModalHeader>
+					<ModalBody>
 						<FText name="nom" label="Nom" placeholder="Nom de la charge" />
 						<FNumber
 							name="montant"
@@ -134,9 +112,9 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 								{ label: "Unique", value: "Unique" },
 							]}
 						/>
-					</Modal.Body>
-					<Modal.Footer>
-						<CancelButton handleClick={() => setVisible(false)} />
+					</ModalBody>
+					<ModalFooter>
+						<CancelButton handleClick={() => onOpenChange()} />
 
 						<SaveButton
 							handleClick={() => {
@@ -147,10 +125,10 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 										createCharge(data)
 									}
 								})()
-								return setVisible(false)
+								return onOpenChange()
 							}}
 						/>
-					</Modal.Footer>
+					</ModalFooter>
 				</Modal>
 			</FormProvider>
 		</ChargesFixesContainer>

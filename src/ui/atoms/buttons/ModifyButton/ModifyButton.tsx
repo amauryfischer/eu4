@@ -17,7 +17,7 @@ const ModifyButton = ({
 			<BaseButton
 				onClick={handleClick}
 				color="grey200"
-				startIcon={<Edit color="grey800" isHovering={isHovering} />}
+				startIcon={<Edit color="primary700" isHovering={isHovering} />}
 				variant="light"
 				isIconOnly
 			>
