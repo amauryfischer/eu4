@@ -14,7 +14,6 @@ const GlobalStyle = createGlobalStyle`
         ${shadow}
     }
     * {
-        stroke-width: 0.6rem !important;
         &:focus {
             outline: none;
         }

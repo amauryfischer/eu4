@@ -6,10 +6,9 @@ import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
 import BTable from "@/ui/molecules/BTable/BTable"
-import FDate from "@/ui/molecules/FDate"
-import FNumber from "@/ui/molecules/FNumber"
-import FSelect from "@/ui/molecules/FSelect"
-import FText from "@/ui/molecules/FText"
+import FNumber from "@/ui/molecules/forms/FNumber"
+import FSelect from "@/ui/molecules/forms/FSelect"
+import FText from "@/ui/molecules/forms/FText"
 import changePrimary from "@/utils/changePrimary"
 import {
 	Button,
@@ -107,8 +106,8 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 	] as ColumnDef<Charge>[]
 
 	return (
-		<ChargesVariablesContainer>
-			<div className="container flex justify-between w-full mx-auto">
+		<ChargesVariablesContainer className="container mx-auto">
+			<div className="container flex justify-between w-full mx-auto py-12">
 				<h1 className="text-4xl font-bold text-center text-gray-900">
 					Charges variables
 				</h1>
@@ -165,8 +164,8 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 							<TableCell>{charge.scenario}</TableCell>
 							<TableCell>
 								<div className="flex flex-row gap-2">
-									<Button
-										color="default"
+									<BaseButton
+										color="primary"
 										variant="light"
 										onPress={() => {
 											setModifyCharge(charge)
@@ -174,7 +173,7 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 										}}
 									>
 										Modifier
-									</Button>
+									</BaseButton>
 									<Button
 										color="danger"
 										onPress={() => {
