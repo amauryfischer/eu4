@@ -13,6 +13,7 @@
     "@nextui-org/react": "dev-v2",
     "@prisma/client": "4.14.1",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-table": "^8.9.2",
     "@types/node": "20.1.7",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",

@@ -5,6 +5,7 @@ import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
+import BTable from "@/ui/molecules/BTable/BTable"
 import FDate from "@/ui/molecules/FDate"
 import FNumber from "@/ui/molecules/FNumber"
 import FSelect from "@/ui/molecules/FSelect"
@@ -26,6 +27,7 @@ import {
 	useDisclosure,
 } from "@nextui-org/react"
 import { Charge } from "@prisma/client"
+import { ColumnDef } from "@tanstack/react-table"
 import Moment from "moment"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -63,6 +65,47 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 		}
 	}, [modifyCharge])
 
+	const columns = [
+		{
+			header: "Nom",
+			accessorKey: "nom",
+		},
+		{
+			header: "Montant",
+			accessorKey: "montant",
+			cell: ({ getValue }) => {
+				const value = getValue() as number
+				return (
+					<div
+						className={
+							value > 0
+								? "text-green-500 font-semibold"
+								: "text-red-500 font-semibold"
+						}
+					>
+						{value} €
+					</div>
+				)
+			},
+		},
+		{
+			header: "Fréquence",
+			accessorKey: "frequency",
+		},
+		{
+			header: "Date de début",
+			accessorKey: "dateDebut",
+		},
+		{
+			header: "Date de fin",
+			accessorKey: "dateFin",
+		},
+		{
+			header: "Scenario",
+			accessorKey: "scenario",
+		},
+	] as ColumnDef<Charge>[]
+
 	return (
 		<ChargesVariablesContainer>
 			<div className="container flex justify-between w-full mx-auto">
@@ -77,6 +120,18 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 					label="Ajouter une charge variable"
 				/>
 			</div>
+
+			<BTable
+				columns={columns}
+				data={charges}
+				onEditClick={(charge) => {
+					setModifyCharge(charge)
+					onOpenChange()
+				}}
+				onDeleteClick={(charge) => {
+					deleteCharge(charge.id)
+				}}
+			/>
 
 			<Table aria-label="Example table with static content">
 				<TableHeader>

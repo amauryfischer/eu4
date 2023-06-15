@@ -3756,6 +3756,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-table@npm:^8.9.2":
+  version: 8.9.2
+  resolution: "@tanstack/react-table@npm:8.9.2"
+  dependencies:
+    "@tanstack/table-core": 8.9.2
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 66473ee4f34c7ade6a269c6821dadf228a04e9ce76bedfa6a30bb48608f26023bb2c2b9a45cc3f2323212d676bb26f7a820cb3328c8cd37bd7369d5651fe9628
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.9.2":
+  version: 8.9.2
+  resolution: "@tanstack/table-core@npm:8.9.2"
+  checksum: eac43f6a95a08e2edae3f66b31e78b50b826507808ba32aa2fc2fae495aa4d9cdf97a7a1b745c647fdd9ec0c2559971e26df23a98720e0a959681be1caa35f26
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -7502,6 +7521,7 @@ __metadata:
     "@nextui-org/react": dev-v2
     "@prisma/client": 4.14.1
     "@reduxjs/toolkit": ^1.9.5
+    "@tanstack/react-table": ^8.9.2
     "@types/node": 20.1.7
     "@types/react": 18.2.6
     "@types/react-dom": 18.2.4
