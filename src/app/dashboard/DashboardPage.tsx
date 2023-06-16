@@ -285,7 +285,6 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 					</FormProvider>
 				</div>
 				<LineChart
-					width={window.innerWidth - 600}
 					height={600}
 					data={calculatedCostEachMonths}
 					margin={{

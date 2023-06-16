@@ -1,3 +1,4 @@
+import useWhyDidYouUpdate from "@/hooks/utils/use-why-did-you-update.hook"
 import DeleteButton from "@/ui/atoms/buttons/DeleteButton/DeleteButton"
 import ModifyButton from "@/ui/atoms/buttons/ModifyButton/ModifyButton"
 import Edit from "@/ui/fondations/icons/Edit"
@@ -18,6 +19,7 @@ import {
 import { data } from "autoprefixer"
 import React from "react"
 import { useMemo } from "react"
+import { styled } from "styled-components"
 
 interface BTableProps<T> {
 	data: T[]
@@ -25,7 +27,14 @@ interface BTableProps<T> {
 	onEditClick?: (data: T) => void
 	onDeleteClick?: (data: T) => void
 }
+const STableColumn = styled(TableColumn)<{ width: number }>`
 
+	${({ width }) => `
+		width: ${width}px !important;
+		min-width: ${width}px !important;
+		max-width: ${width}px !important;
+	`}
+`
 const BTable = <T extends object>({
 	data,
 	columns,
@@ -42,7 +51,7 @@ const BTable = <T extends object>({
 				maxSize: 80,
 				minSize: 80,
 				cell: ({ row }) => (
-					<div className="grid gap-8 grid-cols-2">
+					<div className="flex gap-4">
 						{onEditClick && (
 							<ModifyButton
 								handleClick={() => {
@@ -58,6 +67,7 @@ const BTable = <T extends object>({
 							/>
 						)}
 					</div>
+
 				),
 			} as ColumnDef<T>)
 		}
@@ -71,6 +81,7 @@ const BTable = <T extends object>({
 		columnResizeMode: "onChange",
 		enableColumnResizing: true,
 	})
+	useWhyDidYouUpdate("BTable", { data, columns, onEditClick, onDeleteClick } )
 	return (
 		<>
 			<div className="p-2">
@@ -78,16 +89,18 @@ const BTable = <T extends object>({
 					{
 						table.getHeaderGroups().map((headerGroup) => (
 							<TableHeader key={headerGroup.id}>
-								{headerGroup.headers.map((header) => (
-									<TableColumn key={header.id}>
-										{header.isPlaceholder
-											? null
-											: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-											  )}
-									</TableColumn>
-								))}
+								{headerGroup.headers.map((header) => {
+									return (
+										<TableColumn key={header.id} width={header.getSize()}>
+											{header.isPlaceholder
+												? null
+												: flexRender(
+														header.column.columnDef.header,
+														header.getContext(),
+												  )}
+										</TableColumn>
+									)
+								})}
 							</TableHeader>
 						)) as any
 					}

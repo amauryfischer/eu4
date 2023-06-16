@@ -1,9 +1,8 @@
 "use client"
 
-import React from "react"
+import { useCallback, useMemo } from "react"
 import useChargesActions from "@/hooks/data/use-charges-actions.hook"
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
-import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
 import BTable from "@/ui/molecules/BTable/BTable"
@@ -12,18 +11,11 @@ import FSelect from "@/ui/molecules/forms/FSelect"
 import FText from "@/ui/molecules/forms/FText"
 import changePrimary from "@/utils/changePrimary"
 import {
-	Button,
 	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
 	useDisclosure,
 } from "@nextui-org/react"
 import { Charge } from "@prisma/client"
@@ -49,6 +41,15 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 
 	const methods = useForm<Charge>()
 
+	const handleEdit = useCallback((charge: Charge) => {
+		setModifyCharge(charge)
+		onOpenChange()
+	}, [])
+
+	const handleDelete = useCallback((charge: Charge) => {
+		deleteCharge(charge.id)
+	}, [])
+
 	useEffect(() => {
 		if (modifyCharge) {
 			methods.reset(modifyCharge)
@@ -56,55 +57,57 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 			methods.reset({
 				nom: "",
 				montant: 0,
-				// @ts-ignore
-				dateDebut: new Moment().format("DD/MM/YYYY"),
-				// @ts-ignore
-				dateFin: new Moment().format("DD/MM/YYYY"),
+				dateDebut: Moment().format("DD/MM/YYYY"),
+				dateFin: Moment().format("DD/MM/YYYY"),
 				scenario: "",
 			})
 		}
 	}, [modifyCharge])
 
-	const columns = [
-		{
-			header: "Nom",
-			accessorKey: "nom",
-		},
-		{
-			header: "Montant",
-			accessorKey: "montant",
-			cell: ({ getValue }) => {
-				const value = getValue() as number
-				return (
-					<div
-						className={
-							value > 0
-								? "text-green-500 font-semibold"
-								: "text-red-500 font-semibold"
-						}
-					>
-						{value} €
-					</div>
-				)
-			},
-		},
-		{
-			header: "Fréquence",
-			accessorKey: "frequency",
-		},
-		{
-			header: "Date de début",
-			accessorKey: "dateDebut",
-		},
-		{
-			header: "Date de fin",
-			accessorKey: "dateFin",
-		},
-		{
-			header: "Scenario",
-			accessorKey: "scenario",
-		},
-	] as ColumnDef<Charge>[]
+	const columns = useMemo(
+		() =>
+			[
+				{
+					header: "Nom",
+					accessorKey: "nom",
+				},
+				{
+					header: "Montant",
+					accessorKey: "montant",
+					cell: ({ getValue }) => {
+						const value = getValue() as number
+						return (
+							<div
+								className={
+									value > 0
+										? "text-green-500 font-semibold"
+										: "text-red-500 font-semibold"
+								}
+							>
+								{value} €
+							</div>
+						)
+					},
+				},
+				{
+					header: "Fréquence",
+					accessorKey: "frequency",
+				},
+				{
+					header: "Date de début",
+					accessorKey: "dateDebut",
+				},
+				{
+					header: "Date de fin",
+					accessorKey: "dateFin",
+				},
+				{
+					header: "Scenario",
+					accessorKey: "scenario",
+				},
+			] as ColumnDef<Charge>[],
+		[],
+	)
 
 	return (
 		<ChargesVariablesContainer className="container mx-auto">
@@ -124,13 +127,8 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 			<BTable
 				columns={columns}
 				data={charges}
-				onEditClick={(charge) => {
-					setModifyCharge(charge)
-					onOpenChange()
-				}}
-				onDeleteClick={(charge) => {
-					deleteCharge(charge.id)
-				}}
+				onEditClick={handleEdit}
+				onDeleteClick={handleDelete}
 			/>
 
 			<FormProvider {...methods}>

@@ -69,9 +69,9 @@ const TopBar = () => {
 					as={Link}
 					isActive={pathName === "/dashboard"}
 					color="foreground"
-					href="#"
+					href="/dashboard"
 					onClick={() => {
-						router.push("/dashboard")
+						//router.push("/dashboard")
 					}}
 				>
 					Dashboard

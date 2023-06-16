@@ -1,7 +1,10 @@
+
+"use client"
 import { Inter } from "next/font/google"
 import TopBar from "./TopBar/TopBar"
 import "./globals.css"
 import GlobalStyle from "@/ui/fondations/GlobalStyle"
+import { NextUIProvider } from "@nextui-org/react";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -18,10 +21,14 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<TopBar />
-				<GlobalStyle />
-				<>{children}</>
+				<NextUIProvider>
+					<TopBar />
+					<GlobalStyle />
+					<>{children}</>
+				</NextUIProvider>
 			</body>
 		</html>
 	)
 }
+
+

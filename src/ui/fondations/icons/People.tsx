@@ -1,8 +1,12 @@
-import LordIcon from "@/ui/atoms/LordIcon"
-import React from "react"
 
-const People = (props: Omit<React.ComponentProps<typeof LordIcon>, "name">) => {
-	return <LordIcon name="people" strokeWidth="1rem" width="24px" {...props} />
+import dynamic from "next/dynamic"
+import React from "react"
+const DynamicLordIcon = dynamic(() => import("@/ui/atoms/LordIcon"), {
+	ssr: false,
+}) as any
+
+const People = (props: any) => {
+	return <DynamicLordIcon name="people" strokeWidth="1rem" width="24px" {...props} />
 }
 
 export default People

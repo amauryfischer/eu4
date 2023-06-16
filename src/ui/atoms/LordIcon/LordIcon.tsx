@@ -32,26 +32,46 @@ const LordIconContainer = colored(styled.div<{
     }
 `)
 
-const LordIcon = ({
-	name,
-	isHovering,
-	width = "20px",
-	color,
-	strokeWidth,
-	shouldRotate,
-	rotate,
-	noLoop = false,
-}: {
-	name: string
-	isHovering?: boolean
-	width?: string
-	color?: string
-	strokeWidth?: string
-	shouldRotate?: boolean
-	rotate?: boolean
-	noLoop?: boolean
-}) => {
-	if (isHovering === undefined) {
+const LordIcon = React.memo(
+	({
+		name,
+		isHovering,
+		width = "20px",
+		color,
+		strokeWidth,
+		shouldRotate,
+		rotate,
+		noLoop = false,
+	}: {
+		name: string
+		isHovering?: boolean
+		width?: string
+		color?: string
+		strokeWidth?: string
+		shouldRotate?: boolean
+		rotate?: boolean
+		noLoop?: boolean
+	}) => {
+		if (isHovering === undefined) {
+			return (
+				<LordIconContainer
+					color={color ?? "primary"}
+					strokeWidth={strokeWidth}
+					shouldRotate={shouldRotate}
+				>
+					<Player
+						autoplay
+						loop={!noLoop}
+						src={`/animation/${name}.json`}
+						style={{
+							width,
+							height: width,
+							color: color ?? "primary",
+						}}
+					/>
+				</LordIconContainer>
+			)
+		}
 		return (
 			<LordIconContainer
 				color={color ?? "primary"}
@@ -62,45 +82,26 @@ const LordIcon = ({
 					autoplay
 					loop={!noLoop}
 					src={`/animation/${name}.json`}
+					className="tag-icon"
 					style={{
 						width,
 						height: width,
+						display: isHovering ? "block" : "none",
+						color: color ?? "primary",
+					}}
+				/>
+				<Player
+					src={`/animation/${name}.json`}
+					className="tag-icon"
+					style={{
+						width,
+						height: width,
+						display: isHovering ? "none" : "block",
 						color: color ?? "primary",
 					}}
 				/>
 			</LordIconContainer>
 		)
-	}
-	return (
-		<LordIconContainer
-			color={color ?? "primary"}
-			strokeWidth={strokeWidth}
-			shouldRotate={shouldRotate}
-		>
-			<Player
-				autoplay
-				loop={!noLoop}
-				src={`/animation/${name}.json`}
-				className="tag-icon"
-				style={{
-					width,
-					height: width,
-					display: isHovering ? "block" : "none",
-					color: color ?? "primary",
-				}}
-			/>
-			<Player
-				src={`/animation/${name}.json`}
-				className="tag-icon"
-				style={{
-					width,
-					height: width,
-					display: isHovering ? "none" : "block",
-					color: color ?? "primary",
-				}}
-			/>
-		</LordIconContainer>
-	)
-}
-
+	},
+)
 export default LordIcon

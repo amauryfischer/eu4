@@ -25,12 +25,13 @@ import {
 } from "@nextui-org/react"
 import { Employee } from "@prisma/client"
 import moment from "moment"
-import { useEffect, useState, useTransition } from "react"
+import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import styled from "styled-components"
 import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
 import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
 import BTable from "@/ui/molecules/BTable/BTable"
+import { ColumnDef } from "@tanstack/react-table"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
@@ -65,32 +66,45 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 		}
 	}, [modifyEmployee])
 
-	const columns = [
-		{
-			header: "Nom",
-			accessor: "nom",
-		},
-		{
-			header: "Type",
-			accessor: "type",
-		},
-		{
-			header: "Salaire",
-			accessor: "salaire",
-		},
-		{
-			header: "Date de début",
-			accessor: "dateDebut",
-		},
-		{
-			header: "Date de fin",
-			accessor: "dateFin",
-		},
-		{
-			header: "Scenario",
-			accessor: "scenario",
-		},
-	]
+	const columns = useMemo(
+		() =>
+			[
+				{
+					header: "Nom",
+					accessorKey: "nom",
+				},
+				{
+					header: "Type",
+					accessorKey: "type",
+				},
+				{
+					header: "Salaire",
+					accessorKey: "salaire",
+				},
+				{
+					header: "Date de début",
+					accessorKey: "dateDebut",
+				},
+				{
+					header: "Date de fin",
+					accessorKey: "dateFin",
+				},
+				{
+					header: "Scenario",
+					accessorKey: "scenario",
+				},
+			] as ColumnDef<Employee>[],
+		[],
+	)
+
+	const onEditClick = useCallback((employee: Employee) => {
+		setModifyEmployee(employee)
+		onOpenChange()
+	}, [])
+
+	const onDeleteClick = useCallback((employee: Employee) => {
+		deleteEmployee(employee.id)
+	}, [])
 
 	return (
 		<EmployeeContainer>
@@ -112,13 +126,8 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 				<BTable
 					columns={columns}
 					data={employees}
-					onEditClick={(employee) => {
-						setModifyEmployee(employee)
-						onOpenChange()
-					}}
-					onDeleteClick={(employee) => {
-						deleteEmployee(employee.id)
-					}}
+					onEditClick={onEditClick}
+					onDeleteClick={onDeleteClick}
 				/>
 
 				<FormProvider {...methods}>
