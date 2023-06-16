@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react"
 import useChargesActions from "@/hooks/data/use-charges-actions.hook"
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
