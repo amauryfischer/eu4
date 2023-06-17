@@ -1,10 +1,10 @@
 import { useHoverDirty } from "react-use"
-import BaseButton from "../BaseButton/BaseButton"
+import BaseButton from "../../buttons/BaseButton/BaseButton"
 import { useRef } from "react"
 import Edit from "@/ui/fondations/icons/Edit"
 import Delete from "@/ui/fondations/icons/Delete"
 
-const DeleteButton = ({
+const DeleteIconButton = ({
 	handleClick,
 	children,
 }: {
@@ -28,4 +28,4 @@ const DeleteButton = ({
 	)
 }
 
-export default DeleteButton
+export default DeleteIconButton

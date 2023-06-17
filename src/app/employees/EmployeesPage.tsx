@@ -1,37 +1,32 @@
+// nextjs
 "use client"
 
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
+import BTable from "@/ui/molecules/BTable/BTable"
 import FNumber from "@/ui/molecules/forms/FNumber"
 import FSelect from "@/ui/molecules/forms/FSelect"
 import FText from "@/ui/molecules/forms/FText"
 import changePrimary from "@/utils/changePrimary"
 import {
-	Button,
 	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
 	tv,
 	useDisclosure,
 } from "@nextui-org/react"
 import { Employee } from "@prisma/client"
+import { ColumnDef } from "@tanstack/react-table"
 import moment from "moment"
-import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import styled from "styled-components"
 import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
-import BaseButton from "@/ui/atoms/buttons/BaseButton/BaseButton"
-import BTable from "@/ui/molecules/BTable/BTable"
-import { ColumnDef } from "@tanstack/react-table"
+import useColumnsFromSchema from "@/hooks/schema/use-columns-from-schema"
+import employeeSchema from "@/schema/employee.schema"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
@@ -66,36 +61,11 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 		}
 	}, [modifyEmployee])
 
-	const columns = useMemo(
-		() =>
-			[
-				{
-					header: "Nom",
-					accessorKey: "nom",
-				},
-				{
-					header: "Type",
-					accessorKey: "type",
-				},
-				{
-					header: "Salaire",
-					accessorKey: "salaire",
-				},
-				{
-					header: "Date de début",
-					accessorKey: "dateDebut",
-				},
-				{
-					header: "Date de fin",
-					accessorKey: "dateFin",
-				},
-				{
-					header: "Scenario",
-					accessorKey: "scenario",
-				},
-			] as ColumnDef<Employee>[],
-		[],
-	)
+	const columns = useColumnsFromSchema<Employee>({
+		schema: employeeSchema,
+		editable: true,
+		updateAction: updateEmployee,
+	})
 
 	const onEditClick = useCallback((employee: Employee) => {
 		setModifyEmployee(employee)

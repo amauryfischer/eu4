@@ -8,13 +8,20 @@ import {
 import { useFormContext, useController } from "react-hook-form"
 
 interface FSelectProps {
-	label: string
-	placeholder: string
+	label?: string
+	placeholder?: string
 	name: string
-	options: { label: string; value: string }[]
+	options: { label: string; value: string; alias?: string[] }[]
+	size?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
-const FSelect = ({ label, placeholder, name, options }: FSelectProps) => {
+const FSelect = ({
+	label = undefined,
+	placeholder,
+	name,
+	options,
+	size = undefined,
+}: FSelectProps) => {
 	const { control } = useFormContext()
 	const {
 		field,
@@ -28,8 +35,9 @@ const FSelect = ({ label, placeholder, name, options }: FSelectProps) => {
 		<Dropdown>
 			<DropdownTrigger>
 				<div className="flex flex-col gap-2">
-					<label htmlFor={name}>{label}</label>
 					<Input
+						label={label}
+						size={size}
 						id={name}
 						placeholder={placeholder}
 						{...field}

@@ -1,9 +1,9 @@
 import { useHoverDirty } from "react-use"
-import BaseButton from "../BaseButton/BaseButton"
+import BaseButton from "../../buttons/BaseButton/BaseButton"
 import { useRef } from "react"
 import Edit from "@/ui/fondations/icons/Edit"
 
-const ModifyButton = ({
+const ModifyIconButton = ({
 	handleClick,
 	children,
 }: {
@@ -17,7 +17,13 @@ const ModifyButton = ({
 			<BaseButton
 				onClick={handleClick}
 				color="grey200"
-				startIcon={<Edit color="primary700" isHovering={isHovering} />}
+				startIcon={
+					<Edit
+						color="primary500"
+						isHovering={isHovering}
+						strokeWidth="0.6rem"
+					/>
+				}
 				variant="light"
 				isIconOnly
 			>
@@ -27,4 +33,4 @@ const ModifyButton = ({
 	)
 }
 
-export default ModifyButton
+export default ModifyIconButton

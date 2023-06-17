@@ -1,6 +1,8 @@
 "use client"
 
 import useChargesActions from "@/hooks/data/use-charges-actions.hook"
+import useColumnsFromSchema from "@/hooks/schema/use-columns-from-schema"
+import chargeSchema from "@/schema/charge.schema"
 import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
 import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
 import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
@@ -59,20 +61,11 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 		deleteCharge(charge.id)
 	}, [])
 
-	const columns = useMemo(
-		() =>
-			[
-				{
-					header: "Nom",
-					accessorKey: "nom",
-				},
-				{
-					header: "Montant",
-					accessorKey: "montant",
-				},
-			] as ColumnDef<Charge>[],
-		[],
-	)
+	const columns = useColumnsFromSchema({
+		schema: chargeSchema,
+		editable: true,
+		updateAction: updateCharge,
+	})
 
 	return (
 		<ChargesFixesContainer>

@@ -29,7 +29,7 @@ export const SButton = colored(styled(
 			background-color: var(--color) !important;
 			color: var(--text-color) !important;
 			&:hover {
-				background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 10%)) !important;
+				background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 15%)) !important;
 			}
 		`
 	}}

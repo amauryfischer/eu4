@@ -1,13 +1,12 @@
 import useWhyDidYouUpdate from "@/hooks/utils/use-why-did-you-update.hook"
-import DeleteButton from "@/ui/atoms/buttons/DeleteButton/DeleteButton"
-import ModifyButton from "@/ui/atoms/buttons/ModifyButton/ModifyButton"
-import Edit from "@/ui/fondations/icons/Edit"
+import DeleteIconButton from "@/ui/atoms/iconButtons/DeleteIconButton/DeleteIconButton"
+import ModifyIconButton from "@/ui/atoms/iconButtons/ModifyIconButton/ModifyIconButton"
 import {
+	Table,
+	TableBody,
 	TableCell,
 	TableColumn,
-	Table,
 	TableHeader,
-	TableBody,
 	TableRow,
 } from "@nextui-org/react"
 import {
@@ -16,8 +15,6 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from "@tanstack/react-table"
-import { data } from "autoprefixer"
-import React from "react"
 import { useMemo } from "react"
 import { styled } from "styled-components"
 
@@ -27,14 +24,15 @@ interface BTableProps<T> {
 	onEditClick?: (data: T) => void
 	onDeleteClick?: (data: T) => void
 }
-const STableColumn = styled(TableColumn)<{ width: number }>`
 
-	${({ width }) => `
-		width: ${width}px !important;
-		min-width: ${width}px !important;
-		max-width: ${width}px !important;
-	`}
+const STable = styled(Table)<{ widthActions?: number }>`
+	& [data-key="actions"] {
+		${({ widthActions }) => `
+			width: ${widthActions}px !important;
+		`}
+	}
 `
+
 const BTable = <T extends object>({
 	data,
 	columns,
@@ -47,27 +45,23 @@ const BTable = <T extends object>({
 			newColumns.push({
 				id: "actions",
 				header: "Actions",
-				size: 80,
-				maxSize: 80,
-				minSize: 80,
 				cell: ({ row }) => (
 					<div className="flex gap-4">
 						{onEditClick && (
-							<ModifyButton
+							<ModifyIconButton
 								handleClick={() => {
 									onEditClick(row.original)
 								}}
 							/>
 						)}
 						{onDeleteClick && (
-							<DeleteButton
+							<DeleteIconButton
 								handleClick={() => {
 									onDeleteClick(row.original)
 								}}
 							/>
 						)}
 					</div>
-
 				),
 			} as ColumnDef<T>)
 		}
@@ -81,17 +75,23 @@ const BTable = <T extends object>({
 		columnResizeMode: "onChange",
 		enableColumnResizing: true,
 	})
-	useWhyDidYouUpdate("BTable", { data, columns, onEditClick, onDeleteClick } )
+	useWhyDidYouUpdate("BTable", { data, columns, onEditClick, onDeleteClick })
 	return (
 		<>
 			<div className="p-2">
-				<Table>
+				<STable
+					widthActions={80}
+					shadow="none"
+					classNames={{
+						td: ["pt-1", "px-0"],
+					}}
+				>
 					{
 						table.getHeaderGroups().map((headerGroup) => (
 							<TableHeader key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableColumn key={header.id} width={header.getSize()}>
+										<TableColumn key={header.id}>
 											{header.isPlaceholder
 												? null
 												: flexRender(
@@ -131,7 +131,7 @@ const BTable = <T extends object>({
 							</tr>
 						))}
 					</tfoot> */}
-				</Table>
+				</STable>
 			</div>
 		</>
 	)

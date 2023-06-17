@@ -24,6 +24,8 @@ import Moment from "moment"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { styled } from "styled-components"
+import useColumnsFromSchema from "@/hooks/schema/use-columns-from-schema"
+import chargeSchema from "@/schema/charge.schema"
 
 const ChargesVariablesContainer = styled.div`
 	${changePrimary("purple")}
@@ -64,50 +66,11 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 		}
 	}, [modifyCharge])
 
-	const columns = useMemo(
-		() =>
-			[
-				{
-					header: "Nom",
-					accessorKey: "nom",
-				},
-				{
-					header: "Montant",
-					accessorKey: "montant",
-					cell: ({ getValue }) => {
-						const value = getValue() as number
-						return (
-							<div
-								className={
-									value > 0
-										? "text-green-500 font-semibold"
-										: "text-red-500 font-semibold"
-								}
-							>
-								{value} €
-							</div>
-						)
-					},
-				},
-				{
-					header: "Fréquence",
-					accessorKey: "frequency",
-				},
-				{
-					header: "Date de début",
-					accessorKey: "dateDebut",
-				},
-				{
-					header: "Date de fin",
-					accessorKey: "dateFin",
-				},
-				{
-					header: "Scenario",
-					accessorKey: "scenario",
-				},
-			] as ColumnDef<Charge>[],
-		[],
-	)
+	const columns = useColumnsFromSchema<Charge>({
+		schema: chargeSchema,
+		editable: true,
+		updateAction: updateCharge,
+	})
 
 	return (
 		<ChargesVariablesContainer className="container mx-auto">

@@ -38,11 +38,12 @@ const DropDownTopBar = ({
 						variant="light"
 						ref={ref}
 						className="text-base w-16"
-						startIcon={
+						endIcon={
 							<ArrowDown
 								color="grey900"
 								isHovering={isHovering}
 								shouldRotate={isDropDownOpen}
+								width="16px"
 							/>
 						}
 					>

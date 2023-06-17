@@ -3,15 +3,11 @@ import React from "react"
 const DynamicLordIcon = dynamic(() => import("@/ui/atoms/LordIcon"), {
 	ssr: false,
 }) as any
-const ArrowDown = (props: any) => {
+
+const Save = (props: any) => {
 	return (
-		<DynamicLordIcon
-			name="arrow-down"
-			strokeWidth="1rem"
-			width="24px"
-			{...props}
-		/>
+		<DynamicLordIcon name="save" strokeWidth="1rem" width="24px" {...props} />
 	)
 }
 
-export default ArrowDown
+export default Save

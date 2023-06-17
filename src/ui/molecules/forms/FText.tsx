@@ -2,12 +2,20 @@ import { Input } from "@nextui-org/react"
 import { useFormContext, useController } from "react-hook-form"
 
 interface FTextProps {
-	label: string
-	placeholder: string
+	label?: string
+	placeholder?: string
 	name: string
+	autoFocus?: boolean
+	size?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
-const FText = ({ label, placeholder, name }: FTextProps) => {
+const FText = ({
+	label = undefined,
+	placeholder,
+	name,
+	autoFocus = false,
+	size = undefined,
+}: FTextProps) => {
 	const { control } = useFormContext()
 	const {
 		field,
@@ -22,6 +30,8 @@ const FText = ({ label, placeholder, name }: FTextProps) => {
 	// nextui
 	return (
 		<Input
+			size={size}
+			autoFocus={autoFocus}
 			label={label}
 			placeholder={placeholder}
 			width="100%"

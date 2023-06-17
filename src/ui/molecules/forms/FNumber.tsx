@@ -2,12 +2,18 @@ import { Input } from "@nextui-org/react"
 import { useFormContext, useController } from "react-hook-form"
 
 interface FNumberProps {
-	label: string
-	placeholder: string
+	label?: string
+	placeholder?: string
 	name: string
+	size?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
-const FNumber = ({ label, placeholder, name }: FNumberProps) => {
+const FNumber = ({
+	label = undefined,
+	placeholder,
+	name,
+	size = undefined,
+}: FNumberProps) => {
 	const { control } = useFormContext()
 	const {
 		field,
@@ -21,6 +27,7 @@ const FNumber = ({ label, placeholder, name }: FNumberProps) => {
 	// nextui
 	return (
 		<Input
+			size={size}
 			label={label}
 			placeholder={placeholder}
 			width="100%"
