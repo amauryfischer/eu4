@@ -1,4 +1,4 @@
-import BaseButton from "../BaseButton/BaseButton"
+import BButton from "../BButton/BButton"
 import { useHover, useHoverDirty } from "react-use"
 import { useRef } from "react"
 import Add from "@/ui/fondations/icons/Add"
@@ -12,9 +12,9 @@ const SaveButton = ({ handleClick }: SaveButtonProps) => {
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<BaseButton onClick={handleClick} color="primary" variant="shadow">
+			<BButton onClick={handleClick} color="primary" variant="shadow">
 				Sauvegarder
-			</BaseButton>
+			</BButton>
 		</div>
 	)
 }

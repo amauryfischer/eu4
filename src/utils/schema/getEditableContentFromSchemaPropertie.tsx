@@ -7,7 +7,7 @@ import FText from "@/ui/molecules/forms/FText"
 const getEditableContentFromSchemaPropertie = ({
 	schemaPropertie,
 }: {
-	schemaPropertie: Schema[keyof Schema]
+	schemaPropertie: Schema["properties"][keyof Schema]
 }) => {
 	switch (schemaPropertie.type) {
 		case SchemaTypes.SELECT:

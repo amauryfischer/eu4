@@ -1,13 +1,13 @@
 import { Button } from "@nextui-org/react"
-import { SButton } from "./BaseButton.styled"
+import { SButton } from "./BButton.styled"
 
-interface BaseButtonProps
+interface BButtonProps
 	extends Omit<React.ComponentProps<typeof Button>, "color"> {
 	color?: string
 }
 
-const BaseButton = ({ children, ...props }: BaseButtonProps) => {
+const BButton = ({ children, ...props }: BButtonProps) => {
 	return <SButton {...props}>{children}</SButton>
 }
 
-export default BaseButton
+export default BButton

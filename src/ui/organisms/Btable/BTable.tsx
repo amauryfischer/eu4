@@ -1,6 +1,7 @@
 import useWhyDidYouUpdate from "@/hooks/utils/use-why-did-you-update.hook"
 import DeleteIconButton from "@/ui/atoms/iconButtons/DeleteIconButton/DeleteIconButton"
 import ModifyIconButton from "@/ui/atoms/iconButtons/ModifyIconButton/ModifyIconButton"
+import Defer from "@/utils/Defer"
 import {
 	Table,
 	TableBody,
@@ -75,7 +76,6 @@ const BTable = <T extends object>({
 		columnResizeMode: "onChange",
 		enableColumnResizing: true,
 	})
-	useWhyDidYouUpdate("BTable", { data, columns, onEditClick, onDeleteClick })
 	return (
 		<>
 			<div className="p-2">
@@ -105,7 +105,7 @@ const BTable = <T extends object>({
 						)) as any
 					}
 					<TableBody>
-						{table.getRowModel().rows.map((row) => (
+						{table?.getRowModel?.()?.rows.map((row) => (
 							<TableRow key={row.id}>
 								{row.getVisibleCells().map((cell) => (
 									<TableCell key={cell.id}>
@@ -115,22 +115,6 @@ const BTable = <T extends object>({
 							</TableRow>
 						))}
 					</TableBody>
-					{/* <tfoot>
-						{table.getFooterGroups().map((footerGroup) => (
-							<tr key={footerGroup.id}>
-								{footerGroup.headers.map((header) => (
-									<th key={header.id}>
-										{header.isPlaceholder
-											? null
-											: flexRender(
-													header.column.columnDef.footer,
-													header.getContext(),
-											  )}
-									</th>
-								))}
-							</tr>
-						))}
-					</tfoot> */}
 				</STable>
 			</div>
 		</>

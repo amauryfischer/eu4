@@ -731,37 +731,6 @@ const colors = css`
   --white-saturation: 0%;
   --white-lightness: 100%;
 
-  //   ██████  ██████  ██ ███    ███  █████  ██████  ██    ██ 
-  // ██   ██ ██   ██ ██ ████  ████ ██   ██ ██   ██  ██  ██  
-  // ██████  ██████  ██ ██ ████ ██ ███████ ██████    ████   
-  // ██      ██   ██ ██ ██  ██  ██ ██   ██ ██   ██    ██    
-  // ██      ██   ██ ██ ██      ██ ██   ██ ██   ██    ██    
-
-  --primary: var(--caramel);
-  --primary-hue: var(--caramel-hue);
-  --primary-saturation: var(--caramel-saturation);
-  --primary-lightness: var(--caramel-lightness);
-  --primary-text-color: var(--caramel-text-color);
-  --primary50: var(--caramel50);
-  --primary50-lightness: var(--caramel50-lightness);
-  --primary100: var(--caramel100);
-  --primary100-lightness: var(--caramel100-lightness);
-  --primary200: var(--caramel200);
-  --primary200-lightness: var(--caramel200-lightness);
-  --primary300: var(--caramel300);
-  --primary300-lightness: var(--caramel300-lightness);
-  --primary400: var(--caramel400);
-  --primary400-lightness: var(--caramel400-lightness);
-  --primary500: var(--caramel500);
-  --primary500-lightness: var(--caramel500-lightness);
-  --primary600: var(--caramel600);
-  --primary600-lightness: var(--caramel600-lightness);
-  --primary700: var(--caramel700);
-  --primary700-lightness: var(--caramel700-lightness);
-  --primary800: var(--caramel800);
-  --primary800-lightness: var(--caramel800-lightness);
-  --primary900: var(--caramel900);
-  --primary900-lightness: var(--caramel900-lightness);
 `
 
 export default colors

@@ -10,8 +10,8 @@ type YupSchemaType =
 const buildYupFromSchema = (schema: Schema) => {
 	const yupSchema = {} as Record<string, YupSchemaType>
 
-	for (const key in schema) {
-		const element = schema[key]
+	for (const key in schema.properties) {
+		const element = schema.properties[key]
 
 		switch (element.type) {
 			case SchemaTypes.UUID:
@@ -49,3 +49,5 @@ const buildYupFromSchema = (schema: Schema) => {
 
 	return yup.object().shape(yupSchema)
 }
+
+export default buildYupFromSchema

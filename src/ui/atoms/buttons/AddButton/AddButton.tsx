@@ -1,5 +1,5 @@
 import Add from "@/ui/fondations/icons/Add"
-import BaseButton from "../BaseButton/BaseButton"
+import BButton from "../BButton/BButton"
 import { useHover, useHoverDirty } from "react-use"
 import { useRef } from "react"
 import { Button } from "@nextui-org/react"
@@ -13,13 +13,13 @@ const AddButton = ({ handleClick, label }: AddButtonProps) => {
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<BaseButton
+			<BButton
 				onPress={handleClick}
 				color="primary"
 				startIcon={<Add color="grey100" isHovering={isHovering} />}
 			>
 				{label}
-			</BaseButton>
+			</BButton>
 		</div>
 	)
 }

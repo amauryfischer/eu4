@@ -1,5 +1,5 @@
 import { useHoverDirty } from "react-use"
-import BaseButton from "../../buttons/BaseButton/BaseButton"
+import BButton from "../../buttons/BButton/BButton"
 import { useRef } from "react"
 import Save from "@/ui/fondations/icons/Save"
 
@@ -14,7 +14,7 @@ const SaveIconButton = ({
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<BaseButton
+			<BButton
 				onClick={handleClick}
 				color="emerald"
 				startIcon={
@@ -24,7 +24,7 @@ const SaveIconButton = ({
 				isIconOnly
 			>
 				{children}
-			</BaseButton>
+			</BButton>
 		</div>
 	)
 }

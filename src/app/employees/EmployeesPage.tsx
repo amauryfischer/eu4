@@ -1,49 +1,37 @@
 // nextjs
 "use client"
 
-import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
-import CancelButton from "@/ui/atoms/buttons/CancelButton/CancelButton"
-import SaveButton from "@/ui/atoms/buttons/SaveButton/SaveButton"
-import BTable from "@/ui/molecules/BTable/BTable"
-import FNumber from "@/ui/molecules/forms/FNumber"
-import FSelect from "@/ui/molecules/forms/FSelect"
-import FText from "@/ui/molecules/forms/FText"
-import changePrimary from "@/utils/changePrimary"
-import {
-	Modal,
-	ModalBody,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	tv,
-	useDisclosure,
-} from "@nextui-org/react"
-import { Employee } from "@prisma/client"
-import { ColumnDef } from "@tanstack/react-table"
-import moment from "moment"
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { FormProvider, useForm } from "react-hook-form"
-import styled from "styled-components"
-import useEmployeesActions from "../../hooks/data/use-employees-actions.hook"
+import useEmployees from "@/hooks/data/entity/use-employees.hook"
 import useColumnsFromSchema from "@/hooks/schema/use-columns-from-schema"
 import employeeSchema from "@/schema/employee.schema"
+import AddButton from "@/ui/atoms/buttons/AddButton/AddButton"
+import ModalSchema from "@/ui/organisms/BModal/ModalSchema/ModalSchema"
+import BTable from "@/ui/organisms/Btable/BTable"
+import changePrimary from "@/utils/changePrimary"
+import { useDisclosure } from "@nextui-org/react"
+import { Employee } from "@prisma/client"
+import moment from "moment"
+import { useCallback, useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import styled from "styled-components"
+import useEmployeesActions from "../../hooks/data/actions/use-employees-actions.hook"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
 `
-const styleTableRow = tv({
-	base: "bg-neutral-50 hover:drop-shadow-2xl hover:border-blue-500 hover:border-opacity-100 hover:bg-white hover:cursor-pointer rounded px-4",
-})
-const styleTableCell = tv({
-	base: "first:rounded-bl-lg last:rounded-br-lg first:rounded-tl-lg last:rounded-tr-lg",
-})
 
-const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
+const EmployeesPage = () => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure({
 		defaultOpen: false,
 	})
-	const { createEmployee, deleteEmployee, updateEmployee } =
+	const employees = useEmployees()
+	const { fetchEmployees, createEmployee, deleteEmployee, updateEmployee } =
 		useEmployeesActions()
+
+	useEffect(() => {
+		fetchEmployees()
+	}, [])
+
 	const methods = useForm<Employee>()
 	const [modifyEmployee, setModifyEmployee] = useState<Employee | null>(null)
 	useEffect(() => {
@@ -95,76 +83,19 @@ const EmployeesPage = ({ employees }: { employees: Employee[] }) => {
 
 				<BTable
 					columns={columns}
-					data={employees}
+					data={Object.values(employees ?? {})}
 					onEditClick={onEditClick}
 					onDeleteClick={onDeleteClick}
 				/>
 
-				<FormProvider {...methods}>
-					<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-						<ModalContent>
-							<ModalHeader>
-								<div className="text-2xl font-bold text-center text-gray-900">
-									{modifyEmployee ? "Modifier" : "Ajouter"} un employé
-								</div>
-							</ModalHeader>
-							<ModalBody>
-								<FText
-									name="nom"
-									label="Nom"
-									placeholder="Entrez le nom de l'employé"
-								/>
-								<FNumber name="salaire" label="Salaire" placeholder="Salaire" />
-								<FSelect
-									name="type"
-									label="Type"
-									placeholder="Type"
-									options={[
-										{ label: "CDI", value: "CDI" },
-										{ label: "Alternance", value: "Alternance" },
-										{ label: "Stage", value: "Stage" },
-										{ label: "Gérant", value: "Gérant" },
-									]}
-								/>
-								<FText
-									name="dateDebut"
-									label="Date de début"
-									placeholder="Date de début"
-								/>
-								<FText
-									name="dateFin"
-									label="Date de fin"
-									placeholder="Date de fin"
-								/>
-								<FSelect
-									name="scenario"
-									label="Scenario"
-									placeholder="Scenario"
-									options={[
-										{ label: "Scénario 1", value: "Scenario 1" },
-										{ label: "Pas de scenario", value: "" },
-									]}
-								/>
-							</ModalBody>
-							<ModalFooter>
-								<CancelButton handleClick={() => onOpenChange()} />
-
-								<SaveButton
-									handleClick={() => {
-										methods.handleSubmit((data) => {
-											if (modifyEmployee) {
-												updateEmployee(modifyEmployee.id, data)
-											} else {
-												createEmployee(data)
-											}
-										})()
-										return onOpenChange()
-									}}
-								/>
-							</ModalFooter>
-						</ModalContent>
-					</Modal>
-				</FormProvider>
+				<ModalSchema
+					schema={employeeSchema}
+					initialData={modifyEmployee}
+					isOpen={isOpen}
+					onOpenChange={onOpenChange}
+					update={updateEmployee}
+					create={createEmployee}
+				/>
 			</div>
 		</EmployeeContainer>
 	)

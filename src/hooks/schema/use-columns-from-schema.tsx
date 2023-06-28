@@ -1,6 +1,6 @@
 import Schema from "@/type/Schema"
 import SchemaTypes from "@/type/SchemaTypes"
-import EditableCell from "@/ui/molecules/BTable/EditableCell/EditableCell"
+import EditableCell from "@/ui/organisms/Btable/EditableCell"
 import getEditableContentFromSchemaPropertie from "@/utils/schema/getEditableContentFromSchemaPropertie"
 import getRenderedValueFromSchemaPropertie from "@/utils/schema/getRenderedValueFromSchemaProperty"
 import { CellContext, ColumnDef } from "@tanstack/react-table"
@@ -17,26 +17,26 @@ const useColumnsFromSchema = <T extends { id: string }>({
 }) => {
 	const columns = useMemo(() => {
 		const newColumns = [] as ColumnDef<T>[]
-		for (const key in schema) {
-			switch (schema[key].type) {
+		for (const key in schema.properties) {
+			switch (schema.properties[key].type) {
 				case SchemaTypes.UUID:
 					break
 				default:
 					newColumns.push({
-						header: schema[key].label,
-						accessorKey: schema[key].name,
+						header: schema.properties[key].label,
+						accessorKey: schema.properties[key].name,
 						...(editable && {
 							cell: (props: CellContext<T, unknown>) => (
 								<EditableCell
 									renderCellValue={getRenderedValueFromSchemaPropertie({
-										schemaPropertie: schema[key],
+										schemaPropertie: schema.properties[key],
 										value: props.getValue(),
 									})}
 									updateAction={updateAction}
 									{...props}
 								>
 									{getEditableContentFromSchemaPropertie({
-										schemaPropertie: schema[key],
+										schemaPropertie: schema.properties[key],
 										...props,
 									})}
 								</EditableCell>

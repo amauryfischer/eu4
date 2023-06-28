@@ -1,5 +1,3 @@
-import Link from "next/link"
-import db from "./db"
 const App = async () => {
 	return (
 		<div className="container flex">

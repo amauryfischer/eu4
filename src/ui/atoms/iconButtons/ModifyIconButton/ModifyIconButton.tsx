@@ -1,5 +1,5 @@
 import { useHoverDirty } from "react-use"
-import BaseButton from "../../buttons/BaseButton/BaseButton"
+import BButton from "../../buttons/BButton/BButton"
 import { useRef } from "react"
 import Edit from "@/ui/fondations/icons/Edit"
 
@@ -14,7 +14,7 @@ const ModifyIconButton = ({
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
-			<BaseButton
+			<BButton
 				onClick={handleClick}
 				color="grey200"
 				startIcon={
@@ -28,7 +28,7 @@ const ModifyIconButton = ({
 				isIconOnly
 			>
 				{children}
-			</BaseButton>
+			</BButton>
 		</div>
 	)
 }
