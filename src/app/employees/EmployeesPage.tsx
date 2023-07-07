@@ -10,11 +10,12 @@ import BTable from "@/ui/organisms/Btable/BTable"
 import changePrimary from "@/utils/changePrimary"
 import { useDisclosure } from "@nextui-org/react"
 import { Employee } from "@prisma/client"
-import moment from "moment"
 import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import styled from "styled-components"
 import useEmployeesActions from "../../hooks/data/actions/use-employees-actions.hook"
+import _ from "lodash"
+import buildYupFromSchema from "@/utils/schema/buildYupFromSchema"
 
 const EmployeeContainer = styled.div`
 	${changePrimary("blue")}
@@ -34,18 +35,12 @@ const EmployeesPage = () => {
 
 	const methods = useForm<Employee>()
 	const [modifyEmployee, setModifyEmployee] = useState<Employee | null>(null)
+	const yupSchema = buildYupFromSchema(employeeSchema)
 	useEffect(() => {
-		if (modifyEmployee) {
+		if (!_.isEmpty(modifyEmployee)) {
 			methods.reset(modifyEmployee)
 		} else {
-			methods.reset({
-				nom: "",
-				salaire: 0,
-				type: "",
-				dateDebut: moment().format("DD/MM/YYYY"),
-				dateFin: moment().format("DD/MM/YYYY"),
-				scenario: "",
-			})
+			methods.reset(yupSchema.getDefault())
 		}
 	}, [modifyEmployee])
 

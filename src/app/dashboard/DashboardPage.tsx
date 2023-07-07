@@ -2,7 +2,7 @@
 
 import { Charge, Employee } from "@prisma/client"
 import { Client } from "../clients/ClientPage"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import Moment from "moment"
 import {
 	CartesianGrid,
@@ -15,10 +15,21 @@ import {
 	YAxis,
 } from "recharts"
 import moment from "moment"
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableColumn,
+	TableHeader,
+	TableRow,
+} from "@nextui-org/react"
 import { styled } from "styled-components"
 import { FormProvider, useForm } from "react-hook-form"
 import FSelect from "@/ui/molecules/forms/FSelect"
+import useCharges from "@/hooks/data/entity/use-charges.hook"
+import useEmployees from "@/hooks/data/entity/use-employees.hook"
+import useChargesActions from "@/hooks/data/actions/use-charges-actions.hook"
+import useEmployeesActions from "@/hooks/data/actions/use-employees-actions.hook"
 
 interface DashboardPageProps {
 	clients: Client[]
@@ -45,9 +56,26 @@ const calculatePrix = (prix: string) => {
 	return parseFloat(prix.replace("€", "").replace(",", ""))
 }
 
-const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
+const DashboardPage = ({ clients }: DashboardPageProps) => {
 	const methods = useForm()
 	const scenario = methods.watch("scenario") as string
+
+	const charges = Object.values(useCharges() ?? {})
+	const employees = Object.values(useEmployees() ?? {})
+
+	const { fetchCharge } = useChargesActions()
+
+	const { fetchEmployees } = useEmployeesActions()
+
+	useEffect(() => {
+		fetchCharge()
+		fetchEmployees()
+	}, [])
+
+	const employeeProduction = employees.filter(
+		(e) => e.service === "Service production",
+	).length
+
 	const calculatedCostEachMonths = useMemo(() => {
 		const withScenario = scenario !== ""
 		const costs = [
@@ -64,7 +92,7 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 				details: string
 			}[]
 		}[]
-		let currentDate = Moment().startOf("month")
+		let currentDate = Moment().endOf("month")
 		for (let i = 0; i < NUMBER_YEARS * 12; i++) {
 			const logs = [] as {
 				type: string
@@ -75,6 +103,9 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 			 * Charges
 			 **/
 			const costCharges = charges.reduce((acc, charge) => {
+				if (charge.nom === "vichy") {
+					debugger
+				}
 				if (charge.scenario !== "") {
 					if (scenario !== charge.scenario) {
 						return acc
@@ -86,7 +117,8 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 						currentDate,
 						Moment(charge.dateDebut, "DD/MM/YYYY"),
 						Moment(charge.dateFin, "DD/MM/YYYY"),
-					)
+					) &&
+					charge.frequency !== "Unique"
 				)
 					return acc
 				switch (charge.frequency) {
@@ -95,12 +127,18 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 							type: "charges",
 							details: charge.nom + "(mensuel) : " + charge.montant,
 						})
+						if (charge.type === "Variable") {
+							return acc + charge.montant * employeeProduction
+						}
 						return acc + charge.montant
 					case "Annuel":
 						logs.push({
 							type: "charges",
 							details: charge.nom + "(annuel) : " + charge.montant / 12,
 						})
+						if (charge.type === "Variable") {
+							return acc + (charge.montant * employeeProduction) / 12
+						}
 						return acc + charge.montant / 12
 					case "Unique":
 						if (
@@ -116,6 +154,9 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 								type: "charges",
 								details: charge.nom + "(unique) : " + charge.montant,
 							})
+							if (charge.type === "Variable") {
+								return acc + charge.montant * employeeProduction
+							}
 							return acc + charge.montant
 						}
 						return acc
@@ -264,7 +305,6 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 		}
 		return costs
 	}, [clients, charges, employees, scenario])
-
 	return (
 		<DashboardPageContainer>
 			<div className="container flex justify-between w-full mx-auto flex-col gap-4 my-16">
@@ -286,6 +326,7 @@ const DashboardPage = ({ clients, charges, employees }: DashboardPageProps) => {
 				</div>
 				<LineChart
 					height={600}
+					width={1200}
 					data={calculatedCostEachMonths}
 					margin={{
 						top: 5,

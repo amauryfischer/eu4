@@ -48,11 +48,8 @@ const Page = async () => {
 		}),
 	)
 	const clients = tables[0].rows
-	const charges = await db.charge.findMany()
-	const employees = await db.employee.findMany()
-	return (
-		<DashboardPage clients={clients} charges={charges} employees={employees} />
-	)
+
+	return <DashboardPage clients={clients} />
 }
 
 export default Page

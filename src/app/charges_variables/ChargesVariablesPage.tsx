@@ -26,20 +26,25 @@ import { FormProvider, useForm } from "react-hook-form"
 import { styled } from "styled-components"
 import useColumnsFromSchema from "@/hooks/schema/use-columns-from-schema"
 import chargeSchema from "@/schema/charge.schema"
+import useCharges from "@/hooks/data/entity/use-charges.hook"
+import ModalSchema from "@/ui/organisms/BModal/ModalSchema/ModalSchema"
 
 const ChargesVariablesContainer = styled.div`
 	${changePrimary("purple")}
 `
 
-interface ChargeVariablesPageProps {
-	charges: Charge[]
-}
-const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
+const ChargesVariablesPage = () => {
 	const [modifyCharge, setModifyCharge] = useState<Charge | null>(null)
 	const { isOpen, onOpen, onOpenChange } = useDisclosure({
 		defaultOpen: false,
 	})
-	const { createCharge, deleteCharge, updateCharge } = useChargesActions()
+	const charges = useCharges()
+	const { createCharge, deleteCharge, updateCharge, fetchCharge } =
+		useChargesActions()
+
+	useEffect(() => {
+		fetchCharge()
+	}, [])
 
 	const methods = useForm<Charge>()
 
@@ -89,71 +94,23 @@ const ChargesVariablesPage = ({ charges }: ChargeVariablesPageProps) => {
 
 			<BTable
 				columns={columns}
-				data={charges}
+				data={
+					Object.values(charges || {}).filter(
+						(charge) => charge.type === "Variable",
+					) as Charge[]
+				}
 				onEditClick={handleEdit}
 				onDeleteClick={handleDelete}
 			/>
 
-			<FormProvider {...methods}>
-				<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-					<ModalContent>
-						<ModalHeader>{modifyCharge ? "Edit" : "Add"} Charge</ModalHeader>
-						<ModalBody>
-							<FText name="nom" label="Nom" placeholder="Nom de la charge" />
-							<FNumber
-								name="montant"
-								label="Montant"
-								placeholder="Montant de la charge"
-							/>
-							<FSelect
-								name="frequency"
-								label="Fréquence"
-								placeholder="Fréquence de la charge"
-								options={[
-									{ label: "Mensuel", value: "Mensuel" },
-									{ label: "Annuel", value: "Annuel" },
-									{ label: "Unique", value: "Unique" },
-								]}
-							/>
-							<FText
-								name="dateDebut"
-								label="Date de début"
-								placeholder="Date de début de la charge"
-							/>
-							<FText
-								name="dateFin"
-								label="Date de fin"
-								placeholder="Date de fin de la charge"
-							/>
-							<FSelect
-								name="scenario"
-								label="Scenario"
-								placeholder="Scenario"
-								options={[
-									{ label: "Scénario 1", value: "Scenario 1" },
-									{ label: "Pas de scenario", value: "" },
-								]}
-							/>
-						</ModalBody>
-						<ModalFooter>
-							<CancelButton handleClick={() => onOpenChange()} />
-
-							<SaveButton
-								handleClick={() => {
-									methods.handleSubmit((data) => {
-										if (modifyCharge) {
-											updateCharge(modifyCharge.id, data)
-										} else {
-											createCharge(data)
-										}
-									})()
-									return onOpenChange()
-								}}
-							/>
-						</ModalFooter>
-					</ModalContent>
-				</Modal>
-			</FormProvider>
+			<ModalSchema
+				schema={chargeSchema}
+				initialData={modifyCharge}
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
+				update={updateCharge}
+				create={createCharge}
+			/>
 		</ChargesVariablesContainer>
 	)
 }

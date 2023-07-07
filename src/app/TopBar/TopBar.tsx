@@ -32,25 +32,7 @@ const TopBar = () => {
 	const router = useRouter()
 	const pathName = usePathname()
 	const ref = useRef(null)
-	// shortcut
-	useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "a") {
-				router.push("/employees")
-			}
-			if (e.key === "b") {
-				router.push("/charges_fixes")
-			}
-			if (e.key === "c") {
-				router.push("/charges_variables")
-			}
-		}
-		window.addEventListener("keydown", handleKeyDown)
 
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown)
-		}
-	}, [])
 	return (
 		<SNavbar isBordered variant="sticky">
 			<NavbarBrand>

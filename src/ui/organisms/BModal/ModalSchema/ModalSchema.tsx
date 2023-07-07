@@ -73,7 +73,6 @@ const ModalSchema = <T extends { id?: string }>({
 						<SaveButton
 							handleClick={() => {
 								methods.handleSubmit((data) => {
-									debugger
 									if (initialData?.id) {
 										update(initialData.id, data)
 									} else {

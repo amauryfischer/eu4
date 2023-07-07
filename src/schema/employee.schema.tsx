@@ -44,6 +44,28 @@ const employeeSchema: Schema = {
 				},
 			],
 		},
+		service: {
+			name: "service",
+			label: "Service",
+			type: SchemaTypes.SELECT,
+			options: [
+				{
+					value: "Service production",
+					label: "Service production",
+					alias: ["Production"],
+				},
+				{
+					value: "Service informatique",
+					label: "Service informatique",
+					alias: ["Informatique"],
+				},
+				{
+					value: "Service autre",
+					label: "Service autre",
+					alias: ["Autre"],
+				},
+			],
+		},
 		dateDebut: {
 			name: "dateDebut",
 			label: "Date de début",

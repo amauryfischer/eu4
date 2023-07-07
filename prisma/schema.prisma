@@ -11,22 +11,24 @@ datasource db {
 }
 
 model Employee {
-  id        String   @id @default(uuid())
-  nom     String
-  salaire     Int
-  type     String    @default("")
-  dateDebut     String    @default("")
-  dateFin     String    @default("")
-  scenario     String    @default("")
+  id        String @id @default(uuid())
+  nom       String
+  salaire   Int
+  type      String @default("")
+  dateDebut String @default("")
+  dateFin   String @default("")
+  scenario  String @default("")
+  service   String @default("")
 }
 
 model Charge {
-  id        String   @id @default(uuid())
-  nom     String
-  montant     Int
-  type     String    @default("")
-  frequency     String    @default("")
-  dateDebut     String    @default("")
-  dateFin     String    @default("")
-  scenario     String    @default("")
+  id        String @id @default(uuid())
+  nom       String
+  montant   Int
+  type      String @default("")
+  frequency String @default("")
+  dateDebut String @default("")
+  dateFin   String @default("")
+  scenario  String @default("")
+  service   String @default("")
 }

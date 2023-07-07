@@ -24,23 +24,26 @@ import { ColumnDef } from "@tanstack/react-table"
 import { useEffect, useMemo, useState, useCallback } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { styled } from "styled-components"
+import useCharges from "@/hooks/data/entity/use-charges.hook"
+import ModalSchema from "@/ui/organisms/BModal/ModalSchema/ModalSchema"
 
 const ChargesFixesContainer = styled.div`
 	${changePrimary("caramel")}
 `
 
-interface ChargeFixesPageProps {
-	charges: Charge[]
-}
-const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
+const ChargesFixesPage = () => {
 	const [modifyCharge, setModifyCharge] = useState<Charge | null>(null)
+	const charges = useCharges()
 	const { isOpen, onOpen, onOpenChange } = useDisclosure({
 		defaultOpen: false,
 	})
-	const { createCharge, deleteCharge, updateCharge } = useChargesActions()
+	const { createCharge, deleteCharge, updateCharge, fetchCharge } =
+		useChargesActions()
 
 	const methods = useForm<Charge>()
-
+	useEffect(() => {
+		fetchCharge()
+	}, [])
 	useEffect(() => {
 		if (modifyCharge) {
 			methods.reset(modifyCharge)
@@ -61,7 +64,7 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 		deleteCharge(charge.id)
 	}, [])
 
-	const columns = useColumnsFromSchema({
+	const columns = useColumnsFromSchema<Charge>({
 		schema: chargeSchema,
 		editable: true,
 		updateAction: updateCharge,
@@ -83,53 +86,21 @@ const ChargesFixesPage = ({ charges }: ChargeFixesPageProps) => {
 					/>
 				</div>
 				<BTable
-					data={charges}
+					data={Object.values(charges || {}).filter(
+						(charge) => charge.type === "Fixe",
+					)}
 					columns={columns}
 					onEditClick={handleEditClick}
 					onDeleteClick={handleDeleteClick}
 				/>
-
-				<FormProvider {...methods}>
-					<Modal isOpen={isOpen} onClose={onOpenChange}>
-						<ModalContent>
-							<ModalHeader>{modifyCharge ? "Edit" : "Add"} Charge</ModalHeader>
-							<ModalBody>
-								<FText name="nom" label="Nom" placeholder="Nom de la charge" />
-								<FNumber
-									name="montant"
-									label="Montant"
-									placeholder="Montant de la charge"
-								/>
-								<FSelect
-									name="frequency"
-									label="Fréquence"
-									placeholder="Fréquence de la charge"
-									options={[
-										{ label: "Mensuel", value: "Mensuel" },
-										{ label: "Annuel", value: "Annuel" },
-										{ label: "Unique", value: "Unique" },
-									]}
-								/>
-							</ModalBody>
-							<ModalFooter>
-								<CancelButton handleClick={() => onOpenChange()} />
-
-								<SaveButton
-									handleClick={() => {
-										methods.handleSubmit((data) => {
-											if (modifyCharge) {
-												updateCharge(modifyCharge.id, data)
-											} else {
-												createCharge(data)
-											}
-										})()
-										return onOpenChange()
-									}}
-								/>
-							</ModalFooter>
-						</ModalContent>
-					</Modal>
-				</FormProvider>
+				<ModalSchema
+					schema={chargeSchema}
+					initialData={modifyCharge}
+					isOpen={isOpen}
+					onOpenChange={onOpenChange}
+					update={updateCharge}
+					create={createCharge}
+				/>
 			</div>
 		</ChargesFixesContainer>
 	)

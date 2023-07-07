@@ -55,6 +55,28 @@ const chargeSchema = {
 				},
 			],
 		},
+		service: {
+			name: "service",
+			label: "Service",
+			type: SchemaTypes.SELECT,
+			options: [
+				{
+					value: "Service production",
+					label: "Service production",
+					alias: ["Production"],
+				},
+				{
+					value: "Service informatique",
+					label: "Service informatique",
+					alias: ["Informatique"],
+				},
+				{
+					value: "Service autre",
+					label: "Service autre",
+					alias: ["Autre"],
+				},
+			],
+		},
 		dateDebut: {
 			type: SchemaTypes.DATE,
 			name: "dateDebut",

@@ -15,32 +15,32 @@ const buildYupFromSchema = (schema: Schema) => {
 
 		switch (element.type) {
 			case SchemaTypes.UUID:
-				yupSchema[key] = yup.string().uuid()
+				yupSchema[key] = yup.string().uuid().default(undefined)
 				break
 			case SchemaTypes.STRING:
-				yupSchema[key] = yup.string()
+				yupSchema[key] = yup.string().default(undefined)
 				break
 			case SchemaTypes.NUMBER:
-				yupSchema[key] = yup.number()
+				yupSchema[key] = yup.number().default(undefined)
 				break
 			case SchemaTypes.DATE:
-				yupSchema[key] = yup.date()
+				yupSchema[key] = yup.date().default(undefined)
 				break
 			case SchemaTypes.BOOLEAN:
-				yupSchema[key] = yup.boolean()
+				yupSchema[key] = yup.boolean().default(undefined)
 				break
 			case SchemaTypes.SELECT:
 				// @ts-ignore
 				yupSchema[key] = element.isMulti
-					? yup.array().of(yup.string())
+					? yup.array().of(yup.string()).default(undefined)
 					: yup.string()
 				break
 			case SchemaTypes.RADIO:
-				yupSchema[key] = yup.string()
+				yupSchema[key] = yup.string().default(undefined)
 				break
 			case SchemaTypes.CHECKBOX:
 				// @ts-ignore
-				yupSchema[key] = yup.array().of(yup.string())
+				yupSchema[key] = yup.array().of(yup.string()).default(undefined)
 				break
 			default:
 				break
