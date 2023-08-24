@@ -1,7 +1,7 @@
 import { Button } from "@nextui-org/react"
 import { SButton } from "./BButton.styled"
 
-interface BButtonProps
+export interface BButtonProps
 	extends Omit<React.ComponentProps<typeof Button>, "color"> {
 	color?: string
 }

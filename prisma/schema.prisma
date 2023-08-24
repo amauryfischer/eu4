@@ -1,34 +1,79 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+model Asteroid {
+  id         String @id @default(uuid())
+  position   Json
+  positionId String
+  resources  Json
 }
 
-model Employee {
-  id        String @id @default(uuid())
-  nom       String
-  salaire   Int
-  type      String @default("")
-  dateDebut String @default("")
-  dateFin   String @default("")
-  scenario  String @default("")
-  service   String @default("")
+model Ship {
+  id      String  @id @default(uuid())
+  name    String
+  class   String
+  modules Json
+  fleetId String?
 }
 
-model Charge {
-  id        String @id @default(uuid())
-  nom       String
-  montant   Int
-  type      String @default("")
-  frequency String @default("")
-  dateDebut String @default("")
-  dateFin   String @default("")
-  scenario  String @default("")
-  service   String @default("")
+enum TaskType {
+  COLLECT_ASTEROIDS
+  RESEARCH
+  CONSTRUCT_SHIP
+  CONSTRUCT_BUILDING
+  COLLECT_RESOURCES
+  CONSTRUCT_MODULE
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  type      TaskType
+  endDate   DateTime
+  details   Json
+  createdAt DateTime @default(now())
+  userId    String
+}
+
+model Fleet {
+  id             String  @id @default(uuid())
+  name           String
+  systemPosition Json
+  cargo          Json
+  resourcesId    String
+  userId         String?
+}
+
+model Pirate {
+  id       String @id @default(uuid())
+  name     String
+  level    Int
+  position Json
+}
+
+model Planet {
+  id        String  @id @default(uuid())
+  name      String
+  type      String
+  position  Json
+  userId    String?
+  resources Json
+  lastSync  String?
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  username  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

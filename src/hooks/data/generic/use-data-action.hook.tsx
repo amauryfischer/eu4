@@ -20,8 +20,10 @@ const useFetchDataAction = (type: Prisma.ModelName) => {
 	const fetchDataAction = async () => {
 		startTransition(() => {
 			const fetchServer = async () => {
+				console.log("Fetching", type)
 				const data = await fetchServerData(type)
-				dispatch(setData({ type, dataId: data.id, data }))
+				console.log("Fetched", data)
+				dispatch(setData({ type, dataId: data?.id, data }))
 			}
 			fetchServer()
 		})

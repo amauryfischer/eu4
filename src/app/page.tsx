@@ -1,3 +1,4 @@
+"use client"
 import App from "./App"
 
 const Page = () => {

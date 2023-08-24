@@ -6,7 +6,7 @@ interface FTextProps {
 	placeholder?: string
 	name: string
 	autoFocus?: boolean
-	size?: "xs" | "sm" | "md" | "lg" | "xl"
+	size?: "sm" | "md" | "lg"
 }
 
 const FText = ({

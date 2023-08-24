@@ -17,7 +17,7 @@ const CancelIconButton = ({
 			<BButton
 				onClick={handleClick}
 				color="red"
-				startIcon={
+				startContent={
 					<Cancel color="red" isHovering={isHovering} strokeWidth="1.2rem" />
 				}
 				variant="bordered"

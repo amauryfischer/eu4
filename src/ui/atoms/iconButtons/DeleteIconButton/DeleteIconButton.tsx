@@ -19,7 +19,7 @@ const DeleteIconButton = ({
 				onPress={handleClick}
 				color="red"
 				variant="shadow"
-				startIcon={<Delete color="white" isHovering={isHovering} />}
+				startContent={<Delete color="white" isHovering={isHovering} />}
 				isIconOnly
 			>
 				{children}

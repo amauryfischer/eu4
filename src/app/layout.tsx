@@ -1,6 +1,5 @@
 "use client"
 import { Inter } from "next/font/google"
-import TopBar from "./TopBar/TopBar"
 import "./globals.css"
 import GlobalStyle from "@/ui/fondations/GlobalStyle"
 import { Provider } from "react-redux"
@@ -24,7 +23,6 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<NextUIProvider>
 					<Provider store={store}>
-						<TopBar />
 						<GlobalStyle />
 						<>{children}</>
 					</Provider>

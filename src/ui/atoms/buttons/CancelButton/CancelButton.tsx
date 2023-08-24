@@ -1,17 +1,11 @@
-import Add from "@/ui/fondations/icons/Add"
-import BButton from "../BButton/BButton"
-import { useHover, useHoverDirty } from "react-use"
 import { useRef } from "react"
-import { Button } from "@nextui-org/react"
-interface CancelButtonProps {
-	handleClick: () => void
-}
+import BButton, { BButtonProps } from "../BButton/BButton"
 
-const CancelButton = ({ handleClick }: CancelButtonProps) => {
+const CancelButton = (props: BButtonProps) => {
 	const ref = useRef(null)
 	return (
 		<div ref={ref}>
-			<BButton onPress={handleClick} color="default" variant="light">
+			<BButton color="default" variant="light" {...props}>
 				Annuler
 			</BButton>
 		</div>

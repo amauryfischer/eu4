@@ -17,7 +17,7 @@ const SaveIconButton = ({
 			<BButton
 				onClick={handleClick}
 				color="emerald"
-				startIcon={
+				startContent={
 					<Save color="white" isHovering={isHovering} strokeWidth="1.2rem" />
 				}
 				variant="shadow"

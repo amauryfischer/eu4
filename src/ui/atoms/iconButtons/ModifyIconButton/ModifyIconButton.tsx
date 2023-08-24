@@ -17,7 +17,7 @@ const ModifyIconButton = ({
 			<BButton
 				onClick={handleClick}
 				color="grey200"
-				startIcon={
+				startContent={
 					<Edit
 						color="primary500"
 						isHovering={isHovering}

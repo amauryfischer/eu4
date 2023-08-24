@@ -1,0 +1,44 @@
+import db from "@/app/db"
+
+export const generateInitialValues = async () => {
+	const types = [
+		"atmo",
+		"ceres",
+		"earth",
+		"eris",
+		"fictio",
+		"haumea",
+		"jupiter",
+		"mars",
+		"mercury",
+		"moon",
+		"neptune",
+		"saturn",
+		"uranus",
+		"venus",
+	]
+
+	// 7 random planets
+	const array = [1, 2, 3, 4, 5, 6, 7]
+	const promises = array.map(async (arEl) => {
+		const randomType = types[Math.floor(Math.random() * types.length)]
+		console.log("generating a planet of type", randomType)
+		await db.planet.create({
+			data: {
+				name: randomType.charAt(0).toUpperCase() + randomType.slice(1),
+				position: {
+					system: 1237,
+					systemPosition: {
+						x: Math.floor(Math.random() * 100) - 50,
+						y: Math.floor(Math.random() * 100) - 50,
+						z: Math.floor(Math.random() * 100) - 50,
+					},
+				},
+				resources: {},
+				type: randomType,
+				userId: arEl === 1 ? "1" : undefined,
+			},
+		})
+	})
+	await Promise.all(promises)
+}

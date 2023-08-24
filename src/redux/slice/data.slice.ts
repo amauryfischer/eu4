@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ReducerState {
-  data: {
+  entity: {
     [key: string]: { [key: string]: any };
   };
-  lastSyncDate: Record<string, Date>;
+  lastSyncDate: Record<string, String>;
 }
 
 export const dynamicSlice = createSlice({
   name: 'dynamic',
   initialState: {
-    data: {},
-    lastSyncDate: {} as Record<string, Date>,
+    entity: {},
+    lastSyncDate: {} as Record<string, String>,
   } as ReducerState,
   reducers: {
     setData: (
@@ -19,15 +19,15 @@ export const dynamicSlice = createSlice({
       action: PayloadAction<{ type: string; dataId: string; data: any }>
     ) => {
       const { type,  data } = action.payload;
-      data.forEach((item: any) => {
-        state.data[type] = {
-          ...state.data[type],
+      (data ?? []).forEach((item: any) => {
+        state.entity[type] = {
+          ...state.entity[type],
           [item.id]: item,
         };
       });
       state.lastSyncDate = {
         ...state.lastSyncDate,
-        [type]: new Date(),
+        [type]: new Date().toISOString(),
       };
     },
     addData: (
@@ -35,8 +35,8 @@ export const dynamicSlice = createSlice({
       action: PayloadAction<{ type: string; dataId: string; data: any }>
     ) => {
       const { type, dataId, data } = action.payload;
-      state.data[type] = {
-        ...state.data[type],
+      state.entity[type] = {
+        ...state.entity[type],
         [dataId]: data,
       };
     },
@@ -45,10 +45,10 @@ export const dynamicSlice = createSlice({
       action: PayloadAction<{ type: string; dataId: string; data: any }>
     ) => {
       const { type, dataId, data } = action.payload;
-      state.data[type] = {
-        ...state.data[type],
+      state.entity[type] = {
+        ...state.entity[type],
         [dataId]: {
-          ...state.data[type][dataId],
+          ...state.entity[type][dataId],
           ...data,
         },
       };
@@ -58,7 +58,7 @@ export const dynamicSlice = createSlice({
       action: PayloadAction<{ type: string; dataId: string }>
     ) => {
       const { type, dataId } = action.payload;
-      delete state.data[type][dataId];
+      delete state.entity[type][dataId];
     },
   },
 });

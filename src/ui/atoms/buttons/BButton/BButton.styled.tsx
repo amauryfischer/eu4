@@ -1,6 +1,7 @@
 import colored from "@/utils/colored"
 import { Button } from "@nextui-org/react"
 import { css, styled } from "styled-components"
+import { BButtonProps } from "./BButton"
 
 interface SButtonProps
 	extends Omit<React.ComponentProps<typeof Button>, "color"> {
@@ -12,7 +13,9 @@ export const SButton = colored(styled(
 		<Button {...otherProps}>{otherProps.children}</Button>
 	),
 )`
-    
+    &:hover {
+		transform: scale(1.05);
+	}
 	${({ variant }: any) => {
 		if (variant === "bordered") {
 			return css`
