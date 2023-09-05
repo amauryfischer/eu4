@@ -22,6 +22,7 @@ import Flex from "@/ui/atoms/Flex/Flex"
 import ModalPlanet from "./universe/ModalPlanet"
 import ModalFleet from "./universe/ModalFLeet"
 import ModalAsteroid from "./universe/ModalAsteroid"
+import ModalSendPosition from "./universe/ModalSendPosition"
 
 const RoutesContainer = styled.div`
   margin-top: 3rem;
@@ -78,6 +79,7 @@ const AppRouter = ({ children }: AppRouterProps) => {
 				</Flex>
 				<ModalPlanet />
 				<ModalFleet />
+				<ModalSendPosition />
 			</RoutesContainer>
 		</BrowserRouter>
 	)

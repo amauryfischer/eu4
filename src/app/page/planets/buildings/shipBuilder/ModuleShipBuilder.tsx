@@ -1,4 +1,6 @@
 import Flex from "@/ui/atoms/Flex"
+import AddButton from "@/ui/atoms/buttons/AddButton"
+import MinusButton from "@/ui/atoms/buttons/MinusButton"
 import AddIcon from "@mui/icons-material/Add"
 import RemoveIcon from "@mui/icons-material/Remove"
 import { IconButton } from "@mui/material"
@@ -35,18 +37,16 @@ const ModuleShipBuilder = ({
 			<img src={module.img} alt={module.name} width="60px" />
 			<p>{module.name}</p>
 			<i>{module.description}</i>
-			<Flex gap="1rem" alignItems="center">
-				<StyledIconButton
-					onClick={() => {
+			<Flex gap="1rem" alignItems="center" direction="row-reverse">
+				<AddButton
+					onPress={() => {
 						setSelectedModules([...selectedModules, module])
 					}}
-				>
-					<StyledAddIcon />
-				</StyledIconButton>
+					color="primary"
+				/>
 				<div>{countNumberOfModules}</div>
-				<StyledIconButton
-					disabled={countNumberOfModules === 0}
-					onClick={() => {
+				<MinusButton
+					onPress={() => {
 						let hasBeenRemoved = false
 						const result = [] as any
 						selectedModules.forEach((m: any) => {
@@ -59,9 +59,8 @@ const ModuleShipBuilder = ({
 						})
 						setSelectedModules(result)
 					}}
-				>
-					<StyledRemoveIcon />
-				</StyledIconButton>
+					color="primary"
+				/>
 			</Flex>
 		</Container>
 	)

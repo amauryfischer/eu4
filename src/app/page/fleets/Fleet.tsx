@@ -12,10 +12,10 @@ const Fleet = ({}) => {
 		<Flex direction="column" gap="2rem">
 			{Object.values(fleets).map((fleet: IFleet) => (
 				<Flex justifyContent="space-between" key={fleet.id}>
-					<div>{fleet.data.name}</div>
+					<div>{fleet.name}</div>
 					<BButton
-						variant="outlined"
-						$color="yellow"
+						variant="bordered"
+						color="primary"
 						onClick={() => {
 							navigate(`/fleets/manager/${fleet.id}`)
 						}}

@@ -27,7 +27,7 @@ import Flex from "@/ui/atoms/Flex/Flex"
 import BButton from "@/ui/atoms/buttons/BButton/BButton"
 import DisplaySingleResource from "../../resources/DisplaySingleResource/DisplaySingleResource"
 import Sell from "@/ui/fondations/icons/Sell"
-import BuyButton from "@/ui/atoms/iconButtons/BuyButton"
+import BuyIconButton from "@/ui/atoms/iconButtons/BuyIconButton"
 
 const ShipCard = ({
 	ship,
@@ -180,7 +180,7 @@ const ShipCard = ({
 								),
 							)}
 						</DisplayResourcesContainer>
-						<BuyButton
+						<BuyIconButton
 							onPress={onClick}
 							color={
 								{
@@ -190,7 +190,7 @@ const ShipCard = ({
 									3: "purple",
 								}[version]
 							}
-						></BuyButton>
+						></BuyIconButton>
 					</Flex>
 				</ExtendedCard>
 			</Flex>

@@ -15,7 +15,7 @@ import Inventory2Icon from "@mui/icons-material/Inventory2"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import SecurityIcon from "@mui/icons-material/Security"
-import { Avatar, Input, Tab, Tabs } from "@nextui-org/react"
+import { Avatar, Input, Spacer, Tab, Tabs } from "@nextui-org/react"
 import ResourcesService, {
 	ALUMINUM,
 	AZOTE,
@@ -243,12 +243,13 @@ const ShipBuilder = ({}) => {
 							color="primary"
 							startContent={<BuildIcon />}
 							disabled={modulesEmplacement > currentShipClass.emplacement}
-							onClick={onSubmit}
+							onPress={onSubmit}
 						>
 							Créer
 						</BButton>
 					</Flex>
 				</Flex>
+				<Spacer y={6} />
 				<Tabs>
 					{[
 						{ label: "Moteurs", type: IModuleType.ENGINE },
@@ -258,7 +259,7 @@ const ShipBuilder = ({}) => {
 						{ label: "Autre", type: IModuleType.OTHER },
 					].map((category) => {
 						return (
-							<Tab key={category.label}>
+							<Tab key={category.label} title={category.label}>
 								{modules
 									.filter((m) => m.type === category.type)
 									.map((module) => (

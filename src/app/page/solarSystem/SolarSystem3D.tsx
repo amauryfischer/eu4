@@ -1,9 +1,14 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
-import React, { Suspense, useEffect, useState } from "react"
+import React, { Suspense, useEffect } from "react"
 import { useParams } from "react-router-dom"
 // @ts-ignore
-import { useDispatch } from "react-redux"
+import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
+import useAsteroids from "@/hooks/data/entity/use-asteroid.hook"
+import useFleets from "@/hooks/data/entity/use-fleets.hook"
+import usePirates from "@/hooks/data/entity/use-pirates.hook"
+import usePlanets from "@/hooks/data/entity/use-planets.hook"
+import useShips from "@/hooks/data/entity/use-ships.hook"
 import {
 	setCurrentAsteroid,
 	setCurrentFleet,
@@ -11,21 +16,8 @@ import {
 	setCurrentPlanet,
 } from "@/redux/slice/current.slice"
 import ShipService from "@/services/ShipService"
+import { useDispatch } from "react-redux"
 import Image3D from "./Image3D"
-import { IFleet } from "@/type/data/IFleet"
-import { IPlanet } from "@/type/data/IPlanet"
-import IAsteroid from "@/type/data/IAsteroid"
-import IPirate from "@/type/data/IPirate"
-import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
-import useShipsActions from "@/hooks/data/actions/use-ships-actions.hook"
-import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
-import useAsteroidsActions from "@/hooks/data/actions/use-asteroids-actions.hook"
-import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
-import useShips from "@/hooks/data/entity/use-ships.hook"
-import useFleets from "@/hooks/data/entity/use-fleets.hook"
-import usePlanets from "@/hooks/data/entity/use-planets.hook"
-import useAsteroids from "@/hooks/data/entity/use-asteroid.hook"
-import usePirates from "@/hooks/data/entity/use-pirates.hook"
 
 const SolarSystem3D = () => {
 	const { id } = useParams<string>()
@@ -94,9 +86,9 @@ const SolarSystem3D = () => {
 					/>
 				</mesh>
 				{(Object.values(fleets) ?? []).map((fleet) => {
-					const { x, y, z } = fleet.data.position.systemPosition
-					if (fleet.data.position.system !== id) return null
-					const shipId = fleet.data.shipIds[0]
+					const { x, y, z } = fleet.position.systemPosition
+					if (fleet.position.system !== id) return null
+					const shipId = fleet.shipIds[0]
 					return (
 						<Suspense fallback={null} key={fleet.id}>
 							<Image3D

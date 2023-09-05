@@ -32,7 +32,7 @@ export const currentSlice = createSlice({
     },
     setCurrentSendPosition: (
       state,
-      { payload: sendPosition }: { payload: IPosition },
+      { payload: sendPosition }: { payload: IPosition | undefined },
     ) => {
         // @ts-ignore
       state.sendPosition = sendPosition

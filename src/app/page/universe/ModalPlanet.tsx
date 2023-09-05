@@ -22,6 +22,7 @@ import {
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import Flex from "@/ui/atoms/Flex"
+import ListFleet from "@/ui/organisms/ListFleet"
 
 const CanvasContainer = styled.div`
   width: 300px;
@@ -85,7 +86,7 @@ const ModalPlanet = () => {
 								</ul>
 							</div>
 						</Flex>
-						{/**<ListFleet fleets={filteredFleets} />**/}
+						<ListFleet fleets={filteredFleets} />
 					</ModalBody>
 					<ModalFooter>
 						<SendFleetButton

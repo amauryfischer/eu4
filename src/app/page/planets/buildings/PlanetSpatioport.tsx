@@ -17,14 +17,14 @@ import IShip from "@/type/data/IShip"
 import { IFleet } from "@/type/data/IFleet"
 
 const StyledCheckbox = styled(Checkbox)`
-  color: yellow !important;
+  color: var(--primary) !important;
 `
 const ClickableShipContainer = styled.div`
   cursor: pointer;
 `
 
 const YellowText = styled.span`
-  color: yellow !important;
+  color: var(--primary) !important;
 `
 
 const PlanetSpatioport = ({}) => {
@@ -62,6 +62,7 @@ const PlanetSpatioport = ({}) => {
 			name: fleetName,
 			shipIds: selectedShips,
 			position: planet.position,
+			cargo: {},
 		})
 		setFleetName("")
 		setSelectedShips([])
@@ -79,7 +80,7 @@ const PlanetSpatioport = ({}) => {
 						value={fleetName}
 						onChange={(e) => setFleetName(e.target.value)}
 					/>
-					<BButton variant="outlined" $color="yellow" onClick={onCreateFleet}>
+					<BButton variant="bordered" color="primary" onPress={onCreateFleet}>
 						Créer une flotte
 					</BButton>
 				</Flex>
@@ -87,7 +88,7 @@ const PlanetSpatioport = ({}) => {
 			{Object.values(ships).map((ship: IShip) => {
 				if (
 					Object.values(fleets).some((fleet: IFleet) =>
-						fleet.data?.shipIds?.includes(ship.id),
+						fleet?.shipIds?.includes(ship.id),
 					)
 				) {
 					return null

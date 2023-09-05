@@ -63,9 +63,13 @@ const PlanetMain = ({}) => {
 				>
 					Université
 				</BButton>
-				<Link to={`/planets/${planetId}/spatioport`}>
-					<BButton>Spatioport</BButton>
-				</Link>
+				<BButton
+					onClick={() => {
+						navigate(`/planets/${planetId}/spatioport`)
+					}}
+				>
+					Spatioport
+				</BButton>
 				<Link to={`/fleets/list`}>
 					<BButton>Fleets</BButton>
 				</Link>

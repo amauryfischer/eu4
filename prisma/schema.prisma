@@ -44,12 +44,12 @@ model Task {
 }
 
 model Fleet {
-  id             String  @id @default(uuid())
-  name           String
-  systemPosition Json
-  cargo          Json
-  resourcesId    String
-  userId         String?
+  id       String   @id @default(uuid())
+  name     String
+  userId   String?
+  shipIds  String[]
+  position Json
+  cargo    Json
 }
 
 model Pirate {
