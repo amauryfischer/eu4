@@ -13,7 +13,6 @@ generator client {
 model Asteroid {
   id         String @id @default(uuid())
   position   Json
-  positionId String
   resources  Json
 }
 

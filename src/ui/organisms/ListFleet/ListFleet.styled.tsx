@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
-export const FleetGridContainer = styled.div`
+export const FleetGridContainer = styled.div<{ numberOfRows: number }>`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-column-gap: 2rem;
+    grid-template-columns: repeat(${({ numberOfRows }) => numberOfRows}, 1fr);
+    grid-gap: .5rem;
 `

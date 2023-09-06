@@ -87,8 +87,13 @@ const SolarSystem3D = () => {
 				</mesh>
 				{(Object.values(fleets) ?? []).map((fleet) => {
 					const { x, y, z } = fleet.position.systemPosition
-					if (fleet.position.system !== id) return null
+					if (fleet.position.system != id) return null
 					const shipId = fleet.shipIds[0]
+					const allShips = ShipService.getAllShips()
+					const ship = ships?.[shipId]
+					if (!ship) {
+						return null
+					}
 					return (
 						<Suspense fallback={null} key={fleet.id}>
 							<Image3D
@@ -123,9 +128,9 @@ const SolarSystem3D = () => {
 					)
 				})}
 				{(Object.values(asteroids) ?? []).map((asteroid) => {
-					const { x, y, z } = asteroid.data.position.systemPosition
+					const { x, y, z } = asteroid.position.systemPosition
 
-					if (asteroid.data.position.system !== id) return null
+					if (asteroid.position.system != id) return null
 					return (
 						<Suspense fallback={null} key={asteroid.id}>
 							<Image3D
@@ -140,8 +145,8 @@ const SolarSystem3D = () => {
 					)
 				})}
 				{(Object.values(pirates ?? {}) ?? []).map((pirate) => {
-					const { x, y, z } = pirate.data.position.systemPosition
-					if (pirate.data.position.system !== id) return null
+					const { x, y, z } = pirate.position.systemPosition
+					if (pirate.position.system != id) return null
 
 					return (
 						<Suspense fallback={null} key={pirate.id}>

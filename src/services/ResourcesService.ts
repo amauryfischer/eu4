@@ -58,9 +58,9 @@ const getAllResources: () => Record<RESOURCE_TYPES, IResource> = () => {
   }
 }
 
-const renderResources = (value) => {
+const renderResources = (value: number) => {
   if (value < 1_000) {
-    return value
+    return Math.floor(value).toString()
   }
   if (value < 1_000_000) {
     return `${(value / 1_000).toFixed(2)}k`

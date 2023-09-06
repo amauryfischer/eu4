@@ -93,6 +93,7 @@ const ModalPlanet = () => {
 							onPress={() => {
 								dispatch(setCurrentSendPosition(currentPlanet.position))
 							}}
+							title="Envoyer une flotte"
 						/>
 						<CloseElementButton
 							onPress={() => dispatch(setCurrentPlanet(undefined))}

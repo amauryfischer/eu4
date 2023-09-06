@@ -1,21 +1,32 @@
-import styled from "styled-components"
-import React, { Suspense } from "react"
+import useCurrentPirate from "@/hooks/current/use-current-pirate.hook"
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material"
-import Flex from "styles/Flex"
-import { Canvas } from "@react-three/fiber"
-import { useDispatch } from "react-redux"
-import Image3D from "../solarSystem/Image3D"
+	setCurrentPirate,
+	setCurrentSendPosition,
+} from "@/redux/slice/current.slice"
+import Flex from "@/ui/atoms/Flex"
+import BButton from "@/ui/atoms/buttons/BButton"
+import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
+import { Dialog } from "@mui/material"
+import {
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	Spacer,
+} from "@nextui-org/react"
 import { OrbitControls } from "@react-three/drei"
-import { setCurrentPirate } from "reducer/current/currentReducer"
-import useCurrentPirate from "hooks/currentData/useCurrentPirate"
-import SButton from "styles/SButton"
-import Modal from "components/organisms/Modal"
-import StandardButton from "components/molecules/Buttons/StandardButton"
+import { Canvas } from "@react-three/fiber"
+import { Suspense } from "react"
+import { useDispatch } from "react-redux"
+import styled from "styled-components"
+import Image3D from "../solarSystem/Image3D"
+import ListFleet from "@/ui/organisms/ListFleet"
+import useFleetsOnPosition from "@/hooks/data/entity/use-fleets-on-position.hook"
+import { IFleet } from "@/type/data/IFleet"
+import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
+import AttackButton from "@/ui/atoms/buttons/AttackButton"
+
 const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
     background-color: var(--grey800) !important;
@@ -30,70 +41,83 @@ const CanvasContainer = styled.div`
 `
 
 const ModalPirate = () => {
-  const dispatch = useDispatch()
-  const pirate = useCurrentPirate()
-
-  if (!pirate) {
-    return null
-  }
-  return (
-    <>
-      <Modal
-        open={!!pirate}
-        title={pirate.data.name ?? "Pirate"}
-        toggle={() => dispatch(setCurrentPirate(null))}
-        childrenActions={
-          <StandardButton.CloseElement
-            onClick={() => {
-              dispatch(setCurrentPirate(null))
-            }}
-          />
-        }
-      >
-        <Flex direction="column" alignItems="start" fullWidth>
-          <CanvasContainer>
-            <Canvas>
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
-              <Suspense fallback={null}>
-                <Image3D
-                  sizeMultiplier={3}
-                  position={[0, 0, 0]}
-                  imageUrl={`/images/other/pirate.png`}
-                />
-              </Suspense>
-              <OrbitControls
-                enableZoom={true}
-                makeDefault
-                autoRotate
-                autoRotateSpeed={1}
-              />
-            </Canvas>
-          </CanvasContainer>
-          <div>
-            <h2>Coordonnées</h2>
-            <ul>
-              <li>
-                {pirate.data.position.system}
-                {":"}
-                {pirate.data.position.systemPosition.x}
-                {":"}
-                {pirate.data.position.systemPosition.y}
-                {":"}
-                {pirate.data.position.systemPosition.z}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h2>Actions</h2>
-            <SButton $color="red" onClick={() => {}}>
-              Attaquer
-            </SButton>
-          </div>
-        </Flex>
-      </Modal>
-    </>
-  )
+	const dispatch = useDispatch()
+	const pirate = useCurrentPirate()
+	const fleets = useFleetsOnPosition(pirate?.position)
+	if (!pirate) {
+		return null
+	}
+	return (
+		<>
+			<Modal
+				size="5xl"
+				isOpen={!!pirate}
+				onOpenChange={() => dispatch(setCurrentPirate(undefined))}
+			>
+				<ModalContent>
+					<ModalHeader>{pirate.name ?? "Pirate"}</ModalHeader>
+					<ModalBody>
+						<Flex direction="column" alignItems="start" fullWidth>
+							<Flex>
+								<CanvasContainer>
+									<Canvas>
+										<ambientLight />
+										<pointLight position={[10, 10, 10]} />
+										<Suspense fallback={null}>
+											<Image3D
+												sizeMultiplier={3}
+												position={[0, 0, 0]}
+												imageUrl={`/images/other/pirate.png`}
+											/>
+										</Suspense>
+										<OrbitControls
+											enableZoom={true}
+											makeDefault
+											autoRotate
+											autoRotateSpeed={1}
+										/>
+									</Canvas>
+								</CanvasContainer>
+								<div>
+									<ul>
+										<li>
+											{pirate.position.system}
+											{":"}
+											{pirate.position.systemPosition.x}
+											{":"}
+											{pirate.position.systemPosition.y}
+											{":"}
+											{pirate.position.systemPosition.z}
+										</li>
+									</ul>
+								</div>
+							</Flex>
+							<Spacer y={12} />
+							<ListFleet
+								fleets={fleets}
+								additionalRows={(fleet: IFleet) => (
+									<AttackButton onClick={() => {}} title="Attaquer" />
+								)}
+							/>
+						</Flex>
+					</ModalBody>
+					<ModalFooter>
+						<SendFleetButton
+							onClick={() => {
+								dispatch(setCurrentSendPosition(pirate.position))
+							}}
+							title="Envoyer une flotte"
+						/>
+						<CloseElementButton
+							onClick={() => {
+								dispatch(setCurrentPirate(undefined))
+							}}
+						/>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+		</>
+	)
 }
 
 export default ModalPirate

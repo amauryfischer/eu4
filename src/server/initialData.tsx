@@ -17,6 +17,16 @@ export const generateInitialValues = async () => {
 		"uranus",
 		"venus",
 	]
+	const available_resources = [
+		"Titane",
+		"Cuivre",
+		"Fer",
+		"Azote",
+		"Uranium",
+		"Silicium",
+		"Hydrogène",
+		"Aluminium",
+	]
 
 	// 7 random planets
 	const array = [1, 2, 3, 4, 5, 6, 7]
@@ -37,6 +47,39 @@ export const generateInitialValues = async () => {
 				resources: {},
 				type: randomType,
 				userId: arEl === 1 ? "1" : undefined,
+			},
+		})
+
+		const asteroidResources = {}
+		available_resources.forEach((el) => {
+			asteroidResources[el] = Math.floor(Math.random() * 100000)
+		})
+		await db.asteroid.create({
+			data: {
+				position: {
+					system: 1237,
+					systemPosition: {
+						x: Math.floor(Math.random() * 100) - 50,
+						y: Math.floor(Math.random() * 100) - 50,
+						z: Math.floor(Math.random() * 100) - 50,
+					},
+				},
+				resources: asteroidResources,
+			},
+		})
+
+		await db.pirate.create({
+			data: {
+				position: {
+					system: 1237,
+					systemPosition: {
+						x: Math.floor(Math.random() * 100) - 50,
+						y: Math.floor(Math.random() * 100) - 50,
+						z: Math.floor(Math.random() * 100) - 50,
+					},
+				},
+				name: "Pirate " + Math.floor(Math.random() * 100).toString(),
+				level: Math.floor(Math.random() * 100),
 			},
 		})
 	})

@@ -6,6 +6,7 @@ import styled from "styled-components"
 import {
 	Avatar,
 	AvatarGroup,
+	Input,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -32,6 +33,7 @@ import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
 import useFleets from "@/hooks/data/entity/use-fleets.hook"
 import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
+import RenderResources from "@/ui/organisms/RenderResources"
 
 const GridContainer = styled.div`
   display: grid;
@@ -49,6 +51,7 @@ const ModalFleet = () => {
 	const dispatch = useDispatch()
 	const fetParcels = useParcelsActions()
 	const ships = useShips()
+	console.log(ships)
 	const [isOpeningSoute, setIsOpeningSoute] = useState(false)
 	const [newResourcesValue, setNewResourcesValue] = useState(
 		currentFleet?.cargo,
@@ -148,6 +151,10 @@ const ModalFleet = () => {
 			planet.position.systemPosition.z.toString() === z.toString(),
 	)
 
+	if (!currentFleet) {
+		return null
+	}
+
 	return (
 		<>
 			<Modal
@@ -168,57 +175,94 @@ const ModalFleet = () => {
 						</Flex>
 					</ModalHeader>
 					<ModalBody>
-						{!isOpeningSoute &&
-							Object.values(ResourcesService.getAllResources()).map(
-								(resource) => (
-									<Flex key={resource.name} gap="1rem">
-										<img src={resource.img} width={25} height={25} />
-										<div>{resource.name}</div>
-										<div>
-											{ResourcesService.renderResources(
-												currentFleet?.cargo?.[resource.name] ?? 0,
-											)}
-										</div>
-									</Flex>
-								),
-							)}
-
+						<Flex gap="1rem">
+							<Flex direction="column" gap="1rem">
+								{shipImgs.map((img, index) => (
+									<img src={img} width={500} height="auto" />
+								))}
+							</Flex>
+							<Flex direction="column">
+								{!isOpeningSoute && (
+									<RenderResources resources={currentFleet?.cargo} />
+								)}
+								<Flex gap="0.5rem">
+									<Input
+										value={system?.toString()}
+										onValueChange={(e) => setSystem(e)}
+										type="number"
+									/>
+									<Input
+										value={x?.toString()}
+										onValueChange={(e) => setX(Number(e))}
+										type="number"
+									/>
+									<Input
+										value={y?.toString()}
+										onValueChange={(e) => setY(Number(e))}
+										type="number"
+									/>
+									<Input
+										value={z?.toString()}
+										onValueChange={(e) => setZ(Number(e))}
+										type="number"
+									/>
+									<BButton
+										variant="bordered"
+										color="emerald600"
+										onClick={() => {
+											moveFleet()
+											dispatch(setCurrentFleet(undefined))
+										}}
+										disabled={
+											system === currentFleet?.position?.system &&
+											x === currentFleet?.position?.systemPosition?.x &&
+											y === currentFleet?.position?.systemPosition?.y &&
+											z === currentFleet?.position?.systemPosition?.z
+										}
+									>
+										Déplacer
+									</BButton>
+								</Flex>
+							</Flex>
+						</Flex>
 						{remainingPlanet.length > 0 && isOpeningSoute && (
 							<Flex direction="column">
 								<h2>Resources</h2>
-								<BButton
-									variant="bordered"
-									color="emerald"
-									onClick={() => {
-										const newResources = {} as Record<RESOURCE_TYPES, number>
-										Object.values(ResourcesService.getAllResources()).forEach(
-											(resource) => {
-												const maxResource =
-													(remainingPlanet[0].resources?.[resource?.name] ??
-														0) + (currentFleet?.cargo?.[resource?.name] ?? 0)
-												newResources[resource?.name] = maxResource
-											},
-										)
-										setNewResourcesValue(newResources)
-									}}
-								>
-									Remplir tout
-								</BButton>
-								<BButton
-									variant="bordered"
-									color="red"
-									onClick={() => {
-										const newResources = {} as Record<RESOURCE_TYPES, number>
-										Object.values(ResourcesService.getAllResources()).forEach(
-											(resource) => {
-												newResources[resource?.name] = 0
-											},
-										)
-										setNewResourcesValue(newResources)
-									}}
-								>
-									Vider tout
-								</BButton>
+								<Flex>
+									<BButton
+										variant="bordered"
+										color="emerald"
+										onClick={() => {
+											const newResources = {} as Record<RESOURCE_TYPES, number>
+											Object.values(ResourcesService.getAllResources()).forEach(
+												(resource) => {
+													const maxResource =
+														(remainingPlanet[0].resources?.[resource?.name] ??
+															0) + (currentFleet?.cargo?.[resource?.name] ?? 0)
+													newResources[resource?.name] = maxResource
+												},
+											)
+											setNewResourcesValue(newResources)
+										}}
+									>
+										Remplir tout
+									</BButton>
+									<BButton
+										variant="bordered"
+										color="red"
+										onClick={() => {
+											const newResources = {} as Record<RESOURCE_TYPES, number>
+											Object.values(ResourcesService.getAllResources()).forEach(
+												(resource) => {
+													newResources[resource?.name] = 0
+												},
+											)
+											setNewResourcesValue(newResources)
+										}}
+									>
+										Vider tout
+									</BButton>
+								</Flex>
 								<GridContainer>
 									<div />
 									<div />
@@ -239,7 +283,7 @@ const ModalFleet = () => {
 													/>
 													<div>{resource.name}</div>
 													<input
-														value={String(
+														value={ResourcesService.renderResources(
 															newResourcesValue?.[resource?.name] ?? 0,
 														)}
 														onChange={(e) => {
@@ -259,7 +303,7 @@ const ModalFleet = () => {
 													/>
 													<SButton
 														variant="outlined"
-														$color="emerald"
+														$color="emerald800"
 														magnetic={false}
 														onClick={() => {
 															// @ts-ignore
@@ -286,12 +330,12 @@ const ModalFleet = () => {
 														max={maxResource}
 													/>
 													<div>
-														{(
+														{ResourcesService.renderResources(
 															(remainingPlanet[0].resources?.[resource?.name] ??
 																0) -
-															(newResourcesValue?.[resource?.name] ?? 0) +
-															(currentFleet?.cargo?.[resource?.name] ?? 0)
-														).toString()}
+																(newResourcesValue?.[resource?.name] ?? 0) +
+																(currentFleet?.cargo?.[resource?.name] ?? 0),
+														)}
 													</div>
 												</React.Fragment>
 											)
@@ -307,27 +351,17 @@ const ModalFleet = () => {
 							{!isOpeningSoute && (
 								<>
 									{remainingPlanet.length > 0 && (
-										<SButton
-											variant="outlined"
-											$color="cyan"
+										<BButton
+											variant="bordered"
+											color="cyan"
 											onClick={() => {
 												setIsOpeningSoute(true)
 											}}
-											magnetic={false}
 										>
 											Remplir la soute
-										</SButton>
+										</BButton>
 									)}
 
-									<BButton
-										color="emerald"
-										onClick={() => {
-											moveFleet()
-											dispatch(setCurrentFleet(undefined))
-										}}
-									>
-										Confirmer
-									</BButton>
 									<CloseElementButton
 										onPress={() => dispatch(setCurrentFleet(undefined))}
 									/>
@@ -336,21 +370,24 @@ const ModalFleet = () => {
 							{isOpeningSoute && (
 								<>
 									<BButton
+										variant="bordered"
 										onClick={() => {
 											setIsOpeningSoute(false)
 											setNewResourcesValue(currentFleet?.cargo)
 										}}
-									/>
-									<SButton
-										variant="outlined"
-										$color="emerald"
+									>
+										Annuler
+									</BButton>
+									<BButton
+										variant="solid"
+										color="emerald600"
 										onClick={() => {
 											submitTransferCargo()
 											setIsOpeningSoute(false)
 										}}
 									>
 										Confirmer
-									</SButton>
+									</BButton>
 								</>
 							)}
 						</>

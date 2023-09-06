@@ -5,6 +5,8 @@ import useShips from "@/hooks/data/entity/use-ships.hook"
 import { setCurrentSendPosition } from "@/redux/slice/current.slice"
 import ShipService from "@/services/ShipService"
 import BButton from "@/ui/atoms/buttons/BButton"
+import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
+import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import { Dialog } from "@mui/material"
 import {
 	Modal,
@@ -69,8 +71,7 @@ const ModalSendPosition = () => {
 										{":"}
 										{fleet.position.systemPosition.z}
 									</div>
-									<BButton
-										color="blue"
+									<SendFleetButton
 										disabled={
 											fleet.position.system === currentSendPosition?.system &&
 											fleet.position.systemPosition.x ===
@@ -96,22 +97,17 @@ const ModalSendPosition = () => {
 											})
 											dispatch(setCurrentSendPosition(undefined))
 										}}
-									>
-										Envoyer
-									</BButton>
+										title="Envoyer"
+									/>
 								</React.Fragment>
 							)
 						})}
 					</GridContainer>
 				</ModalBody>
 				<ModalFooter>
-					<BButton
-						variant="bordered"
-						color="caramel"
+					<CloseElementButton
 						onClick={() => dispatch(setCurrentSendPosition(undefined))}
-					>
-						Fermer
-					</BButton>
+					/>
 				</ModalFooter>
 			</ModalContent>
 		</Modal>

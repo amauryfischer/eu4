@@ -14,9 +14,9 @@ export const SButton = colored(styled(
 	),
 )`
     &:hover {
-		transform: scale(1.05);
+		${({ disabled }) => !disabled && `transform: scale(1.05);`}
 	}
-	${({ variant }: any) => {
+	${({ variant, disabled }: any) => {
 		if (variant === "bordered") {
 			return css`
 				border-color: var(--color) !important;
@@ -32,7 +32,10 @@ export const SButton = colored(styled(
 			background-color: var(--color) !important;
 			color: var(--text-color) !important;
 			&:hover {
-				background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 15%)) !important;
+				${
+					!disabled &&
+					`background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 15%)) !important;`
+				}
 			}
 		`
 	}}

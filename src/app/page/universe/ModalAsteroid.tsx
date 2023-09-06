@@ -1,33 +1,39 @@
 import styled from "styled-components"
 import React, { Suspense } from "react"
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
 } from "@mui/material"
-import Flex from "styles/Flex"
 import { Canvas } from "@react-three/fiber"
 import { useDispatch } from "react-redux"
 import Image3D from "../solarSystem/Image3D"
 import { OrbitControls } from "@react-three/drei"
-
 import {
-  setCurrentAsteroid,
-  setCurrentFleet,
-  setCurrentPirate,
-  setCurrentSendPosition,
-} from "reducer/current/currentReducer"
-import useCurrentAsteroid from "hooks/currentData/useCurrentAsteroid"
-import useFleetsOnPosition from "hooks/utils/useFleetsOnPosition"
-import ShipService from "services/ShipService"
-import useShips from "hooks/data/useShips"
-import RenderResources from "components/RenderResources"
-import useCollectAsteroid from "hooks/actions/useCollectAsteroid"
-import SButton from "styles/SButton"
-import StandardButton from "components/molecules/Buttons/StandardButton"
-import Modal from "components/organisms/Modal"
-import ListFleet from "components/organisms/List/ListFleets/ListFleets"
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	Spacer,
+} from "@nextui-org/react"
+import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
+import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
+import Flex from "@/ui/atoms/Flex"
+import {
+	setCurrentAsteroid,
+	setCurrentSendPosition,
+} from "@/redux/slice/current.slice"
+import useCurrentAsteroid from "@/hooks/current/use-current-asteroid.hook"
+import useShips from "@/hooks/data/entity/use-ships.hook"
+import useFleetsOnPosition from "@/hooks/data/entity/use-fleets-on-position.hook"
+import ListFleet from "@/ui/organisms/ListFleet"
+import BButton from "@/ui/atoms/buttons/BButton"
+import { IFleet } from "@/type/data/IFleet"
+import RenderResources from "@/ui/organisms/RenderResources"
+import Mine from "@/ui/fondations/icons/Mine"
+import CollectButton from "@/ui/atoms/buttons/CollectButton"
 
 const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
@@ -51,97 +57,88 @@ const GridContainer = styled.div`
 `
 
 const ModalAsteroid = () => {
-  const dispatch = useDispatch()
-  const currentAsteroid = useCurrentAsteroid()
-  const ships = useShips()
-  const collectAsteroid = useCollectAsteroid()
-  const fleets = useFleetsOnPosition(currentAsteroid?.data.position)
-  if (!currentAsteroid) {
-    return null
-  }
-  return (
-    <>
-      <Modal
-        open={!!currentAsteroid}
-        toggle={() => dispatch(setCurrentAsteroid(undefined))}
-        title={currentAsteroid.data.name ?? "Asteroid"}
-        childrenActions={
-          <>
-            <StandardButton.SendFleet
-              onClick={() => {
-                dispatch(setCurrentSendPosition(currentAsteroid.data.position))
-              }}
-            />
-            <StandardButton.CloseElement
-              onClick={() => {
-                dispatch(setCurrentAsteroid(undefined))
-              }}
-            />
-          </>
-        }
-      >
-        <Flex direction="column" alignItems="start" fullWidth>
-          <CanvasContainer>
-            <Canvas>
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
-              <Suspense fallback={null}>
-                <Image3D
-                  sizeMultiplier={3}
-                  position={[0, 0, 0]}
-                  imageUrl={`/images/other/asteroid.png`}
-                />
-              </Suspense>
-              <OrbitControls
-                enableZoom={true}
-                makeDefault
-                autoRotate
-                autoRotateSpeed={1}
-              />
-            </Canvas>
-          </CanvasContainer>
-          <div>
-            <h2>Coordonnées</h2>
-            <ul>
-              <li>
-                {currentAsteroid.data.position.system}
-                {":"}
-                {currentAsteroid.data.position.systemPosition.x}
-                {":"}
-                {currentAsteroid.data.position.systemPosition.y}
-                {":"}
-                {currentAsteroid.data.position.systemPosition.z}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h2>Resources présentes</h2>
-            <RenderResources resources={currentAsteroid.data.resources} />
-          </div>
-          <div>
-            <h2>Actions</h2>
-            <ListFleet
-              fleets={fleets}
-              additionalRows={(fleet) => (
-                <SButton
-                  variant="outlined"
-                  $color="purple"
-                  onClick={() => {
-                    collectAsteroid({
-                      fleetId: fleet.id,
-                      asteroidId: currentAsteroid.id,
-                    })
-                  }}
-                >
-                  Collecter
-                </SButton>
-              )}
-            />
-          </div>
-        </Flex>
-      </Modal>
-    </>
-  )
+	const dispatch = useDispatch()
+	const currentAsteroid = useCurrentAsteroid()
+	const ships = useShips()
+	const fleets = useFleetsOnPosition(currentAsteroid?.position)
+	if (!currentAsteroid) {
+		return null
+	}
+	return (
+		<>
+			<Modal
+				size="5xl"
+				isOpen={!!currentAsteroid}
+				onOpenChange={() => dispatch(setCurrentAsteroid(undefined))}
+			>
+				<ModalContent>
+					<ModalHeader>{currentAsteroid.name ?? "Asteroid"}</ModalHeader>
+					<ModalBody>
+						<Flex direction="column" alignItems="start" fullWidth>
+							<Flex justifyContent="space-between">
+								<CanvasContainer>
+									<Canvas>
+										<ambientLight />
+										<pointLight position={[10, 10, 10]} />
+										<Suspense fallback={null}>
+											<Image3D
+												sizeMultiplier={3}
+												position={[0, 0, 0]}
+												imageUrl={`/images/other/asteroid.png`}
+											/>
+										</Suspense>
+										<OrbitControls
+											enableZoom={true}
+											makeDefault
+											autoRotate
+											autoRotateSpeed={1}
+										/>
+									</Canvas>
+								</CanvasContainer>
+								<div>
+									<ul>
+										<li>
+											{currentAsteroid.position.system}
+											{":"}
+											{currentAsteroid.position.systemPosition.x}
+											{":"}
+											{currentAsteroid.position.systemPosition.y}
+											{":"}
+											{currentAsteroid.position.systemPosition.z}
+										</li>
+									</ul>
+									<h2>Resources présentes</h2>
+									<RenderResources resources={currentAsteroid.resources} />
+								</div>
+							</Flex>
+							<Spacer y={12} />
+							<ListFleet
+								fleets={fleets}
+								additionalRows={(fleet: IFleet) => (
+									<CollectButton onClick={() => {}} title="Miner" />
+								)}
+							/>
+						</Flex>
+					</ModalBody>
+					<ModalFooter>
+						<>
+							<SendFleetButton
+								onClick={() => {
+									dispatch(setCurrentSendPosition(currentAsteroid.position))
+								}}
+								title="Envoyer une flotte"
+							/>
+							<CloseElementButton
+								onClick={() => {
+									dispatch(setCurrentAsteroid(undefined))
+								}}
+							/>
+						</>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+		</>
+	)
 }
 
 export default ModalAsteroid

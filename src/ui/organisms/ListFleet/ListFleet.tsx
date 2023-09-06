@@ -6,12 +6,16 @@ import ShipService from "@/services/ShipService"
 import BButton from "@/ui/atoms/buttons/BButton"
 import { setCurrentFleet } from "@/redux/slice/current.slice"
 import { useDispatch } from "react-redux"
+import ManageButton from "@/ui/atoms/buttons/ManageButton"
 
-const ListFleet = ({ fleets }: { fleets: IFleet[] }) => {
+const ListFleet = ({
+	fleets,
+	additionalRows,
+}: { fleets: IFleet[]; additionalRows?: (fleet: IFleet) => JSX.Element }) => {
 	const ships = useShips()
 	const dispatch = useDispatch()
 	return (
-		<FleetGridContainer>
+		<FleetGridContainer numberOfRows={additionalRows === undefined ? 4 : 5}>
 			{fleets.map((fleet) => {
 				const firstShipId = fleet.shipIds[0]
 				const ship = ships[firstShipId]
@@ -21,20 +25,18 @@ const ListFleet = ({ fleets }: { fleets: IFleet[] }) => {
 						<img
 							src={shipClass.img}
 							alt={fleet.name}
-							width="100"
-							height="100"
+							width="300"
+							height="auto"
 						/>
 						<div>{fleet.name}</div>
-						<BButton
-							color="purple"
-							variant="bordered"
+						<ManageButton
 							onPress={() => {
 								dispatch(setCurrentFleet(fleet.id))
 							}}
-						>
-							Gérer la flotte
-						</BButton>
+							title="Gérer la flotte"
+						/>
 						<div></div>
+						{additionalRows?.(fleet)}
 					</>
 				)
 			})}

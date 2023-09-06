@@ -4,15 +4,10 @@ const DynamicLordIcon = dynamic(() => import("@/ui/atoms/LordIcon"), {
 	ssr: false,
 }) as any
 
-const Cancel = (props: any) => {
+const Mine = (props: any) => {
 	return (
-		<DynamicLordIcon
-			name="cancel"
-			strokeWidth="0.8rem"
-			width="32px"
-			{...props}
-		/>
+		<DynamicLordIcon name="mine" strokeWidth="0.8rem" width="32px" {...props} />
 	)
 }
 
-export default Cancel
+export default Mine

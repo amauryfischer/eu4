@@ -23,6 +23,7 @@ import ModalPlanet from "./universe/ModalPlanet"
 import ModalFleet from "./universe/ModalFLeet"
 import ModalAsteroid from "./universe/ModalAsteroid"
 import ModalSendPosition from "./universe/ModalSendPosition"
+import ModalPirate from "./universe/ModalPirate"
 
 const RoutesContainer = styled.div`
   margin-top: 3rem;
@@ -80,6 +81,8 @@ const AppRouter = ({ children }: AppRouterProps) => {
 				<ModalPlanet />
 				<ModalFleet />
 				<ModalSendPosition />
+				<ModalAsteroid />
+				<ModalPirate />
 			</RoutesContainer>
 		</BrowserRouter>
 	)

@@ -1,18 +1,14 @@
 import dynamic from "next/dynamic"
 import React from "react"
+
 const DynamicLordIcon = dynamic(() => import("@/ui/atoms/LordIcon"), {
 	ssr: false,
 }) as any
 
-const Cancel = (props: any) => {
+const Attack = (props: any) => {
 	return (
-		<DynamicLordIcon
-			name="cancel"
-			strokeWidth="0.8rem"
-			width="32px"
-			{...props}
-		/>
+		<DynamicLordIcon name="attack" strokeWidth="2rem" width="24px" {...props} />
 	)
 }
 
-export default Cancel
+export default Attack

@@ -2,6 +2,7 @@ import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import { setCurrentPlanet } from "@/redux/slice/current.slice"
 import Flex from "@/ui/atoms/Flex"
 import BButton from "@/ui/atoms/buttons/BButton"
+import GalaxyButton from "@/ui/atoms/buttons/GalaxyButton/GalaxyButton"
 import React from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router"
@@ -73,13 +74,12 @@ const PlanetMain = ({}) => {
 				<Link to={`/fleets/list`}>
 					<BButton>Fleets</BButton>
 				</Link>
-				<BButton
+				<GalaxyButton
 					onClick={() => {
 						navigate(`/universe`)
 					}}
-				>
-					Univers
-				</BButton>
+					title="Univers"
+				/>
 			</Flex>
 		</>
 	)

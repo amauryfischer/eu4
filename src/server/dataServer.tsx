@@ -31,42 +31,42 @@ export const fetchServerData = async (type: any) => {
 							Titane:
 								planet?.resources?.Titane !== undefined
 									? planet.resources.Titane +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Cuivre:
 								planet?.resources?.Cuivre !== undefined
 									? planet.resources.Cuivre +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Fer:
 								planet?.resources?.Fer !== undefined
 									? planet.resources.Fer +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Azote:
 								planet?.resources?.Azote !== undefined
 									? planet.resources.Azote +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Uranium:
 								planet?.resources?.Uranium !== undefined
 									? planet.resources.Uranium +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Silicium:
 								planet?.resources?.Silicium !== undefined
 									? planet.resources.Silicium +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Hydrogène:
 								planet?.resources?.Hydrogène !== undefined
 									? planet.resources.Hydrogène +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Aluminium:
 								planet?.resources?.Aluminium !== undefined
 									? planet.resources.Aluminium +
-									  (50000 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 						},
 					},
@@ -131,13 +131,13 @@ export const fetchParcelsData = async (system: string) => {
 		return (planet.position as any)?.["system"] == system
 	})
 	const fleetsToReturn = allFleets.filter(
-		(fleet) => (fleet.systemPosition as any)?.system === system,
+		(fleet) => (fleet.position as any)?.["system"] == system,
 	)
 	const asteroidsToReturn = allAsteroids.filter(
-		(asteroid) => (asteroid.position as any)?.system === system,
+		(asteroid) => (asteroid.position as any)?.["system"] == system,
 	)
 	const piratesToReturn = allPirates.filter(
-		(pirate) => (pirate.position as any)?.system === system,
+		(pirate) => (pirate.position as any)?.["system"] == system,
 	)
 	return {
 		planets: planetsToReturn,

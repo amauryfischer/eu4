@@ -2,17 +2,18 @@ import { useRef } from "react"
 import BButton, { BButtonProps } from "../BButton/BButton"
 import Spaceship from "@/ui/fondations/icons/Spaceship"
 import { useHoverDirty } from "react-use"
+import Attack from "@/ui/fondations/icons/Attack"
 
-const SendFleetButton = (props: BButtonProps) => {
+const AttackButton = (props: BButtonProps) => {
 	const ref = useRef(null)
 	const isHovering = useHoverDirty(ref)
 	return (
 		<div ref={ref}>
 			<BButton
-				color="cyan600"
+				color="red"
 				variant="solid"
 				{...props}
-				startContent={<Spaceship color="white" isHovering={isHovering} />}
+				startContent={<Attack color="white" isHovering={isHovering} />}
 			>
 				{props.title}
 			</BButton>
@@ -20,4 +21,4 @@ const SendFleetButton = (props: BButtonProps) => {
 	)
 }
 
-export default SendFleetButton
+export default AttackButton
