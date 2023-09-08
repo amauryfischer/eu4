@@ -26,9 +26,7 @@ const PlanetFabric = ({}) => {
 								onClick={() => {
 									createTask({
 										type: TaskType.CONSTRUCT_MODULE,
-										endTime: moment()
-											.add(3, "minutes")
-											.format(RUBY_DATE_FORMAT),
+										endTime: moment().add(3, "minutes").format(),
 										details: {
 											resources: module.cost,
 											planetId: currentPlanet.id,

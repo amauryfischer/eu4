@@ -31,12 +31,13 @@ enum TaskType {
   CONSTRUCT_BUILDING
   COLLECT_RESOURCES
   CONSTRUCT_MODULE
+  FLYING_FLEET
 }
 
 model Task {
   id        String   @id @default(uuid())
   type      TaskType
-  endDate   DateTime
+  endDate   String
   details   Json
   createdAt DateTime @default(now())
   userId    String

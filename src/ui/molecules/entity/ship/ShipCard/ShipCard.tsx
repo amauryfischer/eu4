@@ -69,6 +69,15 @@ const ShipCard = ({
 						>
 							{version > 0 ? (
 								<BButton
+									color={
+										{
+											0: "white",
+											1: "emerald200",
+											2: "cyan200",
+											3: "purple200",
+										}[version]
+									}
+									variant="bordered"
 									isIconOnly
 									startContent={<ArrowLeftIcon />}
 									onClick={() => setVersion((version - 1) % 4)}
@@ -82,6 +91,15 @@ const ShipCard = ({
 							{version === 3 && <i>Edition tank</i>}
 							{version < 3 ? (
 								<BButton
+									variant="bordered"
+									color={
+										{
+											0: "white",
+											1: "emerald200",
+											2: "cyan200",
+											3: "purple200",
+										}[version]
+									}
 									isIconOnly
 									startContent={<ArrowRightIcon />}
 									onClick={() => setVersion((version + 1) % 4)}

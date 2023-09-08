@@ -2,6 +2,9 @@
 
 import db from "@/app/db"
 import { generateInitialValues } from "./initialData"
+import moment from "moment"
+import schedule from "node-schedule"
+import { handleTask } from "./handleTask"
 
 export const fetchServerData = async (type: any) => {
 	console.log("fetchServerData")
@@ -114,9 +117,14 @@ export const deleteServerData = async (type: any, id: any) => {
 export const createServerData = async (type: any, data: any) => {
 	const prismaType = type.toLowerCase() as any
 	// @ts-ignore
+	console.log("create type", type)
+
 	const serverCreatedData = await db[prismaType].create({
 		data,
 	})
+	if (type == "Task") {
+		handleTask(serverCreatedData)
+	}
 
 	return serverCreatedData
 }

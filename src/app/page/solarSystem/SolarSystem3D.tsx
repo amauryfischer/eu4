@@ -18,6 +18,9 @@ import {
 import ShipService from "@/services/ShipService"
 import { useDispatch } from "react-redux"
 import Image3D from "./Image3D"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
+import { CardBody, ScrollShadow } from "@nextui-org/react"
+import ListTask from "@/ui/organisms/entity/task/ListTask/ListTask"
 
 const SolarSystem3D = () => {
 	const { id } = useParams<string>()
@@ -26,6 +29,7 @@ const SolarSystem3D = () => {
 	const planets = usePlanets() ?? {}
 	const asteroids = useAsteroids() ?? {}
 	const pirates = usePirates() ?? {}
+	const tasks = useTasks()
 
 	const ships = useShips()
 	const dispatch = useDispatch()
@@ -92,6 +96,29 @@ const SolarSystem3D = () => {
 					const allShips = ShipService.getAllShips()
 					const ship = ships?.[shipId]
 					if (!ship) {
+						return null
+					}
+					// if another entity same place return null
+					if (
+						Object.values(planets).some(
+							(planet) =>
+								planet.position.systemPosition.x == x &&
+								planet.position.systemPosition.y == y &&
+								planet.position.systemPosition.z == z,
+						) ||
+						Object.values(asteroids).some(
+							(asteroid) =>
+								asteroid.position.systemPosition.x == x &&
+								asteroid.position.systemPosition.y == y &&
+								asteroid.position.systemPosition.z == z,
+						) ||
+						Object.values(pirates ?? {}).some(
+							(pirate) =>
+								pirate.position.systemPosition.x == x &&
+								pirate.position.systemPosition.y == y &&
+								pirate.position.systemPosition.z == z,
+						)
+					) {
 						return null
 					}
 					return (
@@ -162,6 +189,9 @@ const SolarSystem3D = () => {
 					)
 				})}
 			</Canvas>
+			<ScrollShadow className="w-[300px] h-[400px]">
+				<ListTask tasks={tasks} />
+			</ScrollShadow>
 		</>
 	)
 }

@@ -2,11 +2,9 @@ import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import useGameLoop from "@/hooks/use-game-loop"
 import ResourcesService from "@/services/ResourcesService"
 import Flex from "@/ui/atoms/Flex/Flex"
-import DeleteIconButton from "@/ui/atoms/iconButtons/DeleteIconButton/DeleteIconButton"
 import HomeIconButton from "@/ui/atoms/iconButtons/HomeIconButton/HomeIconButton"
-import { Navbar } from "@nextui-org/react"
+import { Navbar, NavbarContent } from "@nextui-org/react"
 import { useEffect } from "react"
-import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 const ResourcesBox = styled.div`
@@ -23,6 +21,9 @@ const StyledAppBar = styled(Navbar)`
   height: var(--header-height) !important;
   margin-top: -3rem;
   z-index: 1000;
+  & > header {
+	max-width: none !important;
+  }
 `
 
 export default function PrimarySearchAppBar() {
@@ -39,30 +40,36 @@ export default function PrimarySearchAppBar() {
 
 	return (
 		<StyledAppBar position="static">
-			<Flex gap="1.5rem" alignItems="center">
-				{currentPlanet?.name}
+			<NavbarContent>
+				<Flex gap="1.5rem" alignItems="center" justifyContent="space-between">
+					<Flex gap="1rem">
+						{currentPlanet?.name}
 
-				<HomeIconButton
-					handleClick={() => {
-						navigate(`/planets/${currentPlanet?.id}`)
-					}}
-				/>
-				{Object.values(allResources).map((resource) => {
-					return (
-						<ResourcesBox key={resource.name}>
-							<Flex alignItems="center" gap="0.5rem">
-								<img src={resource.img} width={25} height={25} />
-								<div>{resource.name}</div>
-								<div>
-									{ResourcesService.renderResources(
-										currentPlanet?.resources?.[resource.name],
-									)}
-								</div>
-							</Flex>
-						</ResourcesBox>
-					)
-				})}
-			</Flex>
+						<HomeIconButton
+							handleClick={() => {
+								navigate(`/planets/${currentPlanet?.id}`)
+							}}
+						/>
+					</Flex>
+					<Flex gap="3rem">
+						{Object.values(allResources).map((resource) => {
+							return (
+								<ResourcesBox key={resource.name}>
+									<Flex alignItems="center" gap="0.5rem">
+										<img src={resource.img} width={25} height={25} />
+										<div>{resource.name}</div>
+										<div>
+											{ResourcesService.renderResources(
+												currentPlanet?.resources?.[resource.name],
+											)}
+										</div>
+									</Flex>
+								</ResourcesBox>
+							)
+						})}
+					</Flex>
+				</Flex>
+			</NavbarContent>
 		</StyledAppBar>
 	)
 }

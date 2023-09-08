@@ -1,12 +1,18 @@
 import useCurrentSendPosition from "@/hooks/current/use-current-send-position"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useFleets from "@/hooks/data/entity/use-fleets.hook"
 import useShips from "@/hooks/data/entity/use-ships.hook"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import { setCurrentSendPosition } from "@/redux/slice/current.slice"
 import ShipService from "@/services/ShipService"
+import { TaskType } from "@/type/data/ITask"
+import Flex from "@/ui/atoms/Flex/Flex"
 import BButton from "@/ui/atoms/buttons/BButton"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
+import Spaceship from "@/ui/fondations/icons/Spaceship"
 import { Dialog } from "@mui/material"
 import {
 	Modal,
@@ -15,6 +21,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from "@nextui-org/react"
+import moment from "moment"
 import React from "react"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
@@ -32,6 +39,8 @@ const GridContainer = styled.div`
   grid-gap: 10px;
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
 `
 const ModalSendPosition = () => {
 	const fleets = useFleets()
@@ -39,6 +48,9 @@ const ModalSendPosition = () => {
 	const currentSendPosition = useCurrentSendPosition()
 	const dispatch = useDispatch()
 	const { updateFleet } = useFleetsActions()
+	const { fetchTasks, createTask } = useTasksActions()
+	const tasks = useTasks()
+	const user = useCurrentUser()
 	return (
 		<Modal
 			size={"5xl"}
@@ -54,6 +66,13 @@ const ModalSendPosition = () => {
 					<GridContainer>
 						{(Object.values(fleets) ?? []).map((fleet) => {
 							const shipId = fleet.shipIds[0]
+							const isFlying = Object.values(tasks).some(
+								(task) =>
+									task.type === TaskType.FLYING_FLEET &&
+									task.details?.fleetId === fleet.id &&
+									!moment().isAfter(moment(task.endDate)),
+							)
+							debugger
 							return (
 								<React.Fragment key={fleet.id}>
 									<img
@@ -71,34 +90,44 @@ const ModalSendPosition = () => {
 										{":"}
 										{fleet.position.systemPosition.z}
 									</div>
-									<SendFleetButton
-										disabled={
-											fleet.position.system === currentSendPosition?.system &&
-											fleet.position.systemPosition.x ===
-												currentSendPosition?.systemPosition.x &&
-											fleet.position.systemPosition.y ===
-												currentSendPosition?.systemPosition.y &&
-											fleet.position.systemPosition.z ===
-												currentSendPosition?.systemPosition.z
-										}
-										onClick={() => {
-											updateFleet(fleet.id, {
-												...fleet,
-												position: {
-													...fleet.position,
-													system: currentSendPosition.system,
-													systemPosition: {
-														...fleet.position.systemPosition,
-														x: currentSendPosition.systemPosition.x,
-														y: currentSendPosition.systemPosition.y,
-														z: currentSendPosition.systemPosition.z,
+									{isFlying && (
+										<Flex gap="1rem" alignItems="center">
+											<Spaceship /> <div>Voyage en cours</div>
+										</Flex>
+									)}
+									{!isFlying && (
+										<SendFleetButton
+											disabled={
+												fleet.position.system === currentSendPosition?.system &&
+												fleet.position.systemPosition.x ===
+													currentSendPosition?.systemPosition.x &&
+												fleet.position.systemPosition.y ===
+													currentSendPosition?.systemPosition.y &&
+												fleet.position.systemPosition.z ===
+													currentSendPosition?.systemPosition.z
+											}
+											onClick={() => {
+												createTask({
+													type: TaskType.FLYING_FLEET,
+													endDate: moment().add(10, "seconds").format(),
+													details: {
+														position: {
+															system: currentSendPosition.system,
+															systemPosition: {
+																x: currentSendPosition.systemPosition.x,
+																y: currentSendPosition.systemPosition.y,
+																z: currentSendPosition.systemPosition.z,
+															},
+														},
+														fleetId: fleet.id,
 													},
-												},
-											})
-											dispatch(setCurrentSendPosition(undefined))
-										}}
-										title="Envoyer"
-									/>
+													userId: user.id,
+												})
+												fetchTasks()
+											}}
+											title="Envoyer"
+										/>
+									)}
 								</React.Fragment>
 							)
 						})}

@@ -9,32 +9,35 @@ export const currentSlice = createSlice({
     asteroidId: undefined,
     pirateId: undefined,
     sendPosition: undefined,
+    user: {
+      id: "1",
+    },
   },
   reducers: {
     setCurrentPlanet: (state, { payload: planetId }: { payload: string | undefined }) => {
-        // @ts-ignore
-        state.planetId = planetId
+      // @ts-ignore
+      state.planetId = planetId
     },
     setCurrentFleet: (state, { payload: fleetId }: { payload: string | undefined }) => {
-        // @ts-ignore
+      // @ts-ignore
       state.fleetId = fleetId
     },
     setCurrentAsteroid: (
       state,
       { payload: asteroidId }: { payload: string | undefined },
     ) => {
-        // @ts-ignore
+      // @ts-ignore
       state.asteroidId = asteroidId
     },
     setCurrentPirate: (state, { payload: pirateId }: { payload: string | undefined }) => {
-        // @ts-ignore
+      // @ts-ignore
       state.pirateId = pirateId
     },
     setCurrentSendPosition: (
       state,
       { payload: sendPosition }: { payload: IPosition | undefined },
     ) => {
-        // @ts-ignore
+      // @ts-ignore
       state.sendPosition = sendPosition
     },
   },

@@ -18,7 +18,8 @@ export const dynamicSlice = createSlice({
       state,
       action: PayloadAction<{ type: string; dataId: string; data: any }>
     ) => {
-      const { type,  data } = action.payload;
+      const { type, data } = action.payload;
+      state.entity[type] = {};
       (data ?? []).forEach((item: any) => {
         state.entity[type] = {
           ...state.entity[type],
@@ -45,10 +46,11 @@ export const dynamicSlice = createSlice({
       action: PayloadAction<{ type: string; dataId: string; data: any }>
     ) => {
       const { type, dataId, data } = action.payload;
+      const entity = state.entity?.[type] ?? {}
       state.entity[type] = {
-        ...state.entity[type],
+        ...entity,
         [dataId]: {
-          ...state.entity[type][dataId],
+          ...entity?.[dataId] ?? {},
           ...data,
         },
       };

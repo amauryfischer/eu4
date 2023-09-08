@@ -34,6 +34,11 @@ import { IFleet } from "@/type/data/IFleet"
 import RenderResources from "@/ui/organisms/RenderResources"
 import Mine from "@/ui/fondations/icons/Mine"
 import CollectButton from "@/ui/atoms/buttons/CollectButton"
+import { TaskType } from "@/type/data/ITask"
+import moment from "moment"
+import RUBY_DATE_FORMAT from "@/utils/rubyDateFormat"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
@@ -61,9 +66,11 @@ const ModalAsteroid = () => {
 	const currentAsteroid = useCurrentAsteroid()
 	const ships = useShips()
 	const fleets = useFleetsOnPosition(currentAsteroid?.position)
+	const user = useCurrentUser()
 	if (!currentAsteroid) {
 		return null
 	}
+	const { createTask, fetchTasks } = useTasksActions()
 	return (
 		<>
 			<Modal
@@ -115,7 +122,21 @@ const ModalAsteroid = () => {
 							<ListFleet
 								fleets={fleets}
 								additionalRows={(fleet: IFleet) => (
-									<CollectButton onClick={() => {}} title="Miner" />
+									<CollectButton
+										onClick={() => {
+											createTask({
+												type: TaskType.COLLECT_ASTEROIDS,
+												endDate: moment().add(20, "seconds").format(),
+												details: {
+													asteroidId: currentAsteroid.id,
+													fleetId: fleet.id,
+												},
+												userId: user.id,
+											})
+											fetchTasks()
+										}}
+										title="Miner"
+									/>
 								)}
 							/>
 						</Flex>
