@@ -60,7 +60,7 @@ const SAvatar = styled(Avatar)`
   width: 200px;
   height: 200px;
 `
-const ShipBuilder = ({}) => {
+const ShipBuilder = ({ }) => {
 	const { shipClass } = useParams()
 	const currentShipClass = ShipService.getAllShips()[shipClass as string]
 	const modules = Object.values(ModulesService.getAllModules())
@@ -242,7 +242,7 @@ const ShipBuilder = ({}) => {
 							variant="bordered"
 							color="primary"
 							startContent={<BuildIcon />}
-							disabled={modulesEmplacement > currentShipClass.emplacement}
+							isDisabled={modulesEmplacement > currentShipClass.emplacement}
 							onPress={onSubmit}
 						>
 							Créer

@@ -72,7 +72,6 @@ const ModalSendPosition = () => {
 									task.details?.fleetId === fleet.id &&
 									!moment().isAfter(moment(task.endDate)),
 							)
-							debugger
 							return (
 								<React.Fragment key={fleet.id}>
 									<img
@@ -97,14 +96,14 @@ const ModalSendPosition = () => {
 									)}
 									{!isFlying && (
 										<SendFleetButton
-											disabled={
+											isDisabled={
 												fleet.position.system === currentSendPosition?.system &&
 												fleet.position.systemPosition.x ===
-													currentSendPosition?.systemPosition.x &&
+												currentSendPosition?.systemPosition.x &&
 												fleet.position.systemPosition.y ===
-													currentSendPosition?.systemPosition.y &&
+												currentSendPosition?.systemPosition.y &&
 												fleet.position.systemPosition.z ===
-													currentSendPosition?.systemPosition.z
+												currentSendPosition?.systemPosition.z
 											}
 											onClick={() => {
 												createTask({

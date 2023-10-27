@@ -13,10 +13,14 @@ export const SButton = colored(styled(
 		<Button {...otherProps}>{otherProps.children}</Button>
 	),
 )`
+	transition: all 0.2s ease-in-out;
+	${({ isDisabled }) => isDisabled && `
+		cursor: not-allowed !important;
+	`}
     &:hover {
-		${({ disabled }) => !disabled && `transform: scale(1.05);`}
+		${({ isDisabled }) => !isDisabled && `transform: scale(1.05);`}
 	}
-	${({ variant, disabled }: any) => {
+	${({ variant, isDisabled }: any) => {
 		if (variant === "bordered") {
 			return css`
 				border-color: var(--color) !important;
@@ -32,10 +36,9 @@ export const SButton = colored(styled(
 			background-color: var(--color) !important;
 			color: var(--text-color) !important;
 			&:hover {
-				${
-					!disabled &&
-					`background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 15%)) !important;`
-				}
+				${!isDisabled &&
+			`background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 10%)) !important;`
+			}
 			}
 		`
 	}}

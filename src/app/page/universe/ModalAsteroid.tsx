@@ -39,6 +39,7 @@ import moment from "moment"
 import RUBY_DATE_FORMAT from "@/utils/rubyDateFormat"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 
 const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
@@ -64,7 +65,7 @@ const GridContainer = styled.div`
 const ModalAsteroid = () => {
 	const dispatch = useDispatch()
 	const currentAsteroid = useCurrentAsteroid()
-	const ships = useShips()
+	const tasks = useTasks()
 	const fleets = useFleetsOnPosition(currentAsteroid?.position)
 	const user = useCurrentUser()
 	if (!currentAsteroid) {
@@ -121,23 +122,32 @@ const ModalAsteroid = () => {
 							<Spacer y={12} />
 							<ListFleet
 								fleets={fleets}
-								additionalRows={(fleet: IFleet) => (
-									<CollectButton
-										onClick={() => {
-											createTask({
-												type: TaskType.COLLECT_ASTEROIDS,
-												endDate: moment().add(20, "seconds").format(),
-												details: {
-													asteroidId: currentAsteroid.id,
-													fleetId: fleet.id,
-												},
-												userId: user.id,
-											})
-											fetchTasks()
-										}}
-										title="Miner"
-									/>
-								)}
+								additionalRows={(fleet: IFleet) => {
+									const isMining = Object.values(tasks).some(
+										(task) =>
+											task.type === TaskType.COLLECT_ASTEROIDS &&
+											task.details?.fleetId === fleet.id &&
+											!moment().isAfter(moment(task.endDate)),
+									)
+									return (
+										<CollectButton
+											onClick={() => {
+												createTask({
+													type: TaskType.COLLECT_ASTEROIDS,
+													endDate: moment().add(20, "seconds").format(),
+													details: {
+														asteroidId: currentAsteroid.id,
+														fleetId: fleet.id,
+													},
+													userId: user.id,
+												})
+												fetchTasks()
+											}}
+											title={isMining ? "Minage en cours" : "Miner"}
+											isDisabled={isMining}
+										/>
+									)
+								}}
 							/>
 						</Flex>
 					</ModalBody>

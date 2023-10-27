@@ -34,12 +34,22 @@ const TaskCard = ({ task }: { task: Task }) => {
 				}
 				fetchTasks()
 			}
-		}, 5000)
+		}, 2000)
 		return () => clearInterval(interval)
 	}, [task])
 
 	if (moment().isAfter(moment(task.endDate))) {
 		return null
+	}
+
+	const colorAdvancement = (advancement: number) => {
+		if (advancement < 33) {
+			return "default"
+		}
+		if (advancement < 66) {
+			return "warning"
+		}
+		return "success"
 	}
 	return (
 		<StyledTaskCard>
@@ -54,6 +64,7 @@ const TaskCard = ({ task }: { task: Task }) => {
 					aria-label="Loading..."
 					value={progress}
 					className="max-w-md"
+					color={colorAdvancement(progress)}
 				/>
 			</CardFooter>
 		</StyledTaskCard>

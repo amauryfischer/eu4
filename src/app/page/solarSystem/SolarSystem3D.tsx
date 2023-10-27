@@ -64,7 +64,7 @@ const SolarSystem3D = () => {
 				<PerspectiveCamera
 					ref={cameraRef}
 					makeDefault
-					onPointerMissed={() => {}}
+					onPointerMissed={() => { }}
 					view={null}
 					quaternion={null}
 					position={[600, 400, 1000]}

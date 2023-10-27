@@ -51,7 +51,6 @@ const ModalFleet = () => {
 	const dispatch = useDispatch()
 	const fetParcels = useParcelsActions()
 	const ships = useShips()
-	console.log(ships)
 	const [isOpeningSoute, setIsOpeningSoute] = useState(false)
 	const [newResourcesValue, setNewResourcesValue] = useState(
 		currentFleet?.cargo,
@@ -213,7 +212,7 @@ const ModalFleet = () => {
 											moveFleet()
 											dispatch(setCurrentFleet(undefined))
 										}}
-										disabled={
+										isDisabled={
 											system === currentFleet?.position?.system &&
 											x === currentFleet?.position?.systemPosition?.x &&
 											y === currentFleet?.position?.systemPosition?.y &&
@@ -333,8 +332,8 @@ const ModalFleet = () => {
 														{ResourcesService.renderResources(
 															(remainingPlanet[0].resources?.[resource?.name] ??
 																0) -
-																(newResourcesValue?.[resource?.name] ?? 0) +
-																(currentFleet?.cargo?.[resource?.name] ?? 0),
+															(newResourcesValue?.[resource?.name] ?? 0) +
+															(currentFleet?.cargo?.[resource?.name] ?? 0),
 														)}
 													</div>
 												</React.Fragment>
