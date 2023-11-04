@@ -23,11 +23,10 @@ import ModalSendPosition from "./universe/ModalSendPosition"
 import Universe from "./universe/Universe"
 
 const RoutesContainer = styled.div`
-  margin-top: 3rem;
-  height: calc(100vh - 3rem);
+  margin-top: 4rem;
+  height: calc(100vh - 4rem);
 `
 const Container = styled.div`
-  padding: var(--spacing-8);
   height: 100%;
   width: 100%;
 `

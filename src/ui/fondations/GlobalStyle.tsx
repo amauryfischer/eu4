@@ -18,17 +18,27 @@ const GlobalStyle = createGlobalStyle`
         --bold: 700;
         ${shadow}
     }
+    @font-face {
+    font-family: 'Quantico';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+      src: url(https://fonts.gstatic.com/s/quantico/v17/rax-HiSdp9cPL3KIF7xrJD0.woff2) format('woff2');
+    }
+    
     nav {
         color: white !important;
     }
     * {
         &:focus {
             outline: none;
-        }   
+        }
+        box-sizing: border-box !important;
+        font-family: 'Quantico' !important;   
     }
     body {  
         height: 100vh;
-        background-color: white;
+        background: unset !important;
     }
     
 `
