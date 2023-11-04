@@ -24,7 +24,7 @@ export const handleTask = (
 
 const handleCollectAsteroid = (task: ITaskAsteroid) => {
 	const endDate = moment(task.endDate)
-	console.log('creating task')
+	console.log("creating task")
 	schedule.scheduleJob(endDate.toDate(), async () => {
 		console.log("handling collect asteroid")
 		const fleet = await db.fleet.findUnique({
@@ -38,7 +38,7 @@ const handleCollectAsteroid = (task: ITaskAsteroid) => {
 			resources: asteroid?.resources as Record<RESOURCE_TYPES, number>,
 			amount: 90000,
 		})
-		console.log('extracting :')
+		console.log("extracting :")
 		console.table(randomResources)
 		// update
 		await db.fleet.update({
@@ -53,7 +53,7 @@ const handleCollectAsteroid = (task: ITaskAsteroid) => {
 			},
 		})
 		if (_.isEmpty(remainingResources)) {
-			console.log('asteroid empty, deleting')
+			console.log("asteroid empty, deleting")
 			await db.asteroid.delete({
 				where: {
 					id: asteroid?.id,
@@ -68,7 +68,7 @@ const handleCollectAsteroid = (task: ITaskAsteroid) => {
 					resources: remainingResources,
 				},
 			})
-			console.log('remaining')
+			console.log("remaining")
 			console.table(remainingResources)
 		}
 		await db.task.delete({
@@ -92,6 +92,11 @@ const handleFlyingFleet = (task: ITaskFlyingFleet) => {
 			},
 			data: {
 				position: task.details.position as any,
+			},
+		})
+		await db.task.delete({
+			where: {
+				id: task.id,
 			},
 		})
 	})

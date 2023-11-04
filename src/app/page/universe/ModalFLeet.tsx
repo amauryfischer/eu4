@@ -99,24 +99,20 @@ const ModalFleet = () => {
 			),
 		) as IPlanet
 		allresources.forEach((resource) => {
-			const previousResourceValueFleet = _.get(
-				newFleet,
-				`data.cargo.${resource}`,
-				0,
-			)
+			const previousResourceValueFleet = _.get(newFleet, `cargo.${resource}`, 0)
 			const newResourceValueFleet = _.get(newResourcesValue, resource, 0)
 			if (!newFleet.cargo) {
 				newFleet.cargo = {} as Record<RESOURCE_TYPES, number>
 			}
 			// @ts-ignore
 			newFleet.cargo[resource] = newResourceValueFleet
-
 			const oldResourceValuePlanet = _.get(
 				newPlanet,
-				`data.resources.${resource}`,
+				`resources.${resource}`,
 				0,
 			)
 			const diffFleet = newResourceValueFleet - previousResourceValueFleet
+			debugger
 			_.set(
 				newPlanet,
 				`resources.${resource}`,
@@ -332,8 +328,8 @@ const ModalFleet = () => {
 														{ResourcesService.renderResources(
 															(remainingPlanet[0].resources?.[resource?.name] ??
 																0) -
-															(newResourcesValue?.[resource?.name] ?? 0) +
-															(currentFleet?.cargo?.[resource?.name] ?? 0),
+																(newResourcesValue?.[resource?.name] ?? 0) +
+																(currentFleet?.cargo?.[resource?.name] ?? 0),
 														)}
 													</div>
 												</React.Fragment>

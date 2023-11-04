@@ -7,15 +7,15 @@ import schedule from "node-schedule"
 import { handleTask } from "./handleTask"
 
 export const fetchServerData = async (type: any) => {
-
 	// delete all data
 	// await db.planet.deleteMany()
 
-	// delete finished task if finished
+	// ? delete finished task if finished
 	const tasks = await db.task.findMany()
 	tasks.forEach(async (task) => {
-		const endDate = moment(task.endDate).add('5', 'minute')
+		const endDate = moment(task.endDate).add("5", "minute")
 		if (endDate.isBefore(moment())) {
+			console.log("deleting task : ", task.id)
 			await db.task.delete({
 				where: {
 					id: task.id,
@@ -23,7 +23,6 @@ export const fetchServerData = async (type: any) => {
 			})
 		}
 	})
-
 
 	const prismaType = type.toLowerCase() as any
 
@@ -46,42 +45,42 @@ export const fetchServerData = async (type: any) => {
 							Titane:
 								planet?.resources?.Titane !== undefined
 									? planet.resources.Titane +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Cuivre:
 								planet?.resources?.Cuivre !== undefined
 									? planet.resources.Cuivre +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Fer:
 								planet?.resources?.Fer !== undefined
 									? planet.resources.Fer +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Azote:
 								planet?.resources?.Azote !== undefined
 									? planet.resources.Azote +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Uranium:
 								planet?.resources?.Uranium !== undefined
 									? planet.resources.Uranium +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Silicium:
 								planet?.resources?.Silicium !== undefined
 									? planet.resources.Silicium +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Hydrogène:
 								planet?.resources?.Hydrogène !== undefined
 									? planet.resources.Hydrogène +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 							Aluminium:
 								planet?.resources?.Aluminium !== undefined
 									? planet.resources.Aluminium +
-									(500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
 									: 0,
 						},
 					},
@@ -138,38 +137,48 @@ export const createServerData = async (type: any, data: any) => {
 	return serverCreatedData
 }
 
+const createRandomAsteroids = async () => {
+	const asteroidResources = {}
+	const available_resources = [
+		"Titane",
+		"Cuivre",
+		"Fer",
+		"Azote",
+		"Uranium",
+		"Silicium",
+		"Hydrogène",
+		"Aluminium",
+	]
+	available_resources.forEach((el) => {
+		asteroidResources[el] = Math.floor(Math.random() * 100000)
+	})
+	await db.asteroid.create({
+		data: {
+			position: {
+				system: 1237,
+				systemPosition: {
+					x: Math.floor(Math.random() * 100) - 50,
+					y: Math.floor(Math.random() * 100) - 50,
+					z: Math.floor(Math.random() * 100) - 50,
+				},
+			},
+			resources: asteroidResources,
+		},
+	})
+}
+
 export const fetchParcelsData = async (system: string) => {
-	// const asteroidResources = {}
-	// const available_resources = [
-	// 	"Titane",
-	// 	"Cuivre",
-	// 	"Fer",
-	// 	"Azote",
-	// 	"Uranium",
-	// 	"Silicium",
-	// 	"Hydrogène",
-	// 	"Aluminium",
-	// ]
-	// available_resources.forEach((el) => {
-	// 	asteroidResources[el] = Math.floor(Math.random() * 100000)
-	// })
-	// await db.asteroid.create({
-	// 	data: {
-	// 		position: {
-	// 			system: 1237,
-	// 			systemPosition: {
-	// 				x: Math.floor(Math.random() * 100) - 50,
-	// 				y: Math.floor(Math.random() * 100) - 50,
-	// 				z: Math.floor(Math.random() * 100) - 50,
-	// 			},
-	// 		},
-	// 		resources: asteroidResources,
-	// 	},
-	// })
 	const allPlanets = await db.planet.findMany()
 	const allFleets = await db.fleet.findMany()
 	const allAsteroids = await db.asteroid.findMany()
 	const allPirates = await db.pirate.findMany()
+
+	// if 0 asteroids, use 6 times createRandomAsteroids
+	if (allAsteroids.length === 0) {
+		for (let i = 0; i < 6; i++) {
+			await createRandomAsteroids()
+		}
+	}
 
 	const planetsToReturn = allPlanets.filter((planet) => {
 		return (planet.position as any)?.["system"] == system

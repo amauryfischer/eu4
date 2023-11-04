@@ -7,7 +7,6 @@ import TaskCard from "../TaskCard/TaskCard"
 
 const ListTask = ({ tasks }: { tasks: Record<string, Task> }) => {
 	const { fetchTasks } = useTasksActions()
-
 	return (
 		<TaskContainer>
 			{Object.values(tasks).map((task) => (

@@ -5,5 +5,8 @@
         "titleBar.activeBackground": "#3C4310",
         "titleBar.activeForeground": "#F9FBEF"
     },
-    "cSpell.language": "en,fr"
+    "cSpell.language": "en,fr",
+    "cSpell.words": [
+        "allresources"
+    ]
 }

@@ -42,7 +42,7 @@ export default function PrimarySearchAppBar() {
 		<StyledAppBar position="static">
 			<NavbarContent>
 				<Flex gap="1.5rem" alignItems="center" justifyContent="space-between">
-					<Flex gap="1rem">
+					<Flex gap="1rem" alignItems="center">
 						{currentPlanet?.name}
 
 						<HomeIconButton
