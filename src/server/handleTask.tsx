@@ -30,13 +30,25 @@ const handleCollectAsteroid = (task: ITaskAsteroid) => {
 		const fleet = await db.fleet.findUnique({
 			where: { id: task.details.fleetId },
 		})
+		fleet?.shipIds
+		const ships = await db.ship.findMany({
+			where: {
+				id: {
+					in: fleet?.shipIds as string[],
+				},
+			},
+		})
+		const miningPower = _.sumBy(ships, (s) =>
+			_.sumBy(s.modules, (m) => m.modifier.extraction_asteroid),
+		)
+		console.log("mining power", miningPower)
 		const asteroid = await db.asteroid.findUnique({
 			where: { id: task.details.asteroidId },
 		})
-		const amount_fetch = 500 * endDate.diff(task.createdAt, "minutes")
+		// const amount_fetch = 500 * endDate.diff(task.createdAt, "minutes")
 		const { randomResources, remainingResources } = fetchRandomResources({
 			resources: asteroid?.resources as Record<RESOURCE_TYPES, number>,
-			amount: 90000,
+			amount: 50000 * miningPower,
 		})
 		console.log("extracting :")
 		console.table(randomResources)

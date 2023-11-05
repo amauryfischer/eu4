@@ -56,6 +56,7 @@ const ShipPropertyContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 15fr);
   column-gap: 2em;
+  row-gap: 1em;
 `
 const SAvatar = styled(Avatar)`
   width: 200px;
@@ -138,10 +139,11 @@ const ShipBuilder = ({}) => {
 		})
 	})
 	const numberModulePerName: { [key: string]: number } = {}
-
 	selectedModules.forEach((module) => {
-		if (!numberModulePerName[module.id]) {
-			numberModulePerName[module.id] = 0
+		if (numberModulePerName[module.id]) {
+			numberModulePerName[module.id] += 1
+		} else {
+			numberModulePerName[module.id] = 1
 		}
 	})
 	return (
@@ -156,9 +158,10 @@ const ShipBuilder = ({}) => {
 							src={currentShipClass.img}
 							squared
 							bordered
+							radius="md"
 						/>
 
-						<Flex direction="column">
+						<Flex direction="column" gap="0.25rem">
 							{[
 								{
 									name: "Cargo",
@@ -205,13 +208,13 @@ const ShipBuilder = ({}) => {
 								</ShipPropertyContainer>
 							))}
 						</Flex>
-						<Flex direction="column">
+						<Flex direction="column" gap="0.25rem">
 							<div>
 								Emplacements : {modulesEmplacement} /{" "}
 								{currentShipClass.emplacement}
 							</div>
 							{Object.keys(numberModulePerName).map((moduleId) => (
-								<Flex gap="0.5rem">
+								<Flex align-items="center" gap="0.5rem" key={moduleId}>
 									<img
 										src={ModulesService.getAllModules()[moduleId].img}
 										width="25px"
@@ -223,7 +226,7 @@ const ShipBuilder = ({}) => {
 								</Flex>
 							))}
 						</Flex>
-						<Flex direction="column">
+						<Flex direction="column" gap="0.25rem">
 							{Object.values(ResourcesService.getAllResources()).map(
 								(resource) => (
 									<ShipPropertyContainer>

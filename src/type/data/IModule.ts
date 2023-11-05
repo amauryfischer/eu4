@@ -9,6 +9,7 @@ export enum IModifier {
   LASER = "laser",
   MISSILE = "missile",
   IEM = "iem",
+  EXTRACTION_ASTEROID = "extraction_asteroid",
 }
 export enum IDamage {
   LASER = "laser",

@@ -170,7 +170,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     description:
       "Ce moteur a été conçu pour les vaisseaux de petite taille et de faible puissance, il a été conçu par l'entreprise Deltan",
     type: IModuleType.ENGINE,
-    img: "/images/modules/engines/propuls1.png",
+    img: "/images/modules/engines/propuls1.webp",
     emplacement: 1,
     modifier: {
       [IModifier.IMPULSION]: 50,
@@ -192,7 +192,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     description:
       "La nouvelle génération de moteur conçu par Deltan, ce nouveau moteur est plus puissant et consomme moins",
     type: IModuleType.ENGINE,
-    img: "/images/modules/engines/propuls2.png",
+    img: "/images/modules/engines/propuls2.webp",
     emplacement: 2,
     modifier: {
       [IModifier.IMPULSION]: 120,
@@ -341,8 +341,26 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
       [FER.name]: 1_000,
     },
   },
+  laserExtractionAsteroid: {
+    id: "laserExtractionAsteroid",
+    name: "Laser d'extraction d'astéroïdes",
+    description:
+      "Un laser qui permet d'extraire des ressources des astéroïdes.",
+    type: IModuleType.OTHER,
+    img: "/images/modules/other/laser_asteroid_extract.webp",
+    emplacement: 1,
+    modifier: {
+      [IModifier.EXTRACTION_ASTEROID]: 1,
+    },
+    cost: {
+      [SILICIUM.name]: 5_000,
+      [HYDROGENE.name]: 2_000,
+      [FER.name]: 1_000,
+    },
+  },
 })
 
+/* The `ex` variable is not used in the provided code. It is not declared or referenced anywhere. */
 export default {
   getAllModules,
 }
