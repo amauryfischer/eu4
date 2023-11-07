@@ -11,13 +11,14 @@ import { fetchRandomResources } from "./utils/fetchRandomResources"
 import { RESOURCE_TYPES } from "../services/ResourcesService"
 import { addResources } from "./utils/addResources"
 import _ from "lodash"
+import { TaskType } from "@prisma/client"
 
 export const handleTask = (
 	task: ITaskAsteroid | ITaskConstructModule | ITaskFlyingFleet,
 ) => {
-	if (task.type == "COLLECT_ASTEROIDS") {
+	if (task.type == TaskType.COLLECT_ASTEROIDS) {
 		handleCollectAsteroid(task)
-	} else if (task.type == "FLYING_FLEET") {
+	} else if (task.type == TaskType.FLYING_FLEET) {
 		handleFlyingFleet(task)
 	}
 }

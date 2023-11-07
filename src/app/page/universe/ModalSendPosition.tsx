@@ -5,10 +5,15 @@ import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useFleets from "@/hooks/data/entity/use-fleets.hook"
 import useShips from "@/hooks/data/entity/use-ships.hook"
 import useTasks from "@/hooks/data/entity/use-tasks.hook"
-import { setCurrentSendPosition } from "@/redux/slice/current.slice"
+import {
+	setCurrentFleet,
+	setCurrentSendPosition,
+	setCurrentShip,
+} from "@/redux/slice/current.slice"
 import ShipService from "@/services/ShipService"
 import { TaskType } from "@/type/data/ITask"
 import Flex from "@/ui/atoms/Flex/Flex"
+import BAvatar from "@/ui/atoms/avatar/BAvatar"
 import BButton from "@/ui/atoms/buttons/BButton"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
@@ -58,6 +63,7 @@ const ModalSendPosition = () => {
 			onOpenChange={() => {
 				dispatch(setCurrentSendPosition(undefined))
 			}}
+			scrollBehavior="inside"
 			title="Selectionnez une flotte"
 		>
 			<ModalContent>
@@ -74,10 +80,13 @@ const ModalSendPosition = () => {
 							)
 							return (
 								<React.Fragment key={fleet.id}>
-									<img
-										width={250}
-										height={100}
+									<BAvatar
 										src={ShipService.getAllShips()[ships?.[shipId]?.class]?.img}
+										className="w-32 h-32"
+										radius="lg"
+										onClick={() => {
+											dispatch(setCurrentFleet(fleet.id))
+										}}
 									/>
 									<div>{fleet.name}</div>
 									<div>
@@ -99,11 +108,11 @@ const ModalSendPosition = () => {
 											isDisabled={
 												fleet.position.system === currentSendPosition?.system &&
 												fleet.position.systemPosition.x ===
-												currentSendPosition?.systemPosition.x &&
+													currentSendPosition?.systemPosition.x &&
 												fleet.position.systemPosition.y ===
-												currentSendPosition?.systemPosition.y &&
+													currentSendPosition?.systemPosition.y &&
 												fleet.position.systemPosition.z ===
-												currentSendPosition?.systemPosition.z
+													currentSendPosition?.systemPosition.z
 											}
 											onClick={() => {
 												createTask({

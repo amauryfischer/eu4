@@ -79,6 +79,7 @@ const PlanetSpatioport = ({}) => {
 						placeholder="nom de la flotte"
 						value={fleetName}
 						onChange={(e) => setFleetName(e.target.value)}
+						variant="bordered"
 					/>
 					<BButton variant="bordered" color="primary" onPress={onCreateFleet}>
 						Créer une flotte

@@ -27,7 +27,7 @@ const FleetManager = ({}) => {
 
 	return (
 		<Flex direction="column">
-			<BButton variant="outlined" $color="yellow" onClick={() => navigate(-1)}>
+			<BButton variant="bordered" color="yellow" onClick={() => navigate(-1)}>
 				Retour
 			</BButton>
 			<h1>{fleet?.data?.name}</h1>
@@ -35,11 +35,27 @@ const FleetManager = ({}) => {
 				label="Systeme solaire"
 				value={system}
 				onChange={(e) => setSystem(e.target.value)}
+				variant="bordered"
 			/>
-			<Input label="X" value={x} onChange={(e) => setX(e.target.value)} />
-			<Input label="Y" onChange={(e) => setY(e.target.value)} value={y} />
-			<Input label="Z" onChange={(e) => setZ(e.target.value)} value={z} />
-			<BButton variant="contained" $color="yellow" onClick={moveFleet}>
+			<Input
+				label="X"
+				value={x}
+				onChange={(e) => setX(e.target.value)}
+				variant="bordered"
+			/>
+			<Input
+				label="Y"
+				onChange={(e) => setY(e.target.value)}
+				value={y}
+				variant="bordered"
+			/>
+			<Input
+				label="Z"
+				onChange={(e) => setZ(e.target.value)}
+				value={z}
+				variant="bordered"
+			/>
+			<BButton variant="bordered" color="yellow" onClick={moveFleet}>
 				Déplacer
 			</BButton>
 		</Flex>

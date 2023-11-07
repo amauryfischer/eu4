@@ -8,13 +8,19 @@ interface SButtonProps
 	color?: string
 }
 
+export const BButtonContainer = styled.div`
+	height: fit-content;
+`
+
 export const SButton = colored(styled(
 	({ color, ...otherProps }: SButtonProps) => (
 		<Button {...otherProps}>{otherProps.children}</Button>
 	),
 )`
 	transition: all 0.2s ease-in-out;
-	${({ isDisabled }) => isDisabled && `
+	${({ isDisabled }) =>
+		isDisabled &&
+		`
 		cursor: not-allowed !important;
 	`}
     &:hover {
@@ -36,9 +42,10 @@ export const SButton = colored(styled(
 			background-color: var(--color) !important;
 			color: var(--text-color) !important;
 			&:hover {
-				${!isDisabled &&
-			`background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 10%)) !important;`
-			}
+				${
+					!isDisabled &&
+					`background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 10%)) !important;`
+				}
 			}
 		`
 	}}

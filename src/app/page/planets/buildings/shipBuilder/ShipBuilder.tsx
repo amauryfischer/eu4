@@ -31,6 +31,8 @@ import { IModifier, IModule } from "@/type/data/IModule"
 import useShipsActions from "@/hooks/data/actions/use-ships-actions.hook"
 import Flex from "@/ui/atoms/Flex/Flex"
 import BButton from "@/ui/atoms/buttons/BButton/BButton"
+import Build from "@/ui/fondations/icons/Build"
+import BuildButton from "@/ui/atoms/buttons/BuildButton/BuildButton"
 
 const Container = styled.div<{}>`
   padding: var(--size-8);
@@ -242,16 +244,13 @@ const ShipBuilder = ({}) => {
 								label="Nom du vaisseau"
 								value={shipName}
 								onChange={(e: any) => setShipName(e.target.value)}
-							/>
-							<BButton
 								variant="bordered"
-								color="primary"
-								startContent={<BuildIcon />}
+							/>
+							<BuildButton
 								isDisabled={modulesEmplacement > currentShipClass.emplacement}
 								onPress={onSubmit}
-							>
-								Créer
-							</BButton>
+								title="Créer"
+							/>
 						</Flex>
 					</Flex>
 					<Spacer y={6} />

@@ -25,7 +25,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     description:
       // TODO replace lorem
       "Un cargo de base, il peut contenir 10 000 ressources différentes",
-    img: "/images/modules/cargo/cargo1.png",
+    img: "/images/modules/cargo/cargo_s.webp",
     type: IModuleType.CARGO,
     emplacement: 5,
     modifier: {
@@ -46,7 +46,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     // TODO replace lorem
     description:
       "Un cargo moyen, il peut contenir 25 000 ressources différentes",
-    img: "/images/modules/cargo/cargo2.png",
+    img: "/images/modules/cargo/cargo_m.webp",
     type: IModuleType.CARGO,
     emplacement: 10,
     modifier: {
@@ -67,7 +67,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     // TODO replace lorem
     description:
       "Un cargo lourd, il peut contenir 50 000 ressources différentes",
-    img: "/images/modules/cargo/cargo3.png",
+    img: "/images/modules/cargo/cargo_l.webp",
     type: IModuleType.CARGO,
     emplacement: 10,
     modifier: {
@@ -88,7 +88,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     // TODO replace lorem
     description:
       "Un cargo immense, il peut contenir 100 000 ressources différentes",
-    img: "/images/modules/cargo/cargo4.png",
+    img: "/images/modules/cargo/cargo_xl.webp",
     type: IModuleType.CARGO,
     emplacement: 10,
     modifier: {
@@ -213,7 +213,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     description:
       "Le premier moteur warp, il permet de voyager dans l'espace en quelques secondes",
     type: IModuleType.ENGINE,
-    img: "/images/modules/engines/DX2.png",
+    img: "/images/modules/engines/DX2.webp",
     emplacement: 3,
     modifier: {
       [IModifier.WARP]: 100,
@@ -234,11 +234,55 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
     description:
       "Un moteur warp plus puissant que le précédent, son nouveau systeme de refroidissement permet de le faire fonctionner plus longtemps, pour un meilleur rendement",
     type: IModuleType.ENGINE,
-    img: "/images/modules/engines/DX3.png",
+    img: "/images/modules/engines/DX3.webp",
     emplacement: 6,
     modifier: {
       [IModifier.WARP]: 200,
       [IModifier.CONSO]: 190,
+    },
+    cost: {
+      [TITANE.name]: 2_000,
+      [CUIVRE.name]: 20_000,
+      [AZOTE.name]: 2_300,
+      [URANIUM.name]: 9_000,
+      [HYDROGENE.name]: 6_500,
+      [FER.name]: 7_500,
+    },
+  },
+  warp3: {
+    id: "warp3",
+    name: "Warp 3",
+    // TODO replace lorem
+    description:
+      "Un moteur warp plus puissant que le précédent, son nouveau systeme de refroidissement permet de le faire fonctionner plus longtemps, pour un meilleur rendement",
+    type: IModuleType.ENGINE,
+    img: "/images/modules/engines/DX4.webp",
+    emplacement: 6,
+    modifier: {
+      [IModifier.WARP]: 400,
+      [IModifier.CONSO]: 370,
+    },
+    cost: {
+      [TITANE.name]: 2_000,
+      [CUIVRE.name]: 20_000,
+      [AZOTE.name]: 2_300,
+      [URANIUM.name]: 9_000,
+      [HYDROGENE.name]: 6_500,
+      [FER.name]: 7_500,
+    },
+  },
+  warp4: {
+    id: "warp4",
+    name: "Warp 4",
+    // TODO replace lorem
+    description:
+      "Un moteur warp plus puissant que le précédent, son nouveau systeme de refroidissement permet de le faire fonctionner plus longtemps, pour un meilleur rendement",
+    type: IModuleType.ENGINE,
+    img: "/images/modules/engines/DX5.webp",
+    emplacement: 6,
+    modifier: {
+      [IModifier.WARP]: 700,
+      [IModifier.CONSO]: 600,
     },
     cost: {
       [TITANE.name]: 2_000,

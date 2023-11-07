@@ -10,7 +10,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
       [RESOURCE_TYPES.CUIVRE]: 500,
       [RESOURCE_TYPES.HYDROGENE]: 100,
     },
-    img: "/images/enhanced/apollo.png",
+    img: "/images/enhanced/apollo.webp",
     emplacement: 10,
     fuelSpace: 25_000,
     multiplier: {
@@ -30,7 +30,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
       [RESOURCE_TYPES.HYDROGENE]: 100,
       [RESOURCE_TYPES.FER]: 100,
     },
-    img: "/images/enhanced/arc.png",
+    img: "/images/enhanced/arc.webp",
     emplacement: 100,
     fuelSpace: 150_000,
     multiplier: {
@@ -48,7 +48,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
       [RESOURCE_TYPES.CUIVRE]: 500,
       [RESOURCE_TYPES.AZOTE]: 8000,
     },
-    img: "/images/enhanced/artemis.png",
+    img: "/images/enhanced/artemis.webp",
     emplacement: 100,
     fuelSpace: 150_000,
     multiplier: {
@@ -61,7 +61,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   athena: {
     name: "Athena",
     class: "athena",
-    img: "/images/enhanced/athena.png",
+    img: "/images/enhanced/athena.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,
@@ -79,7 +79,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   atlas: {
     name: "Atlas",
     class: "atlas",
-    img: "/images/enhanced/atlas.png",
+    img: "/images/enhanced/atlas.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,
@@ -97,7 +97,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   centaure: {
     name: "Centaure",
     class: "centaure",
-    img: "/images/enhanced/centaure.png",
+    img: "/images/enhanced/centaure.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,
@@ -115,7 +115,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   chasseur: {
     name: "Chasseur",
     class: "chasseur",
-    img: "/images/enhanced/chasseur.png",
+    img: "/images/enhanced/chasseur.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,
@@ -133,7 +133,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   croiseur_intergalactique: {
     name: "Croiseur Intergalactique",
     class: "croiseur_intergalactique",
-    img: "/images/enhanced/croiseur_intergalactique.png",
+    img: "/images/enhanced/croiseur_intergalactique.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,
@@ -151,7 +151,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   croiseur: {
     name: "Croiseur",
     class: "croiseur",
-    img: "/images/enhanced/croiseur.png",
+    img: "/images/enhanced/croiseur.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,
@@ -169,7 +169,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
   destroyer: {
     name: "Destroyer",
     class: "destroyer",
-    img: "/images/enhanced/destroyer.png",
+    img: "/images/enhanced/destroyer.webp",
     cost: {
       [RESOURCE_TYPES.TITANE]: 500,
       [RESOURCE_TYPES.CUIVRE]: 500,

@@ -20,7 +20,7 @@ import useCurrentFleet from "@/hooks/current/use-current-fleet.hook"
 import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
 import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
 import useShips from "@/hooks/data/entity/use-ships.hook"
-import { setCurrentFleet } from "@/redux/slice/current.slice"
+import { setCurrentFleet, setCurrentShip } from "@/redux/slice/current.slice"
 import ParcelService from "@/services/ParcelService"
 import ResourcesService, { RESOURCE_TYPES } from "@/services/ResourcesService"
 import ShipService from "@/services/ShipService"
@@ -34,6 +34,7 @@ import useFleets from "@/hooks/data/entity/use-fleets.hook"
 import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import RenderResources from "@/ui/organisms/RenderResources"
+import BAvatar from "@/ui/atoms/avatar/BAvatar"
 
 const GridContainer = styled.div`
   display: grid;
@@ -134,10 +135,6 @@ const ModalFleet = () => {
 		return null
 	}
 	const shipIds = currentFleet.shipIds
-	const shipImgs = shipIds.map(
-		(id) => ShipService.getAllShips()[ships?.[id]?.class]?.img,
-	)
-	console.log("remaining planets", planets)
 	const remainingPlanet = Object.values(planets).filter(
 		(planet) =>
 			planet.position.system === system &&
@@ -162,19 +159,27 @@ const ModalFleet = () => {
 					<ModalHeader>
 						<Flex alignItems="center" gap="1rem">
 							<h2>{currentFleet.name}</h2>
-							<AvatarGroup>
-								{shipImgs.map((img, index) => (
-									<Avatar key={index} size="lg" src={img} color="success" />
-								))}
-							</AvatarGroup>
 						</Flex>
 					</ModalHeader>
 					<ModalBody>
 						<Flex gap="1rem">
 							<Flex direction="column" gap="1rem">
-								{shipImgs.map((img, index) => (
-									<img src={img} width={500} height="auto" />
-								))}
+								{shipIds.map((shipId, index) => {
+									const img =
+										ShipService.getAllShips()[ships?.[shipId]?.class]?.img
+									return (
+										<BAvatar
+											key={index}
+											radius="lg"
+											src={img}
+											color="success"
+											className="w-32 h-32 text-large"
+											onClick={() => {
+												dispatch(setCurrentShip(shipId))
+											}}
+										/>
+									)
+								})}
 							</Flex>
 							<Flex direction="column">
 								{!isOpeningSoute && (
@@ -185,21 +190,25 @@ const ModalFleet = () => {
 										value={system?.toString()}
 										onValueChange={(e) => setSystem(e)}
 										type="number"
+										variant="bordered"
 									/>
 									<Input
 										value={x?.toString()}
 										onValueChange={(e) => setX(Number(e))}
 										type="number"
+										variant="bordered"
 									/>
 									<Input
 										value={y?.toString()}
 										onValueChange={(e) => setY(Number(e))}
 										type="number"
+										variant="bordered"
 									/>
 									<Input
 										value={z?.toString()}
 										onValueChange={(e) => setZ(Number(e))}
 										type="number"
+										variant="bordered"
 									/>
 									<BButton
 										variant="bordered"

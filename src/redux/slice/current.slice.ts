@@ -9,6 +9,7 @@ export const currentSlice = createSlice({
     asteroidId: undefined,
     pirateId: undefined,
     sendPosition: undefined,
+    shipId: undefined,
     user: {
       id: "1",
     },
@@ -33,6 +34,10 @@ export const currentSlice = createSlice({
       // @ts-ignore
       state.pirateId = pirateId
     },
+    setCurrentShip: (state, { payload: shipId }: { payload: string | undefined }) => {
+      // @ts-ignore
+      state.shipId = shipId
+    },
     setCurrentSendPosition: (
       state,
       { payload: sendPosition }: { payload: IPosition | undefined },
@@ -50,6 +55,7 @@ export const {
   setCurrentAsteroid,
   setCurrentPirate,
   setCurrentSendPosition,
+  setCurrentShip,
 } = currentSlice.actions
 
 export default currentSlice.reducer

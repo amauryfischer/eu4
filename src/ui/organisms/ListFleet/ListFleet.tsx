@@ -7,6 +7,7 @@ import BButton from "@/ui/atoms/buttons/BButton"
 import { setCurrentFleet } from "@/redux/slice/current.slice"
 import { useDispatch } from "react-redux"
 import ManageButton from "@/ui/atoms/buttons/ManageButton"
+import { Avatar, AvatarGroup } from "@nextui-org/react"
 
 const ListFleet = ({
 	fleets,
@@ -17,17 +18,17 @@ const ListFleet = ({
 	return (
 		<FleetGridContainer numberOfRows={additionalRows === undefined ? 4 : 5}>
 			{fleets.map((fleet) => {
-				const firstShipId = fleet.shipIds[0]
-				const ship = ships[firstShipId]
-				const shipClass = ShipService.getAllShips()[ship.class]
+				const shipList = fleet.shipIds.map((shipId) => ships[shipId])
+				const shipClasses = shipList.map(
+					(ship) => ShipService.getAllShips()[ship.class],
+				)
 				return (
 					<>
-						<img
-							src={shipClass.img}
-							alt={fleet.name}
-							width="300"
-							height="auto"
-						/>
+						<AvatarGroup>
+							{shipClasses.map((shipClass) => (
+								<Avatar src={shipClass.img} radius="lg" size="lg" isBordered />
+							))}
+						</AvatarGroup>
 						<div>{fleet.name}</div>
 						<ManageButton
 							onPress={() => {
