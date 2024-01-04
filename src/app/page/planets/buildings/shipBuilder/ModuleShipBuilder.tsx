@@ -5,20 +5,12 @@ import AddIcon from "@mui/icons-material/Add"
 import RemoveIcon from "@mui/icons-material/Remove"
 import { IconButton } from "@mui/material"
 import styled from "styled-components"
+import { ModuleDescription, ModuleMainName } from "./ModuleShipBuilder.styled"
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 100px 100px 1fr 1fr;
+  grid-template-columns: 100px 300px 200px;
   padding: 1rem;
-`
-const StyledAddIcon = styled(AddIcon)<{ disabled?: boolean }>`
-  color: white;
-`
-const StyledRemoveIcon = styled(RemoveIcon)<{ disabled?: boolean }>`
-  color: white;
-`
-const StyledIconButton = styled(IconButton)<{ disabled?: boolean }>`
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 `
 
 const ModuleShipBuilder = ({
@@ -35,8 +27,11 @@ const ModuleShipBuilder = ({
 	return (
 		<Container>
 			<img src={module.img} alt={module.name} width="60px" />
-			<p>{module.name}</p>
-			<i>{module.description}</i>
+
+			<Flex direction="column">
+				<ModuleMainName>{module.name}</ModuleMainName>
+				<ModuleDescription>{module.description}</ModuleDescription>
+			</Flex>
 			<Flex gap="1rem" alignItems="center" direction="row-reverse">
 				<AddButton
 					onPress={() => {

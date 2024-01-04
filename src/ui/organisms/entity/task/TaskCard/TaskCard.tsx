@@ -59,6 +59,10 @@ const TaskCard = ({ task }: { task: Task }) => {
 			{task.type === TaskType.FLYING_FLEET && (
 				<TaskFlyingFleet task={task as unknown as ITaskFlyingFleet} />
 			)}
+			<div>
+				Temps restant:{" "}
+				{moment().to(moment(task.endDate), true)} {moment(task.endDate).diff(moment(), "seconds")} secondes
+			</div>
 			<CardFooter>
 				<Progress
 					aria-label="Loading..."

@@ -12,20 +12,26 @@ export const BButtonContainer = styled.div`
 	height: fit-content;
 `
 
+// @ts-ignore
 export const SButton = colored(styled(
 	({ color, ...otherProps }: SButtonProps) => (
+		// @ts-ignore
 		<Button {...otherProps}>{otherProps.children}</Button>
 	),
 )`
+	--nextui-hover-opacity: 1;
 	transition: all 0.2s ease-in-out;
+
 	${({ isDisabled }) =>
 		isDisabled &&
 		`
 		cursor: not-allowed !important;
 	`}
+
     &:hover {
 		${({ isDisabled }) => !isDisabled && `transform: scale(1.05);`}
 	}
+	
 	${({ variant, isDisabled }: any) => {
 		if (variant === "bordered") {
 			return css`
@@ -44,9 +50,13 @@ export const SButton = colored(styled(
 			&:hover {
 				${
 					!isDisabled &&
-					`background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) - 10%)) !important;`
+					`
+						background-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) + 5%)) !important;
+						border-color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) + 15%)) !important;
+					`
 				}
 			}
+			${!isDisabled && ``}
 		`
 	}}
 `)

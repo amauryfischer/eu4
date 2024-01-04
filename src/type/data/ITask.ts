@@ -14,7 +14,6 @@ export enum TaskType {
 }
 
 
-
 export interface ITaskAsteroid extends Omit<Task, "details"> {
   type: TaskType.COLLECT_ASTEROIDS
   endDate: string
@@ -44,3 +43,5 @@ export interface ITaskFlyingFleet extends Omit<Task, "details"> {
     position: IPosition
   }
 }
+
+export type ITask = ITaskAsteroid | ITaskConstructModule | ITaskFlyingFleet

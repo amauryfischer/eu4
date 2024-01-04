@@ -8,10 +8,10 @@ import store from "../redux/store/store"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-	title: "Numérisk buisness",
-	description: "Numérisk buisness",
-}
+// export const metadata = {
+// 	title: "Numérisk buisness",
+// 	description: "Numérisk buisness",
+// }
 
 export default function RootLayout({
 	children,

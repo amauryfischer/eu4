@@ -66,7 +66,7 @@ const useCreateDataAction = (type: Prisma.ModelName) => {
 	const createDataAction = (data: any) => {
 		const createServer = async () => {
 			const createdData = await createServerData(type, data)
-			dispatch(updateData({ type, dataId: data.id, data: createdData }))
+			dispatch(updateData({ type, dataId: data?.id ?? createdData.id, data: createdData }))
 		}
 		createServer()
 	}

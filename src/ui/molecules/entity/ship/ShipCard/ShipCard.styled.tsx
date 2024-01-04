@@ -23,7 +23,6 @@ export const CardImageContainer = styled.div`
 
 export const CardImage = styled.img`
   transition: all 0.3s ease-in-out;
-  brightness: 0.95;
   border-radius: 1rem 1rem 0 0;
   object-fit: cover;
   ${SCard}:hover & {
@@ -41,23 +40,23 @@ export const GridResources = styled.div`
   grid-template-columns: 30px 1fr 30px 1fr 30px 1fr;
   grid-gap: 0.25rem;
   justify-items: center;
+  font-size: 0.7rem;
 `
 
 export const EditionText = text(
 	styled.div`
     --font-size: var(--font-size-1);
     position: absolute;
-    width: 200px;
+    width: 250px;
     min-height: 32px;
     bottom: 0;
     left: 0;
-    padding: 1rem;
-    padding: 0rem;
+    padding: 0.5rem;
     background-color: hsla(
-      var(--black-hue),
-      var(--black-saturation),
-      var(--black-lightness),
-      0.7
+      var(--grey-hue),
+      var(--grey-saturation),
+      var(--grey900-lightness),
+      0.3
     );
     backdrop-filter: blur(5px);
     display: flex;
@@ -78,6 +77,14 @@ export const DisplayResourcesContainer = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 0.5rem;
 `
+
+export const ShipVariantTitle = colored(styled.div`
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: hsl(var(--color-hue), var(--color-saturation), calc(var(--color-lightness) + 20%) );
+`)
+
 export const ExtendedCard = styled.div`
   height: 100%;
   width: 0px;

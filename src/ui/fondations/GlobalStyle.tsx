@@ -19,11 +19,11 @@ const GlobalStyle = createGlobalStyle`
         ${shadow}
     }
     @font-face {
-    font-family: 'Quantico';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-      src: url(https://fonts.gstatic.com/s/quantico/v17/rax-HiSdp9cPL3KIF7xrJD0.woff2) format('woff2');
+        font-family: 'Quantico';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('Quantico'), url('/fonts/quantico.woff2') format('woff2');
     }
     
     nav {

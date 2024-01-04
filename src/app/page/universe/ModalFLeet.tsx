@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, Slider } from "@mui/material"
+import { Slider, SliderValue } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
@@ -35,6 +35,8 @@ import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import RenderResources from "@/ui/organisms/RenderResources"
 import BAvatar from "@/ui/atoms/avatar/BAvatar"
+import ModulesService from "@/services/ModulesService"
+import { IModifier, IModule } from "@/type/data/IModule"
 
 const GridContainer = styled.div`
   display: grid;
@@ -113,7 +115,6 @@ const ModalFleet = () => {
 				0,
 			)
 			const diffFleet = newResourceValueFleet - previousResourceValueFleet
-			debugger
 			_.set(
 				newPlanet,
 				`resources.${resource}`,
@@ -276,9 +277,27 @@ const ModalFleet = () => {
 									<div>Planète : {remainingPlanet[0].name}</div>
 									{Object.values(ResourcesService.getAllResources()).map(
 										(resource) => {
-											const maxResource =
+											let maxResource =
 												(remainingPlanet[0].resources?.[resource?.name] ?? 0) +
 												(currentFleet?.cargo?.[resource?.name] ?? 0)
+											let fleetCapacity = currentFleet.shipIds.reduce(
+												(accumulator, shipId) => {
+													const ship = ships?.[shipId]
+													return (
+														accumulator +
+														(ships[shipId]?.modules ?? []).reduce(
+															(accumulator, module: IModule) => {
+																return (
+																	accumulator +
+																		module?.modifier?.[IModifier.CARGO] ?? 0
+																)
+															},
+															0,
+														)
+													)
+												},
+												0,
+											)
 											return (
 												<React.Fragment key={resource.name}>
 													<img
@@ -321,17 +340,16 @@ const ModalFleet = () => {
 													</SButton>
 													<Slider
 														defaultValue={30}
-														valueLabelDisplay="auto"
-														min={0}
+														minValue={0}
 														value={newResourcesValue?.[resource?.name] ?? 0}
-														onChange={(e, value) => {
+														onChange={(value: SliderValue) => {
 															// @ts-ignore
 															setNewResourcesValue({
 																...newResourcesValue,
 																[resource?.name]: Number(value),
 															})
 														}}
-														max={maxResource}
+														maxValue={Math.min(maxResource, fleetCapacity)}
 													/>
 													<div>
 														{ResourcesService.renderResources(

@@ -16,6 +16,7 @@ import {
 	SDiv,
 	ShipClass,
 	ShipTitle,
+	ShipVariantTitle,
 } from "./ShipCard.styled"
 
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
@@ -37,6 +38,12 @@ const ShipCard = ({
 	onClick: () => void
 }) => {
 	const [version, setVersion] = React.useState(0)
+	const color = {
+		0: "white",
+		1: "emerald",
+		2: "cyan",
+		3: "purple",
+	}[version]
 	return (
 		<SCard
 			$color={
@@ -69,29 +76,38 @@ const ShipCard = ({
 						>
 							{version > 0 ? (
 								<BButton
-									color={
-										{
-											0: "white",
-											1: "emerald200",
-											2: "cyan200",
-											3: "purple200",
-										}[version]
-									}
+									color={color}
 									variant="bordered"
 									isIconOnly
 									startContent={<ArrowLeftIcon />}
 									onClick={() => setVersion((version - 1) % 4)}
+									size="sm"
 								></BButton>
 							) : (
 								<SDiv />
 							)}
-							{version === 0 && <i>Edition standard</i>}
-							{version === 1 && <i>Edition transport</i>}
-							{version === 2 && <i>Edition armement</i>}
-							{version === 3 && <i>Edition tank</i>}
+							{version === 0 && (
+								<ShipVariantTitle color={color}>
+									Edition standard
+								</ShipVariantTitle>
+							)}
+							{version === 1 && (
+								<ShipVariantTitle color={color}>
+									Edition transport
+								</ShipVariantTitle>
+							)}
+							{version === 2 && (
+								<ShipVariantTitle color={color}>
+									Edition armement
+								</ShipVariantTitle>
+							)}
+							{version === 3 && (
+								<ShipVariantTitle color={color}>Edition tank</ShipVariantTitle>
+							)}
 							{version < 3 ? (
 								<BButton
 									variant="bordered"
+									size="sm"
 									color={
 										{
 											0: "white",

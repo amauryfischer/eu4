@@ -6,9 +6,20 @@ import moment from "moment"
 import schedule from "node-schedule"
 import { handleTask } from "./handleTask"
 
+const deleteEveryThing = async () => {
+	await db.task.deleteMany()
+	await db.fleet.deleteMany()
+	await db.planet.deleteMany()
+	await db.pirate.deleteMany()
+	await db.asteroid.deleteMany()
+	await db.user.deleteMany()
+	await db.ship.deleteMany()
+}
+
 export const fetchServerData = async (type: any) => {
 	// delete all data
-	// await db.planet.deleteMany()
+	// await deleteEveryThing()
+	
 
 	// ? delete finished task if finished
 	const tasks = await db.task.findMany()
@@ -131,7 +142,7 @@ export const createServerData = async (type: any, data: any) => {
 		data,
 	})
 	if (type == "Task") {
-		handleTask(serverCreatedData)
+		await handleTask(serverCreatedData)
 	}
 
 	return serverCreatedData

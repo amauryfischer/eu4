@@ -33,6 +33,7 @@ import Flex from "@/ui/atoms/Flex/Flex"
 import BButton from "@/ui/atoms/buttons/BButton/BButton"
 import Build from "@/ui/fondations/icons/Build"
 import BuildButton from "@/ui/atoms/buttons/BuildButton/BuildButton"
+import Defer from "@/utils/Defer"
 
 const Container = styled.div<{}>`
   padding: var(--size-8);
@@ -264,15 +265,17 @@ const ShipBuilder = ({}) => {
 						].map((category) => {
 							return (
 								<Tab key={category.label} title={category.label}>
-									{modules
-										.filter((m) => m.type === category.type)
-										.map((module) => (
-											<ModuleShipBuilder
-												module={module}
-												setSelectedModules={setSelectedModules}
-												selectedModules={selectedModules}
-											/>
-										))}
+									<Defer>
+										{modules
+											.filter((m) => m.type === category.type)
+											.map((module) => (
+												<ModuleShipBuilder
+													module={module}
+													setSelectedModules={setSelectedModules}
+													selectedModules={selectedModules}
+												/>
+											))}
+									</Defer>
 								</Tab>
 							)
 						})}
