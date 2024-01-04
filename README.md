@@ -5,17 +5,17 @@
 Empire Universe 4 est une version améliorée et repensée de notre jeu de stratégie en ligne basé dans l'espace. Cette nouvelle version est développée en utilisant ReactJS, offrant une expérience utilisateur plus fluide, des fonctionnalités améliorées et un design moderne.
 
 ### Table des matières
-- [Aperçu](#apercu)
-- [Nouvelles fonctionnalités](#fonctionnalites)
+- [Apercu](#apercu)
+- [Nouvelles fonctionnalités](#nouvelles-fonctionnalités)
 - [Installation](#installation)
 - [Lancement](#lancement)
 - [Configuration](#configuration)
 - [Comment jouer](#commentjouer)
-- [Captures d'écran](#screen)
+- [Captures d'écran](#captures-d'écran)
 - [Contributions](#contributions)
 - [Licence](#licence)
 
-## Aperçu (#apercu)
+## Apercu 
 Empire Universe 4 est un jeu de stratégie en temps réel (RTS) dans un univers virtuel massivement multijoueur. Les joueurs sont plongés dans un univers spatial où ils peuvent :
 
 Construire et gérer leur propre empire spatial.
@@ -25,7 +25,7 @@ Former des alliances et négocier avec d'autres joueurs.
 Participer à des guerres épiques et conquérir de nouvelles territoires.
 Réaliser des quêtes et des missions pour gagner des récompenses.
 
-## Nouvelles fonctionnalités (#fonctionnalites)
+## Nouvelles fonctionnalités
 Dans cette version 4 d'Empire Universe, nous avons ajouté de nombreuses fonctionnalités passionnantes :
 
 Interface Utilisateur Modernisée : Un tout nouveau design qui rend le jeu plus agréable visuellement et plus convivial.
@@ -40,7 +40,7 @@ Améliorations de la Flotte Spatiale : De nouvelles classes de vaisseaux spatiau
 
 Événements en Temps Réel : Des événements aléatoires ajoutent du piquant au jeu et permettent de gagner des récompenses.
 
-## Installation (#installation)
+## Installation
 Pour jouer à Empire Universe 4, suivez ces étapes d'installation :
 
 Clonez ce repo github
@@ -58,19 +58,20 @@ initialisez la base de donnée prisma
 npx prisma migrate dev 
 ```
 
+## Comment jouer
 ```sh
 yarn run dev
 ```
 
-## Configuration (#configuration)
+## Configuration
 TODO
 
-## Captures d'écran (#screen)
+## Captures d'écran
 TODO
 
 
-## Contributions (#contributions)
+## Contributions
 Nous accueillons les contributions de la communauté pour améliorer Empire Universe 4. Si vous souhaitez contribuer, veuillez consulter notre guide de contribution.
 
-## Licence (#licence)
+## Licence
 Ce projet est sous licence MIT, ce qui signifie que vous pouvez l'utiliser, le modifier et le distribuer librement, tant que vous respectez les termes de la licence.
