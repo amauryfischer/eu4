@@ -15,7 +15,7 @@ import Inventory2Icon from "@mui/icons-material/Inventory2"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import SecurityIcon from "@mui/icons-material/Security"
-import { Avatar, Input, Spacer, Tab, Tabs } from "@nextui-org/react"
+import { Avatar, Image, Input, Spacer, Tab, Tabs } from "@nextui-org/react"
 import ResourcesService, {
 	ALUMINUM,
 	AZOTE,
@@ -34,43 +34,25 @@ import BButton from "@/ui/atoms/buttons/BButton/BButton"
 import Build from "@/ui/fondations/icons/Build"
 import BuildButton from "@/ui/atoms/buttons/BuildButton/BuildButton"
 import Defer from "@/utils/Defer"
+import { GridResources } from "@/ui/molecules/entity/ship/ShipCard/ShipCard.styled"
+import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
+import {
+	BackgroundImage,
+	ColoredAvailableResource,
+	Container,
+	CustomGridResources,
+	SAvatar,
+	ShipPropertyContainer,
+	Simg,
+} from "./ShipBuilder.styled"
 
-const Container = styled.div<{}>`
-  padding: var(--size-8);
-  height: -webkit-fill-available;
-  max-height: 100vh;
-  overflow: hidden;
-  color: white;
-`
-
-const BackgroundImage = styled.div<{
-	img: string
-}>`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-image: url(${(props) => props.img});
-  background-size: cover;
-  z-index: -100;
-  filter: blur(1px) brightness(0.2);
-`
-
-const ShipPropertyContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 15fr);
-  column-gap: 2em;
-  row-gap: 1em;
-`
-const SAvatar = styled(Avatar)`
-  width: 200px;
-  height: 200px;
-`
 const ShipBuilder = ({}) => {
 	const { shipClass } = useParams()
 	const currentShipClass = ShipService.getAllShips()[shipClass as string]
 	const modules = Object.values(ModulesService.getAllModules())
 	const [selectedModules, setSelectedModules] = useState<IModule[]>([])
 	const [shipName, setShipName] = useState("")
+	const currentPlayerActivePlanet = useCurrentPlayerActivePlanet()
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const { id } = useParams()
@@ -218,9 +200,10 @@ const ShipBuilder = ({}) => {
 							</div>
 							{Object.keys(numberModulePerName).map((moduleId) => (
 								<Flex align-items="center" gap="0.5rem" key={moduleId}>
-									<img
+									<Simg
 										src={ModulesService.getAllModules()[moduleId].img}
 										width="25px"
+										height="25px"
 									/>
 									<div>
 										{numberModulePerName[moduleId]} x{" "}
@@ -229,17 +212,24 @@ const ShipBuilder = ({}) => {
 								</Flex>
 							))}
 						</Flex>
-						<Flex direction="column" gap="0.25rem">
+						<CustomGridResources>
 							{Object.values(ResourcesService.getAllResources()).map(
 								(resource) => (
-									<ShipPropertyContainer>
+									<>
 										<img src={resource.img} height="25px" width="25px" />
 										<div>{resource.name}</div>
-										<div>{totalResources[resource.name]}</div>
-									</ShipPropertyContainer>
+										<ColoredAvailableResource
+											$available={
+												totalResources[resource.name] <=
+												currentPlayerActivePlanet.resources[resource.name]
+											}
+										>
+											{totalResources[resource.name]}
+										</ColoredAvailableResource>
+									</>
 								),
 							)}
-						</Flex>
+						</CustomGridResources>
 						<Flex gap="1rem" align-items="center">
 							<Input
 								label="Nom du vaisseau"

@@ -79,7 +79,7 @@ const ShipCard = ({
 									color={color}
 									variant="bordered"
 									isIconOnly
-									startContent={<ArrowLeftIcon />}
+									startContent={<ArrowLeftIcon fontSize="small" />}
 									onClick={() => setVersion((version - 1) % 4)}
 									size="sm"
 								></BButton>
@@ -117,7 +117,7 @@ const ShipCard = ({
 										}[version]
 									}
 									isIconOnly
-									startContent={<ArrowRightIcon />}
+									startContent={<ArrowRightIcon fontSize="small" />}
 									onClick={() => setVersion((version + 1) % 4)}
 								></BButton>
 							) : (

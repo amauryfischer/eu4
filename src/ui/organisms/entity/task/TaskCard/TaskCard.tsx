@@ -60,8 +60,7 @@ const TaskCard = ({ task }: { task: Task }) => {
 				<TaskFlyingFleet task={task as unknown as ITaskFlyingFleet} />
 			)}
 			<div>
-				Temps restant:{" "}
-				{moment().to(moment(task.endDate), true)} {moment(task.endDate).diff(moment(), "seconds")} secondes
+				Temps restant: {moment(task.endDate).diff(moment(), "seconds")} secondes
 			</div>
 			<CardFooter>
 				<Progress

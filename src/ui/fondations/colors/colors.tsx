@@ -209,7 +209,7 @@ const colors = css`
   --red800-lightness: 20%;
   --red900-lightness: 10%;
 
-  --red-lightness: var(--red500-lightness);
+  --red-lightness: var(--red400-lightness);
   
   // hsl(345.29, 82.7%, 50%)
   --red: hsl(
@@ -254,7 +254,7 @@ const colors = css`
   --caramel800-lightness: 15%;
   --caramel900-lightness: 5%;
 
-  --caramel-lightness: var(--caramel500-lightness);
+  --caramel-lightness: var(--caramel400-lightness);
 
   // --caramel: hsl(27, 74%, 55%);
   --caramel: hsl(

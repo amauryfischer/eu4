@@ -6,6 +6,8 @@ import moment from "moment"
 import schedule from "node-schedule"
 import { handleTask } from "./handleTask"
 
+const RESOURCES_MINING_MULTIPLIER = 150
+
 const deleteEveryThing = async () => {
 	await db.task.deleteMany()
 	await db.fleet.deleteMany()
@@ -19,7 +21,6 @@ const deleteEveryThing = async () => {
 export const fetchServerData = async (type: any) => {
 	// delete all data
 	// await deleteEveryThing()
-	
 
 	// ? delete finished task if finished
 	const tasks = await db.task.findMany()
@@ -56,42 +57,66 @@ export const fetchServerData = async (type: any) => {
 							Titane:
 								planet?.resources?.Titane !== undefined
 									? planet.resources.Titane +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Titane *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Cuivre:
 								planet?.resources?.Cuivre !== undefined
 									? planet.resources.Cuivre +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Cuivre *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Fer:
 								planet?.resources?.Fer !== undefined
 									? planet.resources.Fer +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Fer *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Azote:
 								planet?.resources?.Azote !== undefined
 									? planet.resources.Azote +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Azote *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Uranium:
 								planet?.resources?.Uranium !== undefined
 									? planet.resources.Uranium +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Uranium *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Silicium:
 								planet?.resources?.Silicium !== undefined
 									? planet.resources.Silicium +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Silicium *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Hydrogène:
 								planet?.resources?.Hydrogène !== undefined
 									? planet.resources.Hydrogène +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Hydrogène *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 							Aluminium:
 								planet?.resources?.Aluminium !== undefined
 									? planet.resources.Aluminium +
-									  (500 * (Date.now() - parsedLastPlanetSync)) / 60000
+									  (RESOURCES_MINING_MULTIPLIER *
+											planet?.resourcesMultiplier?.Aluminium *
+											(Date.now() - parsedLastPlanetSync)) /
+											60000
 									: 0,
 						},
 					},

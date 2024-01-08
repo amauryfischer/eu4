@@ -1,3 +1,4 @@
+import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
 import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import { setCurrentPlanet } from "@/redux/slice/current.slice"
 import Flex from "@/ui/atoms/Flex"
@@ -13,11 +14,7 @@ const PlanetMain = ({}) => {
 	const planets = usePlanets()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-	if (!planets?.[planetId as string]) {
-		if (Object.keys(planets ?? {}).length !== 0) {
-			navigate(`/planets/${Object.keys(planets ?? {})?.[0]}`)
-		}
-	}
+	const currentPlanet = useCurrentPlayerActivePlanet()
 	return (
 		<>
 			<Flex gap="2rem">

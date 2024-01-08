@@ -24,6 +24,19 @@ const size = `
     --spectrum-alias-size-10: var(--size-10);
     --spectrum-alias-size-11: var(--size-11);
     --spectrum-alias-size-12: var(--size-12);
+    --font-size-0: 0.75rem;
+    --font-size-1: 0.875rem;
+    --font-size-2: 1rem;
+    --font-size-3: 1.125rem;
+    --font-size-4: 1.25rem;
+    --font-size-5: 1.5rem;
+    --font-size-6: 1.75rem;
+    --font-size-7: 2rem;
+    --font-size-8: 2.25rem;
+    --font-size-9: 2.625rem;
+    --font-size-10: 3rem;
+    --font-size-11: 3.375rem;
+    --font-size-12: 3.75rem;
 `
 
 export default size

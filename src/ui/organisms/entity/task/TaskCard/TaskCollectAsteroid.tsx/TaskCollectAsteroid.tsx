@@ -4,7 +4,7 @@ import ShipService from "@/services/ShipService"
 import { ITaskAsteroid } from "@/type/data/ITask"
 import Flex from "@/ui/atoms/Flex/Flex"
 import Mine from "@/ui/fondations/icons/Mine"
-import { CardBody } from "@nextui-org/react"
+import { CardBody, Image } from "@nextui-org/react"
 import { Task } from "@prisma/client"
 
 const TaskCollectAsteroid = ({ task }: { task: ITaskAsteroid }) => {
@@ -12,12 +12,14 @@ const TaskCollectAsteroid = ({ task }: { task: ITaskAsteroid }) => {
 	const ships = useShips()
 	return (
 		<>
-			<img
+			<Image
 				src={
 					ShipService.getAllShips()[
 						ships[fleets[task.details.fleetId].shipIds[0]].class
 					]?.img
 				}
+				width="100%"
+				height={200}
 			/>
 			<CardBody>
 				<Flex alignItems="center" gap="0.5rem">

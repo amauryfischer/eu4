@@ -10,6 +10,8 @@ import { defineElement } from "lord-icon-element"
 import store from "@/redux/store/store"
 import GlobalStyle from "@/ui/fondations/GlobalStyle"
 import { NextUIProvider } from "@nextui-org/react"
+import RightSideBar from "@/ui/organisms/RightSideBar"
+import LeftSideBar from "@/ui/organisms/LeftSideBar"
 
 // define "lord-icon" custom element with default properties
 defineElement(lottie.loadAnimation)
@@ -22,6 +24,8 @@ const App = () => {
 					<SynchroWrapper>
 						<GlobalStyle />
 						<AppRouter>
+							<LeftSideBar />
+							<RightSideBar />
 							<AppBarMenu />
 						</AppRouter>
 					</SynchroWrapper>

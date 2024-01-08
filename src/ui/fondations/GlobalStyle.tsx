@@ -17,6 +17,9 @@ const GlobalStyle = createGlobalStyle`
         --color-lightness: 0%;
         --bold: 700;
         ${shadow}
+        --topbar-height: 64px;
+        --leftbar-width: 73px;
+        --rightbar-width: 73px;
     }
     @font-face {
         font-family: 'Quantico';

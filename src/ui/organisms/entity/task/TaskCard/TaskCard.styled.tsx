@@ -5,5 +5,5 @@ export const TaskCardContainer = styled.div`
     
 `
 export const StyledTaskCard = styled(Card)`
-    max-width: 300px;
+    max-width: 300px !important;
 `

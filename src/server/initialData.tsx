@@ -33,6 +33,12 @@ export const generateInitialValues = async () => {
 	const promises = array.map(async (arEl) => {
 		const randomType = types[Math.floor(Math.random() * types.length)]
 		console.log("generating a planet of type", randomType)
+		const resourcesMultiplier = {} as Record<string, number>
+		// between 0.1 and 1
+		available_resources.forEach((el) => {
+			resourcesMultiplier[el] = Math.random() * 0.9 + 0.1
+		})
+
 		await db.planet.create({
 			data: {
 				name: randomType.charAt(0).toUpperCase() + randomType.slice(1),
@@ -45,6 +51,7 @@ export const generateInitialValues = async () => {
 					},
 				},
 				resources: {},
+				resourcesMultiplier,
 				type: randomType,
 				userId: arEl === 1 ? "1" : undefined,
 			},

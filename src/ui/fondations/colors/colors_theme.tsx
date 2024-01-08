@@ -204,6 +204,35 @@ const color_theme = css`
     --warning900: var(--yellow900);
     --warning900-lightness: var(--yellow900-lightness);
 
+
+// Error
+
+    --error: var(--red);
+    --error-hue: var(--red-hue);
+    --error-saturation: var(--red-saturation);
+    --error-lightness: var(--red-lightness);
+    --error-text-color: var(--red-text-color);
+    --error50: var(--red50);
+    --error50-lightness: var(--red50-lightness);
+    --error100: var(--red100);
+    --error100-lightness: var(--red100-lightness);
+    --error200: var(--red200);
+    --error200-lightness: var(--red200-lightness);
+    --error300: var(--red300);
+    --error300-lightness: var(--red300-lightness);
+    --error400: var(--red400);
+    --error400-lightness: var(--red400-lightness);
+    --error500: var(--red500);
+    --error500-lightness: var(--red500-lightness);
+    --error600: var(--red600);
+    --error600-lightness: var(--red600-lightness);
+    --error700: var(--red700);
+    --error700-lightness: var(--red700-lightness);
+    --error800: var(--red800);
+    --error800-lightness: var(--red800-lightness);
+    --error900: var(--red900);
+    --error900-lightness: var(--red900-lightness);
+    
 `
 
 export default color_theme

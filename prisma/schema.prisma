@@ -67,6 +67,7 @@ model Planet {
   userId    String?
   resources Json
   lastSync  String?
+  resourcesMultiplier Json
 }
 
 model User {

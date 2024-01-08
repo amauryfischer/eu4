@@ -25,7 +25,10 @@ import ModalShip from "./universe/ModalShip"
 
 const RoutesContainer = styled.div`
   margin-top: 4rem;
+  margin-left: var(--leftbar-width);
+  margin-right: var(--rightbar-width);
   height: calc(100vh - 4rem);
+  position: relative;
 `
 const Container = styled.div`
   height: 100%;
