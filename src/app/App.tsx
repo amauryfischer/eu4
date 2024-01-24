@@ -9,7 +9,7 @@ import lottie from "lottie-web"
 import { defineElement } from "lord-icon-element"
 import store from "@/redux/store/store"
 import GlobalStyle from "@/ui/fondations/GlobalStyle"
-import { NextUIProvider } from "@nextui-org/react"
+import { createTheme, NextUIProvider, Text } from "@nextui-org/react"
 import RightSideBar from "@/ui/organisms/RightSideBar"
 import LeftSideBar from "@/ui/organisms/LeftSideBar"
 

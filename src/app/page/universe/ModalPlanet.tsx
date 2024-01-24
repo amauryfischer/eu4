@@ -23,6 +23,7 @@ import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import Flex from "@/ui/atoms/Flex"
 import ListFleet from "@/ui/organisms/ListFleet"
+import BModal from "@/ui/molecules/modal/BModal"
 
 const CanvasContainer = styled.div`
   width: 300px;
@@ -41,7 +42,7 @@ const ModalPlanet = () => {
 	}
 	return (
 		<>
-			<Modal
+			<BModal
 				size="4xl"
 				isOpen={!!currentPlanet}
 				title={currentPlanet.name}
@@ -100,7 +101,7 @@ const ModalPlanet = () => {
 						/>
 					</ModalFooter>
 				</ModalContent>
-			</Modal>
+			</BModal>
 		</>
 	)
 }

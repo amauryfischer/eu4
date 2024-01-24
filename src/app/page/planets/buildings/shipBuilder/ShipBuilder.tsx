@@ -15,7 +15,15 @@ import Inventory2Icon from "@mui/icons-material/Inventory2"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import SecurityIcon from "@mui/icons-material/Security"
-import { Avatar, Image, Input, Spacer, Tab, Tabs } from "@nextui-org/react"
+import {
+	Avatar,
+	Image,
+	Input,
+	Progress,
+	Spacer,
+	Tab,
+	Tabs,
+} from "@nextui-org/react"
 import ResourcesService, {
 	ALUMINUM,
 	AZOTE,
@@ -41,14 +49,21 @@ import {
 	ColoredAvailableResource,
 	Container,
 	CustomGridResources,
+	FullContainer,
+	RedIfTooMuch,
 	SAvatar,
 	ShipPropertyContainer,
 	Simg,
 } from "./ShipBuilder.styled"
+import IShipDesign from "@/type/data/IShipDesign"
+import BProgress from "@/ui/molecules/progress/BProgress"
 
-const ShipBuilder = ({}) => {
-	const { shipClass } = useParams()
-	const currentShipClass = ShipService.getAllShips()[shipClass as string]
+const ShipBuilder = ({
+	shipSelected,
+}: {
+	shipSelected: IShipDesign
+}) => {
+	const currentShipClass = shipSelected
 	const modules = Object.values(ModulesService.getAllModules())
 	const [selectedModules, setSelectedModules] = useState<IModule[]>([])
 	const [shipName, setShipName] = useState("")
@@ -62,7 +77,7 @@ const ShipBuilder = ({}) => {
 		createShip({
 			name: shipName,
 			modules: selectedModules,
-			class: shipClass,
+			class: currentShipClass.class,
 		})
 		navigate(`/planets/${id}`)
 	}
@@ -132,11 +147,11 @@ const ShipBuilder = ({}) => {
 		}
 	})
 	return (
-		<React.Fragment>
+		<FullContainer>
 			<BackgroundImage img={currentShipClass.img} />
 			<Container>
 				<Flex direction="column">
-					<Flex gap="4rem">
+					<Flex gap="1rem" justifyContent="space-between">
 						<SAvatar
 							height={200}
 							width={200}
@@ -194,10 +209,17 @@ const ShipBuilder = ({}) => {
 							))}
 						</Flex>
 						<Flex direction="column" gap="0.25rem">
-							<div>
+							<RedIfTooMuch
+								$tooMuch={modulesEmplacement > currentShipClass.emplacement}
+							>
 								Emplacements : {modulesEmplacement} /{" "}
 								{currentShipClass.emplacement}
-							</div>
+							</RedIfTooMuch>
+							<BProgress
+								value={
+									(modulesEmplacement * 100) / currentShipClass.emplacement
+								}
+							/>
 							{Object.keys(numberModulePerName).map((moduleId) => (
 								<Flex align-items="center" gap="0.5rem" key={moduleId}>
 									<Simg
@@ -212,6 +234,56 @@ const ShipBuilder = ({}) => {
 								</Flex>
 							))}
 						</Flex>
+
+						<Flex gap="1rem" direction="column" alignItems="end">
+							<Input
+								label="Nom du vaisseau"
+								value={shipName}
+								onChange={(e: any) => setShipName(e.target.value)}
+								variant="bordered"
+							/>
+							<BuildButton
+								isDisabled={modulesEmplacement > currentShipClass.emplacement}
+								onPress={onSubmit}
+								disabled={
+									modulesEmplacement > currentShipClass.emplacement ||
+									Object.values(totalResources).some(
+										(r) => r > currentPlayerActivePlanet.resources[r],
+									)
+								}
+								title="Créer"
+							/>
+						</Flex>
+					</Flex>
+					<Spacer y={6} />
+					<Flex justifyContent="space-between" alignItems="start">
+						<div>
+							<Tabs>
+								{[
+									{ label: "Moteurs", type: IModuleType.ENGINE },
+									{ label: "Cargo", type: IModuleType.CARGO },
+									{ label: "Armes", type: IModuleType.WEAPON },
+									{ label: "Défense", type: IModuleType.DEFENSE },
+									{ label: "Autre", type: IModuleType.OTHER },
+								].map((category) => {
+									return (
+										<Tab key={category.label} title={category.label}>
+											<Defer>
+												{modules
+													.filter((m) => m.type === category.type)
+													.map((module) => (
+														<ModuleShipBuilder
+															module={module}
+															setSelectedModules={setSelectedModules}
+															selectedModules={selectedModules}
+														/>
+													))}
+											</Defer>
+										</Tab>
+									)
+								})}
+							</Tabs>
+						</div>
 						<CustomGridResources>
 							{Object.values(ResourcesService.getAllResources()).map(
 								(resource) => (
@@ -230,49 +302,10 @@ const ShipBuilder = ({}) => {
 								),
 							)}
 						</CustomGridResources>
-						<Flex gap="1rem" align-items="center">
-							<Input
-								label="Nom du vaisseau"
-								value={shipName}
-								onChange={(e: any) => setShipName(e.target.value)}
-								variant="bordered"
-							/>
-							<BuildButton
-								isDisabled={modulesEmplacement > currentShipClass.emplacement}
-								onPress={onSubmit}
-								title="Créer"
-							/>
-						</Flex>
 					</Flex>
-					<Spacer y={6} />
-					<Tabs>
-						{[
-							{ label: "Moteurs", type: IModuleType.ENGINE },
-							{ label: "Cargo", type: IModuleType.CARGO },
-							{ label: "Armes", type: IModuleType.WEAPON },
-							{ label: "Défense", type: IModuleType.DEFENSE },
-							{ label: "Autre", type: IModuleType.OTHER },
-						].map((category) => {
-							return (
-								<Tab key={category.label} title={category.label}>
-									<Defer>
-										{modules
-											.filter((m) => m.type === category.type)
-											.map((module) => (
-												<ModuleShipBuilder
-													module={module}
-													setSelectedModules={setSelectedModules}
-													selectedModules={selectedModules}
-												/>
-											))}
-									</Defer>
-								</Tab>
-							)
-						})}
-					</Tabs>
 				</Flex>
 			</Container>
-		</React.Fragment>
+		</FullContainer>
 	)
 }
 

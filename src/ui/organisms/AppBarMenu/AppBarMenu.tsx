@@ -5,7 +5,7 @@ import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice"
 import ResourcesService from "@/services/ResourcesService"
 import Flex from "@/ui/atoms/Flex/Flex"
 import HomeIconButton from "@/ui/atoms/iconButtons/HomeIconButton/HomeIconButton"
-import { Avatar, Navbar, NavbarContent } from "@nextui-org/react"
+import { Avatar, Navbar, NavbarContent, Tooltip } from "@nextui-org/react"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
@@ -31,6 +31,13 @@ const StyledAppBar = styled(Navbar)`
   }
 `
 
+const TooltipContent = styled.div`
+	background-color: hsla(var(--grey-hue),var(--grey-saturation),var(--grey600-lightness),0.3);
+	padding: 0.5rem;
+	color: white;
+	border-radius: 0.5rem;
+`
+
 export default function PrimarySearchAppBar() {
 	const planets = usePlanets()
 	const navigate = useNavigate()
@@ -39,7 +46,7 @@ export default function PrimarySearchAppBar() {
 	const dispatch = useDispatch()
 	useEffect(() => {
 		if (!currentPlanet) {
-			navigate(`/planets/${planets[0]?.id}`)
+			//navigate(`/planets/${planets[0]?.id}`)
 			dispatch(setCurrentPlayerActivePlanetId(Object.keys(planets)[0]))
 		}
 	}, [planets])
@@ -58,27 +65,49 @@ export default function PrimarySearchAppBar() {
 							size="md"
 						/>
 						{currentPlanet?.name}
-
-						<HomeIconButton
-							handleClick={() => {
-								navigate(`/planets/${currentPlanet?.id}`)
-							}}
-						/>
 					</Flex>
 					<Flex gap="3rem">
 						{Object.values(allResources).map((resource) => {
 							return (
-								<ResourcesBox key={resource.name}>
-									<Flex alignItems="center" gap="0.5rem">
-										<img src={resource.img} width={25} height={25} />
-										<div>{resource.name}</div>
-										<div>
-											{ResourcesService.renderResources(
-												currentPlanet?.resources?.[resource.name],
-											)}
-										</div>
-									</Flex>
-								</ResourcesBox>
+								<Tooltip
+									showArrow
+									placement="bottom"
+									content={
+										<TooltipContent>
+											<Flex alignItems="center" gap="0.5rem">
+												<img src={resource.img} width={50} height={50} />
+												<div>
+													{ResourcesService.renderResources(
+														currentPlanet?.resources?.[resource.name],
+													)}
+												</div>
+												<div className="text-xl text-purple-600">
+													{resource.name}
+												</div>
+											</Flex>
+										</TooltipContent>
+									}
+									classNames={{
+										base: [
+											"backdrop-filter backdrop-blur-sm bg-opacity-10 bg-red-900 p-0",
+										],
+										content: [
+											// tailwind glassmorphism
+											"bg-red-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-300 text-success-600 p-0",
+										],
+									}}
+								>
+									<ResourcesBox key={resource.name}>
+										<Flex alignItems="center" gap="0.5rem">
+											<img src={resource.img} width={25} height={25} />
+											<div>
+												{ResourcesService.renderResources(
+													currentPlanet?.resources?.[resource.name],
+												)}
+											</div>
+										</Flex>
+									</ResourcesBox>
+								</Tooltip>
 							)
 						})}
 					</Flex>

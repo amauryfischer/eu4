@@ -37,6 +37,7 @@ const size = `
     --font-size-10: 3rem;
     --font-size-11: 3.375rem;
     --font-size-12: 3.75rem;
+
 `
 
 export default size

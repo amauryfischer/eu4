@@ -60,18 +60,28 @@ const getAllResources: () => Record<RESOURCE_TYPES, IResource> = () => {
 
 const renderResources = (value: number) => {
 	if (value < 1_000) {
-	  return Math.floor(value).toString()
+		return Math.floor(value).toString()
 	}
 	if (value < 1_000_000) {
-	  return `${(value / 1_000).toFixed(2)}k`
+		return `${(value / 1_000).toFixed(2)}k`
 	}
 	if (value < 1_000_000_000) {
-	  return `${(value / 1_000_000).toFixed(2)}M`
+		return `${(value / 1_000_000).toFixed(2)}M`
 	}
 	return `${(value / 1_000_000_000).toFixed(2)}B`
-  }
-
+}
+const allResources = [
+	TITANE,
+	CUIVRE,
+	FER,
+	ALUMINUM,
+	SILICIUM,
+	URANIUM,
+	AZOTE,
+	HYDROGENE,
+]
 export default {
 	getAllResources,
 	renderResources,
+	allResources,
 }

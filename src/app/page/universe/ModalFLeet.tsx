@@ -37,6 +37,7 @@ import RenderResources from "@/ui/organisms/RenderResources"
 import BAvatar from "@/ui/atoms/avatar/BAvatar"
 import ModulesService from "@/services/ModulesService"
 import { IModifier, IModule } from "@/type/data/IModule"
+import BModal from "@/ui/molecules/modal/BModal"
 
 const GridContainer = styled.div`
   display: grid;
@@ -150,7 +151,7 @@ const ModalFleet = () => {
 
 	return (
 		<>
-			<Modal
+			<BModal
 				size="5xl"
 				isOpen={!!currentFleet}
 				title={currentFleet.name}
@@ -415,7 +416,7 @@ const ModalFleet = () => {
 						</>
 					</ModalFooter>
 				</ModalContent>
-			</Modal>
+			</BModal>
 		</>
 	)
 }

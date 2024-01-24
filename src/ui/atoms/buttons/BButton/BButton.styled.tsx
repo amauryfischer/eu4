@@ -21,7 +21,7 @@ export const SButton = colored(styled(
 )`
 	--nextui-hover-opacity: 1;
 	transition: all 0.2s ease-in-out;
-
+	min-width: fit-content;
 	${({ isDisabled }) =>
 		isDisabled &&
 		`

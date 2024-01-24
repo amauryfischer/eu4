@@ -15,6 +15,7 @@ import { Input } from "@nextui-org/react"
 import BButton from "@/ui/atoms/buttons/BButton"
 import IShip from "@/type/data/IShip"
 import { IFleet } from "@/type/data/IFleet"
+import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
 
 const StyledCheckbox = styled(Checkbox)`
   color: var(--primary) !important;
@@ -34,11 +35,10 @@ const PlanetSpatioport = ({}) => {
 
 	// * selector
 	const ships = useShips()
-	const planets = usePlanets()
 	const { id } = useParams()
 	const { createFleet } = useFleetsActions()
+	const planet = useCurrentPlayerActivePlanet()
 
-	const planet = planets[id as string]
 	const fleets = useFleets()
 
 	// * dispatch

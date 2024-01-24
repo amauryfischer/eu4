@@ -21,6 +21,7 @@ import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import Spaceship from "@/ui/fondations/icons/Spaceship"
 import ShipNumberModules from "@/ui/molecules/entity/ship/ShipNumberModules"
 import ShipStats from "@/ui/molecules/entity/ship/ShipStats"
+import BModal from "@/ui/molecules/modal/BModal"
 import { Dialog } from "@mui/material"
 import {
 	Modal,
@@ -40,7 +41,7 @@ const ModalShip = () => {
 	const currentShip = useCurrentShip()
 	if (!currentShip) return null
 	return (
-		<Modal
+		<BModal
 			size={"5xl"}
 			isOpen={!!currentShip}
 			onOpenChange={() => {
@@ -65,7 +66,7 @@ const ModalShip = () => {
 					/>
 				</ModalFooter>
 			</ModalContent>
-		</Modal>
+		</BModal>
 	)
 }
 

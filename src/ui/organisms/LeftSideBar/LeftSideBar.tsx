@@ -1,7 +1,19 @@
 import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice"
+import ResourcesService from "@/services/ResourcesService"
 import Flex from "@/ui/atoms/Flex"
-import { Avatar } from "@nextui-org/react"
+import {
+	MainTitle,
+	SmallText,
+	SubSubTitle,
+	SubTitle,
+	Text,
+	TinyText,
+	Title,
+} from "@/ui/fondations/text"
+import PlanetCanvas from "@/ui/molecules/entity/planets/PlanetCanvas"
+import BProgress from "@/ui/molecules/progress/BProgress"
+import { Avatar, Progress, Spacer, Tooltip } from "@nextui-org/react"
 import { useParams } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
@@ -18,6 +30,13 @@ const PlanetName = styled.div`
     text-transform: capitalize;
     
 `
+const TooltipContent = styled.div`
+	background-color: hsla(var(--grey-hue),var(--grey-saturation),var(--grey800-lightness),0.8);
+	padding: 0.5rem;
+	color: white;
+	border-radius: 0.5rem;
+    padding: 0.5rem 2rem; 
+`
 const LeftSideBarContainer = styled.div`
     width: var(--leftbar-width);
     height: 100vh;
@@ -30,13 +49,6 @@ const LeftSideBarContainer = styled.div`
     --width-internal: 0%;
     max-height:100vh;
     overflow-y: auto;
-    &:hover {
-        width: 200px;
-        --width-internal: 100%;
-        ${PlanetName} {
-            padding-left: 1rem;
-        }
-    }
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -63,16 +75,25 @@ const PlanetWithNameContainer = styled(Flex)<{ $selected: boolean }>`
     border-radius: 0.5rem;
     &:hover {
         background: var(--gradient-background-grey-dark);
-        gap: 0.5rem;
-        border-radius: 0.5rem;
         cursor: pointer;
-        ${PlanetName} {
-            padding-left: 1.5rem;
-        }
     }
     margin-bottom: 0.5rem;
 `
-
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: 30px 1fr 30px;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    justify-items: center;
+`
+const CanvasContainer = styled.div`
+    width: 300px;
+    height: 300px;
+    border-radius: 0.5rem;
+    padding: 2rem;
+`
 const types = [
 	"atmo",
 	"ceres",
@@ -97,18 +118,100 @@ const LeftSideBar = () => {
 	const dispatch = useDispatch()
 	return (
 		<LeftSideBarContainer>
-			{Object.values(planets).map((el) => {
+			{Object.values(planets).map((planet) => {
 				return (
-					<PlanetWithNameContainer
-						$selected={el.id === planetId}
-						onClick={() => {
-							dispatch(setCurrentPlayerActivePlanetId(el.id))
-							navigate(`/planets/${el.id}`)
+					<Tooltip
+						showArrow
+						placement="right"
+						content={
+							<TooltipContent>
+								<Flex direction="column" gap="0.5rem">
+									<Spacer y={4} />
+									<SubTitle>{planet.name}</SubTitle>
+									<Flex
+										alignItems="center"
+										gap="0.5rem"
+										justifyContent="center"
+									>
+										<CanvasContainer>
+											<PlanetCanvas planet={planet} sizeMultiplier={3} />
+										</CanvasContainer>
+										<Flex direction="column" gap="0.5rem">
+											<Text>
+												Position: {planet.position.system}:
+												{planet.position.systemPosition.x}:
+												{planet.position.systemPosition.y}:
+												{planet.position.systemPosition.z}
+											</Text>
+											<Grid>
+												{Object.values(ResourcesService.getAllResources()).map(
+													(resource) => {
+														let color = "primary"
+														if (
+															planet.resourcesMultiplier[resource.name] < 0.5
+														) {
+															color = "warning"
+														}
+														if (
+															planet.resourcesMultiplier[resource.name] < 0.2
+														) {
+															color = "danger"
+														}
+														if (
+															planet.resourcesMultiplier[resource.name] > 0.8
+														) {
+															color = "success"
+														}
+														return (
+															<>
+																<img
+																	src={resource.img}
+																	width={30}
+																	height={30}
+																/>
+																<BProgress
+																	value={
+																		planet.resourcesMultiplier[resource.name] *
+																		100
+																	}
+																/>
+																<SmallText>
+																	{Math.floor(
+																		planet.resourcesMultiplier[resource.name] *
+																			100,
+																	)}
+																</SmallText>
+															</>
+														)
+													},
+												)}
+											</Grid>
+										</Flex>
+									</Flex>
+								</Flex>
+							</TooltipContent>
+						}
+						classNames={{
+							base: [
+								"backdrop-filter backdrop-blur-sm bg-opacity-10 bg-red-900 p-0",
+							],
+							content: [
+								// tailwind glassmorphism
+								"bg-red-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-300 text-success-600 p-0",
+							],
 						}}
 					>
-						<Avatar src={`/images/planets/${el.type}.jpg`} size="md" />
-						<PlanetName>{el.name}</PlanetName>
-					</PlanetWithNameContainer>
+						<PlanetWithNameContainer
+							$selected={planet.id === planetId}
+							onClick={() => {
+								dispatch(setCurrentPlayerActivePlanetId(planet.id))
+								navigate(`/planets/${planet.id}`)
+							}}
+						>
+							<Avatar src={`/images/planets/${planet.type}.jpg`} size="md" />
+							<PlanetName>{planet.name}</PlanetName>
+						</PlanetWithNameContainer>
+					</Tooltip>
 				)
 			})}
 		</LeftSideBarContainer>

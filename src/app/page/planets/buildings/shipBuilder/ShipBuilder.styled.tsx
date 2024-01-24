@@ -12,10 +12,6 @@ export const CustomGridResources = styled.div`
 `
 export const Container = styled.div<{}>`
   padding: var(--size-8);
-  height: -webkit-fill-available;
-  max-height: 100vh;
-  overflow: hidden;
-  color: white;
 `
 
 export const BackgroundImage = styled.div<{
@@ -27,7 +23,7 @@ export const BackgroundImage = styled.div<{
   background-image: url(${(props) => props.img});
   background-size: cover;
   z-index: -100;
-  filter: blur(1px) brightness(0.2);
+  filter: blur(1px) brightness(0.2) opacity(0.5);
 `
 
 export const ShipPropertyContainer = styled.div`
@@ -42,4 +38,10 @@ export const SAvatar = styled(Avatar)`
 `
 export const ColoredAvailableResource = styled.div<{ $available?: boolean }>`
 	color: ${({ $available }) => !$available && "var(--error)"};
+`
+export const FullContainer = styled.div`
+  position: relative;
+`
+export const RedIfTooMuch = styled.div<{ $tooMuch?: boolean }>`
+  color: ${({ $tooMuch }) => $tooMuch && "var(--error)"};
 `

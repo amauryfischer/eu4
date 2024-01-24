@@ -18,6 +18,7 @@ import BButton from "@/ui/atoms/buttons/BButton"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import Spaceship from "@/ui/fondations/icons/Spaceship"
+import BModal from "@/ui/molecules/modal/BModal"
 import { Dialog } from "@mui/material"
 import {
 	Modal,
@@ -57,7 +58,7 @@ const ModalSendPosition = () => {
 	const tasks = useTasks()
 	const user = useCurrentUser()
 	return (
-		<Modal
+		<BModal
 			size={"5xl"}
 			isOpen={!!currentSendPosition}
 			onOpenChange={() => {
@@ -147,7 +148,7 @@ const ModalSendPosition = () => {
 					/>
 				</ModalFooter>
 			</ModalContent>
-		</Modal>
+		</BModal>
 	)
 }
 

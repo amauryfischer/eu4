@@ -26,6 +26,7 @@ import useFleetsOnPosition from "@/hooks/data/entity/use-fleets-on-position.hook
 import { IFleet } from "@/type/data/IFleet"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import AttackButton from "@/ui/atoms/buttons/AttackButton"
+import BModal from "@/ui/molecules/modal/BModal"
 
 const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
@@ -49,7 +50,7 @@ const ModalPirate = () => {
 	}
 	return (
 		<>
-			<Modal
+			<BModal
 				size="5xl"
 				isOpen={!!pirate}
 				onOpenChange={() => dispatch(setCurrentPirate(undefined))}
@@ -115,7 +116,7 @@ const ModalPirate = () => {
 						/>
 					</ModalFooter>
 				</ModalContent>
-			</Modal>
+			</BModal>
 		</>
 	)
 }

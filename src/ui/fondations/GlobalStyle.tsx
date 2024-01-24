@@ -8,6 +8,7 @@ import spacing from "./spacing"
 
 const GlobalStyle = createGlobalStyle`
     :root {
+        --gold: 1.618;
         ${colors}
         ${color_theme}
         ${size}

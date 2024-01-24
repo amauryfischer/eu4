@@ -40,6 +40,7 @@ import RUBY_DATE_FORMAT from "@/utils/rubyDateFormat"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import useTasks from "@/hooks/data/entity/use-tasks.hook"
+import BModal from "@/ui/molecules/modal/BModal"
 
 const StyledDialog = styled(Dialog)`
   & .MuiPaper-root {
@@ -74,7 +75,7 @@ const ModalAsteroid = () => {
 	const { createTask, fetchTasks } = useTasksActions()
 	return (
 		<>
-			<Modal
+			<BModal
 				size="5xl"
 				isOpen={!!currentAsteroid}
 				onOpenChange={() => dispatch(setCurrentAsteroid(undefined))}
@@ -167,7 +168,7 @@ const ModalAsteroid = () => {
 						</>
 					</ModalFooter>
 				</ModalContent>
-			</Modal>
+			</BModal>
 		</>
 	)
 }

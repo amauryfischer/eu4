@@ -530,6 +530,90 @@ const colors = css`
     var(--emerald900-lightness)
   );
 
+  --green-hue: 149;
+  --green-saturation: 69%;
+
+  --green100-lightness: 91%;
+  --green200-lightness: 81%;
+  --green300-lightness: 71%;
+  --green400-lightness: 61%;
+  --green500-lightness: 51%;
+  --green600-lightness: 41%;
+  --green700-lightness: 31%;
+  --green800-lightness: 21%;
+  --green900-lightness: 11%;
+
+  --green-lightness: var(--green600-lightness);
+
+  --green: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green-lightness)
+  );
+
+  // hsl(149, 69%, 91%)
+  --green100: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green100-lightness)
+  );
+
+  // hsl(149, 69%, 81%)
+  --green200: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green200-lightness)
+  );
+
+  // hsl(149, 69%, 71%)
+  --green300: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green300-lightness)
+  );
+
+  // hsl(149, 69%, 61%)
+  --green400: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green400-lightness)
+  );
+
+  // hsl(149, 69%, 51%)
+  --green500: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green500-lightness)
+  );
+
+  // hsl(149, 69%, 41%)
+  --green600: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green600-lightness)
+  );
+
+  // hsl(149, 69%, 31%)
+  --green700: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green700-lightness)
+  );
+
+  // hsl(149, 69%, 21%)
+  --green800: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green800-lightness)
+  );
+
+  // hsl(149, 69%, 11%)
+  --green900: hsl(
+    var(--green-hue),
+    var(--green-saturation),
+    var(--green900-lightness)
+  );
+
   //   ██████  ██    ██ ██████  ██████  ██      ███████ 
   // ██   ██ ██    ██ ██   ██ ██   ██ ██      ██      
   // ██████  ██    ██ ██████  ██████  ██      █████   

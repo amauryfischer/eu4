@@ -49,12 +49,6 @@ const AppRouter = ({ children }: AppRouterProps) => {
 							<Route path="/planets">
 								<Route path=":id" element={<PlanetMain />} />
 								<Route path=":id/research" element={<PlanetResearch />} />
-								<Route path=":id/shipfactory">
-									<Route path="choose" element={<PlanetShipFactory />} />
-									<Route path="build">
-										<Route path=":shipClass" element={<ShipBuilder />} />
-									</Route>
-								</Route>
 								<Route path=":id/mines" element={<PlanetMines />} />
 								<Route path=":id/fabric" element={<PlanetFabric />} />
 								<Route path=":id/caserne" element={<PlanetCaserne />} />
