@@ -9,10 +9,10 @@ const ManageButton = (props: BButtonProps) => {
 	return (
 		<div ref={ref}>
 			<BButton
-				color="purple700"
+				color="purple400"
 				variant="bordered"
 				{...props}
-				startContent={<Manage color="purple700" isHovering={isHovering} />}
+				startContent={<Manage color="purple400" isHovering={isHovering} />}
 			>
 				{props.title}
 			</BButton>

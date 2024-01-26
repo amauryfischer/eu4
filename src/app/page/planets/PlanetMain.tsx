@@ -58,7 +58,7 @@ const Simg = styled.img<{
 const SFlex = styled(Flex)<{ $url: string }>`
 	background: url(${({ $url }) => $url}) no-repeat center center fixed;	
 	background-size: cover;
-	min-height: 100vh;
+	min-height: calc(100vh - var(--topbar-height));
 	position: relative;
 	padding: 2rem;
 `

@@ -4,9 +4,11 @@ import { List } from "@mui/material"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import { TaskContainer } from "./ListTask.styled"
 import TaskCard from "../TaskCard/TaskCard"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 
-const ListTask = ({ tasks }: { tasks: Record<string, Task> }) => {
+const ListTask = () => {
 	const { fetchTasks } = useTasksActions()
+	const tasks = useTasks()
 	return (
 		<TaskContainer>
 			{Object.values(tasks).map((task) => (

@@ -2,18 +2,10 @@ import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice"
 import ResourcesService from "@/services/ResourcesService"
 import Flex from "@/ui/atoms/Flex"
-import {
-	MainTitle,
-	SmallText,
-	SubSubTitle,
-	SubTitle,
-	Text,
-	TinyText,
-	Title,
-} from "@/ui/fondations/text"
+import { SmallText, SubTitle, Text } from "@/ui/fondations/text"
 import PlanetCanvas from "@/ui/molecules/entity/planets/PlanetCanvas"
 import BProgress from "@/ui/molecules/progress/BProgress"
-import { Avatar, Progress, Spacer, Tooltip } from "@nextui-org/react"
+import { Avatar, Spacer, Tooltip } from "@nextui-org/react"
 import { useParams } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
@@ -39,7 +31,6 @@ const TooltipContent = styled.div`
 `
 const LeftSideBarContainer = styled.div`
     width: var(--leftbar-width);
-    height: 100vh;
     background-color: black;
     position: fixed;
     left: 0;
@@ -47,7 +38,6 @@ const LeftSideBarContainer = styled.div`
     z-index: 1000;
     transition: all 0.3s ease-in-out;
     --width-internal: 0%;
-    max-height:100vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -94,22 +84,6 @@ const CanvasContainer = styled.div`
     border-radius: 0.5rem;
     padding: 2rem;
 `
-const types = [
-	"atmo",
-	"ceres",
-	"earth",
-	"eris",
-	"fictio",
-	"haumea",
-	"jupiter",
-	"mars",
-	"mercury",
-	"moon",
-	"neptune",
-	"saturn",
-	"uranus",
-	"venus",
-]
 
 const LeftSideBar = () => {
 	const { id: planetId } = useParams()

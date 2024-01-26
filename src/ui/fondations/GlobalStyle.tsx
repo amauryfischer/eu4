@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
         --topbar-height: 64px;
         --leftbar-width: 73px;
         --rightbar-width: 73px;
+        --bottombar-height: 50px;
     }
     @font-face {
         font-family: 'Quantico';

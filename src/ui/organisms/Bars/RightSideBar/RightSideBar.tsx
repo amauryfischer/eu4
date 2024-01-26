@@ -14,7 +14,7 @@ import styled from "styled-components"
 const RightSideBarContainer = styled.div`
     transition: all 0.3s ease-in-out;
     margin-top: var(--topbar-height);
-    height: 100vh;
+    height: calc(100vh - var(--topbar-height));
     width: 74px;
     background-color: black;
     position: fixed;
@@ -70,68 +70,67 @@ const PlanetWithNameContainer = styled(Flex)`
 `
 
 const RightSideBar = () => {
-    const navigate = useNavigate()
-    const planet = useCurrentPlayerActivePlanet()
+	const navigate = useNavigate()
+	const planet = useCurrentPlayerActivePlanet()
 
-    const menus = {
-        city: {
-            icon: <City width="42px" color="red200" />,
-            name: "Bâtiments",
-            url: "/",
-        },
-        planet: {
-            icon: <Planet width="42px" />,
-            name: "Orbite",
-            url: "/",
-        },
-        solarSystem: {
-            icon: <SolarSystem color="yellow400" width="42px" />,
-            name: "Système solaire",
-            url: `/system/${planet?.position?.system}`,
-        },
-        universe: {
-            icon: <Galaxy color="cyan500" width="42px" />,
-            name: "Univers",
-            url: "/universe",
-        },
-        spaceships: {
-            icon: <Spaceship width="42px" color="caramel400" />,
-            name: "Flottes",
-            url: "/fleets/list",
-        },
-        empire: {
-            icon: <Orga width="42px" color="emerald200" />,
-            name: "Empire",
-            url: "/empire",
-        },
-        classement: {
-            icon: <First width="42px" color="purple200" />,
-            name: "Classement",
-            url: "/classement",
-        },
-        mails: {
-            icon: <Mails width="42px" color="blue500" />,
-            name: "Messagerie",
-            url: "/mails",
-        },
-
-    }
-    return (
-        <RightSideBarContainer>
-            {Object.values(menus).map((el) => {
-                return (
-                    <PlanetWithNameContainer
-                        onClick={() => {
-                            navigate(el.url)
-                        }}
-                    >
-                        {el.icon}
-                        <PlanetName>{el.name}</PlanetName>
-                    </PlanetWithNameContainer>
-                )
-            })}
-        </RightSideBarContainer>
-    )
+	const menus = {
+		city: {
+			icon: <City width="42px" color="red200" />,
+			name: "Bâtiments",
+			url: "/",
+		},
+		planet: {
+			icon: <Planet width="42px" />,
+			name: "Orbite",
+			url: "/",
+		},
+		solarSystem: {
+			icon: <SolarSystem color="yellow400" width="42px" />,
+			name: "Système solaire",
+			url: `/system/${planet?.position?.system}`,
+		},
+		universe: {
+			icon: <Galaxy color="cyan500" width="42px" />,
+			name: "Univers",
+			url: "/universe",
+		},
+		spaceships: {
+			icon: <Spaceship width="42px" color="caramel400" />,
+			name: "Flottes",
+			url: "/fleets/list",
+		},
+		empire: {
+			icon: <Orga width="42px" color="emerald200" />,
+			name: "Empire",
+			url: "/empire",
+		},
+		classement: {
+			icon: <First width="42px" color="purple200" />,
+			name: "Classement",
+			url: "/classement",
+		},
+		mails: {
+			icon: <Mails width="42px" color="blue500" />,
+			name: "Messagerie",
+			url: "/mails",
+		},
+	}
+	return (
+		<RightSideBarContainer>
+			{Object.values(menus).map((el) => {
+				return (
+					<PlanetWithNameContainer
+						onClick={() => {
+							navigate(el.url)
+						}}
+					>
+						{el.icon}
+						<PlanetName>{el.name}</PlanetName>
+					</PlanetWithNameContainer>
+				)
+			})}
+		</RightSideBarContainer>
+	)
 }
 
 export default RightSideBar

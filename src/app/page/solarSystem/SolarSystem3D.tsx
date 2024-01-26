@@ -4,8 +4,8 @@ import {
 	Text,
 	Text3D,
 } from "@react-three/drei"
-import { Canvas, useFrame } from "@react-three/fiber"
-import React, { Suspense, useEffect } from "react"
+import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import React, { Suspense, useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
 // @ts-ignore
 import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
@@ -29,23 +29,14 @@ import ListTask from "@/ui/organisms/entity/task/ListTask/ListTask"
 import { IPlanet } from "@/type/data/IPlanet"
 
 const CanvasContainer = ({ children }) => {
-	const [newFocus, setNewFocus] = React.useState([600, 400, 1000])
-	const cameraRef = React.useRef()
-	useFrame(() => {
-		// @ts-ignore
-		//cameraRef.current.lookAt(...newFocus)
-		cameraRef.current.updateMatrixWorld()
-	})
-
 	return (
 		<>
-			<mesh position={[0, 0, 0]} onClick={() => setNewFocus([0, 0, 0])}>
+			<mesh position={[0, 0, 0]}>
 				{/* sphere */}
 				<sphereGeometry args={[1, 32, 32]} />
 				<meshStandardMaterial color="yellow" />
 			</mesh>
 			<PerspectiveCamera
-				ref={cameraRef}
 				makeDefault
 				onPointerMissed={() => {}}
 				view={null}
@@ -58,7 +49,29 @@ const CanvasContainer = ({ children }) => {
 		</>
 	)
 }
+const BillboardText = ({ position, children }) => {
+	const textRef = useRef()
+	const { camera } = useThree() // Utilisation de useThree pour accéder à la caméra
 
+	useFrame(() => {
+		if (textRef.current) {
+			textRef.current.lookAt(camera.position)
+		}
+	})
+
+	return (
+		<Text
+			ref={textRef}
+			position={position}
+			fontSize={2.5}
+			color="#ffffff"
+			anchorX="center"
+			anchorY="middle"
+		>
+			{children}
+		</Text>
+	)
+}
 const SolarSystem3D = () => {
 	const { id } = useParams<string>()
 	const cameraRef = React.useRef()
@@ -66,7 +79,6 @@ const SolarSystem3D = () => {
 	const planets = usePlanets() ?? {}
 	const asteroids = useAsteroids() ?? {}
 	const pirates = usePirates() ?? {}
-	const tasks = useTasks()
 	const [newFocus, setNewFocus] = React.useState([0, 0, 0])
 
 	const ships = useShips()
@@ -95,13 +107,11 @@ const SolarSystem3D = () => {
 					<ambientLight />
 					<pointLight position={[10, 10, 10]} />
 
-					<Suspense fallback={null}>
-						<Image3D
-							position={[0, 0, 0]}
-							imageUrl={`/images/planets/sun.jpg`}
-							geometry="sphere"
-						/>
-					</Suspense>
+					<Image3D
+						position={[0, 0, 0]}
+						imageUrl={`/images/planets/sun.jpg`}
+						geometry="sphere"
+					/>
 					{/* @ts-ignore */}
 
 					<OrbitControls
@@ -168,13 +178,11 @@ const SolarSystem3D = () => {
 										}}
 									/>
 									{/** fleet name as floating text */}
-									<Text
-										color="black"
-										position={[x, y - 1, z]}
-										direction={cameraRef.current?.position}
+									<BillboardText
+										position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
 									>
 										{fleet.name}
-									</Text>
+									</BillboardText>
 								</>
 							</Suspense>
 						)
@@ -195,6 +203,11 @@ const SolarSystem3D = () => {
 									}}
 									geometry="sphere"
 								/>
+								<BillboardText
+									position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
+								>
+									{planet.name}
+								</BillboardText>
 							</Suspense>
 						)
 					})}
@@ -234,9 +247,6 @@ const SolarSystem3D = () => {
 					})}
 				</CanvasContainer>
 			</Canvas>
-			<ScrollShadow className="w-[300px] h-[400px]">
-				<ListTask tasks={tasks} />
-			</ScrollShadow>
 		</>
 	)
 }

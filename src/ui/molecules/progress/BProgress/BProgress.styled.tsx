@@ -18,7 +18,7 @@ export const BaseProgress = styled(Progress)<{ value: number }>`
 			if (value < 85) {
 				return "var(--emerald300)"
 			}
-			if (value < 100) {
+			if (value <= 100) {
 				return "var(--success)"
 			}
 			return "var(--error)"

@@ -38,6 +38,7 @@ import BAvatar from "@/ui/atoms/avatar/BAvatar"
 import ModulesService from "@/services/ModulesService"
 import { IModifier, IModule } from "@/type/data/IModule"
 import BModal from "@/ui/molecules/modal/BModal"
+import BProgress from "@/ui/molecules/progress/BProgress"
 
 const GridContainer = styled.div`
   display: grid;
@@ -148,6 +149,30 @@ const ModalFleet = () => {
 	if (!currentFleet) {
 		return null
 	}
+	const fleetCapacity = currentFleet.shipIds.reduce((accumulator, shipId) => {
+		const ship = ships?.[shipId]
+		return (
+			accumulator +
+			(ships[shipId]?.modules ?? []).reduce((accumulator, module: IModule) => {
+				return (
+					accumulator +
+					(module && module.modifier
+						? module.modifier[IModifier.CARGO] ?? 0
+						: 0)
+				)
+			}, 0)
+		)
+	}, 0)
+
+	const currentResourcesAmount = Object.values(
+		ResourcesService.getAllResources(),
+	).reduce((accumulator, resource) => {
+		return (
+			accumulator +
+			(currentFleet?.cargo?.[resource?.name] ?? 0) +
+			(newResourcesValue?.[resource?.name] ?? 0)
+		)
+	}, 0)
 
 	return (
 		<>
@@ -239,16 +264,41 @@ const ModalFleet = () => {
 										variant="bordered"
 										color="emerald"
 										onClick={() => {
-											const newResources = {} as Record<RESOURCE_TYPES, number>
+											const tmpNewResources = _.cloneDeep(
+												currentFleet.cargo,
+											) as Record<RESOURCE_TYPES, number>
+											let remainingCapacity =
+												fleetCapacity -
+												Object.values(tmpNewResources).reduce(
+													(accumulator, currentValue) =>
+														accumulator + currentValue,
+													0,
+												)
 											Object.values(ResourcesService.getAllResources()).forEach(
 												(resource) => {
-													const maxResource =
-														(remainingPlanet[0].resources?.[resource?.name] ??
-															0) + (currentFleet?.cargo?.[resource?.name] ?? 0)
-													newResources[resource?.name] = maxResource
+													const isFull = remainingCapacity <= 0
+													if (!isFull) {
+														if (
+															remainingPlanet[0].resources?.[resource?.name] >
+															remainingCapacity
+														) {
+															tmpNewResources[resource?.name] =
+																remainingCapacity
+															remainingCapacity = 0
+														} else {
+															tmpNewResources[resource?.name] =
+																remainingPlanet[0].resources?.[
+																	resource?.name
+																] ?? 0
+															remainingCapacity -=
+																remainingPlanet[0].resources?.[
+																	resource?.name
+																] ?? 0
+														}
+													}
 												},
 											)
-											setNewResourcesValue(newResources)
+											setNewResourcesValue(tmpNewResources)
 										}}
 									>
 										Remplir tout
@@ -269,6 +319,9 @@ const ModalFleet = () => {
 										Vider tout
 									</BButton>
 								</Flex>
+								<BProgress
+									value={(currentResourcesAmount * 100) / fleetCapacity}
+								/>
 								<GridContainer>
 									<div />
 									<div />
@@ -281,24 +334,22 @@ const ModalFleet = () => {
 											let maxResource =
 												(remainingPlanet[0].resources?.[resource?.name] ?? 0) +
 												(currentFleet?.cargo?.[resource?.name] ?? 0)
-											let fleetCapacity = currentFleet.shipIds.reduce(
-												(accumulator, shipId) => {
-													const ship = ships?.[shipId]
+
+											let resourcesAlreadyInFleetInAllOtherResources =
+												Object.values(
+													ResourcesService.getAllResources(),
+												).reduce((accumulator, currentResource) => {
+													if (currentResource.name === resource.name) {
+														return accumulator
+													}
 													return (
 														accumulator +
-														(ships[shipId]?.modules ?? []).reduce(
-															(accumulator, module: IModule) => {
-																return (
-																	accumulator +
-																		module?.modifier?.[IModifier.CARGO] ?? 0
-																)
-															},
-															0,
-														)
+															((currentFleet?.cargo || {})[
+																currentResource?.name
+															] ?? 0) +
+															newResourcesValue?.[currentResource?.name] ?? 0
 													)
-												},
-												0,
-											)
+												}, 0)
 											return (
 												<React.Fragment key={resource.name}>
 													<img
@@ -330,11 +381,28 @@ const ModalFleet = () => {
 														$color="emerald800"
 														magnetic={false}
 														onClick={() => {
+															if (currentResourcesAmount >= fleetCapacity) {
+																return
+															}
 															// @ts-ignore
-															setNewResourcesValue({
-																...newResourcesValue,
-																[resource?.name]: maxResource,
-															})
+
+															if (
+																fleetCapacity - currentResourcesAmount >
+																maxResource
+															) {
+																// @ts-ignore
+																setNewResourcesValue({
+																	...newResourcesValue,
+																	[resource?.name]: maxResource,
+																})
+															} else {
+																// @ts-ignore
+																setNewResourcesValue({
+																	...newResourcesValue,
+																	[resource?.name]:
+																		fleetCapacity - currentResourcesAmount,
+																})
+															}
 														}}
 													>
 														Remplir
@@ -345,6 +413,14 @@ const ModalFleet = () => {
 														value={newResourcesValue?.[resource?.name] ?? 0}
 														onChange={(value: SliderValue) => {
 															// @ts-ignore
+															if (
+																Number(value) +
+																	resourcesAlreadyInFleetInAllOtherResources >
+																fleetCapacity
+															) {
+																// @ts-ignore
+																return
+															}
 															setNewResourcesValue({
 																...newResourcesValue,
 																[resource?.name]: Number(value),

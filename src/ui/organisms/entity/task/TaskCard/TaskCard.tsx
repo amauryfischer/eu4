@@ -4,13 +4,20 @@ import { StyledTaskCard } from "./TaskCard.styled"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import { useEffect, useState } from "react"
 import moment from "moment"
-import { ITaskAsteroid, ITaskFlyingFleet, TaskType } from "@/type/data/ITask"
+import {
+	ITask,
+	ITaskAsteroid,
+	ITaskFlyingFleet,
+	TaskType,
+} from "@/type/data/ITask"
 import useAsteroidsActions from "@/hooks/data/actions/use-asteroids-actions.hook"
 import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
 import TaskCollectAsteroid from "./TaskCollectAsteroid.tsx/TaskCollectAsteroid"
 import TaskFlyingFleet from "./TaskFlyingFleet/TaskFlyingFleet"
+import Mine from "@/ui/fondations/icons/Mine"
+import Spaceship from "@/ui/fondations/icons/Spaceship"
 
-const TaskCard = ({ task }: { task: Task }) => {
+const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
 	const { fetchTasks } = useTasksActions()
 	const { fetchAsteroids } = useAsteroidsActions()
@@ -54,22 +61,24 @@ const TaskCard = ({ task }: { task: Task }) => {
 	return (
 		<StyledTaskCard>
 			{task.type === TaskType.COLLECT_ASTEROIDS && (
-				<TaskCollectAsteroid task={task as ITaskAsteroid} />
+				<TaskFlyingFleet
+					task={task as ITaskAsteroid}
+					progress={progress}
+					icon={<Mine width="24px" />}
+					color="caramel300"
+				/>
 			)}
 			{task.type === TaskType.FLYING_FLEET && (
-				<TaskFlyingFleet task={task as unknown as ITaskFlyingFleet} />
-			)}
-			<div>
-				Temps restant: {moment(task.endDate).diff(moment(), "seconds")} secondes
-			</div>
-			<CardFooter>
-				<Progress
-					aria-label="Loading..."
-					value={progress}
-					className="max-w-md"
-					color={colorAdvancement(progress)}
+				<TaskFlyingFleet
+					task={task as unknown as ITaskFlyingFleet}
+					progress={progress}
+					icon={<Spaceship width="24px" />}
+					color="cyan300"
 				/>
-			</CardFooter>
+			)}
+			{/* <div>
+				Temps restant: {moment(task.endDate).diff(moment(), "seconds")} secondes
+			</div> */}
 		</StyledTaskCard>
 	)
 }

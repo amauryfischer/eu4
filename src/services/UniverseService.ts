@@ -5,8 +5,8 @@ import { IModifier } from "@/type/data/IModule"
 import { IPosition } from "@/type/data/IPosition"
 import IShip from "@/type/data/IShip"
 
-export const WARP_MULTIPLIER = 60
-export const IMPULSION_MULTIPLIER = 15
+export const WARP_MULTIPLIER = 400
+export const IMPULSION_MULTIPLIER = 100
 
 const getDistance = ({
 	positionInitial,

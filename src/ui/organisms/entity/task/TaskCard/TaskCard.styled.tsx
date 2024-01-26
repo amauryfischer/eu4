@@ -5,5 +5,7 @@ export const TaskCardContainer = styled.div`
     
 `
 export const StyledTaskCard = styled(Card)`
-    max-width: 300px !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    width: calc(${window.innerWidth / window.innerHeight} * 100vh / 12) !important;
 `
