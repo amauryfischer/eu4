@@ -1,10 +1,10 @@
-"use client";
-import { createGlobalStyle } from "styled-components";
-import colors from "./colors/colors";
-import shadow from "./shadow";
-import size from "./size";
-import color_theme from "./colors/colors_theme";
-import spacing from "./spacing";
+"use client"
+import { createGlobalStyle } from "styled-components"
+import colors from "./colors/colors"
+import shadow from "./shadow"
+import size from "./size"
+import color_theme from "./colors/colors_theme"
+import spacing from "./spacing"
 
 const GlobalStyle = createGlobalStyle`
     :root {
@@ -25,13 +25,7 @@ const GlobalStyle = createGlobalStyle`
         --navbar-height: 64px;
         --task-card-width: calc(100vw / 12);
     }
-    @font-face {
-        font-family: 'Quantico';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: local('Quantico'), url('/fonts/quantico.woff2') format('woff2');
-    }
+    
     
     nav {
         color: white !important;
@@ -41,13 +35,13 @@ const GlobalStyle = createGlobalStyle`
             outline: none;
         }
         box-sizing: border-box !important;
-        font-family: 'Quantico' !important;   
+        font-family: var(--font-quantico) !important; 
     }
     body {  
         height: 100vh;
         background: unset !important;
     }
     
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle

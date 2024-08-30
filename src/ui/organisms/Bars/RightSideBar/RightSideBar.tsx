@@ -98,7 +98,7 @@ const RightSideBar = () => {
 		spaceships: {
 			icon: <Spaceship width="42px" color="caramel400" />,
 			name: "Flottes",
-			url: "/fleets/list",
+			url: "/fleets",
 		},
 		empire: {
 			icon: <Orga width="42px" color="emerald200" />,

@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
-import { nextui } from "@nextui-org/react";
+import type { Config } from "tailwindcss"
+import { nextui } from "@nextui-org/react"
 
 const config: Config = {
 	content: [
@@ -15,12 +15,11 @@ const config: Config = {
 				foreground: "var(--foreground)",
 			},
 			fontFamily: {
-				sans: ["var(--font-geist-sans)"],
-				mono: ["var(--font-geist-mono)"],
+				quantico: ["var(--font-quantico)"],
 			},
 		},
 	},
 	darkMode: "class",
 	plugins: [nextui()],
-};
-export default config;
+}
+export default config
