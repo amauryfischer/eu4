@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Asteroid {
+  id         String @id @default(uuid())
+  position   Json
+  resources  Json
+}
+
+model Ship {
+  id      String  @id @default(uuid())
+  name    String
+  class   String
+  modules Json
+  fleetId String?
+}
+
+enum TaskType {
+  COLLECT_ASTEROIDS
+  RESEARCH
+  CONSTRUCT_SHIP
+  CONSTRUCT_BUILDING
+  COLLECT_RESOURCES
+  CONSTRUCT_MODULE
+  FLYING_FLEET
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  type      TaskType
+  endDate   String
+  details   Json
+  createdAt DateTime @default(now())
+  userId    String
+}
+
+model Fleet {
+  id       String   @id @default(uuid())
+  name     String
+  userId   String?
+  shipIds  String[]
+  position Json
+  cargo    Json
+}
+
+model Pirate {
+  id       String @id @default(uuid())
+  name     String
+  level    Int
+  position Json
+}
+
+model Planet {
+  id        String  @id @default(uuid())
+  name      String
+  type      String
+  position  Json
+  userId    String?
+  resources Json
+  lastSync  String?
+  resourcesMultiplier Json
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  username  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
