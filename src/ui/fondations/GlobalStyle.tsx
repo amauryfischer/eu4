@@ -26,7 +26,6 @@ const GlobalStyle = createGlobalStyle`
         --task-card-width: calc(100vw / 12);
     }
     
-    
     nav {
         color: white !important;
     }
@@ -35,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
             outline: none;
         }
         box-sizing: border-box !important;
-        font-family: var(--font-quantico) !important; 
+        font-family: var(--font-quantico);
     }
     body {  
         height: 100vh;
