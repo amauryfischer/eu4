@@ -1,32 +1,32 @@
-"use client";
+"use client"
 import {
 	OrbitControls,
 	PerspectiveCamera,
 	Text,
 	Text3D,
-} from "@react-three/drei";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import React, { Suspense, useEffect, useRef } from "react";
+} from "@react-three/drei"
+import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import React, { Suspense, useEffect, useRef } from "react"
 // @ts-ignore
-import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook";
-import useAsteroids from "@/hooks/data/entity/use-asteroid.hook";
-import useFleets from "@/hooks/data/entity/use-fleets.hook";
-import usePirates from "@/hooks/data/entity/use-pirates.hook";
-import usePlanets from "@/hooks/data/entity/use-planets.hook";
-import useShips from "@/hooks/data/entity/use-ships.hook";
+import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
+import useAsteroids from "@/hooks/data/entity/use-asteroid.hook"
+import useFleets from "@/hooks/data/entity/use-fleets.hook"
+import usePirates from "@/hooks/data/entity/use-pirates.hook"
+import usePlanets from "@/hooks/data/entity/use-planets.hook"
+import useShips from "@/hooks/data/entity/use-ships.hook"
 import {
 	setCurrentAsteroid,
 	setCurrentFleet,
 	setCurrentPirate,
 	setCurrentPlanet,
-} from "@/redux/slice/current.slice";
-import ShipService from "@/services/ShipService";
-import { useDispatch } from "react-redux";
-import Image3D from "./Image3D";
-import useTasks from "@/hooks/data/entity/use-tasks.hook";
-import { CardBody, ScrollShadow } from "@nextui-org/react";
-import ListTask from "@/ui/organisms/entity/task/ListTask/ListTask";
-import { IPlanet } from "@/type/data/IPlanet";
+} from "@/redux/slice/current.slice"
+import ShipService from "@/services/ShipService"
+import { useDispatch } from "react-redux"
+import Image3D from "./Image3D"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
+import { CardBody, ScrollShadow } from "@nextui-org/react"
+import ListTask from "@/ui/organisms/entity/task/ListTask/ListTask"
+import { IPlanet } from "@/type/data/IPlanet"
 
 const CanvasContainer = ({ children }) => {
 	return (
@@ -47,17 +47,17 @@ const CanvasContainer = ({ children }) => {
 			/>
 			{children}
 		</>
-	);
-};
+	)
+}
 const BillboardText = ({ position, children }) => {
-	const textRef = useRef();
-	const { camera } = useThree(); // Utilisation de useThree pour accéder à la caméra
+	const textRef = useRef()
+	const { camera } = useThree() // Utilisation de useThree pour accéder à la caméra
 
 	useFrame(() => {
 		if (textRef.current) {
-			textRef.current.lookAt(camera.position);
+			textRef.current.lookAt(camera.position)
 		}
-	});
+	})
 
 	return (
 		<Text
@@ -70,34 +70,34 @@ const BillboardText = ({ position, children }) => {
 		>
 			{children}
 		</Text>
-	);
-};
+	)
+}
 const SolarSystem3D = ({ systemId }: { systemId: string }) => {
-	const cameraRef = React.useRef();
-	const fleets = useFleets() ?? {};
-	const planets = usePlanets() ?? {};
-	const asteroids = useAsteroids() ?? {};
-	const pirates = usePirates() ?? {};
-	const [newFocus, setNewFocus] = React.useState([0, 0, 0]);
+	const cameraRef = React.useRef()
+	const fleets = useFleets() ?? {}
+	const planets = usePlanets() ?? {}
+	const asteroids = useAsteroids() ?? {}
+	const pirates = usePirates() ?? {}
+	const [newFocus, setNewFocus] = React.useState([0, 0, 0])
 
-	const ships = useShips();
-	const dispatch = useDispatch();
-	const fetParcels = useParcelsActions();
+	const ships = useShips()
+	const dispatch = useDispatch()
+	const fetParcels = useParcelsActions()
 
 	useEffect(() => {
 		const fetch = async () => {
-			const res = await fetParcels(systemId ?? "");
-			console.log(res);
-		};
-		fetch();
-	}, []);
+			const res = await fetParcels(systemId ?? "")
+			console.log(res)
+		}
+		fetch()
+	}, [])
 
 	// zoom to planet
 	const zoomToPlanet = (planet: IPlanet) => {
-		const { x, y, z } = planet.position.systemPosition;
+		const { x, y, z } = planet.position.systemPosition
 		// @ts-ignore
-		setNewFocus(x, y, z);
-	};
+		setNewFocus(x, y, z)
+	}
 
 	return (
 		<>
@@ -132,13 +132,13 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 						/>
 					</mesh>
 					{(Object.values(fleets) ?? []).map((fleet) => {
-						const { x, y, z } = fleet.position.systemPosition;
-						if (fleet.position.system != id) return null;
-						const shipId = fleet.shipIds[0];
-						const allShips = ShipService.getAllShips();
-						const ship = ships?.[shipId];
+						const { x, y, z } = fleet.position.systemPosition
+						if (fleet.position.system !== systemId) return null
+						const shipId = fleet.shipIds[0]
+						const allShips = ShipService.getAllShips()
+						const ship = ships?.[shipId]
 						if (!ship) {
-							return null;
+							return null
 						}
 						// if another entity same place return null
 						if (
@@ -161,7 +161,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									pirate.position.systemPosition.z == z,
 							)
 						) {
-							return null;
+							return null
 						}
 						return (
 							<Suspense fallback={null} key={fleet.id}>
@@ -172,8 +172,8 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 											ShipService.getAllShips()[ships?.[shipId]?.class]?.img
 										}
 										onClick={(e) => {
-											dispatch(setCurrentFleet(fleet.id as string));
-											e.stopPropagation();
+											dispatch(setCurrentFleet(fleet.id as string))
+											e.stopPropagation()
 										}}
 									/>
 									{/** fleet name as floating text */}
@@ -184,11 +184,11 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									</BillboardText>
 								</>
 							</Suspense>
-						);
+						)
 					})}
 					{(Object.values(planets) ?? []).map((planet) => {
-						const { x, y, z } = planet?.position?.systemPosition;
-						if (planet?.position?.system?.toString() !== systemId) return null;
+						const { x, y, z } = planet?.position?.systemPosition
+						if (planet?.position?.system?.toString() !== systemId) return null
 
 						return (
 							<Suspense fallback={null} key={planet.id}>
@@ -196,9 +196,9 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									position={[x, y, z]}
 									imageUrl={`/images/planets/${planet.type}.jpg`}
 									onClick={(e) => {
-										zoomToPlanet(planet);
-										dispatch(setCurrentPlanet(planet.id));
-										e.stopPropagation();
+										zoomToPlanet(planet)
+										dispatch(setCurrentPlanet(planet.id))
+										e.stopPropagation()
 									}}
 									geometry="sphere"
 								/>
@@ -208,28 +208,28 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									{planet.name}
 								</BillboardText>
 							</Suspense>
-						);
+						)
 					})}
 					{(Object.values(asteroids) ?? []).map((asteroid) => {
-						const { x, y, z } = asteroid.position.systemPosition;
+						const { x, y, z } = asteroid.position.systemPosition
 
-						if (asteroid.position.system !== systemId) return null;
+						if (asteroid.position.system !== systemId) return null
 						return (
 							<Suspense fallback={null} key={asteroid.id}>
 								<Image3D
 									position={[x, y, z]}
 									imageUrl={`/images/other/asteroid.png`}
 									onClick={(e) => {
-										dispatch(setCurrentAsteroid(asteroid.id as string));
-										e.stopPropagation();
+										dispatch(setCurrentAsteroid(asteroid.id as string))
+										e.stopPropagation()
 									}}
 								/>
 							</Suspense>
-						);
+						)
 					})}
 					{(Object.values(pirates ?? {}) ?? []).map((pirate) => {
-						const { x, y, z } = pirate.position.systemPosition;
-						if (pirate.position.system !== systemId) return null;
+						const { x, y, z } = pirate.position.systemPosition
+						if (pirate.position.system !== systemId) return null
 
 						return (
 							<Suspense fallback={null} key={pirate.id}>
@@ -237,17 +237,17 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									position={[x, y, z]}
 									imageUrl={`/images/other/pirate.png`}
 									onClick={(e) => {
-										dispatch(setCurrentPirate(pirate.id as string));
-										e.stopPropagation();
+										dispatch(setCurrentPirate(pirate.id as string))
+										e.stopPropagation()
 									}}
 								/>
 							</Suspense>
-						);
+						)
 					})}
 				</CanvasContainer>
 			</Canvas>
 		</>
-	);
-};
+	)
+}
 
-export default SolarSystem3D;
+export default SolarSystem3D

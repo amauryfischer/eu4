@@ -33,6 +33,7 @@
     "react-dom": "19.0.0-rc-f994737d14-20240522",
     "react-hook-form": "^7.51.5",
     "react-redux": "^9.1.2",
+    "react-use": "^17.5.1",
     "styled-components": "^6.1.11",
     "three": "^0.165.0",
     "yup": "^1.4.0"

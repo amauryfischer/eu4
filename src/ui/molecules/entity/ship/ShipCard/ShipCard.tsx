@@ -1,8 +1,8 @@
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import DeblurIcon from "@mui/icons-material/Deblur";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import React from "react";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft"
+import ArrowRightIcon from "@mui/icons-material/ArrowRight"
+import DeblurIcon from "@mui/icons-material/Deblur"
+import FavoriteIcon from "@mui/icons-material/Favorite"
+import React from "react"
 import {
 	CardContent,
 	CardImage,
@@ -17,33 +17,33 @@ import {
 	ShipClass,
 	ShipTitle,
 	ShipVariantTitle,
-} from "./ShipCard.styled";
+} from "./ShipCard.styled"
 
-import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import SecurityIcon from "@mui/icons-material/Security";
-import { RESOURCE_TYPES } from "@/services/ResourcesService";
-import IShipDesign from "@/type/data/IShipDesign";
-import Flex from "@/ui/atoms/Flex/Flex";
-import BButton from "@/ui/atoms/buttons/Button/BButton";
-import DisplaySingleResource from "../../resources/DisplaySingleResource/DisplaySingleResource";
-import Sell from "@/ui/fondations/icons/Sell";
-import BuyIconButton from "@/ui/atoms/iconButtons/BuyIconButton";
+import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
+import SecurityIcon from "@mui/icons-material/Security"
+import { RESOURCE_TYPES } from "@/services/ResourcesService"
+import IShipDesign from "@/type/data/IShipDesign"
+import Flex from "@/ui/atoms/Flex/Flex"
+import DisplaySingleResource from "../../resources/DisplaySingleResource/DisplaySingleResource"
+import Sell from "@/ui/fondations/icons/Sell"
+import BuyIconButton from "@/ui/atoms/iconButtons/BuyIconButton"
+import Button from "@/ui/atoms/buttons/Button"
 
 const ShipCard = ({
 	ship,
 	onClick,
 }: {
-	ship: IShipDesign;
-	onClick: () => void;
+	ship: IShipDesign
+	onClick: () => void
 }) => {
-	const [version, setVersion] = React.useState(0);
+	const [version, setVersion] = React.useState(0)
 	const color = {
 		0: "white",
 		1: "emerald",
 		2: "cyan",
 		3: "purple",
-	}[version];
+	}[version]
 	return (
 		<SCard
 			$color={
@@ -75,14 +75,14 @@ const ShipCard = ({
 							}
 						>
 							{version > 0 ? (
-								<BButton
+								<Button
 									color={color}
 									variant="bordered"
 									isIconOnly
 									startContent={<ArrowLeftIcon fontSize="small" />}
 									onClick={() => setVersion((version - 1) % 4)}
 									size="sm"
-								></BButton>
+								/>
 							) : (
 								<SDiv />
 							)}
@@ -105,7 +105,7 @@ const ShipCard = ({
 								<ShipVariantTitle color={color}>Edition tank</ShipVariantTitle>
 							)}
 							{version < 3 ? (
-								<BButton
+								<Button
 									variant="bordered"
 									size="sm"
 									color={
@@ -119,7 +119,7 @@ const ShipCard = ({
 									isIconOnly
 									startContent={<ArrowRightIcon fontSize="small" />}
 									onClick={() => setVersion((version + 1) % 4)}
-								></BButton>
+								/>
 							) : (
 								<SDiv />
 							)}
@@ -224,12 +224,12 @@ const ShipCard = ({
 									3: "purple",
 								}[version]
 							}
-						></BuyIconButton>
+						/>
 					</Flex>
 				</ExtendedCard>
 			</Flex>
 		</SCard>
-	);
-};
+	)
+}
 
-export default ShipCard;
+export default ShipCard

@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
         --rightbar-width: 73px;
         --bottombar-height: 50px;
         --navbar-height: 64px;
+        --task-card-width: calc(100vw / 12);
     }
     @font-face {
         font-family: 'Quantico';

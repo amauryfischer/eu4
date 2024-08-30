@@ -78,7 +78,7 @@ const RightSideBar = () => {
 		city: {
 			icon: <City width="42px" color="red200" />,
 			name: "Bâtiments",
-			url: "/",
+			url: `/planets/${planet?.id}`,
 		},
 		planet: {
 			icon: <Planet width="42px" />,

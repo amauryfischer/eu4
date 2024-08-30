@@ -1,19 +1,27 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.1/schema.json",
 	"organizeImports": {
 		"enabled": true
 	},
 	"linter": {
-		"enabled": true,
 		"rules": {
-			"recommended": true,
 			"style": {
 				"useImportType": "off"
 			},
 			"correctness": {
 				"useExhaustiveDependencies": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
 			}
 		}
-		
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded",
+			"trailingCommas": "none"
+		}
 	}
 }
