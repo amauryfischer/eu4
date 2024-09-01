@@ -5,6 +5,7 @@ import db from "@/app/db"
 import {
 	ITaskAssembleFleet,
 	ITaskAsteroid,
+	ITaskBuildShip,
 	ITaskConstructModule,
 	ITaskFlyingFleet
 } from "@/type/data/ITask"
@@ -31,6 +32,8 @@ export const handleTask = async (
 		await handleFlyingFleet(task)
 	} else if (task.type === TaskType.ASSEMBLE_FLEET) {
 		await handleAssembleFleet(task)
+	} else if (task.type === TaskType.BUILD_SHIP) {
+		await handleBuildShip(task)
 	}
 }
 
@@ -189,6 +192,29 @@ const handleAssembleFleet = async (task: ITaskAssembleFleet) => {
 	})
 	schedule.scheduleJob(endDate.toDate(), async () => {
 		console.log("[Task] : handling assemble fleet")
+		await db.task.delete({
+			where: {
+				id: task.id
+			}
+		})
+	})
+}
+const handleBuildShip = async (task: ITaskBuildShip) => {
+	const endDate = moment().add(15, "seconds")
+	const planet = await db.planet.findUnique({
+		where: {
+			id: task.details.planetId
+		}
+	})
+	schedule.scheduleJob(endDate.toDate(), async () => {
+		// todo add a planetId for ships not in a fleet and filter them on planet creation
+		await db.ship.create({
+			data: {
+				class: task.details.class,
+				modules: task.details.modules,
+				name: task.details.name
+			}
+		})
 		await db.task.delete({
 			where: {
 				id: task.id

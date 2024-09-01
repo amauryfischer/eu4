@@ -2,13 +2,13 @@ import {
 	createServerData,
 	deleteServerData,
 	fetchServerData,
-	updateServerData,
+	updateServerData
 } from "@/server/dataServer"
 import {
 	addData,
 	deleteData,
 	setData,
-	updateData,
+	updateData
 } from "@/redux/slice/data.slice"
 import { Prisma } from "@prisma/client"
 import { startTransition } from "react"
@@ -66,7 +66,13 @@ const useCreateDataAction = (type: Prisma.ModelName) => {
 	const createDataAction = (data: any) => {
 		const createServer = async () => {
 			const createdData = await createServerData(type, data)
-			dispatch(updateData({ type, dataId: data?.id ?? createdData.id, data: createdData }))
+			dispatch(
+				updateData({
+					type,
+					dataId: data?.id ?? createdData.id,
+					data: createdData
+				})
+			)
 		}
 		createServer()
 	}
@@ -79,7 +85,7 @@ const useDataActions = (type: Prisma.ModelName) => {
 		fetchData: useFetchDataAction(type),
 		updateData: useUpdateDataAction(type),
 		deleteData: useDeleteDataAction(type),
-		createData: useCreateDataAction(type),
+		createData: useCreateDataAction(type)
 	}
 }
 

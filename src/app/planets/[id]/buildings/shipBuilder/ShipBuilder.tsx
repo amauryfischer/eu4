@@ -2,7 +2,6 @@ import ModulesService, { IModuleType } from "@/services/ModulesService"
 import DeblurIcon from "@mui/icons-material/Deblur"
 import _ from "lodash"
 import React, { useState } from "react"
-import { useDispatch } from "react-redux"
 
 import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
 import useShipsActions from "@/hooks/data/actions/use-ships-actions.hook"
@@ -41,7 +40,10 @@ import {
 	ShipPropertyContainer,
 	Simg
 } from "./ShipBuilder.styled"
-import { useParams, useRouter } from "next/navigation"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
+import { TaskType } from "@/type/data/ITask"
+import moment from "moment"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const ShipBuilder = ({
 	shipSelected,
@@ -55,14 +57,24 @@ const ShipBuilder = ({
 	const [selectedModules, setSelectedModules] = useState<IModule[]>([])
 	const [shipName, setShipName] = useState("")
 	const currentPlayerActivePlanet = useCurrentPlayerActivePlanet()
+	const user = useCurrentUser()
 	const { createShip } = useShipsActions()
 	const modulesEmplacement = _.sumBy(selectedModules, (m) => m.emplacement)
+	const { createTask, fetchTasks } = useTasksActions()
 	const onSubmit = () => {
-		createShip({
-			name: shipName,
-			modules: selectedModules,
-			class: currentShipClass.class
+		createTask({
+			type: TaskType.BUILD_SHIP,
+			endDate: moment().add(15, "seconds").toISOString(),
+			userId: user.id,
+			details: {
+				name: shipName,
+				modules: selectedModules,
+				class: currentShipClass.class,
+				planetId: currentPlayerActivePlanet.id
+			}
 		})
+		fetchTasks()
+
 		setIsOpen(undefined)
 	}
 

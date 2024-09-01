@@ -8,6 +8,7 @@ import {
 	ITask,
 	ITaskAssembleFleet,
 	ITaskAsteroid,
+	ITaskBuildShip,
 	ITaskFlyingFleet,
 	TaskType
 } from "@/type/data/ITask"
@@ -18,12 +19,15 @@ import TaskFlyingFleet from "./TaskFlyingFleet/TaskFlyingFleet"
 import Mine from "@/ui/fondations/icons/Mine"
 import Spaceship from "@/ui/fondations/icons/Spaceship"
 import TaskAssembleFleet from "./TaskAssembleFleet/TaskAssembleFleet"
+import useShipsActions from "@/hooks/data/actions/use-ships-actions.hook"
+import TaskBuildShip from "./TaskBuildShip/TaskBuildShip"
 
 const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
 	const { fetchTasks } = useTasksActions()
 	const { fetchAsteroids } = useAsteroidsActions()
 	const { fetchFleets } = useFleetsActions()
+	const { fetchShips } = useShipsActions()
 	// tick every seconds
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -40,6 +44,12 @@ const TaskCard = ({ task }: { task: ITask }) => {
 				}
 				if (task.type === TaskType.FLYING_FLEET) {
 					fetchFleets()
+				}
+				if (task.type === TaskType.ASSEMBLE_FLEET) {
+					fetchFleets()
+				}
+				if (task.type === TaskType.BUILD_SHIP) {
+					fetchShips()
 				}
 				fetchTasks()
 			}
@@ -71,6 +81,9 @@ const TaskCard = ({ task }: { task: ITask }) => {
 			)}
 			{task.type === TaskType.ASSEMBLE_FLEET && (
 				<TaskAssembleFleet task={task as unknown as ITaskAssembleFleet} />
+			)}
+			{task.type === TaskType.BUILD_SHIP && (
+				<TaskBuildShip task={task as unknown as ITaskBuildShip} />
 			)}
 			{/* <div>
 				Temps restant: {moment(task.endDate).diff(moment(), "seconds")} secondes

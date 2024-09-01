@@ -33,6 +33,7 @@ enum TaskType {
   CONSTRUCT_MODULE
   FLYING_FLEET
   ASSEMBLE_FLEET
+  BUILD_SHIP
 }
 
 model Task {

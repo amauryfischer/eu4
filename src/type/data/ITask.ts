@@ -11,7 +11,8 @@ export enum TaskType {
 	CONSTRUCT_BUILDING = "CONSTRUCT_BUILDING",
 	COLLECT_RESOURCES = "COLLECT_RESOURCES",
 	CONSTRUCT_MODULE = "CONSTRUCT_MODULE",
-	FLYING_FLEET = "FLYING_FLEET"
+	FLYING_FLEET = "FLYING_FLEET",
+	BUILD_SHIP = "BUILD_SHIP"
 }
 
 export interface ITaskAsteroid extends Omit<Task, "details"> {
@@ -43,6 +44,17 @@ export interface ITaskFlyingFleet extends Omit<Task, "details"> {
 		position: IPosition
 	}
 }
+
+export interface ITaskBuildShip extends Omit<Task, "details"> {
+	type: TaskType.BUILD_SHIP
+	endDate: string
+	details: {
+		name: string
+		modules: IModule[]
+		class: string
+		planetId: string
+	}
+}
 export interface ITaskAssembleFleet extends Omit<Task, "details"> {
 	type: TaskType.ASSEMBLE_FLEET
 	endDate: string
@@ -59,3 +71,4 @@ export type ITask =
 	| ITaskConstructModule
 	| ITaskFlyingFleet
 	| ITaskAssembleFleet
+	| ITaskBuildShip
