@@ -1,10 +1,5 @@
 "use client"
-import {
-	OrbitControls,
-	PerspectiveCamera,
-	Text,
-	Text3D,
-} from "@react-three/drei"
+import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import React, { Suspense, useEffect, useRef } from "react"
 // @ts-ignore
@@ -18,15 +13,12 @@ import {
 	setCurrentAsteroid,
 	setCurrentFleet,
 	setCurrentPirate,
-	setCurrentPlanet,
+	setCurrentPlanet
 } from "@/redux/slice/current.slice"
 import ShipService from "@/services/ShipService"
+import { IPlanet } from "@/type/data/IPlanet"
 import { useDispatch } from "react-redux"
 import Image3D from "./Image3D"
-import useTasks from "@/hooks/data/entity/use-tasks.hook"
-import { CardBody, ScrollShadow } from "@nextui-org/react"
-import ListTask from "@/ui/organisms/entity/task/ListTask/ListTask"
-import { IPlanet } from "@/type/data/IPlanet"
 
 const CanvasContainer = ({ children }) => {
 	return (
@@ -135,8 +127,8 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 						const { x, y, z } = fleet.position.systemPosition
 						if (fleet.position.system !== systemId) return null
 						const shipId = fleet.shipIds[0]
-						const allShips = ShipService.getAllShips()
 						const ship = ships?.[shipId]
+						debugger
 						if (!ship) {
 							return null
 						}
@@ -146,19 +138,19 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 								(planet) =>
 									planet.position.systemPosition.x == x &&
 									planet.position.systemPosition.y == y &&
-									planet.position.systemPosition.z == z,
+									planet.position.systemPosition.z == z
 							) ||
 							Object.values(asteroids).some(
 								(asteroid) =>
 									asteroid.position.systemPosition.x == x &&
 									asteroid.position.systemPosition.y == y &&
-									asteroid.position.systemPosition.z == z,
+									asteroid.position.systemPosition.z == z
 							) ||
 							Object.values(pirates ?? {}).some(
 								(pirate) =>
 									pirate.position.systemPosition.x == x &&
 									pirate.position.systemPosition.y == y &&
-									pirate.position.systemPosition.z == z,
+									pirate.position.systemPosition.z == z
 							)
 						) {
 							return null
@@ -212,8 +204,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 					})}
 					{(Object.values(asteroids) ?? []).map((asteroid) => {
 						const { x, y, z } = asteroid.position.systemPosition
-
-						if (asteroid.position.system !== systemId) return null
+						if (asteroid.position.system?.toString() !== systemId) return null
 						return (
 							<Suspense fallback={null} key={asteroid.id}>
 								<Image3D
@@ -229,7 +220,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 					})}
 					{(Object.values(pirates ?? {}) ?? []).map((pirate) => {
 						const { x, y, z } = pirate.position.systemPosition
-						if (pirate.position.system !== systemId) return null
+						if (pirate.position.system?.toString() !== systemId) return null
 
 						return (
 							<Suspense fallback={null} key={pirate.id}>

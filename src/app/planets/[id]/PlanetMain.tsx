@@ -1,21 +1,21 @@
-"use client";
-import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet";
-import IShipDesign from "@/type/data/IShipDesign";
-import Flex from "@/ui/atoms/Flex";
-import BModal from "@/ui/molecules/modal/BModal";
-import { ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
-import { useState } from "react";
-import styled from "styled-components";
-import PlanetShipFactory from "./buildings/PlanetShipFactory";
-import PlanetSpatioport from "./buildings/PlanetSpatioport";
-import ShipBuilder from "./buildings/shipBuilder/ShipBuilder";
-import { useParams } from "next/navigation";
+"use client"
+import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
+import IShipDesign from "@/type/data/IShipDesign"
+import Flex from "@/ui/atoms/Flex"
+import BModal from "@/ui/molecules/modal/BModal"
+import { ModalBody, ModalContent, ModalHeader } from "@nextui-org/react"
+import { useState } from "react"
+import styled from "styled-components"
+import PlanetShipFactory from "./buildings/PlanetShipFactory"
+import PlanetSpatioport from "./buildings/PlanetSpatioport"
+import ShipBuilder from "./buildings/shipBuilder/ShipBuilder"
+import { useParams } from "next/navigation"
 const Simg = styled.img<{
-	$disabled?: boolean;
-	$width: number;
-	$height: number;
-	$row: number;
-	$percentage: number;
+	$disabled?: boolean
+	$width: number
+	$height: number
+	$row: number
+	$percentage: number
 }>`
 	transition: all 0.3s ease-in-out;
 	filter: drop-shadow(5px 2px 2px #a0a0a0);
@@ -33,37 +33,37 @@ const Simg = styled.img<{
 			case 1:
 				return `
 					top: 10%;
-				`;
+				`
 			case 2:
 				return `
 					top: 40%;
-				`;
+				`
 			case 3:
 				return `
 					top: 70%;
-				`;
+				`
 		}
 	}}
 	${({ $percentage }) => {
 		return `
 			left: ${$percentage}%;
-		`;
+		`
 	}}
-`;
+`
 const SFlex = styled(Flex)<{ $url: string }>`
 	background: url(${({ $url }) => $url}) no-repeat center center fixed;	
 	background-size: cover;
 	min-height: calc(100vh - var(--topbar-height));
 	position: relative;
 	padding: 2rem;
-`;
-const PlanetMain = ({}) => {
-	const { id: planetId } = useParams();
-	const currentPlanet = useCurrentPlayerActivePlanet();
-	const [isOpen, setIsOpen] = useState<string | undefined>(undefined);
+`
+const PlanetMain = () => {
+	const { id: planetId } = useParams()
+	const currentPlanet = useCurrentPlayerActivePlanet()
+	const [isOpen, setIsOpen] = useState<string | undefined>(undefined)
 	const [shipSelected, setShipSelected] = useState<IShipDesign | undefined>(
-		undefined,
-	);
+		undefined
+	)
 	const urlType = {
 		mars: "/images/backgrounds/mars.webp",
 		fictio: "/images/backgrounds/fictio.png",
@@ -74,8 +74,8 @@ const PlanetMain = ({}) => {
 		venus: "/images/backgrounds/venus.png",
 		saturn: "/images/backgrounds/saturn.png",
 		atmo: "/images/backgrounds/atmo.png",
-		uranus: "/images/backgrounds/uranus.png",
-	};
+		uranus: "/images/backgrounds/uranus.png"
+	}
 	return (
 		<>
 			<SFlex gap="2rem" wrap="wrap" $url={urlType[currentPlanet?.type]}>
@@ -87,7 +87,7 @@ const PlanetMain = ({}) => {
 						width: 8,
 						height: 8,
 						row: 1,
-						percentage: 12,
+						percentage: 12
 					},
 					{
 						name: "Usine",
@@ -97,7 +97,7 @@ const PlanetMain = ({}) => {
 						width: 10,
 						height: 10,
 						row: 1,
-						percentage: 58,
+						percentage: 58
 					},
 					{
 						name: "Centre de communication",
@@ -107,7 +107,7 @@ const PlanetMain = ({}) => {
 						width: 12,
 						height: 12,
 						row: 2,
-						percentage: 34,
+						percentage: 34
 					},
 					{
 						name: "Mine",
@@ -117,7 +117,7 @@ const PlanetMain = ({}) => {
 						width: 15,
 						height: 15,
 						row: 2,
-						percentage: 60,
+						percentage: 60
 					},
 					{
 						name: "Hangar",
@@ -126,7 +126,7 @@ const PlanetMain = ({}) => {
 						width: 10,
 						height: 8,
 						row: 2,
-						persentage: 85,
+						persentage: 85
 					},
 					{
 						name: "Manufacture",
@@ -135,7 +135,7 @@ const PlanetMain = ({}) => {
 						width: 13,
 						height: 10,
 						row: 3,
-						percentage: 21,
+						percentage: 21
 					},
 					{
 						name: "Université",
@@ -145,8 +145,8 @@ const PlanetMain = ({}) => {
 						width: 8,
 						height: 10,
 						row: 3,
-						percentage: 78,
-					},
+						percentage: 78
+					}
 				].map(
 					({ name, src, link, disabled, width, height, row, percentage }) => (
 						<Simg
@@ -160,7 +160,7 @@ const PlanetMain = ({}) => {
 							$row={row}
 							$percentage={percentage}
 						/>
-					),
+					)
 				)}
 			</SFlex>
 			<BModal
@@ -178,20 +178,25 @@ const PlanetMain = ({}) => {
 								Manufacture: (
 									<PlanetShipFactory
 										onSelectShip={(shipSelected) => {
-											setShipSelected(shipSelected);
-											setIsOpen("ShipBuilder");
+											setShipSelected(shipSelected)
+											setIsOpen("ShipBuilder")
 										}}
 									/>
 								),
-								ShipBuilder: <ShipBuilder shipSelected={shipSelected} />,
-								Hangar: <PlanetSpatioport />,
+								ShipBuilder: (
+									<ShipBuilder
+										shipSelected={shipSelected}
+										setIsOpen={setIsOpen}
+									/>
+								),
+								Hangar: <PlanetSpatioport />
 							}[isOpen]
 						}
 					</ModalBody>
 				</ModalContent>
 			</BModal>
 		</>
-	);
-};
+	)
+}
 
-export default PlanetMain;
+export default PlanetMain

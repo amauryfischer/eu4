@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: var(--font-quantico);
     }
     body {  
-        height: 100vh;
+        height: calc(100vh - var(--topbar-height));
         background: unset !important;
     }
     

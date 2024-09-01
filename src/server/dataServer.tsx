@@ -30,8 +30,8 @@ export const fetchServerData = async (type: any) => {
 			console.log("deleting task : ", task.id)
 			await db.task.delete({
 				where: {
-					id: task.id,
-				},
+					id: task.id
+				}
 			})
 		}
 	})
@@ -48,7 +48,7 @@ export const fetchServerData = async (type: any) => {
 				// update syncDate
 				await db.planet.update({
 					where: {
-						id: planet.id,
+						id: planet.id
 					},
 					data: {
 						lastSync: new Date().toISOString(),
@@ -57,7 +57,7 @@ export const fetchServerData = async (type: any) => {
 							Titane:
 								planet?.resources?.Titane !== undefined
 									? planet.resources.Titane +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Titane *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -65,7 +65,7 @@ export const fetchServerData = async (type: any) => {
 							Cuivre:
 								planet?.resources?.Cuivre !== undefined
 									? planet.resources.Cuivre +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Cuivre *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -73,7 +73,7 @@ export const fetchServerData = async (type: any) => {
 							Fer:
 								planet?.resources?.Fer !== undefined
 									? planet.resources.Fer +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Fer *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -81,7 +81,7 @@ export const fetchServerData = async (type: any) => {
 							Azote:
 								planet?.resources?.Azote !== undefined
 									? planet.resources.Azote +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Azote *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -89,7 +89,7 @@ export const fetchServerData = async (type: any) => {
 							Uranium:
 								planet?.resources?.Uranium !== undefined
 									? planet.resources.Uranium +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Uranium *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -97,7 +97,7 @@ export const fetchServerData = async (type: any) => {
 							Silicium:
 								planet?.resources?.Silicium !== undefined
 									? planet.resources.Silicium +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Silicium *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -105,7 +105,7 @@ export const fetchServerData = async (type: any) => {
 							Hydrogène:
 								planet?.resources?.Hydrogène !== undefined
 									? planet.resources.Hydrogène +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Hydrogène *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
@@ -113,13 +113,13 @@ export const fetchServerData = async (type: any) => {
 							Aluminium:
 								planet?.resources?.Aluminium !== undefined
 									? planet.resources.Aluminium +
-									  (RESOURCES_MINING_MULTIPLIER *
+										(RESOURCES_MINING_MULTIPLIER *
 											planet?.resourcesMultiplier?.Aluminium *
 											(Date.now() - parsedLastPlanetSync)) /
 											60000
-									: 0,
-						},
-					},
+									: 0
+						}
+					}
 				})
 			}
 		})
@@ -142,9 +142,9 @@ export const updateServerData = async (type: any, id: any, data: any) => {
 	// @ts-ignore
 	const newData = await db[prismaType].update({
 		where: {
-			id,
+			id
 		},
-		data,
+		data
 	})
 	return newData
 }
@@ -154,8 +154,8 @@ export const deleteServerData = async (type: any, id: any) => {
 	// @ts-ignore
 	await db[prismaType].delete({
 		where: {
-			id,
-		},
+			id
+		}
 	})
 }
 
@@ -164,7 +164,7 @@ export const createServerData = async (type: any, data: any) => {
 	// @ts-ignore
 
 	const serverCreatedData = await db[prismaType].create({
-		data,
+		data
 	})
 	if (type == "Task") {
 		await handleTask(serverCreatedData)
@@ -183,7 +183,7 @@ const createRandomAsteroids = async () => {
 		"Uranium",
 		"Silicium",
 		"Hydrogène",
-		"Aluminium",
+		"Aluminium"
 	]
 	available_resources.forEach((el) => {
 		asteroidResources[el] = Math.floor(Math.random() * 100000)
@@ -195,11 +195,11 @@ const createRandomAsteroids = async () => {
 				systemPosition: {
 					x: Math.floor(Math.random() * 100) - 50,
 					y: Math.floor(Math.random() * 100) - 50,
-					z: Math.floor(Math.random() * 100) - 50,
-				},
+					z: Math.floor(Math.random() * 100) - 50
+				}
 			},
-			resources: asteroidResources,
-		},
+			resources: asteroidResources
+		}
 	})
 }
 
@@ -220,18 +220,18 @@ export const fetchParcelsData = async (system: string) => {
 		return (planet.position as any)?.["system"] == system
 	})
 	const fleetsToReturn = allFleets.filter(
-		(fleet) => (fleet.position as any)?.["system"] == system,
+		(fleet) => (fleet.position as any)?.["system"] == system
 	)
 	const asteroidsToReturn = allAsteroids.filter(
-		(asteroid) => (asteroid.position as any)?.["system"] == system,
+		(asteroid) => (asteroid.position as any)?.["system"] == system
 	)
 	const piratesToReturn = allPirates.filter(
-		(pirate) => (pirate.position as any)?.["system"] == system,
+		(pirate) => (pirate.position as any)?.["system"] == system
 	)
 	return {
 		planets: planetsToReturn,
 		fleets: fleetsToReturn,
 		asteroids: asteroidsToReturn,
-		pirates: piratesToReturn,
+		pirates: piratesToReturn
 	}
 }

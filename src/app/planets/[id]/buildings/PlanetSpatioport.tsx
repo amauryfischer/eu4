@@ -1,74 +1,80 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled, { css } from "styled-components";
-import Moment from "moment";
-import _ from "lodash";
-import ShipService from "@/services/ShipService";
-import { Checkbox } from "@mui/material";
-import Flex from "@/ui/atoms/Flex";
-import useShips from "@/hooks/data/entity/use-ships.hook";
-import usePlanets from "@/hooks/data/entity/use-planets.hook";
-import useFleets from "@/hooks/data/entity/use-fleets.hook";
-import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook";
-import { Input } from "@nextui-org/react";
-import IShip from "@/type/data/IShip";
-import { IFleet } from "@/type/data/IFleet";
-import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet";
-import { useParams } from "next/navigation";
-import Button from "@/ui/atoms/buttons/Button";
+import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
+import useFleets from "@/hooks/data/entity/use-fleets.hook"
+import useShips from "@/hooks/data/entity/use-ships.hook"
+import ShipService from "@/services/ShipService"
+import { IFleet } from "@/type/data/IFleet"
+import IShip from "@/type/data/IShip"
+import Button from "@/ui/atoms/buttons/Button"
+import Flex from "@/ui/atoms/Flex"
+import { Checkbox } from "@mui/material"
+import { Input } from "@nextui-org/react"
+import { TaskType } from "@prisma/client"
+import moment from "moment"
+import { useState } from "react"
+import styled from "styled-components"
+import { v4 as uuidv4 } from "uuid"
 
 const StyledCheckbox = styled(Checkbox)`
   color: var(--primary) !important;
-`;
+`
 const ClickableShipContainer = styled.div`
   cursor: pointer;
-`;
+  padding: 0.5rem;
+  &:hover {
+    background-color: hsla(var(--primary-hue), 100%, 90%, 0.1);
+  }
+`
 
 const YellowText = styled.span`
   color: var(--primary) !important;
-`;
+`
 
-const PlanetSpatioport = ({}) => {
+const PlanetSpatioport = () => {
 	// * state
-	const [selectedShips, setSelectedShips] = useState<string[]>([]);
-	const [fleetName, setFleetName] = useState("");
+	const [selectedShips, setSelectedShips] = useState<string[]>([])
+	const [fleetName, setFleetName] = useState("")
 
 	// * selector
-	const ships = useShips();
-	const { id } = useParams();
-	const { createFleet } = useFleetsActions();
-	const planet = useCurrentPlayerActivePlanet();
-
-	const fleets = useFleets();
-
-	// * dispatch
-	const dispatch = useDispatch();
-
-	// * history
-	// const history = useHistory()
+	const ships = useShips()
+	const planet = useCurrentPlayerActivePlanet()
+	const { createTask, fetchTasks } = useTasksActions()
+	const { fetchFleets } = useFleetsActions()
+	const user = useCurrentUser()
+	const fleets = useFleets()
 
 	const onToggleShip = (shipId: string) => {
 		if (selectedShips.includes(shipId)) {
 			setSelectedShips(
-				selectedShips.filter((shipIdToFilter) => shipIdToFilter !== shipId),
-			);
-			return;
+				selectedShips.filter((shipIdToFilter) => shipIdToFilter !== shipId)
+			)
+			return
 		}
-		setSelectedShips([...selectedShips, shipId]);
-	};
+		setSelectedShips([...selectedShips, shipId])
+	}
 
 	const onCreateFleet = () => {
-		createFleet({
-			name: fleetName,
-			shipIds: selectedShips,
-			position: planet.position,
-			cargo: {},
-		});
-		setFleetName("");
-		setSelectedShips([]);
-	};
+		createTask({
+			type: TaskType.ASSEMBLE_FLEET,
+			endDate: moment().add(3, "minutes").format(),
+			userId: user.id,
+			details: {
+				shipIds: selectedShips,
+				planetId: planet.id,
+				name: fleetName,
+				fleetId: uuidv4()
+			}
+		})
 
-	const shipClasses = ShipService.getAllShips();
+		setFleetName("")
+		setSelectedShips([])
+		fetchTasks()
+		fetchFleets()
+	}
+
+	const shipClasses = ShipService.getAllShips()
 
 	return (
 		<Flex direction="column" gap="2rem">
@@ -89,31 +95,31 @@ const PlanetSpatioport = ({}) => {
 			{Object.values(ships).map((ship: IShip) => {
 				if (
 					Object.values(fleets).some((fleet: IFleet) =>
-						fleet?.shipIds?.includes(ship.id),
+						fleet?.shipIds?.includes(ship.id)
 					)
 				) {
-					return null;
+					return null
 				}
-				const chassis = shipClasses[ship.class];
+				const chassis = shipClasses[ship.class]
 				return (
 					<ClickableShipContainer
 						key={ship.id}
 						onClick={() => {
-							onToggleShip(ship.id);
+							onToggleShip(ship.id)
 						}}
 					>
 						<Flex gap="0.5rem">
 							<StyledCheckbox checked={selectedShips.includes(ship.id)} />
-							<img src={chassis.img} width={80} />
+							<img src={chassis.img} width={80} alt={ship.name} />
 							<YellowText>
 								{ship.name} ({chassis.name})
 							</YellowText>
 						</Flex>
 					</ClickableShipContainer>
-				);
+				)
 			})}
 		</Flex>
-	);
-};
+	)
+}
 
-export default PlanetSpatioport;
+export default PlanetSpatioport

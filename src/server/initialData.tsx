@@ -15,7 +15,7 @@ export const generateInitialValues = async () => {
 		"neptune",
 		"saturn",
 		"uranus",
-		"venus",
+		"venus"
 	]
 	const available_resources = [
 		"Titane",
@@ -25,7 +25,7 @@ export const generateInitialValues = async () => {
 		"Uranium",
 		"Silicium",
 		"Hydrogène",
-		"Aluminium",
+		"Aluminium"
 	]
 
 	// 7 random planets
@@ -48,26 +48,6 @@ export const generateInitialValues = async () => {
 			return [Math.floor(x), 0, Math.floor(y)]
 		}
 
-		const [x, y, z] = generateCoordinatesOnEllipse(50, 50)
-
-		await db.planet.create({
-			data: {
-				name: randomType.charAt(0).toUpperCase() + randomType.slice(1),
-				position: {
-					system: 1237,
-					systemPosition: {
-						x,
-						y,
-						z,
-					},
-				},
-				resources: {},
-				resourcesMultiplier,
-				type: randomType,
-				userId: arEl === 1 ? "1" : undefined,
-			},
-		})
-
 		const asteroidResources = {}
 		available_resources.forEach((el) => {
 			asteroidResources[el] = Math.floor(Math.random() * 100000)
@@ -79,11 +59,29 @@ export const generateInitialValues = async () => {
 					systemPosition: {
 						x: Math.floor(Math.random() * 100) - 50,
 						y: Math.floor(Math.random() * 100) - 50,
-						z: Math.floor(Math.random() * 100) - 50,
-					},
+						z: Math.floor(Math.random() * 100) - 50
+					}
 				},
-				resources: asteroidResources,
-			},
+				resources: asteroidResources
+			}
+		})
+		const [x, y, z] = generateCoordinatesOnEllipse(50, 50)
+		await db.planet.create({
+			data: {
+				name: randomType.charAt(0).toUpperCase() + randomType.slice(1),
+				position: {
+					system: 1237,
+					systemPosition: {
+						x,
+						y,
+						z
+					}
+				},
+				resources: {},
+				resourcesMultiplier,
+				type: randomType,
+				userId: arEl === 1 ? "1" : undefined
+			}
 		})
 
 		await db.pirate.create({
@@ -93,12 +91,12 @@ export const generateInitialValues = async () => {
 					systemPosition: {
 						x: Math.floor(Math.random() * 100) - 50,
 						y: Math.floor(Math.random() * 100) - 50,
-						z: Math.floor(Math.random() * 100) - 50,
-					},
+						z: Math.floor(Math.random() * 100) - 50
+					}
 				},
-				name: "Pirate " + Math.floor(Math.random() * 100).toString(),
-				level: Math.floor(Math.random() * 100),
-			},
+				name: `Pirate ${Math.floor(Math.random() * 100).toString()}`,
+				level: Math.floor(Math.random() * 100)
+			}
 		})
 	})
 	await Promise.all(promises)

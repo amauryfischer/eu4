@@ -1,44 +1,39 @@
-"use client";
-import { Slider, SliderValue } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+"use client"
+import { Slider, SliderValue } from "@nextui-org/react"
+import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import styled from "styled-components"
 
 import {
-	Avatar,
-	AvatarGroup,
 	Input,
-	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
-	ModalHeader,
-} from "@nextui-org/react";
+	ModalHeader
+} from "@nextui-org/react"
 
-import _ from "lodash";
+import _ from "lodash"
 
-import useCurrentFleet from "@/hooks/current/use-current-fleet.hook";
-import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook";
-import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook";
-import useShips from "@/hooks/data/entity/use-ships.hook";
-import { setCurrentFleet, setCurrentShip } from "@/redux/slice/current.slice";
-import ParcelService from "@/services/ParcelService";
-import ResourcesService, { RESOURCE_TYPES } from "@/services/ResourcesService";
-import ShipService from "@/services/ShipService";
-import { IFleet } from "@/type/data/IFleet";
-import { IPlanet } from "@/type/data/IPlanet";
-import Flex from "@/ui/atoms/Flex";
-import BButton from "@/ui/atoms/buttons/Button";
-import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook";
-import useFleets from "@/hooks/data/entity/use-fleets.hook";
-import usePlanets from "@/hooks/data/entity/use-planets.hook";
-import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton";
-import RenderResources from "@/ui/organisms/RenderResources";
-import BAvatar from "@/ui/atoms/avatar/BAvatar";
-import ModulesService from "@/services/ModulesService";
-import { IModifier, IModule } from "@/type/data/IModule";
-import BModal from "@/ui/molecules/modal/BModal";
-import BProgress from "@/ui/molecules/progress/BProgress";
+import useCurrentFleet from "@/hooks/current/use-current-fleet.hook"
+import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
+import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
+import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
+import useFleets from "@/hooks/data/entity/use-fleets.hook"
+import usePlanets from "@/hooks/data/entity/use-planets.hook"
+import useShips from "@/hooks/data/entity/use-ships.hook"
+import { setCurrentFleet, setCurrentShip } from "@/redux/slice/current.slice"
+import ResourcesService, { RESOURCE_TYPES } from "@/services/ResourcesService"
+import ShipService from "@/services/ShipService"
+import { IModifier, IModule } from "@/type/data/IModule"
+import { IPlanet } from "@/type/data/IPlanet"
+import Flex from "@/ui/atoms/Flex"
+import BAvatar from "@/ui/atoms/avatar/BAvatar"
+import BButton from "@/ui/atoms/buttons/Button"
+import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
+import BModal from "@/ui/molecules/modal/BModal"
+import BProgress from "@/ui/molecules/progress/BProgress"
+import RenderResources from "@/ui/organisms/RenderResources"
+import Button from "@/ui/atoms/buttons/Button"
 
 const GridContainer = styled.div`
   display: grid;
@@ -46,36 +41,36 @@ const GridContainer = styled.div`
   grid-column-gap: 2rem;
   grid-row-gap: 1rem;
   align-items: center;
-`;
+`
 const ModalFleet = () => {
-	const currentFleet = useCurrentFleet();
-	const [system, setSystem] = useState(currentFleet?.position?.system);
-	const [x, setX] = useState(currentFleet?.position?.systemPosition?.x);
-	const [y, setY] = useState(currentFleet?.position?.systemPosition?.y);
-	const [z, setZ] = useState(currentFleet?.position?.systemPosition?.z);
-	const dispatch = useDispatch();
-	const fetParcels = useParcelsActions();
-	const ships = useShips();
-	const [isOpeningSoute, setIsOpeningSoute] = useState(false);
+	const currentFleet = useCurrentFleet()
+	const [system, setSystem] = useState(currentFleet?.position?.system)
+	const [x, setX] = useState(currentFleet?.position?.systemPosition?.x)
+	const [y, setY] = useState(currentFleet?.position?.systemPosition?.y)
+	const [z, setZ] = useState(currentFleet?.position?.systemPosition?.z)
+	const dispatch = useDispatch()
+	const fetParcels = useParcelsActions()
+	const ships = useShips()
+	const [isOpeningSoute, setIsOpeningSoute] = useState(false)
 	const [newResourcesValue, setNewResourcesValue] = useState(
-		currentFleet?.cargo,
-	);
-	const fleets = useFleets();
-	const planets = usePlanets();
-	const { updateFleet } = useFleetsActions();
-	const { updatePlanet } = usePlanetsActions();
+		currentFleet?.cargo
+	)
+	const fleets = useFleets()
+	const planets = usePlanets()
+	const { updateFleet } = useFleetsActions()
+	const { updatePlanet } = usePlanetsActions()
 
 	useEffect(() => {
 		const fetch = async () => {
-			const res = await fetParcels(currentFleet?.position?.system ?? "");
-			console.log(res);
-		};
-		fetch();
-	}, []);
+			const res = await fetParcels(currentFleet?.position?.system ?? "")
+			console.log(res)
+		}
+		fetch()
+	}, [])
 
 	useEffect(() => {
-		setNewResourcesValue(currentFleet?.cargo);
-	}, [currentFleet]);
+		setNewResourcesValue(currentFleet?.cargo)
+	}, [currentFleet])
 
 	const moveFleet = () => {
 		updateFleet(currentFleet.id, {
@@ -85,76 +80,72 @@ const ModalFleet = () => {
 				systemPosition: {
 					x,
 					y,
-					z,
-				},
-			},
-		});
-	};
+					z
+				}
+			}
+		})
+	}
 
 	const submitTransferCargo = () => {
-		const newFleet = _.cloneDeep(currentFleet);
-		const allresources = Object.keys(ResourcesService.getAllResources());
+		const newFleet = _.cloneDeep(currentFleet)
+		const allresources = Object.keys(ResourcesService.getAllResources())
 		const newPlanet = _.cloneDeep(
 			Object.values(planets).find(
 				(p) =>
 					p.position.system === system &&
 					p.position.systemPosition.x === x &&
 					p.position.systemPosition.y === y &&
-					p.position.systemPosition.z === z,
-			),
-		) as IPlanet;
+					p.position.systemPosition.z === z
+			)
+		) as IPlanet
 		allresources.forEach((resource) => {
-			const previousResourceValueFleet = _.get(
-				newFleet,
-				`cargo.${resource}`,
-				0,
-			);
-			const newResourceValueFleet = _.get(newResourcesValue, resource, 0);
+			const previousResourceValueFleet = _.get(newFleet, `cargo.${resource}`, 0)
+			const newResourceValueFleet = _.get(newResourcesValue, resource, 0)
 			if (!newFleet.cargo) {
-				newFleet.cargo = {} as Record<RESOURCE_TYPES, number>;
+				newFleet.cargo = {} as Record<RESOURCE_TYPES, number>
 			}
 			// @ts-ignore
-			newFleet.cargo[resource] = newResourceValueFleet;
+			newFleet.cargo[resource] = newResourceValueFleet
 			const oldResourceValuePlanet = _.get(
 				newPlanet,
 				`resources.${resource}`,
-				0,
-			);
-			const diffFleet = newResourceValueFleet - previousResourceValueFleet;
+				0
+			)
+			const diffFleet = newResourceValueFleet - previousResourceValueFleet
 			_.set(
 				newPlanet,
 				`resources.${resource}`,
-				oldResourceValuePlanet - diffFleet,
-			);
-		});
-		updatePlanet(newPlanet.id, newPlanet);
-		updateFleet(newFleet.id, newFleet);
-	};
+				oldResourceValuePlanet - diffFleet
+			)
+		})
+		updatePlanet(newPlanet.id, newPlanet)
+		updateFleet(newFleet.id, newFleet)
+	}
 
 	useEffect(() => {
-		setSystem(currentFleet?.position?.system);
-		setX(currentFleet?.position?.systemPosition?.x);
-		setY(currentFleet?.position?.systemPosition?.y);
-		setZ(currentFleet?.position?.systemPosition?.z);
-	}, [currentFleet]);
+		setSystem(currentFleet?.position?.system)
+		setX(currentFleet?.position?.systemPosition?.x)
+		setY(currentFleet?.position?.systemPosition?.y)
+		setZ(currentFleet?.position?.systemPosition?.z)
+	}, [currentFleet])
 
 	if (!currentFleet) {
-		return null;
+		return null
 	}
-	const shipIds = currentFleet.shipIds;
+	const shipIds = currentFleet.shipIds
 	const remainingPlanet = Object.values(planets).filter(
 		(planet) =>
 			planet.position.system === system &&
 			planet.position.systemPosition.x.toString() === x.toString() &&
 			planet.position.systemPosition.y.toString() === y.toString() &&
-			planet.position.systemPosition.z.toString() === z.toString(),
-	);
+			planet.position.systemPosition.z.toString() === z.toString()
+	)
 
 	if (!currentFleet) {
-		return null;
+		return null
 	}
 	const fleetCapacity = currentFleet.shipIds.reduce((accumulator, shipId) => {
-		const ship = ships?.[shipId];
+		const ship = ships?.[shipId]
 		return (
 			accumulator +
 			(ships[shipId]?.modules ?? []).reduce((accumulator, module: IModule) => {
@@ -163,20 +154,20 @@ const ModalFleet = () => {
 					(module && module.modifier
 						? module.modifier[IModifier.CARGO] ?? 0
 						: 0)
-				);
+				)
 			}, 0)
-		);
-	}, 0);
+		)
+	}, 0)
 
 	const currentResourcesAmount = Object.values(
-		ResourcesService.getAllResources(),
+		ResourcesService.getAllResources()
 	).reduce((accumulator, resource) => {
 		return (
 			accumulator +
 			(currentFleet?.cargo?.[resource?.name] ?? 0) +
 			(newResourcesValue?.[resource?.name] ?? 0)
-		);
-	}, 0);
+		)
+	}, 0)
 
 	return (
 		<>
@@ -197,7 +188,7 @@ const ModalFleet = () => {
 							<Flex direction="column" gap="1rem">
 								{shipIds.map((shipId, index) => {
 									const img =
-										ShipService.getAllShips()[ships?.[shipId]?.class]?.img;
+										ShipService.getAllShips()[ships?.[shipId]?.class]?.img
 									return (
 										<BAvatar
 											key={index}
@@ -206,10 +197,10 @@ const ModalFleet = () => {
 											color="success"
 											className="w-32 h-32 text-large"
 											onClick={() => {
-												dispatch(setCurrentShip(shipId));
+												dispatch(setCurrentShip(shipId))
 											}}
 										/>
-									);
+									)
 								})}
 							</Flex>
 							<Flex direction="column">
@@ -245,8 +236,8 @@ const ModalFleet = () => {
 										variant="bordered"
 										color="emerald600"
 										onClick={() => {
-											moveFleet();
-											dispatch(setCurrentFleet(undefined));
+											moveFleet()
+											dispatch(setCurrentFleet(undefined))
 										}}
 										isDisabled={
 											system === currentFleet?.position?.system &&
@@ -269,40 +260,40 @@ const ModalFleet = () => {
 										color="emerald"
 										onClick={() => {
 											const tmpNewResources = _.cloneDeep(
-												currentFleet.cargo,
-											) as Record<RESOURCE_TYPES, number>;
+												currentFleet.cargo
+											) as Record<RESOURCE_TYPES, number>
 											let remainingCapacity =
 												fleetCapacity -
 												Object.values(tmpNewResources).reduce(
 													(accumulator, currentValue) =>
 														accumulator + currentValue,
-													0,
-												);
+													0
+												)
 											Object.values(ResourcesService.getAllResources()).forEach(
 												(resource) => {
-													const isFull = remainingCapacity <= 0;
+													const isFull = remainingCapacity <= 0
 													if (!isFull) {
 														if (
 															remainingPlanet[0].resources?.[resource?.name] >
 															remainingCapacity
 														) {
 															tmpNewResources[resource?.name] =
-																remainingCapacity;
-															remainingCapacity = 0;
+																remainingCapacity
+															remainingCapacity = 0
 														} else {
 															tmpNewResources[resource?.name] =
 																remainingPlanet[0].resources?.[
 																	resource?.name
-																] ?? 0;
+																] ?? 0
 															remainingCapacity -=
 																remainingPlanet[0].resources?.[
 																	resource?.name
-																] ?? 0;
+																] ?? 0
 														}
 													}
-												},
-											);
-											setNewResourcesValue(tmpNewResources);
+												}
+											)
+											setNewResourcesValue(tmpNewResources)
 										}}
 									>
 										Remplir tout
@@ -311,13 +302,13 @@ const ModalFleet = () => {
 										variant="bordered"
 										color="red"
 										onClick={() => {
-											const newResources = {} as Record<RESOURCE_TYPES, number>;
+											const newResources = {} as Record<RESOURCE_TYPES, number>
 											Object.values(ResourcesService.getAllResources()).forEach(
 												(resource) => {
-													newResources[resource?.name] = 0;
-												},
-											);
-											setNewResourcesValue(newResources);
+													newResources[resource?.name] = 0
+												}
+											)
+											setNewResourcesValue(newResources)
 										}}
 									>
 										Vider tout
@@ -335,58 +326,58 @@ const ModalFleet = () => {
 									<div>Planète : {remainingPlanet[0].name}</div>
 									{Object.values(ResourcesService.getAllResources()).map(
 										(resource) => {
-											let maxResource =
+											const maxResource =
 												(remainingPlanet[0].resources?.[resource?.name] ?? 0) +
-												(currentFleet?.cargo?.[resource?.name] ?? 0);
+												(currentFleet?.cargo?.[resource?.name] ?? 0)
 
-											let resourcesAlreadyInFleetInAllOtherResources =
+											const resourcesAlreadyInFleetInAllOtherResources =
 												Object.values(
-													ResourcesService.getAllResources(),
+													ResourcesService.getAllResources()
 												).reduce((accumulator, currentResource) => {
 													if (currentResource.name === resource.name) {
-														return accumulator;
+														return accumulator
 													}
 													return (
 														accumulator +
-															((currentFleet?.cargo || {})[
-																currentResource?.name
-															] ?? 0) +
-															newResourcesValue?.[currentResource?.name] ?? 0
-													);
-												}, 0);
+														((currentFleet?.cargo?.[currentResource?.name] ??
+															0) +
+															(newResourcesValue?.[currentResource?.name] ?? 0))
+													)
+												}, 0)
 											return (
 												<React.Fragment key={resource.name}>
 													<img
 														src={resource.img}
 														style={{ width: "3rem", height: "3rem" }}
+														alt={resource.name}
 													/>
 													<div>{resource.name}</div>
 													<input
 														value={ResourcesService.renderResources(
-															newResourcesValue?.[resource?.name] ?? 0,
+															newResourcesValue?.[resource?.name] ?? 0
 														)}
 														onChange={(e) => {
 															let value = _.isEmpty(e.target.value)
 																? "0"
-																: e.target.value;
+																: e.target.value
 
-															if (parseInt(value) > maxResource) {
-																value = String(maxResource);
+															if (Number.parseInt(value) > maxResource) {
+																value = String(maxResource)
 															}
 															// @ts-ignore
 															setNewResourcesValue({
 																...newResourcesValue,
-																[resource?.name]: Number(value),
-															});
+																[resource?.name]: Number(value)
+															})
 														}}
 													/>
-													<SButton
-														variant="outlined"
+													<Button
+														variant="bordered"
 														$color="emerald800"
 														magnetic={false}
 														onClick={() => {
 															if (currentResourcesAmount >= fleetCapacity) {
-																return;
+																return
 															}
 															// @ts-ignore
 
@@ -397,20 +388,20 @@ const ModalFleet = () => {
 																// @ts-ignore
 																setNewResourcesValue({
 																	...newResourcesValue,
-																	[resource?.name]: maxResource,
-																});
+																	[resource?.name]: maxResource
+																})
 															} else {
 																// @ts-ignore
 																setNewResourcesValue({
 																	...newResourcesValue,
 																	[resource?.name]:
-																		fleetCapacity - currentResourcesAmount,
-																});
+																		fleetCapacity - currentResourcesAmount
+																})
 															}
 														}}
 													>
 														Remplir
-													</SButton>
+													</Button>
 													<Slider
 														defaultValue={30}
 														minValue={0}
@@ -423,12 +414,12 @@ const ModalFleet = () => {
 																fleetCapacity
 															) {
 																// @ts-ignore
-																return;
+																return
 															}
 															setNewResourcesValue({
 																...newResourcesValue,
-																[resource?.name]: Number(value),
-															});
+																[resource?.name]: Number(value)
+															})
 														}}
 														maxValue={Math.min(maxResource, fleetCapacity)}
 													/>
@@ -437,12 +428,12 @@ const ModalFleet = () => {
 															(remainingPlanet[0].resources?.[resource?.name] ??
 																0) -
 																(newResourcesValue?.[resource?.name] ?? 0) +
-																(currentFleet?.cargo?.[resource?.name] ?? 0),
+																(currentFleet?.cargo?.[resource?.name] ?? 0)
 														)}
 													</div>
 												</React.Fragment>
-											);
-										},
+											)
+										}
 									)}
 								</GridContainer>
 							</Flex>
@@ -453,44 +444,42 @@ const ModalFleet = () => {
 							{" "}
 							{!isOpeningSoute && (
 								<>
-									{remainingPlanet.length > 0 && (
-										<BButton
-											variant="bordered"
-											color="cyan"
-											onClick={() => {
-												setIsOpeningSoute(true);
-											}}
-										>
-											Remplir la soute
-										</BButton>
-									)}
-
 									<CloseElementButton
 										onPress={() => dispatch(setCurrentFleet(undefined))}
 									/>
+									{remainingPlanet.length > 0 && (
+										<Button
+											color="cyan"
+											onClick={() => {
+												setIsOpeningSoute(true)
+											}}
+										>
+											Remplir la soute
+										</Button>
+									)}
 								</>
 							)}
 							{isOpeningSoute && (
 								<>
-									<BButton
+									<Button
 										variant="bordered"
 										onClick={() => {
-											setIsOpeningSoute(false);
-											setNewResourcesValue(currentFleet?.cargo);
+											setIsOpeningSoute(false)
+											setNewResourcesValue(currentFleet?.cargo)
 										}}
 									>
 										Annuler
-									</BButton>
-									<BButton
+									</Button>
+									<Button
 										variant="solid"
 										color="emerald600"
 										onClick={() => {
-											submitTransferCargo();
-											setIsOpeningSoute(false);
+											submitTransferCargo()
+											setIsOpeningSoute(false)
 										}}
 									>
 										Confirmer
-									</BButton>
+									</Button>
 								</>
 							)}
 						</>
@@ -498,7 +487,7 @@ const ModalFleet = () => {
 				</ModalContent>
 			</BModal>
 		</>
-	);
-};
+	)
+}
 
-export default ModalFleet;
+export default ModalFleet

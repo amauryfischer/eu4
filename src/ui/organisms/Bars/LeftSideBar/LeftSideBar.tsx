@@ -1,16 +1,16 @@
-"use client";
-import usePlanets from "@/hooks/data/entity/use-planets.hook";
-import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice";
-import ResourcesService from "@/services/ResourcesService";
-import Flex from "@/ui/atoms/Flex";
-import { SmallText, SubTitle, Text } from "@/ui/fondations/text";
-import PlanetCanvas from "@/ui/molecules/entity/planets/PlanetCanvas";
-import BProgress from "@/ui/molecules/progress/BProgress";
-import { Avatar, Spacer, Tooltip } from "@nextui-org/react";
-import { redirect, useParams, useRouter } from "next/navigation";
-import React from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+"use client"
+import usePlanets from "@/hooks/data/entity/use-planets.hook"
+import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice"
+import ResourcesService from "@/services/ResourcesService"
+import Flex from "@/ui/atoms/Flex"
+import { SmallText, SubTitle, Text } from "@/ui/fondations/text"
+import PlanetCanvas from "@/ui/molecules/entity/planets/PlanetCanvas"
+import BProgress from "@/ui/molecules/progress/BProgress"
+import { Avatar, Spacer, Tooltip } from "@nextui-org/react"
+import { redirect, useParams, useRouter } from "next/navigation"
+import React from "react"
+import { useDispatch } from "react-redux"
+import styled from "styled-components"
 
 const PlanetName = styled.div`
     // transition with delay to make it appear after the width transition
@@ -22,20 +22,21 @@ const PlanetName = styled.div`
     overflow: hidden;
     text-transform: capitalize;
     
-`;
+`
 const TooltipContent = styled.div`
 	background-color: hsla(var(--grey-hue),var(--grey-saturation),var(--grey800-lightness),0.8);
 	padding: 0.5rem;
 	color: white;
 	border-radius: 0.5rem;
     padding: 0.5rem 2rem; 
-`;
+`
 const LeftSideBarContainer = styled.div`
     width: var(--leftbar-width);
     background-color: black;
     position: fixed;
     left: 0;
     top: 0;
+	height: calc(100vh - var(--topbar-height));
     z-index: 1000;
     transition: all 0.3s ease-in-out;
     --width-internal: 0%;
@@ -43,8 +44,8 @@ const LeftSideBarContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: left;
-    padding-top: calc(var(--topbar-height) + 1rem);
-`;
+    margin-top: calc(var(--topbar-height));
+`
 const PlanetWithNameContainer = styled(Flex)<{ $selected: boolean }>`
     align-items: center;
     transition: all 0.3s ease-in-out;
@@ -69,7 +70,7 @@ const PlanetWithNameContainer = styled(Flex)<{ $selected: boolean }>`
         cursor: pointer;
     }
     margin-bottom: 0.5rem;
-`;
+`
 const Grid = styled.div`
     display: grid;
     grid-template-columns: 30px 1fr 30px;
@@ -78,19 +79,19 @@ const Grid = styled.div`
     margin-bottom: 0.5rem;
     align-items: center;
     justify-items: center;
-`;
+`
 const CanvasContainer = styled.div`
     width: 300px;
     height: 300px;
     border-radius: 0.5rem;
     padding: 2rem;
-`;
+`
 
 const LeftSideBar = () => {
-	const { id: planetId } = useParams();
-	const planets = usePlanets();
-	const dispatch = useDispatch();
-	const { push } = useRouter();
+	const { id: planetId } = useParams()
+	const planets = usePlanets()
+	const dispatch = useDispatch()
+	const { push } = useRouter()
 	return (
 		<LeftSideBarContainer>
 			{Object.values(planets).map((planet) => {
@@ -122,21 +123,21 @@ const LeftSideBar = () => {
 											<Grid>
 												{Object.values(ResourcesService.getAllResources()).map(
 													(resource) => {
-														let color = "primary";
+														let color = "primary"
 														if (
 															planet.resourcesMultiplier[resource.name] < 0.5
 														) {
-															color = "warning";
+															color = "warning"
 														}
 														if (
 															planet.resourcesMultiplier[resource.name] < 0.2
 														) {
-															color = "danger";
+															color = "danger"
 														}
 														if (
 															planet.resourcesMultiplier[resource.name] > 0.8
 														) {
-															color = "success";
+															color = "success"
 														}
 														return (
 															<React.Fragment key={resource.name}>
@@ -155,12 +156,12 @@ const LeftSideBar = () => {
 																<SmallText>
 																	{Math.floor(
 																		planet.resourcesMultiplier[resource.name] *
-																			100,
+																			100
 																	)}
 																</SmallText>
 															</React.Fragment>
-														);
-													},
+														)
+													}
 												)}
 											</Grid>
 										</Flex>
@@ -170,29 +171,29 @@ const LeftSideBar = () => {
 						}
 						classNames={{
 							base: [
-								"backdrop-filter backdrop-blur-sm bg-opacity-10 bg-red-900 p-0",
+								"backdrop-filter backdrop-blur-sm bg-opacity-10 bg-red-900 p-0"
 							],
 							content: [
 								// tailwind glassmorphism
-								"bg-red-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-300 text-success-600 p-0",
-							],
+								"bg-red-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-300 text-success-600 p-0"
+							]
 						}}
 					>
 						<PlanetWithNameContainer
 							$selected={planet.id === planetId}
 							onClick={() => {
-								dispatch(setCurrentPlayerActivePlanetId(planet.id));
-								push(`/planets/${planet.id}`);
+								dispatch(setCurrentPlayerActivePlanetId(planet.id))
+								push(`/planets/${planet.id}`)
 							}}
 						>
 							<Avatar src={`/images/planets/${planet.type}.jpg`} size="md" />
 							<PlanetName>{planet.name}</PlanetName>
 						</PlanetWithNameContainer>
 					</Tooltip>
-				);
+				)
 			})}
 		</LeftSideBarContainer>
-	);
-};
+	)
+}
 
-export default LeftSideBar;
+export default LeftSideBar

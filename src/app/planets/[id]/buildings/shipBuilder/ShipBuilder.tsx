@@ -14,7 +14,7 @@ import ResourcesService, {
 	HYDROGENE,
 	SILICIUM,
 	TITANE,
-	URANIUM,
+	URANIUM
 } from "@/services/ResourcesService"
 import { IModifier, IModule } from "@/type/data/IModule"
 import IShipDesign from "@/type/data/IShipDesign"
@@ -39,32 +39,31 @@ import {
 	RedIfTooMuch,
 	SAvatar,
 	ShipPropertyContainer,
-	Simg,
+	Simg
 } from "./ShipBuilder.styled"
 import { useParams, useRouter } from "next/navigation"
 
 const ShipBuilder = ({
 	shipSelected,
+	setIsOpen
 }: {
 	shipSelected: IShipDesign
+	setIsOpen: (isOpen: string | undefined) => void
 }) => {
 	const currentShipClass = shipSelected
 	const modules = Object.values(ModulesService.getAllModules())
 	const [selectedModules, setSelectedModules] = useState<IModule[]>([])
 	const [shipName, setShipName] = useState("")
 	const currentPlayerActivePlanet = useCurrentPlayerActivePlanet()
-	const dispatch = useDispatch()
-	const { push } = useRouter()
-	const { id } = useParams()
 	const { createShip } = useShipsActions()
 	const modulesEmplacement = _.sumBy(selectedModules, (m) => m.emplacement)
 	const onSubmit = () => {
 		createShip({
 			name: shipName,
 			modules: selectedModules,
-			class: currentShipClass.class,
+			class: currentShipClass.class
 		})
-		push(`/planets/${id}`)
+		setIsOpen(undefined)
 	}
 
 	const totalStat = {
@@ -74,7 +73,7 @@ const ShipBuilder = ({
 		warp: 0,
 		fuel: currentShipClass.fuelSpace,
 		coque: currentShipClass.baseCoque,
-		conso: 0,
+		conso: 0
 	}
 	const totalResources = {
 		[TITANE.name]: currentShipClass?.cost?.[TITANE.name] || 0,
@@ -84,7 +83,7 @@ const ShipBuilder = ({
 		[SILICIUM.name]: currentShipClass?.cost?.[SILICIUM.name] || 0,
 		[URANIUM.name]: currentShipClass?.cost?.[URANIUM.name] || 0,
 		[AZOTE.name]: currentShipClass?.cost?.[AZOTE.name] || 0,
-		[HYDROGENE.name]: currentShipClass?.cost?.[HYDROGENE.name] || 0,
+		[HYDROGENE.name]: currentShipClass?.cost?.[HYDROGENE.name] || 0
 	}
 
 	selectedModules.forEach((m) => {
@@ -151,38 +150,38 @@ const ShipBuilder = ({
 								{
 									name: "Cargo",
 									icon: <Inventory2Icon />,
-									totalAmount: totalStat.cargo,
+									totalAmount: totalStat.cargo
 								},
 								{
 									name: "Impulsion",
 									icon: <DeblurIcon />,
-									totalAmount: totalStat.impulsion,
+									totalAmount: totalStat.impulsion
 								},
 								{
 									name: "Shield",
 									icon: <SecurityIcon />,
-									totalAmount: totalStat.shield,
+									totalAmount: totalStat.shield
 								},
 								{
 									name: "Warp",
 									icon: <RocketLaunchIcon />,
-									totalAmount: totalStat.warp,
+									totalAmount: totalStat.warp
 								},
 								{
 									name: "Fuel",
 									icon: <BatteryCharging80Icon />,
-									totalAmount: totalStat.fuel,
+									totalAmount: totalStat.fuel
 								},
 								{
 									name: "Coque",
 									icon: <FavoriteIcon />,
-									totalAmount: totalStat.coque,
+									totalAmount: totalStat.coque
 								},
 								{
 									name: "Conso",
 									icon: <LocalGasStationIcon />,
-									totalAmount: totalStat.conso,
-								},
+									totalAmount: totalStat.conso
+								}
 							].map((shipProperty) => (
 								<ShipPropertyContainer key={shipProperty.name}>
 									<Flex gap="0.5rem">
@@ -233,7 +232,7 @@ const ShipBuilder = ({
 								disabled={
 									modulesEmplacement > currentShipClass.emplacement ||
 									Object.values(totalResources).some(
-										(r) => r > currentPlayerActivePlanet.resources[r],
+										(r) => r > currentPlayerActivePlanet.resources[r]
 									)
 								}
 								title="Créer"
@@ -249,7 +248,7 @@ const ShipBuilder = ({
 									{ label: "Cargo", type: IModuleType.CARGO },
 									{ label: "Armes", type: IModuleType.WEAPON },
 									{ label: "Défense", type: IModuleType.DEFENSE },
-									{ label: "Autre", type: IModuleType.OTHER },
+									{ label: "Autre", type: IModuleType.OTHER }
 								].map((category) => {
 									return (
 										<Tab key={category.label} title={category.label}>
@@ -258,6 +257,7 @@ const ShipBuilder = ({
 													.filter((m) => m.type === category.type)
 													.map((module) => (
 														<ModuleShipBuilder
+															key={module.id}
 															module={module}
 															setSelectedModules={setSelectedModules}
 															selectedModules={selectedModules}
@@ -273,7 +273,12 @@ const ShipBuilder = ({
 							{Object.values(ResourcesService.getAllResources()).map(
 								(resource) => (
 									<React.Fragment key={resource.name}>
-										<img src={resource.img} height="25px" width="25px" />
+										<img
+											src={resource.img}
+											height="25px"
+											width="25px"
+											alt={resource.name}
+										/>
 										<div>{resource.name}</div>
 										<ColoredAvailableResource
 											$available={
@@ -284,7 +289,7 @@ const ShipBuilder = ({
 											{totalResources[resource.name]}
 										</ColoredAvailableResource>
 									</React.Fragment>
-								),
+								)
 							)}
 						</CustomGridResources>
 					</Flex>

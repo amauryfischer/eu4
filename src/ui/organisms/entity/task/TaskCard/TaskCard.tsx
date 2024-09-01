@@ -6,9 +6,10 @@ import { useEffect, useState } from "react"
 import moment from "moment"
 import {
 	ITask,
+	ITaskAssembleFleet,
 	ITaskAsteroid,
 	ITaskFlyingFleet,
-	TaskType,
+	TaskType
 } from "@/type/data/ITask"
 import useAsteroidsActions from "@/hooks/data/actions/use-asteroids-actions.hook"
 import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
@@ -16,6 +17,7 @@ import TaskCollectAsteroid from "./TaskCollectAsteroid.tsx/TaskCollectAsteroid"
 import TaskFlyingFleet from "./TaskFlyingFleet/TaskFlyingFleet"
 import Mine from "@/ui/fondations/icons/Mine"
 import Spaceship from "@/ui/fondations/icons/Spaceship"
+import TaskAssembleFleet from "./TaskAssembleFleet/TaskAssembleFleet"
 
 const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
@@ -29,7 +31,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
 			const createdAt = moment(task.createdAt)
 			const current = moment()
 			setProgress(
-				Math.round((current.diff(createdAt) / endDate.diff(createdAt)) * 100),
+				Math.round((current.diff(createdAt) / endDate.diff(createdAt)) * 100)
 			)
 			if (current.isAfter(endDate)) {
 				if (task.type === TaskType.COLLECT_ASTEROIDS) {
@@ -49,15 +51,6 @@ const TaskCard = ({ task }: { task: ITask }) => {
 		return null
 	}
 
-	const colorAdvancement = (advancement: number) => {
-		if (advancement < 33) {
-			return "default"
-		}
-		if (advancement < 66) {
-			return "warning"
-		}
-		return "success"
-	}
 	return (
 		<StyledTaskCard>
 			{task.type === TaskType.COLLECT_ASTEROIDS && (
@@ -75,6 +68,9 @@ const TaskCard = ({ task }: { task: ITask }) => {
 					icon={<Spaceship width="24px" />}
 					color="cyan300"
 				/>
+			)}
+			{task.type === TaskType.ASSEMBLE_FLEET && (
+				<TaskAssembleFleet task={task as unknown as ITaskAssembleFleet} />
 			)}
 			{/* <div>
 				Temps restant: {moment(task.endDate).diff(moment(), "seconds")} secondes

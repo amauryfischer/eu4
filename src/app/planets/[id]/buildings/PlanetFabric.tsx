@@ -2,26 +2,25 @@ import React from "react"
 import { useDispatch } from "react-redux"
 import ModulesService from "@/services/ModulesService"
 import moment from "moment"
-import BButton from "@/ui/atoms/buttons/BButton"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useCurrentPlanet from "@/hooks/current/use-current-planet.hook"
-import RUBY_DATE_FORMAT from "@/utils/rubyDateFormat"
 import ModuleCard from "@/ui/molecules/entity/module/ModuleCard"
 import { TaskType } from "@/type/data/ITask"
+import Button from "@/ui/atoms/buttons/Button"
 
-const PlanetFabric = ({}) => {
+const PlanetFabric = () => {
 	const dispatch = useDispatch()
 	const currentPlanet = useCurrentPlanet()
-	const { createTask } = useTasksActions()
+	const { createTask, fetchTasks } = useTasksActions()
 	return (
 		<>
 			{Object.values(ModulesService.getAllModules()).map((module, index) => {
 				return (
 					<ModuleCard
-						key={index}
+						key={module.id}
 						module={module}
 						actions={
-							<BButton
+							<Button
 								color="cyan500"
 								onClick={() => {
 									createTask({
@@ -32,14 +31,15 @@ const PlanetFabric = ({}) => {
 											planetId: currentPlanet.id,
 											module: {
 												type: module.id,
-												modifier: module.modifier,
-											},
-										},
+												modifier: module.modifier
+											}
+										}
 									})
+									fetchTasks()
 								}}
 							>
 								Fabriquer
-							</BButton>
+							</Button>
 						}
 					/>
 				)
