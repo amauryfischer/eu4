@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux"
-import { useParams } from "react-router"
 import useFleets from "../data/entity/use-fleets.hook"
 
 const useCurrentFleet = () => {

@@ -7,10 +7,12 @@ import {
 	ITaskAsteroid,
 	ITaskBuildShip,
 	ITaskConstructModule,
-	ITaskFlyingFleet
+	ITaskFlyingFleet,
+	ITaskResearch,
+	ITaskUpgradeResource
 } from "@/type/data/ITask"
 import { fetchRandomResources } from "./utils/fetchRandomResources"
-import { RESOURCE_TYPES } from "../services/ResourcesService"
+import ResourcesService, { RESOURCE_TYPES } from "../services/ResourcesService"
 import { addResources } from "./utils/addResources"
 import _ from "lodash"
 import { TaskType } from "@prisma/client"
@@ -25,6 +27,9 @@ export const handleTask = async (
 		| ITaskConstructModule
 		| ITaskFlyingFleet
 		| ITaskAssembleFleet
+		| ITaskResearch
+		| ITaskBuildShip
+		| ITaskUpgradeResource
 ) => {
 	if (task.type === TaskType.COLLECT_ASTEROIDS) {
 		await handleCollectAsteroid(task)
@@ -34,6 +39,10 @@ export const handleTask = async (
 		await handleAssembleFleet(task)
 	} else if (task.type === TaskType.BUILD_SHIP) {
 		await handleBuildShip(task)
+	} else if (task.type === TaskType.RESEARCH) {
+		await handleResearch(task)
+	} else if (task.type === TaskType.UPGRADE_RESOURCE) {
+		await handleUpgradeResource(task)
 	}
 }
 
@@ -213,6 +222,78 @@ const handleBuildShip = async (task: ITaskBuildShip) => {
 				class: task.details.class,
 				modules: task.details.modules,
 				name: task.details.name
+			}
+		})
+		await db.task.delete({
+			where: {
+				id: task.id
+			}
+		})
+	})
+}
+const handleResearch = async (task: ITaskResearch) => {
+	const endDate = moment().add(task.details.time, "minutes")
+	schedule.scheduleJob(endDate.toDate(), async () => {
+		console.log("[Task] : handling research")
+		await db.task.delete({
+			where: {
+				id: task.id
+			}
+		})
+		await db.user.update({
+			where: {
+				id: task.userId
+			},
+			data: {
+				research: {
+					push: task.details.research
+				}
+			}
+		})
+	})
+}
+
+const handleUpgradeResource = async (task: ITaskUpgradeResource) => {
+	console.log("[creating task] upgrade resource")
+	const endDate = moment().add(task.details.level * 30, "seconds")
+	const currentPlanet = await db.planet.findUnique({
+		where: {
+			id: task.details.planetId
+		}
+	})
+	const newResources = currentPlanet?.resources as Record<
+		RESOURCE_TYPES,
+		number
+	>
+	ResourcesService.allResources.forEach((r) => {
+		newResources[r.name] =
+			newResources[r.name] -
+			Math.floor(ResourcesService.costToUpgrade(task.details.level, r.name))
+	})
+	await db.planet.update({
+		where: {
+			id: task.details.planetId
+		},
+		data: {
+			resources: newResources
+		}
+	})
+	schedule.scheduleJob(endDate.toDate(), async () => {
+		console.log("[Task] : handling upgrade resource")
+		const currentPlanet = await db.planet.findUnique({
+			where: {
+				id: task.details.planetId
+			}
+		})
+		await db.planet.update({
+			where: {
+				id: task.details.planetId
+			},
+			data: {
+				mines: {
+					...currentPlanet?.mines,
+					[task.details.resource]: task.details.level + 1
+				}
 			}
 		})
 		await db.task.delete({

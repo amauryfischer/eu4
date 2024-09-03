@@ -5,8 +5,9 @@ import { generateInitialValues } from "./initialData"
 import moment from "moment"
 import schedule from "node-schedule"
 import { handleTask } from "./handleTask"
+import ResourcesService from "@/services/ResourcesService"
 
-const RESOURCES_MINING_MULTIPLIER = 150
+const RESOURCES_MINING_MULTIPLIER = 50
 
 const deleteEveryThing = async () => {
 	await db.task.deleteMany()
@@ -20,7 +21,7 @@ const deleteEveryThing = async () => {
 
 export const fetchServerData = async (type: any) => {
 	// delete all data
-	// await deleteEveryThing()
+	//await deleteEveryThing()
 
 	// ? delete finished task if finished
 	const tasks = await db.task.findMany()
@@ -55,69 +56,61 @@ export const fetchServerData = async (type: any) => {
 						resources: {
 							// add 50k for each minute
 							Titane:
-								planet?.resources?.Titane !== undefined
-									? planet.resources.Titane +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Titane *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Titane * 100,
+									level: planet?.mines?.Titane || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
 							Cuivre:
-								planet?.resources?.Cuivre !== undefined
-									? planet.resources.Cuivre +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Cuivre *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Cuivre * 100,
+									level: planet?.mines?.Cuivre || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
 							Fer:
-								planet?.resources?.Fer !== undefined
-									? planet.resources.Fer +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Fer *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
-							Azote:
-								planet?.resources?.Azote !== undefined
-									? planet.resources.Azote +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Azote *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
-							Uranium:
-								planet?.resources?.Uranium !== undefined
-									? planet.resources.Uranium +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Uranium *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
-							Silicium:
-								planet?.resources?.Silicium !== undefined
-									? planet.resources.Silicium +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Silicium *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
-							Hydrogène:
-								planet?.resources?.Hydrogène !== undefined
-									? planet.resources.Hydrogène +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Hydrogène *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0,
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Fer * 100,
+									level: planet?.mines?.Fer || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
 							Aluminium:
-								planet?.resources?.Aluminium !== undefined
-									? planet.resources.Aluminium +
-										(RESOURCES_MINING_MULTIPLIER *
-											planet?.resourcesMultiplier?.Aluminium *
-											(Date.now() - parsedLastPlanetSync)) /
-											60000
-									: 0
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Aluminium * 100,
+									level: planet?.mines?.Aluminium || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
+							Silicium:
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Silicium * 100,
+									level: planet?.mines?.Silicium || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
+							Uranium:
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Uranium * 100,
+									level: planet?.mines?.Uranium || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
+							Azote:
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Azote * 100,
+									level: planet?.mines?.Azote || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000,
+							Hydrogene:
+								(ResourcesService.calculateResourceSpeed({
+									percentage: planet?.resourcesMultiplier?.Hydrogene * 100,
+									level: planet?.mines?.Hydrogene || 1
+								}) *
+									(Date.now() - parsedLastPlanetSync)) /
+								60_000
 						}
 					}
 				})
@@ -127,6 +120,16 @@ export const fetchServerData = async (type: any) => {
 
 	if (type === "Planet") {
 		await syncDataPlanet()
+	}
+
+	if (type === "User") {
+		// find user with email : admin@eu4.com
+		const user = await db.user.findUnique({
+			where: {
+				email: "admin@eu4.com"
+			}
+		})
+		return [user]
 	}
 
 	// @ts-ignore

@@ -5,12 +5,14 @@ import shadow from "./shadow"
 import size from "./size"
 import color_theme from "./colors/colors_theme"
 import spacing from "./spacing"
+import color_nextui from "./colors/colors_nextui"
 
 const GlobalStyle = createGlobalStyle`
     :root {
         --gold: 1.618;
         ${colors}
         ${color_theme}
+        ${color_nextui}
         ${size}
         ${spacing}
         --color-hue: 0;

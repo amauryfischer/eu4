@@ -10,6 +10,9 @@ import PlanetShipFactory from "./buildings/PlanetShipFactory"
 import PlanetSpatioport from "./buildings/PlanetSpatioport"
 import ShipBuilder from "./buildings/shipBuilder/ShipBuilder"
 import { useParams } from "next/navigation"
+import PlanetResearch from "./buildings/PlanetResearch"
+import PlanetMines from "./buildings/PlanetMines"
+import PlanetCommunication from "./buildings/PlanetCommunication"
 const Simg = styled.img<{
 	$disabled?: boolean
 	$width: number
@@ -50,6 +53,18 @@ const Simg = styled.img<{
 		`
 	}}
 `
+
+export const BackgroundImage = styled.div<{
+	$backgroundImage: string | undefined
+}>`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url(${(props) => props.$backgroundImage});
+  background-size: cover;
+  z-index: -100;
+  filter: blur(1px) brightness(0.2) opacity(0.5);
+`
 const SFlex = styled(Flex)<{ $url: string }>`
 	background: url(${({ $url }) => $url}) no-repeat center center fixed;	
 	background-size: cover;
@@ -62,6 +77,9 @@ const PlanetMain = () => {
 	const currentPlanet = useCurrentPlayerActivePlanet()
 	const [isOpen, setIsOpen] = useState<string | undefined>(undefined)
 	const [shipSelected, setShipSelected] = useState<IShipDesign | undefined>(
+		undefined
+	)
+	const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
 		undefined
 	)
 	const urlType = {
@@ -113,7 +131,7 @@ const PlanetMain = () => {
 						name: "Mine",
 						src: "/images/buildings/mine.webp",
 						link: `/planets/${planetId}/research`,
-						disabled: true,
+						disabled: false,
 						width: 15,
 						height: 15,
 						row: 2,
@@ -164,15 +182,14 @@ const PlanetMain = () => {
 				)}
 			</SFlex>
 			<BModal
-				size="5xl"
 				isOpen={!!isOpen}
 				onClose={() => setIsOpen(undefined)}
 				title={isOpen}
-				scrollBehavior="inside"
 			>
-				<ModalContent>
+				<ModalContent className="relative">
+					<BackgroundImage $backgroundImage={backgroundImage} />
 					<ModalHeader>{isOpen}</ModalHeader>
-					<ModalBody>
+					<ModalBody className="max-h-[70vh] overflow-y-auto">
 						{
 							{
 								Manufacture: (
@@ -187,9 +204,13 @@ const PlanetMain = () => {
 									<ShipBuilder
 										shipSelected={shipSelected}
 										setIsOpen={setIsOpen}
+										setBackgroundImage={setBackgroundImage}
 									/>
 								),
-								Hangar: <PlanetSpatioport />
+								Hangar: <PlanetSpatioport />,
+								"Centre de recherche": <PlanetResearch />,
+								Mine: <PlanetMines />,
+								"Centre de communication": <PlanetCommunication />
 							}[isOpen]
 						}
 					</ModalBody>

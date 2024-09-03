@@ -6,11 +6,14 @@ import Flex from "@/ui/atoms/Flex/Flex"
 import Mine from "@/ui/fondations/icons/Mine"
 import { CardBody, Image } from "@nextui-org/react"
 import { Task } from "@prisma/client"
-
+import { RemainingTime } from "../TaskFlyingFleet/TaskFlyingFleet.styled"
+import Moment from "moment"
 const TaskAssembleFleet = ({ task }: { task: ITaskAssembleFleet }) => {
 	const fleets = useFleets()
 	const ships = useShips()
 	const currentFleet = fleets[task.details.fleetId]
+	const remainingTime = Moment(task.endDate).diff(Moment())
+	const readableRemainingTime = Moment.duration(remainingTime).humanize()
 	return (
 		<>
 			<Image
@@ -27,6 +30,7 @@ const TaskAssembleFleet = ({ task }: { task: ITaskAssembleFleet }) => {
 					<Mine width="36px" />
 					Assemblage de la flotte en cours
 				</Flex>
+				<RemainingTime>{readableRemainingTime}</RemainingTime>
 			</CardBody>
 		</>
 	)

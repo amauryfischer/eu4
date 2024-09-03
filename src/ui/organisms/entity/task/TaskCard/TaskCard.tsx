@@ -1,5 +1,3 @@
-import { CardBody, CardFooter, Progress } from "@nextui-org/react"
-import { Task } from "@prisma/client"
 import { StyledTaskCard } from "./TaskCard.styled"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import { useEffect, useState } from "react"
@@ -10,6 +8,8 @@ import {
 	ITaskAsteroid,
 	ITaskBuildShip,
 	ITaskFlyingFleet,
+	ITaskResearch,
+	ITaskUpgradeResource,
 	TaskType
 } from "@/type/data/ITask"
 import useAsteroidsActions from "@/hooks/data/actions/use-asteroids-actions.hook"
@@ -21,6 +21,10 @@ import Spaceship from "@/ui/fondations/icons/Spaceship"
 import TaskAssembleFleet from "./TaskAssembleFleet/TaskAssembleFleet"
 import useShipsActions from "@/hooks/data/actions/use-ships-actions.hook"
 import TaskBuildShip from "./TaskBuildShip/TaskBuildShip"
+import useUserActions from "@/hooks/data/actions/use-user-actions.hook"
+import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
+import TaskResearch from "../TaskResearch/TaskResearch"
+import TaskUpgradeResource from "./TaskUpgradeResource/TaskUpgradeResource"
 
 const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
@@ -28,6 +32,8 @@ const TaskCard = ({ task }: { task: ITask }) => {
 	const { fetchAsteroids } = useAsteroidsActions()
 	const { fetchFleets } = useFleetsActions()
 	const { fetchShips } = useShipsActions()
+	const { fetchUser } = useUserActions()
+	const { fetchPlanets } = usePlanetsActions()
 	// tick every seconds
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -51,7 +57,13 @@ const TaskCard = ({ task }: { task: ITask }) => {
 				if (task.type === TaskType.BUILD_SHIP) {
 					fetchShips()
 				}
-				fetchTasks()
+				if (task.type === TaskType.RESEARCH) {
+					fetchUser()
+				}
+				if (task.type === TaskType.UPGRADE_RESOURCE) {
+					fetchPlanets()
+					fetchTasks()
+				}
 			}
 		}, 2000)
 		return () => clearInterval(interval)
@@ -84,6 +96,17 @@ const TaskCard = ({ task }: { task: ITask }) => {
 			)}
 			{task.type === TaskType.BUILD_SHIP && (
 				<TaskBuildShip task={task as unknown as ITaskBuildShip} />
+			)}
+			{task.type === TaskType.RESEARCH && (
+				<TaskResearch task={task as unknown as ITaskResearch} />
+			)}
+			{task.type === TaskType.UPGRADE_RESOURCE && (
+				<TaskUpgradeResource
+					progress={progress}
+					icon={<Mine width="24px" />}
+					color="caramel300"
+					task={task as unknown as ITaskUpgradeResource}
+				/>
 			)}
 			{/* <div>
 				Temps restant: {moment(task.endDate).diff(moment(), "seconds")} secondes

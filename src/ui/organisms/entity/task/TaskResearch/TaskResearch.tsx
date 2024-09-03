@@ -1,27 +1,29 @@
-import useFleets from "@/hooks/data/entity/use-fleets.hook"
-import useShips from "@/hooks/data/entity/use-ships.hook"
+import ResearchService from "@/services/ResearchService"
 import ShipService from "@/services/ShipService"
-import { ITaskAssembleFleet, ITaskBuildShip } from "@/type/data/ITask"
+import { ITaskResearch } from "@/type/data/ITask"
 import Flex from "@/ui/atoms/Flex/Flex"
 import Mine from "@/ui/fondations/icons/Mine"
 import { CardBody, Image } from "@nextui-org/react"
 import { Task } from "@prisma/client"
-import { RemainingTime } from "../TaskFlyingFleet/TaskFlyingFleet.styled"
 import Moment from "moment"
-const TaskBuildShip = ({ task }: { task: ITaskBuildShip }) => {
+import { RemainingTime } from "../TaskCard/TaskFlyingFleet/TaskFlyingFleet.styled"
+
+const TaskResearch = ({ task }: { task: ITaskResearch }) => {
 	const remainingTime = Moment(task.endDate).diff(Moment())
 	const readableRemainingTime = Moment.duration(remainingTime).humanize()
 	return (
 		<>
 			<Image
-				src={ShipService.getAllShips()[task.details.class]?.img}
+				src={ResearchService.researchTypeToImage(
+					ResearchService.allResearch[task.details.research].type
+				)}
 				width="100%"
 				height={200}
 			/>
 			<CardBody>
 				<Flex alignItems="center" gap="0.5rem" className="text-white">
 					<Mine width="36px" />
-					Construction du vaisseau en cours
+					Recherche en cours
 				</Flex>
 				<RemainingTime>{readableRemainingTime}</RemainingTime>
 			</CardBody>
@@ -29,4 +31,4 @@ const TaskBuildShip = ({ task }: { task: ITaskBuildShip }) => {
 	)
 }
 
-export default TaskBuildShip
+export default TaskResearch

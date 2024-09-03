@@ -1,6 +1,6 @@
-import type { IPosition } from "@/type/data/IPosition";
-import { createSlice } from "@reduxjs/toolkit";
-import { createAppSlice } from "../createAppSlice";
+import type { IPosition } from "@/type/data/IPosition"
+import { createSlice } from "@reduxjs/toolkit"
+import { createAppSlice } from "../createAppSlice"
 
 export const currentSlice = createAppSlice({
 	name: "current",
@@ -12,62 +12,67 @@ export const currentSlice = createAppSlice({
 		sendPosition: undefined,
 		shipId: undefined,
 		playerActivePlanetId: undefined,
-		user: {
-			id: "1",
-		},
+		user: undefined
 	},
 	reducers: {
 		setCurrentPlanet: (
 			state,
-			{ payload: planetId }: { payload: string | undefined },
+			{ payload: planetId }: { payload: string | undefined }
 		) => {
 			// @ts-ignore
-			state.planetId = planetId;
+			state.planetId = planetId
 		},
 		setCurrentFleet: (
 			state,
-			{ payload: fleetId }: { payload: string | undefined },
+			{ payload: fleetId }: { payload: string | undefined }
 		) => {
 			// @ts-ignore
-			state.fleetId = fleetId;
+			state.fleetId = fleetId
 		},
 		setCurrentAsteroid: (
 			state,
-			{ payload: asteroidId }: { payload: string | undefined },
+			{ payload: asteroidId }: { payload: string | undefined }
 		) => {
 			// @ts-ignore
-			state.asteroidId = asteroidId;
+			state.asteroidId = asteroidId
 		},
 		setCurrentPirate: (
 			state,
-			{ payload: pirateId }: { payload: string | undefined },
+			{ payload: pirateId }: { payload: string | undefined }
 		) => {
 			// @ts-ignore
-			state.pirateId = pirateId;
+			state.pirateId = pirateId
 		},
 		setCurrentShip: (
 			state,
-			{ payload: shipId }: { payload: string | undefined },
+			{ payload: shipId }: { payload: string | undefined }
 		) => {
 			// @ts-ignore
-			state.shipId = shipId;
+			state.shipId = shipId
 		},
 		setCurrentSendPosition: (
 			state,
-			{ payload: sendPosition }: { payload: IPosition | undefined },
+			{ payload: sendPosition }: { payload: IPosition | undefined }
 		) => {
 			// @ts-ignore
-			state.sendPosition = sendPosition;
+			state.sendPosition = sendPosition
 		},
 		setCurrentPlayerActivePlanetId: (
 			state,
-			{ payload: playerActivePlanetId }: { payload: string | undefined },
+			{ payload: playerActivePlanetId }: { payload: string | undefined }
 		) => {
 			// @ts-ignore
-			state.playerActivePlanetId = playerActivePlanetId;
+			state.playerActivePlanetId = playerActivePlanetId
 		},
-	},
-});
+		setCurrentUser: (
+			state,
+			{ payload: user }: { payload: IUser | undefined }
+		) => {
+			// @ts-ignore
+			state.user = user
+		}
+	}
+})
 
 // Action creators are generated for each case reducer function
 export const {
@@ -78,6 +83,7 @@ export const {
 	setCurrentSendPosition,
 	setCurrentShip,
 	setCurrentPlayerActivePlanetId,
-} = currentSlice.actions;
+	setCurrentUser
+} = currentSlice.actions
 
-export default currentSlice.reducer;
+export default currentSlice.reducer

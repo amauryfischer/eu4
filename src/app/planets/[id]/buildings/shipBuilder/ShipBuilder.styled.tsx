@@ -14,18 +14,6 @@ export const Container = styled.div<{}>`
   padding: var(--size-8);
 `
 
-export const BackgroundImage = styled.div<{
-	img: string
-}>`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-image: url(${(props) => props.img});
-  background-size: cover;
-  z-index: -100;
-  filter: blur(1px) brightness(0.2) opacity(0.5);
-`
-
 export const ShipPropertyContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 15fr);
@@ -40,7 +28,6 @@ export const ColoredAvailableResource = styled.div<{ $available?: boolean }>`
 	color: ${({ $available }) => !$available && "var(--error)"};
 `
 export const FullContainer = styled.div`
-  position: relative;
 `
 export const RedIfTooMuch = styled.div<{ $tooMuch?: boolean }>`
   color: ${({ $tooMuch }) => $tooMuch && "var(--error)"};

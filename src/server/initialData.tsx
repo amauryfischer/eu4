@@ -79,6 +79,7 @@ export const generateInitialValues = async () => {
 				},
 				resources: {},
 				resourcesMultiplier,
+				mines: Object.fromEntries(available_resources.map((el) => [el, 1])),
 				type: randomType,
 				userId: arEl === 1 ? "1" : undefined
 			}
@@ -98,6 +99,14 @@ export const generateInitialValues = async () => {
 				level: Math.floor(Math.random() * 100)
 			}
 		})
+	})
+	await db.user.create({
+		data: {
+			username: "admin",
+			password: "admin",
+			email: "admin@eu4.com",
+			research: []
+		}
 	})
 	await Promise.all(promises)
 }

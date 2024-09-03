@@ -254,7 +254,7 @@ const colors = css`
   --caramel800-lightness: 15%;
   --caramel900-lightness: 5%;
 
-  --caramel-lightness: var(--caramel300-lightness);
+  --caramel-lightness: var(--caramel400-lightness);
 
   // --caramel: hsl(27, 74%, 55%);
   --caramel: hsl(

@@ -10,14 +10,14 @@ const ShipContainer = styled.div`
   grid-gap: 1rem;
 `
 const PlanetShipFactory = ({
-	onSelectShip,
+	onSelectShip
 }: {
 	onSelectShip: (ship: IShipDesign) => void
 }) => {
 	const ships = ShipService.getAllShips()
 	return (
 		<>
-			<Tabs>
+			<Tabs color="primary">
 				<Tab key="A" title="classType A">
 					<ShipContainer>
 						{Object.values(ships)

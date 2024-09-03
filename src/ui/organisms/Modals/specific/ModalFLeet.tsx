@@ -195,7 +195,7 @@ const ModalFleet = () => {
 											radius="lg"
 											src={img}
 											color="success"
-											className="w-32 h-32 text-large"
+											className="w-12 h-12 text-large"
 											onClick={() => {
 												dispatch(setCurrentShip(shipId))
 											}}

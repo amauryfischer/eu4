@@ -6,7 +6,7 @@ export enum RESOURCE_TYPES {
 	SILICIUM = "Silicium",
 	URANIUM = "Uranium",
 	AZOTE = "Azote",
-	HYDROGENE = "Hydrogène",
+	HYDROGENE = "Hydrogène"
 }
 export type IResource = {
 	name: RESOURCE_TYPES
@@ -15,35 +15,35 @@ export type IResource = {
 // type any of resource type
 export const TITANE = {
 	name: RESOURCE_TYPES.TITANE,
-	img: "/images/resources/ti.png",
+	img: "/images/resources/ti.png"
 }
 export const AZOTE = {
 	name: RESOURCE_TYPES.AZOTE,
-	img: "/images/resources/azote.png",
+	img: "/images/resources/azote.png"
 }
 export const ALUMINUM = {
 	name: RESOURCE_TYPES.ALUMINUM,
-	img: "/images/resources/alu.png",
+	img: "/images/resources/alu.png"
 }
 export const CUIVRE = {
 	name: RESOURCE_TYPES.CUIVRE,
-	img: "/images/resources/cuivre.png",
+	img: "/images/resources/cuivre.png"
 }
 export const FER = {
 	name: RESOURCE_TYPES.FER,
-	img: "/images/resources/fer.png",
+	img: "/images/resources/fer.png"
 }
 export const URANIUM = {
 	name: RESOURCE_TYPES.URANIUM,
-	img: "/images/resources/ura.png",
+	img: "/images/resources/ura.png"
 }
 export const HYDROGENE = {
 	name: RESOURCE_TYPES.HYDROGENE,
-	img: "/images/resources/hydro.png",
+	img: "/images/resources/hydro.png"
 }
 export const SILICIUM = {
 	name: RESOURCE_TYPES.SILICIUM,
-	img: "/images/resources/sili.png",
+	img: "/images/resources/sili.png"
 }
 const getAllResources: () => Record<RESOURCE_TYPES, IResource> = () => {
 	return {
@@ -54,7 +54,7 @@ const getAllResources: () => Record<RESOURCE_TYPES, IResource> = () => {
 		[RESOURCE_TYPES.SILICIUM]: SILICIUM,
 		[RESOURCE_TYPES.URANIUM]: URANIUM,
 		[RESOURCE_TYPES.AZOTE]: AZOTE,
-		[RESOURCE_TYPES.HYDROGENE]: HYDROGENE,
+		[RESOURCE_TYPES.HYDROGENE]: HYDROGENE
 	}
 }
 
@@ -70,6 +70,18 @@ const renderResources = (value: number) => {
 	}
 	return `${(value / 1_000_000_000).toFixed(2)}B`
 }
+const calculateResourceSpeed = ({
+	percentage,
+	level
+}: { percentage: number; level: number }) => {
+	// logarithmique
+	return Math.floor(Math.log(level + 1) * percentage)
+}
+const costToUpgrade = (level: number, resource: RESOURCE_TYPES) => {
+	const baseCost = 100
+	const cost = baseCost * 1.15 ** level
+	return cost
+}
 const allResources = [
 	TITANE,
 	CUIVRE,
@@ -78,10 +90,12 @@ const allResources = [
 	SILICIUM,
 	URANIUM,
 	AZOTE,
-	HYDROGENE,
+	HYDROGENE
 ]
 export default {
 	getAllResources,
 	renderResources,
-	allResources,
+	calculateResourceSpeed,
+	costToUpgrade,
+	allResources
 }

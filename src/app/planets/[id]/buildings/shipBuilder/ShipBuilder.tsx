@@ -1,7 +1,7 @@
 import ModulesService, { IModuleType } from "@/services/ModulesService"
 import DeblurIcon from "@mui/icons-material/Deblur"
 import _ from "lodash"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
 import useShipsActions from "@/hooks/data/actions/use-ships-actions.hook"
@@ -47,10 +47,12 @@ import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const ShipBuilder = ({
 	shipSelected,
-	setIsOpen
+	setIsOpen,
+	setBackgroundImage
 }: {
 	shipSelected: IShipDesign
 	setIsOpen: (isOpen: string | undefined) => void
+	setBackgroundImage: (backgroundImage: string) => void
 }) => {
 	const currentShipClass = shipSelected
 	const modules = Object.values(ModulesService.getAllModules())
@@ -77,6 +79,10 @@ const ShipBuilder = ({
 
 		setIsOpen(undefined)
 	}
+
+	useEffect(() => {
+		setBackgroundImage(currentShipClass.img)
+	}, [currentShipClass.img])
 
 	const totalStat = {
 		cargo: 0,
@@ -144,7 +150,6 @@ const ShipBuilder = ({
 	})
 	return (
 		<FullContainer>
-			<BackgroundImage img={currentShipClass.img} />
 			<Container>
 				<Flex direction="column">
 					<Flex gap="1rem" justifyContent="space-between">
@@ -254,7 +259,7 @@ const ShipBuilder = ({
 					<Spacer y={6} />
 					<Flex justifyContent="space-between" alignItems="start">
 						<div>
-							<Tabs>
+							<Tabs color="primary">
 								{[
 									{ label: "Moteurs", type: IModuleType.ENGINE },
 									{ label: "Cargo", type: IModuleType.CARGO },
@@ -264,18 +269,16 @@ const ShipBuilder = ({
 								].map((category) => {
 									return (
 										<Tab key={category.label} title={category.label}>
-											<Defer>
-												{modules
-													.filter((m) => m.type === category.type)
-													.map((module) => (
-														<ModuleShipBuilder
-															key={module.id}
-															module={module}
-															setSelectedModules={setSelectedModules}
-															selectedModules={selectedModules}
-														/>
-													))}
-											</Defer>
+											{modules
+												.filter((m) => m.type === category.type)
+												.map((module) => (
+													<ModuleShipBuilder
+														key={module.id}
+														module={module}
+														setSelectedModules={setSelectedModules}
+														selectedModules={selectedModules}
+													/>
+												))}
 										</Tab>
 									)
 								})}

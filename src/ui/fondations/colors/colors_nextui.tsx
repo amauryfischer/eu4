@@ -1,0 +1,65 @@
+const color_nextui = `
+    --nextui-primary: var(--primary-hue) var(--primary-saturation) var(--primary-lightness);
+    --nextui-primary-forground: var(--primary-text-color);
+    --nextui-primary50: var(--primary-hue) var(--primary-saturation) var(--primary50-lightness);
+    --nextui-primary100: var(--primary-hue) var(--primary-saturation) var(--primary100-lightness);
+    --nextui-primary200: var(--primary-hue) var(--primary-saturation) var(--primary200-lightness);
+    --nextui-primary300: var(--primary-hue) var(--primary-saturation) var(--primary300-lightness);
+    --nextui-primary400: var(--primary-hue) var(--primary-saturation) var(--primary400-lightness);
+    --nextui-primary500: var(--primary-hue) var(--primary-saturation) var(--primary500-lightness);
+    --nextui-primary600: var(--primary-hue) var(--primary-saturation) var(--primary600-lightness);
+    --nextui-primary700: var(--primary-hue) var(--primary-saturation) var(--primary500-lightness);
+    --nextui-primary800: var(--primary-hue) var(--primary-saturation) var(--primary800-lightness);
+    --nextui-primary900: var(--primary-hue) var(--primary-saturation) var(--primary900-lightness);
+    --nextui-secondary: var(--secondary-hue) var(--secondary-saturation) var(--secondary-lightness);
+    --nextui-secondary-forground: var(--secondary-text-color);
+    --nextui-secondary50: var(--secondary-hue) var(--secondary-saturation) var(--secondary50-lightness);
+    --nextui-secondary100: var(--secondary-hue) var(--secondary-saturation) var(--secondary100-lightness);
+    --nextui-secondary200: var(--secondary-hue) var(--secondary-saturation) var(--secondary200-lightness);
+    --nextui-secondary300: var(--secondary-hue) var(--secondary-saturation) var(--secondary300-lightness);
+    --nextui-secondary400: var(--secondary-hue) var(--secondary-saturation) var(--secondary400-lightness);
+    --nextui-secondary500: var(--secondary-hue) var(--secondary-saturation) var(--secondary500-lightness);
+    --nextui-secondary600: var(--secondary-hue) var(--secondary-saturation) var(--secondary600-lightness);
+    --nextui-secondary700: var(--secondary-hue) var(--secondary-saturation) var(--secondary700-lightness);
+    --nextui-secondary800: var(--secondary-hue) var(--secondary-saturation) var(--secondary800-lightness);
+    --nextui-secondary900: var(--secondary-hue) var(--secondary-saturation) var(--secondary900-lightness);
+    --nextui-success: var(--green-hue) var(--green-saturation) var(--green-lightness);
+    --nextui-success-forground: var(--green-text-color);
+    --nextui-success50: var(--green-hue) var(--green-saturation) var(--green50-lightness);
+    --nextui-success100: var(--green-hue) var(--green-saturation) var(--green100-lightness);
+    --nextui-success200: var(--green-hue) var(--green-saturation) var(--green200-lightness);
+    --nextui-success300: var(--green-hue) var(--green-saturation) var(--green300-lightness);
+    --nextui-success400: var(--green-hue) var(--green-saturation) var(--green400-lightness);
+    --nextui-success500: var(--green-hue) var(--green-saturation) var(--green500-lightness);
+    --nextui-success600: var(--green-hue) var(--green-saturation) var(--green600-lightness);
+    --nextui-success700: var(--green-hue) var(--green-saturation) var(--green700-lightness);
+    --nextui-success800: var(--green-hue) var(--green-saturation) var(--green800-lightness);
+    --nextui-success900: var(--green-hue) var(--green-saturation) var(--green900-lightness);
+    --nextui-warning: var(--yellow-hue) var(--yellow-saturation) var(--yellow-lightness);
+    --nextui-warning-forground: var(--yellow-text-color);
+    --nextui-warning50: var(--yellow-hue) var(--yellow-saturation) var(--yellow50-lightness);
+    --nextui-warning100: var(--yellow-hue) var(--yellow-saturation) var(--yellow100-lightness);
+    --nextui-warning200: var(--yellow-hue) var(--yellow-saturation) var(--yellow200-lightness);
+    --nextui-warning300: var(--yellow-hue) var(--yellow-saturation) var(--yellow300-lightness);
+    --nextui-warning400: var(--yellow-hue) var(--yellow-saturation) var(--yellow400-lightness);
+    --nextui-warning500: var(--yellow-hue) var(--yellow-saturation) var(--yellow500-lightness);
+    --nextui-warning600: var(--yellow-hue) var(--yellow-saturation) var(--yellow600-lightness);
+    --nextui-warning700: var(--yellow-hue) var(--yellow-saturation) var(--yellow700-lightness);
+    --nextui-warning800: var(--yellow-hue) var(--yellow-saturation) var(--yellow800-lightness);
+    --nextui-warning900: var(--yellow-hue) var(--yellow-saturation) var(--yellow900-lightness);
+    --nextui-danger: var(--error-hue) var(--error-saturation) var(--error-lightness);
+    --nextui-danger-forground: var(--error-text-color);
+    --nextui-danger50: var(--error-hue) var(--error-saturation) var(--error50-lightness);
+    --nextui-danger100: var(--error-hue) var(--error-saturation) var(--error100-lightness);
+    --nextui-danger200: var(--error-hue) var(--error-saturation) var(--error200-lightness);
+    --nextui-danger300: var(--error-hue) var(--error-saturation) var(--error300-lightness);
+    --nextui-danger400: var(--error-hue) var(--error-saturation) var(--error400-lightness);
+    --nextui-danger500: var(--error-hue) var(--error-saturation) var(--error500-lightness);
+    --nextui-danger600: var(--error-hue) var(--error-saturation) var(--error600-lightness);
+    --nextui-danger700: var(--error-hue) var(--error-saturation) var(--error700-lightness);
+    --nextui-danger800: var(--error-hue) var(--error-saturation) var(--error800-lightness);
+    --nextui-danger900: var(--error-hue) var(--error-saturation) var(--error900-lightness);
+
+`
+
+export default color_nextui

@@ -34,6 +34,7 @@ enum TaskType {
   FLYING_FLEET
   ASSEMBLE_FLEET
   BUILD_SHIP
+  UPGRADE_RESOURCE
 }
 
 model Task {
@@ -70,6 +71,7 @@ model Planet {
   resources           Json
   lastSync            String?
   resourcesMultiplier Json
+  mines               Json    @default("{}")
 }
 
 model User {
@@ -79,4 +81,5 @@ model User {
   username  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  research  String[] @default([])
 }
