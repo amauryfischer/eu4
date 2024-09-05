@@ -1,26 +1,44 @@
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import useFleetActions from "@/hooks/data/actions/use-fleets-actions.hook"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import Button from "@/ui/atoms/buttons/Button"
 import Flex from "@/ui/atoms/Flex/Flex"
 import { Input } from "@nextui-org/react"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-
+import moment from "moment"
+import { TaskType } from "@prisma/client"
 const FleetManager = () => {
 	const fleets = useSelector((state: any) => state.fleets) ?? {}
 	const { id } = useParams()
 	const { updateFleet } = useFleetActions()
 	const fleet = fleets[id as string]
 	const [system, setSystem] = useState(fleet?.data?.position?.system)
+	const { createTask, fetchTasks } = useTasksActions()
+	const user = useCurrentUser()
 	const [x, setX] = useState(fleet?.data?.position?.systemPosition?.x)
 	const [y, setY] = useState(fleet?.data?.position?.systemPosition?.y)
 	const [z, setZ] = useState(fleet?.data?.position?.systemPosition?.z)
 
 	const moveFleet = () => {
-		updateFleet(fleet.id, {
-			...fleet,
-			position: { system, systemPosition: { x, y, z } },
+		createTask({
+			type: TaskType.FLYING_FLEET,
+			endDate: moment().add(10, "seconds").format(),
+			details: {
+				position: {
+					system,
+					systemPosition: {
+						x,
+						y,
+						z
+					}
+				},
+				fleetId: fleet.id
+			},
+			userId: user.id
 		})
+		fetchTasks()
 	}
 
 	return (

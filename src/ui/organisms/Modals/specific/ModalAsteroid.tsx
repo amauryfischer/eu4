@@ -1,38 +1,41 @@
-"use client";
-import styled from "styled-components";
+"use client"
+import styled from "styled-components"
 
-import useCurrentAsteroid from "@/hooks/current/use-current-asteroid.hook";
-import useCurrentUser from "@/hooks/current/use-current-user.hook";
-import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook";
-import useFleetsOnPosition from "@/hooks/data/entity/use-fleets-on-position.hook";
-import useTasks from "@/hooks/data/entity/use-tasks.hook";
+import useCurrentAsteroid from "@/hooks/current/use-current-asteroid.hook"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
+import useFleetsOnPosition from "@/hooks/data/entity/use-fleets-on-position.hook"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import {
 	setCurrentAsteroid,
-	setCurrentSendPosition,
-} from "@/redux/slice/current.slice";
-import { IFleet } from "@/type/data/IFleet";
-import { TaskType } from "@/type/data/ITask";
-import Flex from "@/ui/atoms/Flex";
-import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton";
-import CollectButton from "@/ui/atoms/buttons/CollectButton";
-import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton";
-import BModal from "@/ui/molecules/modal/BModal";
-import ListFleet from "@/ui/organisms/ListFleet";
-import RenderResources from "@/ui/organisms/RenderResources";
+	setCurrentSendPosition
+} from "@/redux/slice/current.slice"
+import { IFleet } from "@/type/data/IFleet"
+import { TaskType } from "@/type/data/ITask"
+import Flex from "@/ui/atoms/Flex"
+import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
+import CollectButton from "@/ui/atoms/buttons/CollectButton"
+import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
+import BModal from "@/ui/molecules/modal/BModal"
+import ListFleet from "@/ui/organisms/ListFleet"
+import RenderResources from "@/ui/organisms/RenderResources"
 import {
 	ModalBody,
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
-	Spacer,
-} from "@nextui-org/react";
-import moment from "moment";
-import { useDispatch } from "react-redux";
+	Spacer
+} from "@nextui-org/react"
+import moment from "moment"
+import { useDispatch } from "react-redux"
+import { Canvas, useLoader } from "@react-three/fiber"
+import { Suspense, useMemo } from "react"
+import { OrbitControls, useGLTF } from "@react-three/drei"
 
 const CanvasContainer = styled.div`
   width: 300px;
   height: 300px;
-`;
+`
 
 const GridContainer = styled.div`
   display: grid;
@@ -40,18 +43,28 @@ const GridContainer = styled.div`
   grid-gap: 10px;
   width: 100%;
   height: 100%;
-`;
+`
 
 const ModalAsteroid = () => {
-	const dispatch = useDispatch();
-	const currentAsteroid = useCurrentAsteroid();
-	const tasks = useTasks();
-	const fleets = useFleetsOnPosition(currentAsteroid?.position);
-	const user = useCurrentUser();
+	const dispatch = useDispatch()
+	const currentAsteroid = useCurrentAsteroid()
+	const tasks = useTasks()
+	const fleets = useFleetsOnPosition(currentAsteroid?.position)
+	const user = useCurrentUser()
+	const { scene } = useGLTF("/obj/Vaisseau.gltf")
+	// more metallic
+	const metallic = useMemo(() => {
+		return Math.random() > 0.5 ? 1 : 0
+	}, [])
+	scene.traverse((child) => {
+		if (child.isMesh) {
+			child.material.metalness = metallic
+		}
+	})
 	if (!currentAsteroid) {
-		return null;
+		return null
 	}
-	const { createTask, fetchTasks } = useTasksActions();
+	const { createTask, fetchTasks } = useTasksActions()
 	return (
 		<>
 			<BModal
@@ -64,16 +77,18 @@ const ModalAsteroid = () => {
 					<ModalBody>
 						<Flex direction="column" alignItems="start" fullWidth>
 							<Flex justifyContent="space-between">
-								{/* <CanvasContainer>
+								<CanvasContainer>
 									<Canvas>
-										<ambientLight />
-										<pointLight position={[10, 10, 10]} />
+										<ambientLight intensity={3} color="#b0b0b0" />
+										<pointLight
+											position={[10, 10, 10]}
+											intensity={3}
+											color="#6a6968"
+										/>
 										<Suspense fallback={null}>
-											<Image3D
-												sizeMultiplier={3}
-												position={[0, 0, 0]}
-												imageUrl={`/images/other/asteroid.png`}
-											/>
+											<mesh>
+												<primitive object={scene} />
+											</mesh>
 										</Suspense>
 										<OrbitControls
 											enableZoom={true}
@@ -82,7 +97,7 @@ const ModalAsteroid = () => {
 											autoRotateSpeed={1}
 										/>
 									</Canvas>
-								</CanvasContainer> */}
+								</CanvasContainer>
 								<div>
 									<ul>
 										<li>
@@ -107,8 +122,8 @@ const ModalAsteroid = () => {
 										(task) =>
 											task.type === TaskType.COLLECT_ASTEROIDS &&
 											task.details?.fleetId === fleet.id &&
-											!moment().isAfter(moment(task.endDate)),
-									);
+											!moment().isAfter(moment(task.endDate))
+									)
 									return (
 										<CollectButton
 											onClick={() => {
@@ -117,16 +132,16 @@ const ModalAsteroid = () => {
 													endDate: moment().add(20, "seconds").format(),
 													details: {
 														asteroidId: currentAsteroid.id,
-														fleetId: fleet.id,
+														fleetId: fleet.id
 													},
-													userId: user.id,
-												});
-												fetchTasks();
+													userId: user.id
+												})
+												fetchTasks()
 											}}
 											title={isMining ? "Minage en cours" : "Miner"}
 											isDisabled={isMining}
 										/>
-									);
+									)
 								}}
 							/>
 						</Flex>
@@ -135,12 +150,12 @@ const ModalAsteroid = () => {
 						<>
 							<CloseElementButton
 								onClick={() => {
-									dispatch(setCurrentAsteroid(undefined));
+									dispatch(setCurrentAsteroid(undefined))
 								}}
 							/>
 							<SendFleetButton
 								onClick={() => {
-									dispatch(setCurrentSendPosition(currentAsteroid.position));
+									dispatch(setCurrentSendPosition(currentAsteroid.position))
 								}}
 								title="Envoyer une flotte"
 							/>
@@ -149,7 +164,7 @@ const ModalAsteroid = () => {
 				</ModalContent>
 			</BModal>
 		</>
-	);
-};
+	)
+}
 
-export default ModalAsteroid;
+export default ModalAsteroid

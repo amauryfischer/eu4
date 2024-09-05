@@ -1,12 +1,13 @@
 "use client"
 import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import { Canvas, ReactThreeFiber, useFrame, useThree } from "@react-three/fiber"
 import React, { Suspense, useEffect, useRef } from "react"
 // @ts-ignore
 import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
 import useAsteroids from "@/hooks/data/entity/use-asteroid.hook"
 import useFleets from "@/hooks/data/entity/use-fleets.hook"
 import usePirates from "@/hooks/data/entity/use-pirates.hook"
+import * as THREE from "three"
 import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import useShips from "@/hooks/data/entity/use-ships.hook"
 import {
@@ -19,8 +20,9 @@ import ShipService from "@/services/ShipService"
 import { IPlanet } from "@/type/data/IPlanet"
 import { useDispatch } from "react-redux"
 import Image3D from "./Image3D"
+import Button from "@/ui/atoms/buttons/Button"
 
-const CanvasContainer = ({ children }) => {
+const CanvasContainer = ({ children, cameraRef }) => {
 	return (
 		<>
 			<mesh position={[0, 0, 0]}>
@@ -30,6 +32,7 @@ const CanvasContainer = ({ children }) => {
 			</mesh>
 			<PerspectiveCamera
 				makeDefault
+				ref={cameraRef}
 				onPointerMissed={() => {}}
 				view={null}
 				quaternion={null}
@@ -66,11 +69,11 @@ const BillboardText = ({ position, children }) => {
 }
 const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 	const cameraRef = React.useRef()
+	const controlsRef = useRef()
 	const fleets = useFleets() ?? {}
 	const planets = usePlanets() ?? {}
 	const asteroids = useAsteroids() ?? {}
 	const pirates = usePirates() ?? {}
-	const [newFocus, setNewFocus] = React.useState([0, 0, 0])
 
 	const ships = useShips()
 	const dispatch = useDispatch()
@@ -84,36 +87,69 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 		fetch()
 	}, [])
 
-	// zoom to planet
-	const zoomToPlanet = (planet: IPlanet) => {
-		const { x, y, z } = planet.position.systemPosition
-		// @ts-ignore
-		setNewFocus(x, y, z)
+	// zoom to entity
+	const zoomToEntity = (position) => {
+		if (cameraRef.current && Array.isArray(position) && position.length === 3) {
+			const [x, y, z] = position
+			// const vector = new THREE.Vector3(x, y, z)
+			// cameraRef.current.position.set(x, y, z) // Adjust the offset as needed
+			// cameraRef.current.lookAt(vector)
+			// cameraRef.current.zoom = -5000
+			// cameraRef.current.updateMatrixWorld()
+
+			if (controlsRef.current) {
+				controlsRef.current.target.set(x, y, z)
+				controlsRef.current.update()
+				// zoom to 100
+				cameraRef.current.zoom = 500
+				cameraRef.current.updateProjectionMatrix()
+			}
+		} else {
+			console.error("Invalid position passed to zoomToEntity:", position)
+		}
+	}
+
+	// Fonction pour réinitialiser la caméra
+	const resetCamera = () => {
+		if (cameraRef.current) {
+			cameraRef.current.position.set(600, 400, 1000)
+			cameraRef.current.zoom = 10
+			cameraRef.current.updateProjectionMatrix()
+		}
+		if (controlsRef.current) {
+			controlsRef.current.target.set(0, 0, 0)
+			controlsRef.current.update()
+		}
 	}
 
 	return (
 		<>
+			{/* Bouton flottant pour réinitialiser la caméra */}
+			<Button
+				variant="bordered"
+				color="primary"
+				style={{ position: "absolute", top: 100, right: 100, zIndex: 1000 }}
+				onClick={resetCamera}
+			>
+				Reset Camera
+			</Button>
 			<Canvas>
-				<CanvasContainer>
+				<CanvasContainer cameraRef={cameraRef}>
 					<ambientLight />
 					<pointLight position={[10, 10, 10]} />
-
 					<Image3D
 						position={[0, 0, 0]}
 						imageUrl={`/images/planets/sun.jpg`}
 						geometry="sphere"
 					/>
-					{/* @ts-ignore */}
 
 					<OrbitControls
+						ref={controlsRef}
 						enableZoom={true}
 						makeDefault
 						autoRotate
 						autoRotateSpeed={0.3}
 					/>
-					{/*
-        Universe cube
-        */}
 					<mesh position={[0, 0, 0]}>
 						<boxGeometry args={[100, 100, 100]} />
 						<meshStandardMaterial
@@ -125,10 +161,9 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 					</mesh>
 					{(Object.values(fleets) ?? []).map((fleet) => {
 						const { x, y, z } = fleet.position.systemPosition
-						if (fleet.position.system !== systemId) return null
+						if (fleet.position.system?.toString() !== systemId) return null
 						const shipId = fleet.shipIds[0]
 						const ship = ships?.[shipId]
-						debugger
 						if (!ship) {
 							return null
 						}
@@ -155,6 +190,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 						) {
 							return null
 						}
+						debugger
 						return (
 							<Suspense fallback={null} key={fleet.id}>
 								<>
@@ -165,6 +201,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 										}
 										onClick={(e) => {
 											dispatch(setCurrentFleet(fleet.id as string))
+											zoomToEntity([x, y, z])
 											e.stopPropagation()
 										}}
 									/>
@@ -188,7 +225,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									position={[x, y, z]}
 									imageUrl={`/images/planets/${planet.type}.jpg`}
 									onClick={(e) => {
-										zoomToPlanet(planet)
+										zoomToEntity([x, y, z])
 										dispatch(setCurrentPlanet(planet.id))
 										e.stopPropagation()
 									}}
@@ -211,6 +248,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									position={[x, y, z]}
 									imageUrl={`/images/other/asteroid.png`}
 									onClick={(e) => {
+										zoomToEntity([x, y, z])
 										dispatch(setCurrentAsteroid(asteroid.id as string))
 										e.stopPropagation()
 									}}
@@ -228,6 +266,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									position={[x, y, z]}
 									imageUrl={`/images/other/pirate.png`}
 									onClick={(e) => {
+										zoomToEntity([x, y, z])
 										dispatch(setCurrentPirate(pirate.id as string))
 										e.stopPropagation()
 									}}

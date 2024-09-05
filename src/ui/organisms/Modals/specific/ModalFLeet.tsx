@@ -34,6 +34,10 @@ import BModal from "@/ui/molecules/modal/BModal"
 import BProgress from "@/ui/molecules/progress/BProgress"
 import RenderResources from "@/ui/organisms/RenderResources"
 import Button from "@/ui/atoms/buttons/Button"
+import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import { TaskType } from "@prisma/client"
+import moment from "moment"
 
 const GridContainer = styled.div`
   display: grid;
@@ -49,6 +53,8 @@ const ModalFleet = () => {
 	const [y, setY] = useState(currentFleet?.position?.systemPosition?.y)
 	const [z, setZ] = useState(currentFleet?.position?.systemPosition?.z)
 	const dispatch = useDispatch()
+	const { createTask, fetchTasks } = useTasksActions()
+	const user = useCurrentUser()
 	const fetParcels = useParcelsActions()
 	const ships = useShips()
 	const [isOpeningSoute, setIsOpeningSoute] = useState(false)
@@ -236,7 +242,23 @@ const ModalFleet = () => {
 										variant="bordered"
 										color="emerald600"
 										onClick={() => {
-											moveFleet()
+											createTask({
+												type: TaskType.FLYING_FLEET,
+												endDate: moment().add(10, "seconds").format(),
+												details: {
+													position: {
+														system,
+														systemPosition: {
+															x,
+															y,
+															z
+														}
+													},
+													fleetId: currentFleet.id
+												},
+												userId: user.id
+											})
+											fetchTasks()
 											dispatch(setCurrentFleet(undefined))
 										}}
 										isDisabled={

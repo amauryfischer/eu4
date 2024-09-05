@@ -12,7 +12,7 @@ import {
 	SImage,
 	SpaceShipContainer,
 	StyledProgress,
-	TaskContainer,
+	TaskContainer
 } from "./TaskFlyingFleet.styled"
 import BProgress from "@/ui/molecules/progress/BProgress"
 import { cloneElement } from "react"
@@ -21,7 +21,7 @@ const TaskFlyingFleet = ({
 	task,
 	progress,
 	icon,
-	color,
+	color
 }: {
 	task: ITaskAsteroid | ITaskFlyingFleet
 	progress: number
@@ -43,7 +43,7 @@ const TaskFlyingFleet = ({
 				}
 				width={300}
 				classNames={{
-					wrapper: "!max-w-full",
+					wrapper: "!max-w-full"
 				}}
 			/>
 			<SpaceShipContainer>{iconWithColor}</SpaceShipContainer>
@@ -53,7 +53,6 @@ const TaskFlyingFleet = ({
 				value={progress}
 				className="max-w-md"
 			/>
-
 			{/* <CardBody>
 				<Flex alignItems="center" gap="1rem">
 					<Spaceship width="36px" />
