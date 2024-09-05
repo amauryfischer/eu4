@@ -95,10 +95,16 @@ const TaskCard = ({ task }: { task: ITask }) => {
 				<TaskAssembleFleet task={task as unknown as ITaskAssembleFleet} />
 			)}
 			{task.type === TaskType.BUILD_SHIP && (
-				<TaskBuildShip task={task as unknown as ITaskBuildShip} />
+				<TaskBuildShip
+					task={task as unknown as ITaskBuildShip}
+					progress={progress}
+				/>
 			)}
 			{task.type === TaskType.RESEARCH && (
-				<TaskResearch task={task as unknown as ITaskResearch} />
+				<TaskResearch
+					task={task as unknown as ITaskResearch}
+					progress={progress}
+				/>
 			)}
 			{task.type === TaskType.UPGRADE_RESOURCE && (
 				<TaskUpgradeResource

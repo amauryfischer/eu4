@@ -1,6 +1,6 @@
 import { RESOURCE_TYPES } from "@/services/ResourcesService"
 import { IPosition } from "./IPosition"
-import { Planet } from "@prisma/client"
+import { Planet, User } from "@prisma/client"
 
 export enum TypePlanet {
 	MARS = "mars"
@@ -10,4 +10,5 @@ export interface IPlanet extends Omit<Planet, "position"> {
 	position: IPosition
 	resourcesMultiplier: Record<RESOURCE_TYPES, number>
 	mines: Record<RESOURCE_TYPES, number>
+	user?: User
 }

@@ -6,28 +6,42 @@ import Mine from "@/ui/fondations/icons/Mine"
 import { CardBody, Image } from "@nextui-org/react"
 import { Task } from "@prisma/client"
 import Moment from "moment"
-import { RemainingTime } from "../TaskCard/TaskFlyingFleet/TaskFlyingFleet.styled"
+import {
+	RemainingTime,
+	SImage,
+	SpaceShipContainer,
+	StyledProgress,
+	TaskContainer
+} from "../TaskCard/TaskFlyingFleet/TaskFlyingFleet.styled"
 
-const TaskResearch = ({ task }: { task: ITaskResearch }) => {
+const TaskResearch = ({
+	task,
+	progress
+}: { task: ITaskResearch; progress: number }) => {
 	const remainingTime = Moment(task.endDate).diff(Moment())
 	const readableRemainingTime = Moment.duration(remainingTime).humanize()
 	return (
-		<>
-			<Image
+		<TaskContainer $color="blue">
+			<SImage
 				src={ResearchService.researchTypeToImage(
 					ResearchService.allResearch[task.details.research].type
 				)}
-				width="100%"
-				height={200}
+				width={300}
+				classNames={{
+					wrapper: "max-w-full",
+					img: "max-w-full"
+				}}
 			/>
-			<CardBody>
-				<Flex alignItems="center" gap="0.5rem" className="text-white">
-					<Mine width="36px" />
-					Recherche en cours
-				</Flex>
-				<RemainingTime>{readableRemainingTime}</RemainingTime>
-			</CardBody>
-		</>
+			<SpaceShipContainer>
+				<Mine />
+			</SpaceShipContainer>
+			<RemainingTime>{readableRemainingTime}</RemainingTime>
+			<StyledProgress
+				aria-label="Loading..."
+				value={progress}
+				className="max-w-md"
+			/>
+		</TaskContainer>
 	)
 }
 

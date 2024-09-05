@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import Xarrow from "react-xarrows"
+import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react"
 
 const data = [
 	{
 		id: "cargom",
 		title: "Répartition de la charge",
+		finished: true,
 		children: [
 			{
 				id: "cargol",
@@ -94,24 +96,50 @@ const PlanetCommunication = () => {
 		setSelectedSkills((prev) => [...prev, id])
 	}
 
-	const renderNode = (node, isChild = false, parentId = null) => (
+	const renderNode = (node, isChild = false, parent = null) => (
 		<NodeContainer key={node.id}>
-			<Node
-				selected={selectedSkills.includes(node.id)}
+			<Card
 				onClick={() => handleSkillClick(node.id)}
+				isPressable
 				id={node.id}
+				className="m-2 min-w-[300px]"
+				classNames={{
+					base: node.finished
+						? "border-1 border-success-500"
+						: parent.finished
+							? "border-1 border-warning-500"
+							: "border-1 border-danger-500"
+				}}
 			>
-				{node.title}
-			</Node>
+				<CardHeader>
+					<div className="flex items-center gap-2">
+						<Avatar
+							src={"/images/modules/other/material.png"}
+							className="min-w-fit"
+						/>
+						{node.title}
+					</div>
+				</CardHeader>
+				<CardBody>
+					<p className="">
+						+ 10% de minage de{" "}
+						<img
+							src="/images/resources/ti.png"
+							className="w-6 h-6 inline-block"
+							alt="titane"
+						/>
+					</p>
+				</CardBody>
+			</Card>
 			{node.children.length > 0 && (
 				<ChildrenContainer>
 					{node.children.map((child, index) => (
 						<React.Fragment key={child.id}>
-							{renderNode(child, true, node.id)}
+							{renderNode(child, true, node)}
 							<Xarrow
 								start={node.id}
 								end={child.id}
-								color="black"
+								color="white"
 								startAnchor={"bottom"}
 								endAnchor={"top"}
 								strokeWidth={2}

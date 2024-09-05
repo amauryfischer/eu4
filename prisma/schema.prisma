@@ -72,6 +72,7 @@ model Planet {
   lastSync            String?
   resourcesMultiplier Json
   mines               Json    @default("{}")
+  user                User?   @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -82,4 +83,5 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   research  String[] @default([])
+  Planet    Planet[]
 }

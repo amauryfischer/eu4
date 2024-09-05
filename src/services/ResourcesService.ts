@@ -75,7 +75,7 @@ const calculateResourceSpeed = ({
 	level
 }: { percentage: number; level: number }) => {
 	// logarithmique
-	return Math.floor(Math.log(level + 1) * percentage)
+	return Math.floor((level / 2) * percentage)
 }
 const costToUpgrade = (level: number, resource: RESOURCE_TYPES) => {
 	const baseCost = 100
