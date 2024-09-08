@@ -51,7 +51,7 @@ const ModalAsteroid = () => {
 	const tasks = useTasks()
 	const fleets = useFleetsOnPosition(currentAsteroid?.position)
 	const user = useCurrentUser()
-	const { scene } = useGLTF("/obj/Vaisseau.gltf")
+	const { scene } = useGLTF("./obj/Vaisseau.gltf")
 	// more metallic
 	const metallic = useMemo(() => {
 		return Math.random() > 0.5 ? 1 : 0

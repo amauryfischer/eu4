@@ -4,8 +4,11 @@ import db from "@/app/db"
 import { generateInitialValues } from "./initialData"
 import moment from "moment"
 import schedule from "node-schedule"
+import { getToken } from "next-auth/jwt"
 import { handleTask } from "./handleTask"
 import ResourcesService from "@/services/ResourcesService"
+import { Session } from "next-auth"
+import { Prisma } from "@prisma/client"
 
 const RESOURCES_MINING_MULTIPLIER = 50
 
@@ -19,7 +22,10 @@ const deleteEveryThing = async () => {
 	await db.ship.deleteMany()
 }
 
-export const fetchServerData = async (type: any) => {
+export const fetchServerData = async (
+	type: Prisma.ModelName,
+	session: Session
+) => {
 	// delete all data
 	// await deleteEveryThing()
 
@@ -131,13 +137,14 @@ export const fetchServerData = async (type: any) => {
 	}
 
 	if (type === "User") {
-		// find user with email : admin@eu4.com
-		const user = await db.user.findUnique({
-			where: {
-				email: "admin@eu4.com"
-			}
-		})
-		return [user]
+		if (session) {
+			const user = await db.user.findUnique({
+				where: {
+					email: session.user.email
+				}
+			})
+			return [user]
+		}
 	}
 
 	// @ts-ignore

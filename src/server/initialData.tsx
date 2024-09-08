@@ -100,26 +100,4 @@ export const generateInitialValues = async () => {
 		})
 	})
 	await Promise.all(promises)
-	const allPlanets = await db.planet.findMany()
-	// Find a random planet without a user
-	const randomPlanet = allPlanets.find((planet) => planet.userId === null)
-	if (!randomPlanet) {
-		console.log(allPlanets)
-		throw new Error("No planet without user found")
-	}
-	const user = await db.user.create({
-		data: {
-			password: "admin",
-			email: "admin@eu4.com",
-			research: []
-		}
-	})
-	await db.planet.update({
-		where: {
-			id: randomPlanet.id
-		},
-		data: {
-			userId: user.id
-		}
-	})
 }

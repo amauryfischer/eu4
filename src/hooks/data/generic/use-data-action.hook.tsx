@@ -13,16 +13,17 @@ import {
 import { Prisma } from "@prisma/client"
 import { startTransition } from "react"
 import { useDispatch } from "react-redux"
+import { getSession } from "next-auth/react"
 
 const useFetchDataAction = (type: Prisma.ModelName) => {
 	const dispatch = useDispatch()
 
 	const fetchDataAction = async () => {
+		const session = await getSession()
 		startTransition(() => {
 			const fetchServer = async () => {
-				console.log("Fetching", type)
-				const data = await fetchServerData(type)
-				console.log("Fetched", data)
+				const data = await fetchServerData(type, session)
+				console.log("📥 Fetched", type, data)
 				dispatch(setData({ type, dataId: data?.id, data }))
 			}
 			fetchServer()

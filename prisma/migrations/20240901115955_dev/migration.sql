@@ -1,2 +1,0 @@
--- AlterEnum
-ALTER TYPE "TaskType" ADD VALUE 'ASSEMBLE_FLEET';
