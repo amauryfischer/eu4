@@ -102,7 +102,6 @@ export const generateInitialValues = async () => {
 	})
 	await db.user.create({
 		data: {
-			username: "admin",
 			password: "admin",
 			email: "admin@eu4.com",
 			research: []
