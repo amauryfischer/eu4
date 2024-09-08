@@ -1,12 +1,13 @@
 import db from "@/app/db"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
+import Authentik from "next-auth/providers/authentik"
 import type { NextAuthConfig } from "next-auth"
 import { IPlanet } from "./type/data/IPlanet"
 
 // Notice this is only an object, not a full Auth.js instance
 export default {
-	providers: [GitHub, Google],
+	providers: [GitHub, Google, Authentik],
 	callbacks: {
 		authorized: async ({ auth }) => {
 			// Logged in users are authenticated, otherwise redirect to login page
