@@ -9,6 +9,7 @@ import LeftSideBar from "@/ui/organisms/Bars/LeftSideBar"
 import RightSideBar from "@/ui/organisms/Bars/RightSideBar"
 import BottomTaskBar from "@/ui/organisms/Bars/BottomTaskBar"
 import { Quantico } from "next/font/google"
+import { auth } from "../auth"
 
 // If loading a variable font, you don't need to specify the font weight
 const quantico = Quantico({
@@ -23,15 +24,17 @@ export const metadata: Metadata = {
 	description: "Empire universe 4"
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const session = await auth()
+
 	return (
 		<html lang="fr" className={quantico.variable}>
 			<body>
-				<Providers>
+				<Providers session={session}>
 					<GlobalStyle />
 					<Modals />
 					<AppBarMenu />
