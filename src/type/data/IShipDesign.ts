@@ -1,3 +1,4 @@
+import { IResearch } from "@/services/research/ResearchService"
 import { RESOURCE_TYPES } from "@/services/ResourcesService"
 
 type IShipDesign = {
@@ -15,6 +16,7 @@ type IShipDesign = {
 	}
 	baseCoque: number
 	classType: "A" | "B" | "C" | "D" | "station"
+	requiredResearch?: Array<IResearch["id"]>
 }
 
 export default IShipDesign

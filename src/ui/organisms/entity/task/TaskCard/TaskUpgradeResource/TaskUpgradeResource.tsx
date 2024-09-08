@@ -1,7 +1,7 @@
 import { ITaskUpgradeResource } from "@/type/data/ITask"
 import Moment from "moment"
 
-import ResearchService from "@/services/ResearchService"
+import ResearchService from "@/services/research/ResearchService"
 import Mine from "@/ui/fondations/icons/Mine"
 import TaskCardBasic from "../TaskCardBasic/TaskCardBasic"
 import ResourcesService from "@/services/ResourcesService"

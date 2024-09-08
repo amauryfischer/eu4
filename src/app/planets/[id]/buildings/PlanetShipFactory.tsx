@@ -1,3 +1,4 @@
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import ShipService from "@/services/ShipService"
 import IShipDesign from "@/type/data/IShipDesign"
 import ShipCard from "@/ui/molecules/entity/ship/ShipCard"
@@ -14,13 +15,19 @@ const PlanetShipFactory = ({
 }: {
 	onSelectShip: (ship: IShipDesign) => void
 }) => {
+	const user = useCurrentUser()
 	const ships = ShipService.getAllShips()
+	// filtered ships
+	const filteredShips = Object.values(ships).filter((ship) => {
+		const requiredSearch = ship?.requiredResearch ?? []
+		return requiredSearch.every((searchId) => user.research.includes(searchId))
+	})
 	return (
 		<>
 			<Tabs color="primary">
 				<Tab key="A" title="classType A">
 					<ShipContainer>
-						{Object.values(ships)
+						{Object.values(filteredShips)
 							.filter((ship) => ship.classType === "A")
 							.map((ship) => {
 								return (
@@ -36,7 +43,7 @@ const PlanetShipFactory = ({
 					</ShipContainer>
 				</Tab>
 				<Tab key="B" title="classType B">
-					{Object.values(ships)
+					{Object.values(filteredShips)
 						.filter((ship) => ship.classType === "B")
 						.map((ship) => {
 							return (
@@ -51,7 +58,7 @@ const PlanetShipFactory = ({
 						})}
 				</Tab>
 				<Tab key="C" title="classType C">
-					{Object.values(ships)
+					{Object.values(filteredShips)
 						.filter((ship) => ship.classType === "C")
 						.map((ship) => {
 							return (
@@ -66,7 +73,7 @@ const PlanetShipFactory = ({
 						})}
 				</Tab>
 				<Tab key="D" title="classType D">
-					{Object.values(ships)
+					{Object.values(filteredShips)
 						.filter((ship) => ship.classType === "D")
 						.map((ship) => {
 							return (
@@ -81,7 +88,7 @@ const PlanetShipFactory = ({
 						})}
 				</Tab>
 				<Tab key="station" title="Station">
-					{Object.values(ships)
+					{Object.values(filteredShips)
 						.filter((ship) => ship.classType === "station")
 						.map((ship) => {
 							return (

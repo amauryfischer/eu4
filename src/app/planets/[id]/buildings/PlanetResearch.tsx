@@ -9,22 +9,21 @@ import {
 	Chip
 } from "@nextui-org/react"
 import React from "react"
-import ResearchService from "@/services/ResearchService"
+import ResearchService from "@/services/research/ResearchService"
 import styled from "styled-components"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import { TaskType } from "@prisma/client"
 import moment from "moment"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import Button from "@/ui/atoms/buttons/Button"
-
-const SGrid = styled.div`
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 1rem;
-`
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 
 const PlanetResearch = () => {
 	const { createTask, fetchTasks } = useTasksActions()
+	const tasks = useTasks()
+	const currentSearchTask = Object.values(tasks).find(
+		(task) => task.type === TaskType.RESEARCH
+	)
 	const user = useCurrentUser()
 	const startResearch = (researchId: string) => {
 		createTask({
@@ -66,19 +65,28 @@ const PlanetResearch = () => {
 										<Button
 											size="sm"
 											variant="bordered"
+											color={
+												currentSearchTask?.details?.research === research.id
+													? "success"
+													: "primary"
+											}
 											onPress={() => startResearch(research.id)}
-											isDisabled={research.required.some(
-												(required) => !user?.research.includes(required)
-											)}
+											isDisabled={
+												research.required?.some(
+													(required) => !user?.research.includes(required)
+												) || currentSearchTask !== undefined
+											}
 										>
-											Commencer
+											{currentSearchTask?.details?.research === research.id
+												? "En cours"
+												: "Commencer"}
 										</Button>
 									</CardHeader>
 									<CardBody className="px-3 py-0 text-small text-default-400">
 										<p>{research.description}</p>
 									</CardBody>
 									<CardFooter className="gap-3">
-										{research.required.map((required) => (
+										{research.required?.map((required) => (
 											<Chip
 												key={required}
 												size="sm"

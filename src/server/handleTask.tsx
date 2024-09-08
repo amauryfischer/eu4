@@ -215,6 +215,18 @@ const handleBuildShip = async (task: ITaskBuildShip) => {
 			id: task.details.planetId
 		}
 	})
+	const newResources = planet?.resources as Record<RESOURCE_TYPES, number>
+	ResourcesService.allResources.forEach((r) => {
+		newResources[r.name] = newResources[r.name] - task.details.cost[r.name]
+	})
+	await db.planet.update({
+		where: {
+			id: task.details.planetId
+		},
+		data: {
+			resources: newResources
+		}
+	})
 	schedule.scheduleJob(endDate.toDate(), async () => {
 		// todo add a planetId for ships not in a fleet and filter them on planet creation
 		await db.ship.create({

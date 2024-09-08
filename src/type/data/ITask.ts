@@ -62,6 +62,9 @@ export interface ITaskBuildShip extends Omit<Task, "details"> {
 		modules: IModule[]
 		class: string
 		planetId: string
+		cost: {
+			[key in RESOURCE_TYPES]: number
+		}
 	}
 }
 export interface ITaskAssembleFleet extends Omit<Task, "details"> {

@@ -1,8 +1,12 @@
 "use client"
 import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import usePlanets from "@/hooks/data/entity/use-planets.hook"
 import useGameLoop from "@/hooks/use-game-loop"
-import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice"
+import {
+	setCurrentPlayerActivePlanetId,
+	setCurrentUser
+} from "@/redux/slice/current.slice"
 import ResourcesService from "@/services/ResourcesService"
 import Flex from "@/ui/atoms/Flex/Flex"
 import Button from "@/ui/atoms/buttons/Button"
@@ -56,10 +60,16 @@ export default function AppBarMenu() {
 	const gameLoop = useGameLoop()
 	const currentPlanet = useCurrentPlayerActivePlanet()
 	const dispatch = useDispatch()
+	const currentUser = useCurrentUser()
 	useEffect(() => {
 		if (!currentPlanet) {
-			//navigate(`/planets/${planets[0]?.id}`)
-			dispatch(setCurrentPlayerActivePlanetId(Object.keys(planets)[0]))
+			dispatch(
+				setCurrentPlayerActivePlanetId(
+					Object.values(planets).filter(
+						(p) => p?.userId === currentUser?.id
+					)?.[0]?.id
+				)
+			)
 		}
 	}, [planets, currentPlanet])
 	useEffect(() => {

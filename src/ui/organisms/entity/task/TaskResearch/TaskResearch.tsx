@@ -1,4 +1,4 @@
-import ResearchService from "@/services/ResearchService"
+import ResearchService from "@/services/research/ResearchService"
 import { ITaskResearch } from "@/type/data/ITask"
 import Mine from "@/ui/fondations/icons/Mine"
 import TaskCardBasic from "../TaskCard/TaskCardBasic/TaskCardBasic"

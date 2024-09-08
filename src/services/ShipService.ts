@@ -1,5 +1,6 @@
 import IShipDesign from "@/type/data/IShipDesign"
 import { RESOURCE_TYPES } from "./ResourcesService"
+import { Research } from "./research/ResearchService"
 
 const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 	apollo: {
@@ -8,7 +9,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.HYDROGENE]: 100,
+			[RESOURCE_TYPES.HYDROGENE]: 100
 		},
 		img: "/images/enhanced/apollo.webp",
 		emplacement: 10,
@@ -16,10 +17,11 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		multiplier: {
 			warp: 1,
 			impulse: 1,
-			conso: 1,
+			conso: 1
 		},
 		baseCoque: 100,
 		classType: "A",
+		requiredResearch: [Research.Apollo]
 	},
 	arc: {
 		name: "Arc",
@@ -29,7 +31,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			[RESOURCE_TYPES.CUIVRE]: 500,
 			[RESOURCE_TYPES.AZOTE]: 8000,
 			[RESOURCE_TYPES.HYDROGENE]: 100,
-			[RESOURCE_TYPES.FER]: 100,
+			[RESOURCE_TYPES.FER]: 100
 		},
 		img: "/images/enhanced/arc.webp",
 		emplacement: 100,
@@ -37,10 +39,10 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	artemis: {
 		name: "Artemis",
@@ -48,7 +50,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		img: "/images/enhanced/artemis.webp",
 		emplacement: 100,
@@ -56,10 +58,11 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
 		classType: "A",
+		requiredResearch: [Research.Artemis]
 	},
 	athena: {
 		name: "Athena",
@@ -68,17 +71,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	atlas: {
 		name: "Atlas",
@@ -87,17 +90,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	centaure: {
 		name: "Centaure",
@@ -106,17 +109,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	chasseur: {
 		name: "Chasseur",
@@ -125,17 +128,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	croiseur_intergalactique: {
 		name: "Croiseur Intergalactique",
@@ -144,17 +147,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "D",
+		classType: "D"
 	},
 	croiseur: {
 		name: "Croiseur",
@@ -163,17 +166,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	destroyer: {
 		name: "Destroyer",
@@ -182,17 +185,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "D",
+		classType: "D"
 	},
 	dionysos: {
 		name: "Dionysos",
@@ -201,17 +204,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	docker: {
 		name: "Docker",
@@ -220,17 +223,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	enigma: {
 		name: "Enigma",
@@ -239,17 +242,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	eros: {
 		name: "Eros",
@@ -258,17 +261,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	fregate: {
 		name: "Fregate",
@@ -277,17 +280,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	frozen: {
 		name: "Frozen",
@@ -296,17 +299,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	helios: {
 		name: "Helios",
@@ -315,17 +318,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	hera: {
 		name: "Hera",
@@ -334,17 +337,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	hercules: {
 		name: "Hercules",
@@ -353,17 +356,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	hermes: {
 		name: "Hermes",
@@ -372,17 +375,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	intercepteur: {
 		name: "Intercepteur",
@@ -391,17 +394,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	karfus: {
 		name: "Karfus",
@@ -410,17 +413,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	legend: {
 		name: "Legend",
@@ -429,17 +432,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	leviathan: {
 		name: "Leviathan",
@@ -448,17 +451,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	loki: {
 		name: "Loki",
@@ -467,17 +470,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "D",
+		classType: "D"
 	},
 	luna: {
 		name: "Luna",
@@ -486,17 +489,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	mega_transporteur: {
 		name: "Mega-Transporteur",
@@ -505,17 +508,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "D",
+		classType: "D"
 	},
 	minotaure: {
 		name: "Minotaure",
@@ -524,17 +527,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	navette: {
 		name: "Navette",
@@ -543,17 +546,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	nimbus: {
 		name: "Nimbus",
@@ -562,17 +565,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	oblirator: {
 		name: "Oblirator",
@@ -581,17 +584,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	odin: {
 		name: "Odin",
@@ -600,17 +603,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	pallas: {
 		name: "Pallas",
@@ -619,17 +622,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	patrouilleur: {
 		name: "Patrouilleur",
@@ -638,17 +641,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	proleyend: {
 		name: "Proleyend",
@@ -657,17 +660,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	proteus: {
 		name: "Proteus",
@@ -676,17 +679,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	proto: {
 		name: "Proto",
@@ -695,17 +698,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	saracen: {
 		name: "Saracen",
@@ -714,17 +717,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	sonde: {
 		name: "Sonde",
@@ -733,17 +736,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	station: {
 		name: "Station",
@@ -752,17 +755,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
+		classType: "station"
 	},
 	tethys: {
 		name: "Tethys",
@@ -771,17 +774,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	thor: {
 		name: "Thor",
@@ -790,17 +793,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	titan: {
 		name: "Titan",
@@ -809,17 +812,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "D",
+		classType: "D"
 	},
 	transporteur: {
 		name: "Transporteur",
@@ -828,17 +831,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	triton: {
 		name: "Triton",
@@ -847,17 +850,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "C",
+		classType: "C"
 	},
 	tyran: {
 		name: "Tyran",
@@ -866,17 +869,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "D",
+		classType: "D"
 	},
 	valkyrie: {
 		name: "Valkyrie",
@@ -885,17 +888,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	virus: {
 		name: "Virus",
@@ -904,17 +907,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	vortex: {
 		name: "Vortex",
@@ -923,17 +926,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "B",
+		classType: "B"
 	},
 	voyager: {
 		name: "Voyager",
@@ -942,17 +945,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "A",
+		classType: "A"
 	},
 	zeus: {
 		name: "Zeus",
@@ -961,20 +964,20 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
+			[RESOURCE_TYPES.AZOTE]: 8000
 		},
 		emplacement: 100,
 		fuelSpace: 150_000,
 		multiplier: {
 			warp: 0.25,
 			impulse: 0.3,
-			conso: 15,
+			conso: 15
 		},
 		baseCoque: 1000,
-		classType: "station",
-	},
+		classType: "station"
+	}
 })
 
 export default {
-	getAllShips,
+	getAllShips
 }

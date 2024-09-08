@@ -1,10 +1,5 @@
-export enum IResearchType {
-	ENGINE = "engine",
-	DEFENSE = "defense",
-	WEAPON = "weapon",
-	CARGO = "cargo",
-	OTHER = "other"
-}
+import { IResearch, IResearchType } from "@/type/data/IResearch"
+import { chassisSearch, ResearchChassis } from "./chassis/chassisSearch"
 
 const researchTypeToImage = (type: IResearchType) => {
 	switch (type) {
@@ -31,16 +26,10 @@ export const Research = {
 	WARP3: "warp3",
 	WARP4: "warp4",
 	SHIELD2: "shield2",
-	COQUE2: "coque2"
+	COQUE2: "coque2",
+	...ResearchChassis
 }
-export interface IResearch {
-	name: string
-	description: string
-	type: IResearchType
-	time: number
-	required: string[]
-	id: string
-}
+
 const allResearch: Record<string, IResearch> = {
 	[Research.CARGOM]: {
 		name: "Répartition de la charge",
@@ -131,7 +120,8 @@ const allResearch: Record<string, IResearch> = {
 		time: 220,
 		required: [],
 		id: Research.COQUE2
-	}
+	},
+	...chassisSearch
 }
 
 const getAllResearch = () => {

@@ -6,6 +6,8 @@ import RemoveIcon from "@mui/icons-material/Remove"
 import { IconButton } from "@mui/material"
 import styled from "styled-components"
 import { ModuleDescription, ModuleMainName } from "./ModuleShipBuilder.styled"
+import { IModule } from "@/type/data/IModule"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const Container = styled.div`
   display: grid;
@@ -16,14 +18,25 @@ const Container = styled.div`
 const ModuleShipBuilder = ({
 	module,
 	setSelectedModules,
-	selectedModules,
-}: any) => {
+	selectedModules
+}: {
+	module: IModule
+	setSelectedModules: (selectedModules: Array<IModule>) => void
+	selectedModules: Array<IModule>
+}) => {
 	let countNumberOfModules = 0
+	const user = useCurrentUser()
 	;(selectedModules ?? []).forEach((selectedModule: any) => {
 		if (selectedModule.name === module.name) {
 			countNumberOfModules += 1
 		}
 	})
+	const requiredResearch = module?.requiredResearch ?? []
+	if (
+		requiredResearch.some((researchId) => !user.research.includes(researchId))
+	) {
+		return null
+	}
 	return (
 		<Container>
 			<img src={module.img} alt={module.name} width="60px" />

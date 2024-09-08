@@ -9,7 +9,7 @@ import {
 	TITANE,
 	URANIUM
 } from "./ResourcesService"
-import { Research } from "./ResearchService"
+import { Research } from "./research/ResearchService"
 
 const ENGINE = "engine"
 export enum IModuleType {
@@ -145,7 +145,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			[AZOTE.name]: 2_00,
 			[FER.name]: 3_000,
 			[SILICIUM.name]: 5_900
-		}
+		},
+		requiredResearch: [Research.LASER2]
 	},
 	laser3: {
 		id: "laser3",
@@ -165,7 +166,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			[AZOTE.name]: 2_00,
 			[FER.name]: 3_000,
 			[SILICIUM.name]: 5_900
-		}
+		},
+		requiredResearch: [Research.LASER3]
 	},
 	gps1: {
 		id: "gps1",
@@ -251,7 +253,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			[URANIUM.name]: 9_000,
 			[HYDROGENE.name]: 6_500,
 			[FER.name]: 7_500
-		}
+		},
+		requiredResearch: [Research.WARP2]
 	},
 	warp3: {
 		id: "warp3",
@@ -273,7 +276,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			[URANIUM.name]: 9_000,
 			[HYDROGENE.name]: 6_500,
 			[FER.name]: 7_500
-		}
+		},
+		requiredResearch: [Research.WARP3]
 	},
 	warp4: {
 		id: "warp4",
@@ -295,7 +299,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			[URANIUM.name]: 9_000,
 			[HYDROGENE.name]: 6_500,
 			[FER.name]: 7_500
-		}
+		},
+		requiredResearch: [Research.WARP4]
 	},
 	shield1: {
 		id: "shield1",
@@ -326,7 +331,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		cost: {
 			[URANIUM.name]: 3_000,
 			[ALUMINUM.name]: 12_000
-		}
+		},
+		requiredResearch: [Research.SHIELD2]
 	},
 	coque1: {
 		id: "coque1",
@@ -354,7 +360,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		},
 		cost: {
 			[ALUMINUM.name]: 9_000
-		}
+		},
+		requiredResearch: [Research.COQUE2]
 	},
 	tissue1: {
 		id: "tissue1",
@@ -396,7 +403,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			"Un laser qui permet d'extraire des ressources des astéroïdes.",
 		type: IModuleType.OTHER,
 		img: "/images/modules/other/laser_asteroid_extract.webp",
-		emplacement: 1,
+		emplacement: 5,
 		modifier: {
 			[IModifier.EXTRACTION_ASTEROID]: 1
 		},

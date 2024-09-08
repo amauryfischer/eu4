@@ -30,7 +30,6 @@ import SecurityIcon from "@mui/icons-material/Security"
 import { Input, Spacer, Tab, Tabs } from "@nextui-org/react"
 import ModuleShipBuilder from "./ModuleShipBuilder"
 import {
-	BackgroundImage,
 	ColoredAvailableResource,
 	Container,
 	CustomGridResources,
@@ -44,6 +43,7 @@ import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import { TaskType } from "@/type/data/ITask"
 import moment from "moment"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
 
 const ShipBuilder = ({
 	shipSelected,
@@ -63,22 +63,7 @@ const ShipBuilder = ({
 	const { createShip } = useShipsActions()
 	const modulesEmplacement = _.sumBy(selectedModules, (m) => m.emplacement)
 	const { createTask, fetchTasks } = useTasksActions()
-	const onSubmit = () => {
-		createTask({
-			type: TaskType.BUILD_SHIP,
-			endDate: moment().add(15, "seconds").toISOString(),
-			userId: user.id,
-			details: {
-				name: shipName,
-				modules: selectedModules,
-				class: currentShipClass.class,
-				planetId: currentPlayerActivePlanet.id
-			}
-		})
-		fetchTasks()
-
-		setIsOpen(undefined)
-	}
+	const { fetchPlanets } = usePlanetsActions()
 
 	useEffect(() => {
 		setBackgroundImage(currentShipClass.img)
@@ -148,6 +133,23 @@ const ShipBuilder = ({
 			numberModulePerName[module.id] = 1
 		}
 	})
+	const onSubmit = () => {
+		createTask({
+			type: TaskType.BUILD_SHIP,
+			endDate: moment().add(15, "seconds").toISOString(),
+			userId: user.id,
+			details: {
+				name: shipName,
+				modules: selectedModules,
+				class: currentShipClass.class,
+				planetId: currentPlayerActivePlanet.id,
+				cost: totalResources
+			}
+		})
+		fetchTasks()
+		fetchPlanets()
+		setIsOpen(undefined)
+	}
 	return (
 		<FullContainer>
 			<Container>
@@ -244,12 +246,12 @@ const ShipBuilder = ({
 								variant="bordered"
 							/>
 							<BuildButton
-								isDisabled={modulesEmplacement > currentShipClass.emplacement}
 								onPress={onSubmit}
-								disabled={
+								isDisabled={
 									modulesEmplacement > currentShipClass.emplacement ||
-									Object.values(totalResources).some(
-										(r) => r > currentPlayerActivePlanet.resources[r]
+									Object.keys(totalResources).some(
+										(r) =>
+											totalResources[r] > currentPlayerActivePlanet.resources[r]
 									)
 								}
 								title="Créer"

@@ -83,5 +83,5 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   research  String[] @default([])
-  Planet    Planet[]
+  Planets    Planet[]
 }

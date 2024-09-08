@@ -80,8 +80,7 @@ export const generateInitialValues = async () => {
 				resources: {},
 				resourcesMultiplier,
 				mines: Object.fromEntries(available_resources.map((el) => [el, 1])),
-				type: randomType,
-				userId: arEl === 1 ? "1" : undefined
+				type: randomType
 			}
 		})
 
@@ -100,7 +99,15 @@ export const generateInitialValues = async () => {
 			}
 		})
 	})
-	await db.user.create({
+	await Promise.all(promises)
+	const allPlanets = await db.planet.findMany()
+	// Find a random planet without a user
+	const randomPlanet = allPlanets.find((planet) => planet.userId === null)
+	if (!randomPlanet) {
+		console.log(allPlanets)
+		throw new Error("No planet without user found")
+	}
+	const user = await db.user.create({
 		data: {
 			username: "admin",
 			password: "admin",
@@ -108,5 +115,12 @@ export const generateInitialValues = async () => {
 			research: []
 		}
 	})
-	await Promise.all(promises)
+	await db.planet.update({
+		where: {
+			id: randomPlanet.id
+		},
+		data: {
+			userId: user.id
+		}
+	})
 }
