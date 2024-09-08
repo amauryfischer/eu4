@@ -1,33 +1,33 @@
-'use client';
-import useCurrentPlayerActivePlanet from '@/hooks/current/use-current-player-active-planet';
-import usePlanets from '@/hooks/data/entity/use-planets.hook';
-import useGameLoop from '@/hooks/use-game-loop';
-import { setCurrentPlayerActivePlanetId } from '@/redux/slice/current.slice';
-import ResourcesService from '@/services/ResourcesService';
-import Flex from '@/ui/atoms/Flex/Flex';
-import Button from '@/ui/atoms/buttons/Button';
-import HomeIconButton from '@/ui/atoms/iconButtons/HomeIconButton/HomeIconButton';
+"use client"
+import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
+import usePlanets from "@/hooks/data/entity/use-planets.hook"
+import useGameLoop from "@/hooks/use-game-loop"
+import { setCurrentPlayerActivePlanetId } from "@/redux/slice/current.slice"
+import ResourcesService from "@/services/ResourcesService"
+import Flex from "@/ui/atoms/Flex/Flex"
+import Button from "@/ui/atoms/buttons/Button"
+import HomeIconButton from "@/ui/atoms/iconButtons/HomeIconButton/HomeIconButton"
 import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Navbar,
-  NavbarContent,
-  NavbarItem,
-  Skeleton,
-  User,
-} from '@nextui-org/react';
-import { Tooltip } from '@nextui-org/tooltip';
-import { signOut, useSession } from 'next-auth/react';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+	Avatar,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
+	Input,
+	Navbar,
+	NavbarContent,
+	NavbarItem,
+	Skeleton,
+	User
+} from "@nextui-org/react"
+import { Tooltip } from "@nextui-org/tooltip"
+import { signOut, useSession } from "next-auth/react"
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import styled from "styled-components"
 const ResourcesBox = styled.div`
   width: fit-content;
-`;
+`
 
 const StyledAppBar = styled(Navbar)`
   padding: 0.25rem;
@@ -44,11 +44,11 @@ const StyledAppBar = styled(Navbar)`
     padding-left: 0.75rem !important;
     padding-right: 0.75rem !important;
   }
-`;
+`
 
 const StyledSkeleton = styled(Skeleton)`
   margin-bottom: calc(-1 * var(--navbar-height));
-`;
+`
 
 const TooltipContent = styled.div`
   background-color: hsla(
@@ -60,132 +60,132 @@ const TooltipContent = styled.div`
   padding: 0.5rem;
   color: white;
   border-radius: 0.5rem;
-`;
+`
 
 export default function AppBarMenu() {
-  const planets = usePlanets();
-  const gameLoop = useGameLoop();
-  const currentPlanet = useCurrentPlayerActivePlanet();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!currentPlanet) {
-      //navigate(`/planets/${planets[0]?.id}`)
-      dispatch(setCurrentPlayerActivePlanetId(Object.keys(planets)[0]));
-    }
-  }, [planets, currentPlanet]);
-  useEffect(() => {
-    setInterval(() => gameLoop(), 20000);
-  }, []);
-  const allResources = ResourcesService.getAllResources();
-  const { data } = useSession();
+	const planets = usePlanets()
+	const gameLoop = useGameLoop()
+	const currentPlanet = useCurrentPlayerActivePlanet()
+	const dispatch = useDispatch()
+	useEffect(() => {
+		if (!currentPlanet) {
+			//navigate(`/planets/${planets[0]?.id}`)
+			dispatch(setCurrentPlayerActivePlanetId(Object.keys(planets)[0]))
+		}
+	}, [planets, currentPlanet])
+	useEffect(() => {
+		setInterval(() => gameLoop(), 20000)
+	}, [])
+	const allResources = ResourcesService.getAllResources()
+	const { data } = useSession()
 
-  if (!currentPlanet) return <StyledSkeleton className="w-full h-16" />;
-  return (
-    <StyledAppBar position="static">
-      <NavbarContent>
-        <Flex
-          gap="1.5rem"
-          alignItems="center"
-          justifyContent="space-between"
-          grow={1}
-        >
-          <Flex gap="1rem" alignItems="center">
-            <Avatar
-              src={`/images/planets/${currentPlanet?.type}.jpg`}
-              size="md"
-            />
-            <>{currentPlanet?.name}</>
-          </Flex>
-          <Flex gap="3rem">
-            {Object.values(allResources).map((resource) => {
-              return (
-                <Tooltip
-                  showArrow
-                  key={resource.name}
-                  placement="bottom"
-                  content={
-                    <TooltipContent>
-                      <Flex alignItems="center" gap="0.5rem">
-                        <img
-                          src={resource.img}
-                          width={50}
-                          height={50}
-                          alt={resource.name}
-                        />
-                        <div>
-                          {ResourcesService.renderResources(
-                            currentPlanet?.resources?.[resource.name]
-                          )}
-                        </div>
-                        <div className="text-xl text-purple-600">
-                          {resource.name}
-                        </div>
-                      </Flex>
-                    </TooltipContent>
-                  }
-                  classNames={{
-                    base: [
-                      'backdrop-filter backdrop-blur-sm bg-opacity-10 bg-red-900 p-0',
-                    ],
-                    content: [
-                      // tailwind glassmorphism
-                      'bg-red-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-300 text-success-600 p-0',
-                    ],
-                  }}
-                >
-                  <ResourcesBox key={resource.name}>
-                    <Flex alignItems="center" gap="0.5rem">
-                      <img
-                        src={resource.img}
-                        width={25}
-                        height={25}
-                        alt={resource.name}
-                      />
-                      <div>
-                        {ResourcesService.renderResources(
-                          currentPlanet?.resources?.[resource.name]
-                        )}
-                      </div>
-                    </Flex>
-                  </ResourcesBox>
-                </Tooltip>
-              );
-            })}
-          </Flex>
-          <Flex gap="1rem">
-            <Dropdown placement="bottom-end">
-              <DropdownTrigger>
-                <User
-                  as="button"
-                  avatarProps={{
-                    src: data?.user?.image,
-                  }}
-                  name={data?.user?.name}
-                  //   size="md"
-                />
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Profile Actions"
-                variant="flat"
-                onAction={(key: React.Key) => {
-                  switch (key) {
-                    case 'logout':
-                      signOut();
-                      break;
+	if (!currentPlanet) return <StyledSkeleton className="w-full h-16" />
+	return (
+		<StyledAppBar position="static">
+			<NavbarContent>
+				<Flex
+					gap="1.5rem"
+					alignItems="center"
+					justifyContent="space-between"
+					grow={1}
+				>
+					<Flex gap="1rem" alignItems="center">
+						<Avatar
+							src={`/images/planets/${currentPlanet?.type}.jpg`}
+							size="md"
+						/>
+						<>{currentPlanet?.name}</>
+					</Flex>
+					<Flex gap="3rem">
+						{Object.values(allResources).map((resource) => {
+							return (
+								<Tooltip
+									showArrow
+									key={resource.name}
+									placement="bottom"
+									content={
+										<TooltipContent>
+											<Flex alignItems="center" gap="0.5rem">
+												<img
+													src={resource.img}
+													width={50}
+													height={50}
+													alt={resource.name}
+												/>
+												<div>
+													{ResourcesService.renderResources(
+														currentPlanet?.resources?.[resource.name]
+													)}
+												</div>
+												<div className="text-xl text-purple-600">
+													{resource.name}
+												</div>
+											</Flex>
+										</TooltipContent>
+									}
+									classNames={{
+										base: [
+											"backdrop-filter backdrop-blur-sm bg-opacity-10 bg-red-900 p-0"
+										],
+										content: [
+											// tailwind glassmorphism
+											"bg-red-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-300 text-success-600 p-0"
+										]
+									}}
+								>
+									<ResourcesBox key={resource.name}>
+										<Flex alignItems="center" gap="0.5rem">
+											<img
+												src={resource.img}
+												width={25}
+												height={25}
+												alt={resource.name}
+											/>
+											<div>
+												{ResourcesService.renderResources(
+													currentPlanet?.resources?.[resource.name]
+												)}
+											</div>
+										</Flex>
+									</ResourcesBox>
+								</Tooltip>
+							)
+						})}
+					</Flex>
+					<Flex gap="1rem">
+						<Dropdown placement="bottom-end">
+							<DropdownTrigger>
+								<User
+									as="button"
+									avatarProps={{
+										src: data?.user?.image
+									}}
+									name={data?.user?.name}
+									//   size="md"
+								/>
+							</DropdownTrigger>
+							<DropdownMenu
+								aria-label="Profile Actions"
+								variant="flat"
+								onAction={(key: React.Key) => {
+									switch (key) {
+										case "logout":
+											signOut()
+											break
 
-                    default:
-                      break;
-                  }
-                }}
-              >
-                <DropdownItem key="logout" color="danger">
-                  Log Out
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </Flex>
-        </Flex>
-      </NavbarContent>
-    </StyledAppBar>
-  );
+										default:
+											break
+									}
+								}}
+							>
+								<DropdownItem key="logout" color="danger">
+									Log Out
+								</DropdownItem>
+							</DropdownMenu>
+						</Dropdown>
+					</Flex>
+				</Flex>
+			</NavbarContent>
+		</StyledAppBar>
+	)
 }
