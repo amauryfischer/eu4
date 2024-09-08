@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.4.2",
     "@emotion/styled": "^11.11.5",
     "@lottiefiles/react-lottie-player": "^3.5.4",
     "@mui/icons-material": "^5.15.19",
@@ -26,7 +27,8 @@
     "lord-icon-element": "^4.1.2",
     "lottie-web": "^5.12.2",
     "moment": "^2.30.1",
-    "next": "^14.2.5",
+    "next": "^14.2.6",
+    "next-auth": "5.0.0-beta.18",
     "node-schedule": "^2.1.1",
     "react": "^18.3.1",
     "react-device-detect": "^2.2.3",

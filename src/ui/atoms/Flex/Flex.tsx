@@ -14,6 +14,7 @@ const Flex = styled.div<{
 	gap?: string
 	fullWidth?: boolean
 	fullHeight?: boolean
+	grow?: 0 | 1
 }>`
   width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
   height: ${({ fullHeight }) => (fullHeight ? "100%" : "auto")};
@@ -24,6 +25,7 @@ const Flex = styled.div<{
   align-items: ${({ alignItems }) => alignItems || "stretch"};
   align-content: ${({ alignContent }) => alignContent || "stretch"};
   gap: ${({ gap }) => gap || "0"};
+  flex-grow: ${({ grow }) => grow || "0"};
 `
 
 export default Flex

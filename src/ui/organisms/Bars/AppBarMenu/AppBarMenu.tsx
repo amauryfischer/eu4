@@ -13,14 +13,20 @@ import Button from "@/ui/atoms/buttons/Button"
 import HomeIconButton from "@/ui/atoms/iconButtons/HomeIconButton/HomeIconButton"
 import {
 	Avatar,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
 	Input,
 	Navbar,
 	NavbarContent,
 	NavbarItem,
-	Skeleton
+	Skeleton,
+	User
 } from "@nextui-org/react"
 import { Tooltip } from "@nextui-org/tooltip"
-import { useEffect } from "react"
+import { signOut, useSession } from "next-auth/react"
+import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
 const ResourcesBox = styled.div`
@@ -38,9 +44,9 @@ const StyledAppBar = styled(Navbar)`
   margin-top: calc(-1 * var(--navbar-height));
   z-index: 1000;
   & > header {
-	max-width: none !important;
-	padding-left: 0.75rem !important;
-	padding-right: 0.75rem !important;
+    max-width: none !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
   }
 `
 
@@ -49,10 +55,15 @@ const StyledSkeleton = styled(Skeleton)`
 `
 
 const TooltipContent = styled.div`
-	background-color: hsla(var(--grey-hue),var(--grey-saturation),var(--grey600-lightness),0.3);
-	padding: 0.5rem;
-	color: white;
-	border-radius: 0.5rem;
+  background-color: hsla(
+    var(--grey-hue),
+    var(--grey-saturation),
+    var(--grey600-lightness),
+    0.3
+  );
+  padding: 0.5rem;
+  color: white;
+  border-radius: 0.5rem;
 `
 
 export default function AppBarMenu() {
@@ -76,13 +87,18 @@ export default function AppBarMenu() {
 		setInterval(() => gameLoop(), 20000)
 	}, [])
 	const allResources = ResourcesService.getAllResources()
+	const { data } = useSession()
 
 	if (!currentPlanet) return <StyledSkeleton className="w-full h-16" />
-
 	return (
 		<StyledAppBar position="static">
 			<NavbarContent>
-				<Flex gap="1.5rem" alignItems="center" justifyContent="space-between">
+				<Flex
+					gap="1.5rem"
+					alignItems="center"
+					justifyContent="space-between"
+					grow={1}
+				>
 					<Flex gap="1rem" alignItems="center">
 						<Avatar
 							src={`/images/planets/${currentPlanet?.type}.jpg`}
@@ -145,6 +161,38 @@ export default function AppBarMenu() {
 								</Tooltip>
 							)
 						})}
+					</Flex>
+					<Flex gap="1rem">
+						<Dropdown placement="bottom-end">
+							<DropdownTrigger>
+								<User
+									as="button"
+									avatarProps={{
+										src: data?.user?.image
+									}}
+									name={data?.user?.name}
+									//   size="md"
+								/>
+							</DropdownTrigger>
+							<DropdownMenu
+								aria-label="Profile Actions"
+								variant="flat"
+								onAction={(key: React.Key) => {
+									switch (key) {
+										case "logout":
+											signOut()
+											break
+
+										default:
+											break
+									}
+								}}
+							>
+								<DropdownItem key="logout" color="danger">
+									Log Out
+								</DropdownItem>
+							</DropdownMenu>
+						</Dropdown>
 					</Flex>
 				</Flex>
 			</NavbarContent>
