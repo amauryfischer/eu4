@@ -7,7 +7,16 @@ import { IPlanet } from "./type/data/IPlanet"
 
 // Notice this is only an object, not a full Auth.js instance
 export default {
-	providers: [GitHub, Google, Authentik],
+	providers: [
+		GitHub,
+		Google,
+		Authentik({
+			name: "EU4 registration portal",
+			style: {
+				logo: "/favicon.ico"
+			}
+		})
+	],
 	callbacks: {
 		authorized: async ({ auth }) => {
 			// Logged in users are authenticated, otherwise redirect to login page
