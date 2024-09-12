@@ -21,7 +21,8 @@
 	"javascript": {
 		"formatter": {
 			"semicolons": "asNeeded",
-			"trailingCommas": "none"
+			"trailingCommas": "none",
+			"quoteStyle": "double"
 		}
 	}
 }
