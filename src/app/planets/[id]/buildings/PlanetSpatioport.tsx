@@ -4,9 +4,11 @@ import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useFleets from "@/hooks/data/entity/use-fleets.hook"
 import useShips from "@/hooks/data/entity/use-ships.hook"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import ShipService from "@/services/ShipService"
 import { IFleet } from "@/type/data/IFleet"
 import IShip from "@/type/data/IShip"
+import { ITask } from "@/type/data/ITask"
 import Button from "@/ui/atoms/buttons/Button"
 import Flex from "@/ui/atoms/Flex"
 import { Checkbox } from "@mui/material"
@@ -42,6 +44,7 @@ const PlanetSpatioport = () => {
 	const planet = useCurrentPlayerActivePlanet()
 	const { createTask, fetchTasks } = useTasksActions()
 	const { fetchFleets } = useFleetsActions()
+	const tasks = useTasks()
 	const user = useCurrentUser()
 	const fleets = useFleets()
 
@@ -96,6 +99,15 @@ const PlanetSpatioport = () => {
 				if (
 					Object.values(fleets).some((fleet: IFleet) =>
 						fleet?.shipIds?.includes(ship.id)
+					)
+				) {
+					return null
+				}
+				if (
+					Object.values(tasks).filter(
+						(task: ITask) =>
+							task.type === TaskType.ASSEMBLE_FLEET &&
+							task.details.shipIds.includes(ship.id)
 					)
 				) {
 					return null

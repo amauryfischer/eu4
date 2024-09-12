@@ -4,15 +4,11 @@ import { Task } from "@prisma/client"
 import { IPosition } from "./IPosition"
 
 export enum TaskType {
+	BUILD_SHIP = "BUILD_SHIP",
 	ASSEMBLE_FLEET = "ASSEMBLE_FLEET",
 	COLLECT_ASTEROIDS = "COLLECT_ASTEROIDS",
 	RESEARCH = "RESEARCH",
-	CONSTRUCT_SHIP = "CONSTRUCT_SHIP",
-	CONSTRUCT_BUILDING = "CONSTRUCT_BUILDING",
-	COLLECT_RESOURCES = "COLLECT_RESOURCES",
-	CONSTRUCT_MODULE = "CONSTRUCT_MODULE",
 	FLYING_FLEET = "FLYING_FLEET",
-	BUILD_SHIP = "BUILD_SHIP",
 	UPGRADE_RESOURCE = "UPGRADE_RESOURCE"
 }
 export interface ITaskUpgradeResource extends Omit<Task, "details"> {
@@ -33,17 +29,17 @@ export interface ITaskAsteroid extends Omit<Task, "details"> {
 	}
 }
 
-export interface ITaskConstructModule extends Omit<Task, "details"> {
-	type: TaskType.CONSTRUCT_MODULE
-	endDate: string
-	details: {
-		resources: {
-			[key in RESOURCE_TYPES]: number
-		}
-		planetId: string
-		module: IModule
-	}
-}
+// export interface ITaskConstructModule extends Omit<Task, "details"> {
+// 	type: TaskType.CONSTRUCT_MODULE
+// 	endDate: string
+// 	details: {
+// 		resources: {
+// 			[key in RESOURCE_TYPES]: number
+// 		}
+// 		planetId: string
+// 		module: IModule
+// 	}
+// }
 
 export interface ITaskFlyingFleet extends Omit<Task, "details"> {
 	type: TaskType.FLYING_FLEET
@@ -87,7 +83,6 @@ export interface ITaskResearch extends Omit<Task, "details"> {
 }
 export type ITask =
 	| ITaskAsteroid
-	| ITaskConstructModule
 	| ITaskFlyingFleet
 	| ITaskAssembleFleet
 	| ITaskBuildShip

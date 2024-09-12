@@ -3,7 +3,9 @@ const nextConfig = {
     compiler: {
         styledComponents: true,
     },
-    experimental: {},
+    experimental: {
+        instrumentationHook: true
+    },
 };
 
 export default nextConfig;

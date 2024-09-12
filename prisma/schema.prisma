@@ -8,6 +8,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 model Asteroid {
@@ -17,11 +18,12 @@ model Asteroid {
 }
 
 model Ship {
-  id      String  @id @default(uuid())
+  id      String   @id @default(uuid())
   name    String
   class   String
   modules Json
   fleetId String?
+  planetId String?
 }
 
 enum TaskType {
@@ -144,3 +146,4 @@ model Authenticator {
  
   @@id([userId, credentialID])
 }
+

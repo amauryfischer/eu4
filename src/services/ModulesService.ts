@@ -11,7 +11,6 @@ import {
 } from "./ResourcesService"
 import { Research } from "./research/ResearchService"
 
-const ENGINE = "engine"
 export enum IModuleType {
 	ENGINE = "engine",
 	DEFENSE = "defense",

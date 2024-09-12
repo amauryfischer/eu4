@@ -15,6 +15,7 @@ export default {
 	},
 	events: {
 		createUser: async ({ user }) => {
+			console.log("👤 New user created:", user.id)
 			const allPlanets = await db.planet.findMany()
 			// Find a random planet without a user
 			const randomPlanet = allPlanets.find(

@@ -51,16 +51,16 @@ const ModalAsteroid = () => {
 	const tasks = useTasks()
 	const fleets = useFleetsOnPosition(currentAsteroid?.position)
 	const user = useCurrentUser()
-	const { scene } = useGLTF("./obj/Vaisseau.gltf")
+	// const { scene } = useGLTF("./obj/Vaisseau.gltf")
 	// more metallic
 	const metallic = useMemo(() => {
 		return Math.random() > 0.5 ? 1 : 0
 	}, [])
-	scene.traverse((child) => {
-		if (child.isMesh) {
-			child.material.metalness = metallic
-		}
-	})
+	// scene.traverse((child) => {
+	// 	if (child.isMesh) {
+	// 		child.material.metalness = metallic
+	// 	}
+	// })
 	if (!currentAsteroid) {
 		return null
 	}
@@ -85,11 +85,11 @@ const ModalAsteroid = () => {
 											intensity={3}
 											color="#6a6968"
 										/>
-										<Suspense fallback={null}>
+										{/* <Suspense fallback={null}>
 											<mesh>
 												<primitive object={scene} />
 											</mesh>
-										</Suspense>
+										</Suspense> */}
 										<OrbitControls
 											enableZoom={true}
 											makeDefault
