@@ -9,13 +9,13 @@ import { IPlanet } from "./type/data/IPlanet"
 export default {
 	providers: [
 		GitHub,
-		Google,
-		Authentik({
-			name: "EU4 registration portal",
-			style: {
-				logo: "/favicon.ico"
-			}
-		})
+		Google
+		// Authentik({
+		// 	name: "EU4 registration portal",
+		// 	style: {
+		// 		logo: "/favicon.ico"
+		// 	}
+		// })
 	],
 	callbacks: {
 		authorized: async ({ auth }) => {
