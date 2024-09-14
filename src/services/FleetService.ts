@@ -1,3 +1,4 @@
+import ShipService from "@/services/ShipService"
 import db from "@/app/db"
 import { IFleet } from "@/type/data/IFleet"
 import { IModifier } from "@/type/data/IModule"
@@ -14,6 +15,33 @@ const getFleetStats = ({
 	return cumulatedStat
 }
 
+const getTotalFuel = ({ ships }: { ships: Array<IShip> }) => {
+	const allClass = ShipService.getAllShips()
+	let totalFuel = _.sumBy(ships, (s) => allClass[s.class].fuelSpace)
+	ships.forEach((s) => {
+		totalFuel += ShipService.getAllStatFromModules({
+			ship: s,
+			state: IModifier.FUEL
+		})
+	})
+	return totalFuel
+}
+
+const getFuelConsumption = ({ ships }: { ships: Array<IShip> }) => {
+	const allClass = ShipService.getAllShips()
+	let totalFuelConsumption = 0
+	ships.forEach((s) => {
+		totalFuelConsumption +=
+			ShipService.getAllStatFromModules({
+				ship: s,
+				state: IModifier.CONSO
+			}) * allClass[s.class].multiplier.conso
+	})
+	return totalFuelConsumption
+}
+
 export default {
 	getFleetStats,
+	getTotalFuel,
+	getFuelConsumption
 }

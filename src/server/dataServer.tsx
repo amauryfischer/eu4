@@ -91,16 +91,14 @@ export const deleteServerData = async (type: any, id: any) => {
 
 export const createServerData = async (type: any, data: any) => {
 	const prismaType = type.toLowerCase() as any
-	// @ts-ignore
 	if (type === "Task") {
-		await scheduleTask(data)
-	} else {
-		const serverCreatedData = await db[prismaType].create({
-			data
-		})
-		return serverCreatedData
+		// @ts-ignore
+		return await scheduleTask(data)
 	}
-	return
+	const serverCreatedData = await db[prismaType].create({
+		data
+	})
+	return serverCreatedData
 }
 
 const createRandomAsteroids = async () => {

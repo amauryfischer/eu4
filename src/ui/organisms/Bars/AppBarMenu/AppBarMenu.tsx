@@ -7,6 +7,7 @@ import {
 	setCurrentPlayerActivePlanetId,
 	setCurrentUser
 } from "@/redux/slice/current.slice"
+import AnimatedNumber from "react-animated-number"
 import ResourcesService from "@/services/ResourcesService"
 import Flex from "@/ui/atoms/Flex/Flex"
 import Button from "@/ui/atoms/buttons/Button"
@@ -122,11 +123,21 @@ export default function AppBarMenu() {
 													height={50}
 													alt={resource.name}
 												/>
-												<div>
-													{ResourcesService.renderResources(
-														currentPlanet?.resources?.[resource.name]
-													)}
-												</div>
+
+												<AnimatedNumber
+													component="text"
+													value={currentPlanet?.resources?.[resource.name]}
+													style={{
+														transition: "0.8s ease-out",
+														fontSize: 48,
+														transitionProperty:
+															"background-color, color, opacity"
+													}}
+													duration={1000}
+													formatValue={(n) =>
+														ResourcesService.renderResources(n)
+													}
+												/>
 												<div className="text-xl text-purple-600">
 													{resource.name}
 												</div>
@@ -151,11 +162,17 @@ export default function AppBarMenu() {
 												height={25}
 												alt={resource.name}
 											/>
-											<div>
-												{ResourcesService.renderResources(
-													currentPlanet?.resources?.[resource.name]
-												)}
-											</div>
+											<AnimatedNumber
+												component="text"
+												value={currentPlanet?.resources?.[resource.name]}
+												style={{
+													transition: "0.8s ease-out",
+													fontSize: 16,
+													transitionProperty: "background-color, color, opacity"
+												}}
+												duration={1000}
+												formatValue={(n) => ResourcesService.renderResources(n)}
+											/>
 										</Flex>
 									</ResourcesBox>
 								</Tooltip>

@@ -1,5 +1,6 @@
 import { text } from "@/ui/fondations/text"
 import colored from "@/utils/colored"
+import { Card } from "@nextui-org/react"
 import styled from "styled-components"
 
 export const CardImageContainer = styled.div`
@@ -11,16 +12,13 @@ export const CardImageContainer = styled.div`
 `
 
 export const GridCardContent = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 70px;
-  height: 100%;
-  flex-grow: 1;
 `
 export const GridResources = styled.div`
   display: grid;
   grid-template-columns: 30px 1fr 30px 1fr 30px 1fr;
   grid-gap: 0.25rem;
   justify-items: center;
+  align-items: center;
   font-size: 0.7rem;
 `
 
@@ -77,12 +75,11 @@ export const ExtendedCard = styled.div`
   background: var(--neutral900)
 
 `
-export const SCard = colored(styled.div`
+export const SCard = colored(styled(Card)`
   filter: unset !important;
   position: relative;
-  height: 100%;
+  height: 120px;
   border: 2px var(--color) solid;
-  border-radius: 1rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -105,7 +102,6 @@ export const ShipClass = styled.div<{ $textColor: string }>`
   font-size: 0.8rem;
 `
 export const CardContent = styled.div`
-  background-color: var(--grey800);
   width: auto;
   padding: 0.5rem;
   padding-left: 1.5rem;
@@ -119,9 +115,6 @@ export const CardContentBottom = styled.div`
 export const CardImage = styled.img`
   transition: all 0.3s ease-in-out;
   border-radius: 1rem 1rem 0 0;
-  object-fit: cover;
-  width: 100%;
-  height: 200px;
   ${SCard}:hover & {
     filter: brightness(1.5);
     transform: scale(1.1);

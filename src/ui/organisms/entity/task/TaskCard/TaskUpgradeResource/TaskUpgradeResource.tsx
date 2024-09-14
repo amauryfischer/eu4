@@ -19,7 +19,7 @@ const TaskUpgradeResource = ({
 			progress={progress}
 			icon={<Mine />}
 			color="purple"
-			imgSrc={ResourcesService.getAllResources()[task.details.resource].img}
+			imgSrc={ResourcesService.getAllResources()[task.details.resource]?.img}
 		/>
 	)
 }

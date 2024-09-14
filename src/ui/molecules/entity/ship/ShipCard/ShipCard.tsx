@@ -29,205 +29,84 @@ import DisplaySingleResource from "../../resources/DisplaySingleResource/Display
 import Sell from "@/ui/fondations/icons/Sell"
 import BuyIconButton from "@/ui/atoms/iconButtons/BuyIconButton"
 import Button from "@/ui/atoms/buttons/Button"
+import { Tooltip } from "@nextui-org/react"
 
 const ShipCard = ({
 	ship,
-	onClick,
+	onClick
 }: {
 	ship: IShipDesign
 	onClick: () => void
 }) => {
-	const [version, setVersion] = React.useState(0)
-	const color = {
-		0: "white",
-		1: "emerald",
-		2: "cyan",
-		3: "purple",
-	}[version]
 	return (
-		<SCard
-			$color={
-				{
-					0: "white",
-					1: "emerald700",
-					2: "cyan700",
-					3: "purple700",
-				}[version]
-			}
-		>
-			<Flex fullWidth fullHeight>
-				<GridCardContent>
-					<CardImageContainer>
-						<CardImage
-							src={ship.img}
-							width="100%"
-							height="100%"
-							alt="Relaxing app background"
-						/>
-						<EditionText
-							$textColor={
-								{
-									0: "white",
-									1: "emerald200",
-									2: "cyan200",
-									3: "purple200",
-								}[version]
+		<SCard isPressable onClick={onClick}>
+			<div className="w-full grid grid-cols-4">
+				<CardImageContainer>
+					<CardImage
+						src={ship.img}
+						alt="Relaxing app background"
+						height="80px"
+					/>
+				</CardImageContainer>
+				<div className="flex flex-col justify-center items-center">
+					<div className="text-4xl font-semibold align-self-center">
+						{ship.name}
+					</div>
+				</div>
+				<div className="flex flex-col justify-center items-center gap-2">
+					<div className="text-3xl font-semibold align-self-center">
+						{ship.emplacement}
+					</div>
+					<div className="text-default-300 text-xs  align-self-center">
+						Emplacement
+					</div>
+				</div>
+				<Flex
+					justifyContent="center"
+					fullWidth
+					gap="1rem"
+					alignItems="center"
+					className="w-full"
+				>
+					<GridResources>
+						{[
+							{
+								name: "Impulsion multiplicateur",
+								icon: <DeblurIcon />,
+								totalAmount: ship.multiplier.impulse
+							},
+							{
+								name: "Warp multiplicateur",
+								icon: <RocketLaunchIcon />,
+								totalAmount: ship.multiplier.warp ?? 0
+							},
+							{
+								name: "Bouclier multiplicateur",
+								icon: <SecurityIcon />,
+								totalAmount: ship.multiplier.shield ?? 0
+							},
+
+							{
+								name: "Consommation multiplicateur",
+								icon: <LocalGasStationIcon />,
+								totalAmount: ship.multiplier.conso ?? 0
+							},
+							{
+								name: "Base Coque",
+								icon: <FavoriteIcon />,
+								totalAmount: ship.baseCoque
 							}
-						>
-							{version > 0 ? (
-								<Button
-									color={color}
-									variant="bordered"
-									isIconOnly
-									startContent={<ArrowLeftIcon fontSize="small" />}
-									onClick={() => setVersion((version - 1) % 4)}
-									size="sm"
-								/>
-							) : (
-								<SDiv />
-							)}
-							{version === 0 && (
-								<ShipVariantTitle color={color}>
-									Edition standard
-								</ShipVariantTitle>
-							)}
-							{version === 1 && (
-								<ShipVariantTitle color={color}>
-									Edition transport
-								</ShipVariantTitle>
-							)}
-							{version === 2 && (
-								<ShipVariantTitle color={color}>
-									Edition armement
-								</ShipVariantTitle>
-							)}
-							{version === 3 && (
-								<ShipVariantTitle color={color}>Edition tank</ShipVariantTitle>
-							)}
-							{version < 3 ? (
-								<Button
-									variant="bordered"
-									size="sm"
-									color={
-										{
-											0: "white",
-											1: "emerald200",
-											2: "cyan200",
-											3: "purple200",
-										}[version]
-									}
-									isIconOnly
-									startContent={<ArrowRightIcon fontSize="small" />}
-									onClick={() => setVersion((version + 1) % 4)}
-								/>
-							) : (
-								<SDiv />
-							)}
-						</EditionText>
-					</CardImageContainer>
-					<CardContent>
-						<Flex
-							justifyContent="space-between"
-							fullWidth
-							gap="1rem"
-							alignItems="center"
-						>
-							<Flex direction="column">
-								<ShipTitle
-									$textColor={
-										{
-											0: "white",
-											1: "emerald300",
-											2: "cyan300",
-											3: "purple300",
-										}[version] as string
-									}
-								>
-									{ship.name}
-								</ShipTitle>
-								<ShipClass
-									$textColor={
-										{
-											0: "white",
-											1: "emerald100",
-											2: "cyan100",
-											3: "purple300",
-										}[version] as string
-									}
-								>
-									A - Chasseur
-								</ShipClass>
-							</Flex>
-							<GridResources>
-								{[
-									{
-										name: "Impulsion multi",
-										icon: <DeblurIcon fontSize="small" />,
-										totalAmount: ship.multiplier.impulse,
-									},
-									{
-										name: "Bouclier multi",
-										icon: <SecurityIcon fontSize="small" />,
-										totalAmount: ship.multiplier.shield ?? 0,
-									},
-									{
-										name: "Warp multi",
-										icon: <RocketLaunchIcon fontSize="small" />,
-										totalAmount: ship.multiplier.warp ?? 0,
-									},
-									{
-										name: "Consommation multi",
-										icon: <LocalGasStationIcon fontSize="small" />,
-										totalAmount: ship.multiplier.conso ?? 0,
-									},
-									{
-										name: "Base Coque",
-										icon: <FavoriteIcon fontSize="small" />,
-										totalAmount: ship.baseCoque,
-									},
-								].map((shipProperty) => (
-									<>
-										<div className="text-white">{shipProperty.icon}</div>
-										<div className="text-white">{shipProperty.totalAmount}</div>
-										{/* <div>{shipProperty.name}</div> */}
-									</>
-								))}
-							</GridResources>
-						</Flex>
-					</CardContent>
-				</GridCardContent>
-				<ExtendedCard>
-					<Flex
-						direction="column"
-						justifyContent="space-between"
-						fullHeight
-						alignItems="center"
-					>
-						<DisplayResourcesContainer>
-							{Object.entries(ship.cost ?? {}).map(
-								([resource, cost]: [string, number]) => (
-									<DisplaySingleResource
-										key={resource}
-										resource={resource as RESOURCE_TYPES}
-										cost={cost}
-									/>
-								),
-							)}
-						</DisplayResourcesContainer>
-						<BuyIconButton
-							onPress={onClick}
-							color={
-								{
-									0: "white",
-									1: "emerald",
-									2: "cyan",
-									3: "purple",
-								}[version]
-							}
-						/>
-					</Flex>
-				</ExtendedCard>
-			</Flex>
+						].map((shipProperty, index) => (
+							<>
+								<Tooltip content={shipProperty.name} key={index}>
+									<div className="text-white">{shipProperty.icon}</div>
+								</Tooltip>
+								<div className="text-white">{shipProperty.totalAmount}</div>
+							</>
+						))}
+					</GridResources>
+				</Flex>
+			</div>
 		</SCard>
 	)
 }

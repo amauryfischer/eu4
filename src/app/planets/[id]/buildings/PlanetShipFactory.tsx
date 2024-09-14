@@ -6,9 +6,10 @@ import { Tab, Tabs } from "@nextui-org/react"
 import styled from "styled-components"
 
 const ShipContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  grid-gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	height: 100%;
 `
 const PlanetShipFactory = ({
 	onSelectShip
@@ -43,64 +44,72 @@ const PlanetShipFactory = ({
 					</ShipContainer>
 				</Tab>
 				<Tab key="B" title="classType B">
-					{Object.values(filteredShips)
-						.filter((ship) => ship.classType === "B")
-						.map((ship) => {
-							return (
-								<ShipCard
-									key={ship.class}
-									ship={ship}
-									onClick={() => {
-										onSelectShip(ship)
-									}}
-								/>
-							)
-						})}
+					<ShipContainer>
+						{Object.values(filteredShips)
+							.filter((ship) => ship.classType === "B")
+							.map((ship) => {
+								return (
+									<ShipCard
+										key={ship.class}
+										ship={ship}
+										onClick={() => {
+											onSelectShip(ship)
+										}}
+									/>
+								)
+							})}
+					</ShipContainer>
 				</Tab>
 				<Tab key="C" title="classType C">
-					{Object.values(filteredShips)
-						.filter((ship) => ship.classType === "C")
-						.map((ship) => {
-							return (
-								<ShipCard
-									key={ship.class}
-									ship={ship}
-									onClick={() => {
-										onSelectShip(ship)
-									}}
-								/>
-							)
-						})}
+					<ShipContainer>
+						{Object.values(filteredShips)
+							.filter((ship) => ship.classType === "C")
+							.map((ship) => {
+								return (
+									<ShipCard
+										key={ship.class}
+										ship={ship}
+										onClick={() => {
+											onSelectShip(ship)
+										}}
+									/>
+								)
+							})}
+					</ShipContainer>
 				</Tab>
 				<Tab key="D" title="classType D">
-					{Object.values(filteredShips)
-						.filter((ship) => ship.classType === "D")
-						.map((ship) => {
-							return (
-								<ShipCard
-									key={ship.class}
-									ship={ship}
-									onClick={() => {
-										onSelectShip(ship)
-									}}
-								/>
-							)
-						})}
+					<ShipContainer>
+						{Object.values(filteredShips)
+							.filter((ship) => ship.classType === "D")
+							.map((ship) => {
+								return (
+									<ShipCard
+										key={ship.class}
+										ship={ship}
+										onClick={() => {
+											onSelectShip(ship)
+										}}
+									/>
+								)
+							})}
+					</ShipContainer>
 				</Tab>
 				<Tab key="station" title="Station">
-					{Object.values(filteredShips)
-						.filter((ship) => ship.classType === "station")
-						.map((ship) => {
-							return (
-								<ShipCard
-									key={ship.class}
-									ship={ship}
-									onClick={() => {
-										onSelectShip(ship)
-									}}
-								/>
-							)
-						})}
+					<ShipContainer>
+						{Object.values(filteredShips)
+							.filter((ship) => ship.classType === "station")
+							.map((ship) => {
+								return (
+									<ShipCard
+										key={ship.class}
+										ship={ship}
+										onClick={() => {
+											onSelectShip(ship)
+										}}
+									/>
+								)
+							})}
+					</ShipContainer>
 				</Tab>
 			</Tabs>
 		</>

@@ -54,6 +54,7 @@ model Fleet {
   shipIds  String[]
   position Json
   cargo    Json
+  fuel     Int
 }
 
 model Pirate {

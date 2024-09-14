@@ -14,7 +14,7 @@ const TaskResearch = ({
 			icon={<Mine />}
 			color="blue"
 			imgSrc={ResearchService.researchTypeToImage(
-				ResearchService.allResearch[task.details.research].type
+				ResearchService.allResearch[task.details.research]?.type
 			)}
 		/>
 	)

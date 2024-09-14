@@ -5,8 +5,8 @@ const syncDataPlanet = async () => {
 	planets.forEach(async (planet) => {
 		const lastPlanetSync = planet.lastSync
 		const parsedLastPlanetSync = Date.parse(lastPlanetSync || "0")
-		// if last sync is more than 1 minute ago
-		if (Date.now() - parsedLastPlanetSync > 60000) {
+		if (Date.now() - parsedLastPlanetSync > 15000) {
+			// if last sync is more than 1 minute ago
 			// update syncDate
 			await db.planet.update({
 				where: {

@@ -8,7 +8,7 @@ async function scheduleTask(task: ITask) {
 	const newJob = await db.task.create({
 		data: {
 			...task,
-			details: JSON.stringify(task.details)
+			details: task.details
 		}
 	})
 	const endDate = await allTasks[task.type].onCreate(task)
@@ -25,7 +25,7 @@ async function scheduleTask(task: ITask) {
 		})
 	})
 
-	return newJob.id
+	return newJob
 }
 
 export default scheduleTask

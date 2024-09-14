@@ -4,6 +4,7 @@ import Google from "next-auth/providers/google"
 import Authentik from "next-auth/providers/authentik"
 import type { NextAuthConfig } from "next-auth"
 import { IPlanet } from "./type/data/IPlanet"
+import { generateInitialValues } from "./server/initialData"
 
 // Notice this is only an object, not a full Auth.js instance
 export default {
@@ -26,7 +27,13 @@ export default {
 	events: {
 		createUser: async ({ user }) => {
 			console.log("👤 New user created:", user.id)
-			const allPlanets = await db.planet.findMany()
+			let allPlanets = await db.planet.findMany()
+			if (allPlanets.length === 0) {
+				// if no planets are found, initialize the game
+				console.log("🌍 No planets found, initializing game")
+				await generateInitialValues()
+				allPlanets = await db.planet.findMany()
+			}
 			// Find a random planet without a user
 			const randomPlanet = allPlanets.find(
 				(planet: IPlanet) => planet.userId === null

@@ -19,22 +19,20 @@ export enum IDamage {
 	ION = "ion"
 }
 export interface IModule {
-	id: string
-	name: string
-	description: string
-	type: string
-	img: string
-	emplacement: number
-	modifier?: {
-		[name: string]: number
+		id: string
+		name: string
+		description: string
+		type: string
+		img: string
+		emplacement: number
+		modifier?: Record<IModifier, number>
+		weapon?: {
+			type: IDamage
+			damage: number
+			precision: number
+		}
+		cost: {
+			[name: string]: number
+		}
+		requiredResearch?: Array<IResearch["id"]>
 	}
-	weapon?: {
-		type: IDamage
-		damage: number
-		precision: number
-	}
-	cost: {
-		[name: string]: number
-	}
-	requiredResearch?: Array<IResearch["id"]>
-}

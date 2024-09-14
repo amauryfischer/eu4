@@ -1,6 +1,8 @@
 import IShipDesign from "@/type/data/IShipDesign"
 import { RESOURCE_TYPES } from "./ResourcesService"
 import { Research } from "./research/ResearchService"
+import IShip from "@/type/data/IShip"
+import { IModifier } from "@/type/data/IModule"
 
 const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 	apollo: {
@@ -977,7 +979,17 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		classType: "station"
 	}
 })
-
+const getAllStatFromModules = ({
+	ship,
+	state
+}: { ship: IShip; state: IModifier }) => {
+	const modules = ship.modules
+	const stateModifier = modules.reduce((acc, module) => {
+		return acc + (module.modifier?.[state] ?? 0)
+	}, 0)
+	return stateModifier
+}
 export default {
-	getAllShips
+	getAllShips,
+	getAllStatFromModules
 }

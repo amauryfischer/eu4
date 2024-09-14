@@ -9,10 +9,10 @@ type IShipDesign = {
 	emplacement: number
 	fuelSpace: number
 	multiplier: {
-		warp?: number
-		impulse?: number
-		conso?: number
-		shield?: number
+		warp: number
+		impulse: number
+		conso: number
+		shield: number
 	}
 	baseCoque: number
 	classType: "A" | "B" | "C" | "D" | "station"

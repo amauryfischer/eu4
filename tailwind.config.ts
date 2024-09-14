@@ -23,7 +23,8 @@ const config: Config = {
 	plugins: [
 		nextui({
 			defaultTheme: "dark", // default theme from the themes object
-			defaultExtendTheme: "dark" // default theme to extend on custom themes
+			defaultExtendTheme: "dark", // default theme to extend on custom themes
+			addCommonColors: true
 		})
 	]
 }
