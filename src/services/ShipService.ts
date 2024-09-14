@@ -4,980 +4,451 @@ import { Research } from "./research/ResearchService"
 import IShip from "@/type/data/IShip"
 import { IModifier } from "@/type/data/IModule"
 
+const SECONDS = 1000
+const MINUTES = 60 * SECONDS
+const HOURS = 60 * MINUTES 
+
 const getAllShips: () => { [name: string]: IShipDesign } = () => ({
-	apollo: {
-		name: "Apollo",
-		class: "apollo",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.HYDROGENE]: 100
-		},
-		img: "/images/enhanced/apollo.webp",
-		emplacement: 10,
-		fuelSpace: 25_000,
+	// polished
+	sonde: {
+		name: "Sonde",
+		class: "sonde",
+		img: "/images/chassis/sonde.webp",
+		emplacement: 1,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 1,
-			impulse: 1,
-			conso: 1
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 100,
+		baseCoque: 1,
 		classType: "A",
-		requiredResearch: [Research.Apollo]
-	},
-	arc: {
-		name: "Arc",
-		class: "arc",
+		requiredResearch: [],
 		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000,
-			[RESOURCE_TYPES.HYDROGENE]: 100,
-			[RESOURCE_TYPES.FER]: 100
-		},
-		img: "/images/enhanced/arc.webp",
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "station"
-	},
-	artemis: {
-		name: "Artemis",
-		class: "artemis",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		img: "/images/enhanced/artemis.webp",
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A",
-		requiredResearch: [Research.Artemis]
-	},
-	athena: {
-		name: "Athena",
-		class: "athena",
-		img: "/images/enhanced/athena.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "station"
-	},
-	atlas: {
-		name: "Atlas",
-		class: "atlas",
-		img: "/images/enhanced/atlas.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
-	},
-	centaure: {
-		name: "Centaure",
-		class: "centaure",
-		img: "/images/enhanced/centaure.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
-	},
-	chasseur: {
-		name: "Chasseur",
-		class: "chasseur",
-		img: "/images/enhanced/chasseur.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
-	},
-	croiseur_intergalactique: {
-		name: "Croiseur Intergalactique",
-		class: "croiseur_intergalactique",
-		img: "/images/enhanced/croiseur_intergalactique.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "D"
-	},
-	croiseur: {
-		name: "Croiseur",
-		class: "croiseur",
-		img: "/images/enhanced/croiseur.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "C"
-	},
-	destroyer: {
-		name: "Destroyer",
-		class: "destroyer",
-		img: "/images/enhanced/destroyer.webp",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "D"
-	},
-	dionysos: {
-		name: "Dionysos",
-		class: "dionysos",
-		img: "/images/enhanced/dionysos.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "station"
-	},
-	docker: {
-		name: "Docker",
-		class: "docker",
-		img: "/images/enhanced/docker.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "station"
-	},
-	enigma: {
-		name: "Enigma",
-		class: "enigma",
-		img: "/images/enhanced/enigma.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	eros: {
-		name: "Eros",
-		class: "eros",
-		img: "/images/enhanced/eros.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "C"
-	},
-	fregate: {
-		name: "Fregate",
-		class: "fregate",
-		img: "/images/enhanced/fregate.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	frozen: {
-		name: "Frozen",
-		class: "frozen",
-		img: "/images/enhanced/frozen.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "C"
-	},
-	helios: {
-		name: "Helios",
-		class: "helios",
-		img: "/images/enhanced/helios.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
-	},
-	hera: {
-		name: "Hera",
-		class: "hera",
-		img: "/images/enhanced/hera.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "C"
-	},
-	hercules: {
-		name: "Hercules",
-		class: "hercules",
-		img: "/images/enhanced/hercules.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	hermes: {
-		name: "Hermes",
-		class: "hermes",
-		img: "/images/enhanced/hermes.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	intercepteur: {
-		name: "Intercepteur",
-		class: "intercepteur",
-		img: "/images/enhanced/intercepteur.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	karfus: {
-		name: "Karfus",
-		class: "karfus",
-		img: "/images/enhanced/karfus.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	legend: {
-		name: "Legend",
-		class: "legend",
-		img: "/images/enhanced/legend.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	leviathan: {
-		name: "Leviathan",
-		class: "leviathan",
-		img: "/images/enhanced/leviathan.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	loki: {
-		name: "Loki",
-		class: "loki",
-		img: "/images/enhanced/loki.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "D"
-	},
-	luna: {
-		name: "Luna",
-		class: "luna",
-		img: "/images/enhanced/luna.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "C"
-	},
-	mega_transporteur: {
-		name: "Mega-Transporteur",
-		class: "mega-transporteur",
-		img: "/images/enhanced/mega_transporteur.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "D"
-	},
-	minotaure: {
-		name: "Minotaure",
-		class: "minotaure",
-		img: "/images/enhanced/minotaure.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "C"
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
 	navette: {
 		name: "Navette",
 		class: "navette",
-		img: "/images/enhanced/navette.png",
+		img: "/images/chassis/navette.webp",
+		emplacement: 10,
+		fuelSpace: 10_000,
+		multiplier: {
+			warp: 1.0,
+			impulse: 4.0,
+			conso: 1,
+			shield: 1
+		},
+		baseCoque: 100,
+		agility: 100,
+		constructTime: 2 * HOURS + 56 * MINUTES,
+		classType: "A",
+		requiredResearch: [],
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
+			[RESOURCE_TYPES.CUIVRE]: 1_000,
+			[RESOURCE_TYPES.FER]: 450,
+			[RESOURCE_TYPES.ALUMINUM]: 200,
+			[RESOURCE_TYPES.SILICIUM]: 750,
+			[RESOURCE_TYPES.URANIUM]: 0,
+			[RESOURCE_TYPES.AZOTE]: 100,
+			[RESOURCE_TYPES.HYDROGENE]: 500
+		}
 	},
-	nimbus: {
-		name: "Nimbus",
-		class: "nimbus",
-		img: "/images/enhanced/nimbus.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	chasseur: {
+		name: "Chasseur",
+		class: "chasseur",
+		img: "/images/chassis/chasseur.webp",
+		emplacement: 15,
+		fuelSpace: 15_000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 0.9,
+			impulse: 3.5,
+			conso: 1,
+			shield: 1
 		},
-		baseCoque: 1000,
-		classType: "station"
+		baseCoque: 150,
+		agility: 95,
+		constructTime: 3 * HOURS + 55 * MINUTES,
+		classType: "A",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 1_500,
+			[RESOURCE_TYPES.CUIVRE]: 1_800,
+			[RESOURCE_TYPES.FER]: 400,
+			[RESOURCE_TYPES.ALUMINUM]: 150,
+			[RESOURCE_TYPES.SILICIUM]: 1_000,
+			[RESOURCE_TYPES.AZOTE]: 700,
+			[RESOURCE_TYPES.HYDROGENE]: 750
+		}
 	},
-	oblirator: {
-		name: "Oblirator",
-		class: "oblirator",
-		img: "/images/enhanced/oblirator.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	corvette: {
+		name: "Corvette",
+		class: "corvette",
+		img: "/images/chassis/corvette.webp",
+		emplacement: 20,
+		fuelSpace: 20_000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 0.85,
+			impulse: 2.5,
+			conso: 1,
+			shield: 1
 		},
-		baseCoque: 1000,
-		classType: "station"
+		baseCoque: 200,
+		classType: "A",
+		requiredResearch: [],
+		agility: 90,
+		constructTime: 5 * HOURS + 52 * MINUTES,
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 1_800,
+			[RESOURCE_TYPES.CUIVRE]: 2_750,
+			[RESOURCE_TYPES.FER]: 50,
+			[RESOURCE_TYPES.ALUMINUM]: 300,
+			[RESOURCE_TYPES.SILICIUM]: 1_000,
+			[RESOURCE_TYPES.AZOTE]: 900,
+			[RESOURCE_TYPES.HYDROGENE]: 1_000
+		}
 	},
-	odin: {
-		name: "Odin",
-		class: "odin",
-		img: "/images/enhanced/odin.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	fregate: {
+		name: "Fregate",
+		class: "fregate",
+		img: "/images/chassis/fregate.webp",
+		emplacement: 25,
+		fuelSpace: 20_000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 0.8,
+			impulse: 1.8,
+			conso: 1,
+			shield: 1
 		},
-		baseCoque: 1000,
-		classType: "station"
+		agility: 85,
+		baseCoque: 250,
+		classType: "A",
+		constructTime: 11 * HOURS + 45 * MINUTES,
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 2_500,
+			[RESOURCE_TYPES.CUIVRE]: 2_550,
+			[RESOURCE_TYPES.FER]: 250,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 1_000,
+			[RESOURCE_TYPES.URANIUM]: 1_500,
+			[RESOURCE_TYPES.AZOTE]: 1_200
+		}
 	},
-	pallas: {
-		name: "Pallas",
-		class: "pallas",
-		img: "/images/enhanced/pallas.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+
+	// fill stat with https://eu2opia.fandom.com/wiki/Frigate
+	destroyer: {
+		name: "Destroyer",
+		class: "destroyer",
+		img: "/images/chassis/destroyer.webp",
+		emplacement: 30,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "C"
+		baseCoque: 300,
+		classType: "A",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	patrouilleur: {
-		name: "Patrouilleur",
-		class: "patrouilleur",
-		img: "/images/enhanced/patrouilleur.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	croiseur: {
+		name: "Croiseur",
+		class: "croiseur",
+		img: "/images/chassis/croiseur.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "A"
+		baseCoque: 400,
+		classType: "A",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	proleyend: {
-		name: "Proleyend",
-		class: "proleyend",
-		img: "/images/enhanced/proleyend.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	intercepteur: {
+		name: "Intercepteur",
+		class: "intercepteur",
+		img: "/images/chassis/intercepteur.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "B"
+		baseCoque: 1,
+		classType: "A",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	proteus: {
-		name: "Proteus",
-		class: "proteus",
-		img: "/images/enhanced/proteus.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+
+	croiseur_intergalactique: {
+		name: "Croiseur Intergalactique",
+		class: "croiseur_intergalactique",
+		img: "/images/chassis/croiseur_intergalactique.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "C"
+		baseCoque: 400,
+		classType: "B",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	proto: {
-		name: "Proto",
-		class: "proto",
-		img: "/images/enhanced/proto.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	croiseur_combat: {
+		name: "Croiseur Combat",
+		class: "croiseur_combat",
+		img: "/images/chassis/croiseur_combat.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "A"
+		baseCoque: 400,
+		classType: "B",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	saracen: {
-		name: "Saracen",
-		class: "saracen",
-		img: "/images/enhanced/saracen.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	warrior: {
+		name: "Warrior",
+		class: "warrior",
+		img: "/images/chassis/warrior.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "station"
+		baseCoque: 400,
+		classType: "B",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	sonde: {
-		name: "Sonde",
-		class: "sonde",
-		img: "/images/enhanced/sonde.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	centaure: {
+		name: "Centaure",
+		class: "centaure",
+		img: "/images/chassis/centaure.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "A"
+		baseCoque: 400,
+		classType: "B",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	station: {
-		name: "Station",
-		class: "station",
-		img: "/images/enhanced/station.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	minotaure: {
+		name: "Minotaure",
+		class: "minotaure",
+		img: "/images/chassis/minotaure.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "station"
-	},
-	tethys: {
-		name: "Tethys",
-		class: "tethys",
-		img: "/images/enhanced/tethys.png",
+		baseCoque: 400,
+		classType: "B",
+		requiredResearch: [],
 		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
-	},
-	thor: {
-		name: "Thor",
-		class: "thor",
-		img: "/images/enhanced/thor.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
 	titan: {
 		name: "Titan",
 		class: "titan",
-		img: "/images/enhanced/titan.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+		img: "/images/chassis/titan.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "D"
+		baseCoque: 400,
+		classType: "C",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	transporteur: {
-		name: "Transporteur",
-		class: "transporteur",
-		img: "/images/enhanced/transporteur.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	behemoth: {
+		name: "Behemoth",
+		class: "behemoth",
+		img: "/images/chassis/behemoth.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "B"
+		baseCoque: 400,
+		classType: "C",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	triton: {
-		name: "Triton",
-		class: "triton",
-		img: "/images/enhanced/triton.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	hades: {
+		name: "Hades",
+		class: "hades",
+		img: "/images/chassis/hades.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "C"
+		baseCoque: 400,
+		classType: "C",
+		requiredResearch: [],
+		cost: {
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	},
-	tyran: {
-		name: "Tyran",
-		class: "tyran",
-		img: "/images/enhanced/tyran.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
+	leviathan: {
+		name: "Leviathan",
+		class: "leviathan",
+		img: "/images/chassis/leviathan.webp",
+		emplacement: 40,
+		fuelSpace: 1000,
 		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
+			warp: 10,
+			impulse: 10,
+			conso: 0.1,
+			shield: 0
 		},
-		baseCoque: 1000,
-		classType: "D"
-	},
-	valkyrie: {
-		name: "Valkyrie",
-		class: "valkyrie",
-		img: "/images/enhanced/valkyrie.png",
+		baseCoque: 400,
+		classType: "C",
+		requiredResearch: [],
 		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	virus: {
-		name: "Virus",
-		class: "virus",
-		img: "/images/enhanced/virus.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	vortex: {
-		name: "Vortex",
-		class: "vortex",
-		img: "/images/enhanced/vortex.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "B"
-	},
-	voyager: {
-		name: "Voyager",
-		class: "voyager",
-		img: "/images/enhanced/voyager.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "A"
-	},
-	zeus: {
-		name: "Zeus",
-		class: "zeus",
-		img: "/images/enhanced/zeus.png",
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 500,
-			[RESOURCE_TYPES.CUIVRE]: 500,
-			[RESOURCE_TYPES.AZOTE]: 8000
-		},
-		emplacement: 100,
-		fuelSpace: 150_000,
-		multiplier: {
-			warp: 0.25,
-			impulse: 0.3,
-			conso: 15
-		},
-		baseCoque: 1000,
-		classType: "station"
+			[RESOURCE_TYPES.TITANE]: 150,
+			[RESOURCE_TYPES.CUIVRE]: 250,
+			[RESOURCE_TYPES.FER]: 500,
+			[RESOURCE_TYPES.ALUMINUM]: 100,
+			[RESOURCE_TYPES.SILICIUM]: 150,
+			[RESOURCE_TYPES.AZOTE]: 50,
+			[RESOURCE_TYPES.HYDROGENE]: 150
+		}
 	}
+
+	// unpolished
 })
 const getAllStatFromModules = ({
 	ship,

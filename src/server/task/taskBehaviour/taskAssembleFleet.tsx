@@ -17,7 +17,8 @@ const taskAssembleFleet = {
 				shipIds: task.details.shipIds,
 				position: planet?.position as any,
 				name: task.details.name,
-				cargo: {}
+				cargo: {},
+				fuel: 0
 			}
 		})
 	}

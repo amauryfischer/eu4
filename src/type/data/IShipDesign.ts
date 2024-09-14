@@ -1,5 +1,5 @@
-import { IResearch } from "@/services/research/ResearchService"
 import { RESOURCE_TYPES } from "@/services/ResourcesService"
+import { IResearch } from "./IResearch"
 
 type IShipDesign = {
 	class: string

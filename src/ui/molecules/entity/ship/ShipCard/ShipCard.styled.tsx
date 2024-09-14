@@ -78,7 +78,7 @@ export const ExtendedCard = styled.div`
 export const SCard = colored(styled(Card)`
   filter: unset !important;
   position: relative;
-  height: 120px;
+  height: 180px;
   border: 2px var(--color) solid;
   display: flex;
   flex-direction: column;
