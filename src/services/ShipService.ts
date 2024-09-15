@@ -3,10 +3,10 @@ import { RESOURCE_TYPES } from "./ResourcesService"
 import { Research } from "./research/ResearchService"
 import IShip from "@/type/data/IShip"
 import { IModifier } from "@/type/data/IModule"
+import { HOURS, MINUTES } from "@/utils/time"
+import { ResearchChassis } from "./research/chassis/chassisSearch"
 
-const SECONDS = 1000
-const MINUTES = 60 * SECONDS
-const HOURS = 60 * MINUTES 
+
 
 const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 	// polished
@@ -51,7 +51,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		agility: 100,
 		constructTime: 2 * HOURS + 56 * MINUTES,
 		classType: "A",
-		requiredResearch: [],
+		requiredResearch: [ResearchChassis.Navette],
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 500,
 			[RESOURCE_TYPES.CUIVRE]: 1_000,
@@ -79,7 +79,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		agility: 95,
 		constructTime: 3 * HOURS + 55 * MINUTES,
 		classType: "A",
-		requiredResearch: [],
+		requiredResearch: [ResearchChassis.Chasseur],
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 1_500,
 			[RESOURCE_TYPES.CUIVRE]: 1_800,
@@ -104,7 +104,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		},
 		baseCoque: 200,
 		classType: "A",
-		requiredResearch: [],
+		requiredResearch: [ResearchChassis.Corvette],
 		agility: 90,
 		constructTime: 5 * HOURS + 52 * MINUTES,
 		cost: {
@@ -133,7 +133,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		baseCoque: 250,
 		classType: "A",
 		constructTime: 11 * HOURS + 45 * MINUTES,
-		requiredResearch: [],
+		requiredResearch: [ResearchChassis.Fregate],
 		cost: {
 			[RESOURCE_TYPES.TITANE]: 2_500,
 			[RESOURCE_TYPES.CUIVRE]: 2_550,
@@ -151,24 +151,29 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		class: "destroyer",
 		img: "/images/chassis/destroyer.webp",
 		emplacement: 30,
-		fuelSpace: 1000,
+		fuelSpace: 20_000,
 		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
+			warp: 0.85,
+			impulse: 2.5,
+			conso: 1,
+			shield: 1
 		},
 		baseCoque: 300,
 		classType: "A",
-		requiredResearch: [],
+		agility: 80,
+		constructTime: 11 * HOURS + 45 * MINUTES,
+		requiredResearch: [ResearchChassis.Destroyer],
 		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
+			[RESOURCE_TYPES.TITANE]: 3_000,
+			[RESOURCE_TYPES.CUIVRE]: 2_500,
+			[RESOURCE_TYPES.FER]: 750,
+			[RESOURCE_TYPES.ALUMINUM]: 250,
+			[RESOURCE_TYPES.MERCURE]: 1_000,
+			[RESOURCE_TYPES.KRYPTON]: 0,
+			[RESOURCE_TYPES.SILICIUM]: 1_500,
+			[RESOURCE_TYPES.URANIUM]: 2_000,
+			[RESOURCE_TYPES.AZOTE]: 1_500,
+			[RESOURCE_TYPES.HYDROGENE]: 2_000
 		}
 	},
 	croiseur: {
@@ -176,277 +181,284 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		class: "croiseur",
 		img: "/images/chassis/croiseur.webp",
 		emplacement: 40,
-		fuelSpace: 1000,
+		fuelSpace: 35_000,
 		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
+			warp: 1.2,
+			impulse: 1.0,
+			conso: 1,
+			shield: 1
 		},
-		baseCoque: 400,
+		agility: 70,
+		constructTime: 11 * HOURS + 45 * MINUTES,
+		baseCoque: 200,
 		classType: "A",
-		requiredResearch: [],
+		requiredResearch: [ResearchChassis.Croiseur],
 		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	intercepteur: {
-		name: "Intercepteur",
-		class: "intercepteur",
-		img: "/images/chassis/intercepteur.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 1,
-		classType: "A",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-
-	croiseur_intergalactique: {
-		name: "Croiseur Intergalactique",
-		class: "croiseur_intergalactique",
-		img: "/images/chassis/croiseur_intergalactique.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "B",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	croiseur_combat: {
-		name: "Croiseur Combat",
-		class: "croiseur_combat",
-		img: "/images/chassis/croiseur_combat.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "B",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	warrior: {
-		name: "Warrior",
-		class: "warrior",
-		img: "/images/chassis/warrior.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "B",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	centaure: {
-		name: "Centaure",
-		class: "centaure",
-		img: "/images/chassis/centaure.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "B",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	minotaure: {
-		name: "Minotaure",
-		class: "minotaure",
-		img: "/images/chassis/minotaure.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "B",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	titan: {
-		name: "Titan",
-		class: "titan",
-		img: "/images/chassis/titan.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "C",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	behemoth: {
-		name: "Behemoth",
-		class: "behemoth",
-		img: "/images/chassis/behemoth.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "C",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	hades: {
-		name: "Hades",
-		class: "hades",
-		img: "/images/chassis/hades.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "C",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
-		}
-	},
-	leviathan: {
-		name: "Leviathan",
-		class: "leviathan",
-		img: "/images/chassis/leviathan.webp",
-		emplacement: 40,
-		fuelSpace: 1000,
-		multiplier: {
-			warp: 10,
-			impulse: 10,
-			conso: 0.1,
-			shield: 0
-		},
-		baseCoque: 400,
-		classType: "C",
-		requiredResearch: [],
-		cost: {
-			[RESOURCE_TYPES.TITANE]: 150,
-			[RESOURCE_TYPES.CUIVRE]: 250,
-			[RESOURCE_TYPES.FER]: 500,
-			[RESOURCE_TYPES.ALUMINUM]: 100,
-			[RESOURCE_TYPES.SILICIUM]: 150,
-			[RESOURCE_TYPES.AZOTE]: 50,
-			[RESOURCE_TYPES.HYDROGENE]: 150
+			[RESOURCE_TYPES.TITANE]: 4_000,
+			[RESOURCE_TYPES.CUIVRE]: 4_000,
+			[RESOURCE_TYPES.FER]: 4_200,
+			[RESOURCE_TYPES.ALUMINUM]: 500,
+			[RESOURCE_TYPES.MERCURE]: 1_500,
+			[RESOURCE_TYPES.SILICIUM]: 1_800,
+			[RESOURCE_TYPES.URANIUM]: 3_000,
+			[RESOURCE_TYPES.KRYPTON]: 1_000,
+			[RESOURCE_TYPES.AZOTE]: 1_500,
+			[RESOURCE_TYPES.HYDROGENE]: 2_000
 		}
 	}
+
+	// https://eu2opia.fandom.com/wiki/Cruiser
+	// intercepteur: {
+	// 	name: "Intercepteur",
+	// 	class: "intercepteur",
+	// 	img: "/images/chassis/intercepteur.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 1,
+	// 	classType: "A",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+
+	// croiseur_intergalactique: {
+	// 	name: "Croiseur Intergalactique",
+	// 	class: "croiseur_intergalactique",
+	// 	img: "/images/chassis/croiseur_intergalactique.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "B",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// croiseur_combat: {
+	// 	name: "Croiseur Combat",
+	// 	class: "croiseur_combat",
+	// 	img: "/images/chassis/croiseur_combat.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "B",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// warrior: {
+	// 	name: "Warrior",
+	// 	class: "warrior",
+	// 	img: "/images/chassis/warrior.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "B",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// centaure: {
+	// 	name: "Centaure",
+	// 	class: "centaure",
+	// 	img: "/images/chassis/centaure.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "B",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// minotaure: {
+	// 	name: "Minotaure",
+	// 	class: "minotaure",
+	// 	img: "/images/chassis/minotaure.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "B",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// titan: {
+	// 	name: "Titan",
+	// 	class: "titan",
+	// 	img: "/images/chassis/titan.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "C",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// behemoth: {
+	// 	name: "Behemoth",
+	// 	class: "behemoth",
+	// 	img: "/images/chassis/behemoth.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "C",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// hades: {
+	// 	name: "Hades",
+	// 	class: "hades",
+	// 	img: "/images/chassis/hades.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "C",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// },
+	// leviathan: {
+	// 	name: "Leviathan",
+	// 	class: "leviathan",
+	// 	img: "/images/chassis/leviathan.webp",
+	// 	emplacement: 40,
+	// 	fuelSpace: 1000,
+	// 	multiplier: {
+	// 		warp: 10,
+	// 		impulse: 10,
+	// 		conso: 0.1,
+	// 		shield: 0
+	// 	},
+	// 	baseCoque: 400,
+	// 	classType: "C",
+	// 	requiredResearch: [],
+	// 	cost: {
+	// 		[RESOURCE_TYPES.TITANE]: 150,
+	// 		[RESOURCE_TYPES.CUIVRE]: 250,
+	// 		[RESOURCE_TYPES.FER]: 500,
+	// 		[RESOURCE_TYPES.ALUMINUM]: 100,
+	// 		[RESOURCE_TYPES.SILICIUM]: 150,
+	// 		[RESOURCE_TYPES.AZOTE]: 50,
+	// 		[RESOURCE_TYPES.HYDROGENE]: 150
+	// 	}
+	// }
 
 	// unpolished
 })

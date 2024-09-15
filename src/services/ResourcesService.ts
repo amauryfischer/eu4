@@ -1,13 +1,15 @@
 export enum RESOURCE_TYPES {
-	TITANE = "Titane",
-	CUIVRE = "Cuivre",
-	FER = "Fer",
-	ALUMINUM = "Aluminium",
-	SILICIUM = "Silicium",
-	URANIUM = "Uranium",
-	AZOTE = "Azote",
-	HYDROGENE = "Hydrogène"
-}
+		TITANE = "Titane",
+		CUIVRE = "Cuivre",
+		FER = "Fer",
+		ALUMINUM = "Aluminium",
+		SILICIUM = "Silicium",
+		URANIUM = "Uranium",
+		AZOTE = "Azote",
+		HYDROGENE = "Hydrogène",
+		MERCURE = "Mercure",
+		KRYPTON = "Krypton"
+	}
 export type IResource = {
 	name: RESOURCE_TYPES
 	img: string

@@ -9,10 +9,11 @@ export enum IResearchType {
 }
 
 export interface IResearch {
-	name: string
-	description: string
-	type: IResearchType
-	time: number
-	required: string[]
-	id: string
-}
+		name: string
+		description: string
+		type: IResearchType
+		time: number
+		required: string[]
+		id: string
+		researchBuildingLevel: number
+	}
