@@ -32,6 +32,7 @@ const taskBuildShip = {
 			.toDate()
 	},
 	onDestroy: async (task: ITaskBuildShip) => {
+		console.log("🚀 Space ship created")
 		await db.ship.create({
 			data: {
 				class: task.details.class,

@@ -1,5 +1,8 @@
 import db from "@/app/db"
 import ResourcesService from "@/services/ResourcesService"
+
+const MULTIPLIER = process.env.FAST === "true" ? 10 : 1
+
 const syncDataPlanet = async () => {
 	const planets = await db.planet.findMany()
 	planets.forEach(async (planet) => {
@@ -19,7 +22,8 @@ const syncDataPlanet = async () => {
 						Titane:
 							planet.resources.Titane +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Titane * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Titane * 100 * MULTIPLIER,
 								level: planet?.mines?.Titane || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -27,7 +31,8 @@ const syncDataPlanet = async () => {
 						Cuivre:
 							planet.resources.Cuivre +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Cuivre * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Cuivre * 100 * MULTIPLIER,
 								level: planet?.mines?.Cuivre || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -35,7 +40,7 @@ const syncDataPlanet = async () => {
 						Fer:
 							planet.resources.Fer +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Fer * 100,
+								percentage: planet?.resourcesMultiplier?.Fer * 100 * MULTIPLIER,
 								level: planet?.mines?.Fer || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -43,7 +48,8 @@ const syncDataPlanet = async () => {
 						Aluminium:
 							planet.resources.Aluminium +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Aluminium * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Aluminium * 100 * MULTIPLIER,
 								level: planet?.mines?.Aluminium || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -51,7 +57,8 @@ const syncDataPlanet = async () => {
 						Silicium:
 							planet.resources.Silicium +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Silicium * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Silicium * 100 * MULTIPLIER,
 								level: planet?.mines?.Silicium || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -59,7 +66,8 @@ const syncDataPlanet = async () => {
 						Uranium:
 							planet.resources.Uranium +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Uranium * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Uranium * 100 * MULTIPLIER,
 								level: planet?.mines?.Uranium || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -67,7 +75,8 @@ const syncDataPlanet = async () => {
 						Azote:
 							planet.resources.Azote +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Azote * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Azote * 100 * MULTIPLIER,
 								level: planet?.mines?.Azote || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /
@@ -75,7 +84,8 @@ const syncDataPlanet = async () => {
 						Hydrogène:
 							planet.resources.Hydrogène +
 							(ResourcesService.calculateResourceSpeed({
-								percentage: planet?.resourcesMultiplier?.Hydrogène * 100,
+								percentage:
+									planet?.resourcesMultiplier?.Hydrogène * 100 * MULTIPLIER,
 								level: planet?.mines?.Hydrogène || 1
 							}) *
 								(Date.now() - parsedLastPlanetSync)) /

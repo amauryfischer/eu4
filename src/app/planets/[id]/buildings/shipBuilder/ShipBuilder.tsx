@@ -27,7 +27,7 @@ import Inventory2Icon from "@mui/icons-material/Inventory2"
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import SecurityIcon from "@mui/icons-material/Security"
-import { Input, Spacer, Tab, Tabs } from "@nextui-org/react"
+import { Image, Input, Spacer, Tab, Tabs } from "@nextui-org/react"
 import ModuleShipBuilder from "./ModuleShipBuilder"
 import {
 	ColoredAvailableResource,
@@ -155,13 +155,10 @@ const ShipBuilder = ({
 			<Container>
 				<Flex direction="column">
 					<Flex gap="1rem" justifyContent="space-between">
-						<SAvatar
-							height={200}
-							width={200}
+						<Image
 							src={currentShipClass.img}
-							squared
-							bordered
-							radius="md"
+							alt={currentShipClass.name}
+							height={200}
 						/>
 
 						<Flex direction="column" gap="0.25rem">

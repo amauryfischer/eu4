@@ -108,7 +108,7 @@ const PlanetSpatioport = () => {
 						(task: ITask) =>
 							task.type === TaskType.ASSEMBLE_FLEET &&
 							task.details.shipIds.includes(ship.id)
-					)
+					).length > 0
 				) {
 					return null
 				}

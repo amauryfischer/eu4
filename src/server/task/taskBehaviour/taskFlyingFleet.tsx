@@ -4,6 +4,7 @@ import db from "@/app/db"
 import { IFleet } from "@/type/data/IFleet"
 import IShip from "@/type/data/IShip"
 import UniverseService from "@/services/UniverseService"
+import FleetService from "@/services/FleetService"
 
 const taskFlyingFleet = {
 	onCreate: async (task: ITaskFlyingFleet) => {
@@ -23,13 +24,16 @@ const taskFlyingFleet = {
 			positionInitial: fleet.position,
 			ships
 		})
+		const fuelConsumption = FleetService.getFuelConsumption({ ships })
+		const fuelConsumptionTravel = fuelConsumption * timeToAdd
 
-		await db.task.update({
+		
+		await db.fleet.update({
 			where: {
-				id: task.id
+				id: fleet.id
 			},
 			data: {
-				endDate: moment().add(timeToAdd, "seconds").format()
+				fuel: fleet.fuel - fuelConsumptionTravel
 			}
 		})
 

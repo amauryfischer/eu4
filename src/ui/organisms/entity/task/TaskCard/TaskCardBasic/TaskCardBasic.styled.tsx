@@ -20,7 +20,7 @@ export const StyledProgress = styled(BProgress)`
     left: 0;
     z-index: 10;
     width: 100%;
-    height: 0.9rem;
+    height: 0.5rem;
     border-radius: 0.5rem;
     & > div {
         border-radius: 0.5rem;

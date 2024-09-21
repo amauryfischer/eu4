@@ -92,7 +92,10 @@ const TaskCard = ({ task }: { task: ITask }) => {
 				/>
 			)}
 			{task.type === TaskType.ASSEMBLE_FLEET && (
-				<TaskAssembleFleet task={task as unknown as ITaskAssembleFleet} />
+				<TaskAssembleFleet
+					task={task as unknown as ITaskAssembleFleet}
+					progress={progress}
+				/>
 			)}
 			{task.type === TaskType.BUILD_SHIP && (
 				<TaskBuildShip
@@ -109,7 +112,6 @@ const TaskCard = ({ task }: { task: ITask }) => {
 			{task.type === TaskType.UPGRADE_RESOURCE && (
 				<TaskUpgradeResource
 					progress={progress}
-					icon={<Mine width="24px" />}
 					color="caramel300"
 					task={task as unknown as ITaskUpgradeResource}
 				/>

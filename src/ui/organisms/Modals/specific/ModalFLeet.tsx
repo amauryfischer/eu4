@@ -1,5 +1,5 @@
 "use client"
-import { Slider, SliderValue } from "@nextui-org/react"
+import { Image, Slider, SliderValue } from "@nextui-org/react"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import styled from "styled-components"
@@ -38,6 +38,8 @@ import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
 import { TaskType } from "@prisma/client"
 import moment from "moment"
+import FuelBar from "../../entity/fleet/FuelBar"
+import FleetService from "@/services/FleetService"
 
 const GridContainer = styled.div`
   display: grid;
@@ -191,29 +193,38 @@ const ModalFleet = () => {
 					</ModalHeader>
 					<ModalBody>
 						<Flex gap="1rem">
-							<Flex direction="column" gap="1rem">
+							<Flex direction="column" gap="1rem" wrap="wrap">
 								{shipIds.map((shipId, index) => {
 									const img =
 										ShipService.getAllShips()[ships?.[shipId]?.class]?.img
 									return (
-										<BAvatar
-											key={index}
-											radius="lg"
+										<Image
+											isBlurred
+											isZoomed
+											key={shipId}
 											src={img}
-											color="success"
-											className="w-12 h-12 text-large"
+											width={500 / shipIds.length}
+											alt={ships?.[shipId]?.name}
 											onClick={() => {
 												dispatch(setCurrentShip(shipId))
 											}}
 										/>
 									)
 								})}
-							</Flex>
-							<Flex direction="column">
 								{!isOpeningSoute && (
 									<RenderResources resources={currentFleet?.cargo} />
 								)}
-								<Flex gap="0.5rem">
+								<FuelBar
+									progress={
+										(currentFleet?.fuel * 100) /
+										FleetService.getTotalFuel({
+											ships: shipIds.map((shipId) => ships[shipId])
+										})
+									}
+								/>
+							</Flex>
+							<Flex direction="column">
+								<Flex gap="0.5rem" className="max-w-[500px]">
 									<Input
 										value={system?.toString()}
 										onValueChange={(e) => setSystem(e)}

@@ -21,32 +21,34 @@ import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton";
 import Spaceship from "@/ui/fondations/icons/Spaceship";
 import BModal from "@/ui/molecules/modal/BModal";
 import {
+	Image,
 	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
-	ModalHeader,
-} from "@nextui-org/react";
+	ModalHeader
+} from "@nextui-org/react"
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import FuelBar from "../../entity/fleet/FuelBar"
+import FleetService from "@/services/FleetService"
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px 100px 140px 250px;
+  grid-template-columns: 300px 100px 140px 300px 100px;
   grid-gap: 10px;
   width: 100%;
   height: 100%;
   justify-content: center;
   align-items: center;
-`;
+`
 const ModalSendPosition = () => {
 	const fleets = useFleets();
 	const ships = useShips();
 	const currentSendPosition = useCurrentSendPosition();
-	const dispatch = useDispatch();
-	const { updateFleet } = useFleetsActions();
+	const dispatch = useDispatch()
 	const { fetchTasks, createTask } = useTasksActions();
 	const tasks = useTasks();
 	const user = useCurrentUser();
@@ -74,12 +76,15 @@ const ModalSendPosition = () => {
 							);
 							return (
 								<React.Fragment key={fleet.id}>
-									<BAvatar
+									<Image
+										isZoomed
+										isBlurred
+										width={200}
 										src={ShipService.getAllShips()[ships?.[shipId]?.class]?.img}
 										className="w-32 h-32"
 										radius="lg"
 										onClick={() => {
-											dispatch(setCurrentFleet(fleet.id));
+											dispatch(setCurrentFleet(fleet.id))
 										}}
 									/>
 									<div>{fleet.name}</div>
@@ -92,6 +97,15 @@ const ModalSendPosition = () => {
 										{":"}
 										{fleet.position.systemPosition.z}
 									</div>
+									<FuelBar
+										progress={
+											(fleet.fuel * 100) /
+											FleetService.getTotalFuel({
+												ships: fleet.shipIds.map((shipId) => ships[shipId])
+											})
+										}
+										className="max-w-[100px]"
+									/>
 									{isFlying && (
 										<Flex gap="1rem" alignItems="center">
 											<Spaceship /> <div>Voyage en cours</div>
@@ -118,20 +132,20 @@ const ModalSendPosition = () => {
 															systemPosition: {
 																x: currentSendPosition.systemPosition.x,
 																y: currentSendPosition.systemPosition.y,
-																z: currentSendPosition.systemPosition.z,
-															},
+																z: currentSendPosition.systemPosition.z
+															}
 														},
-														fleetId: fleet.id,
+														fleetId: fleet.id
 													},
-													userId: user.id,
-												});
-												fetchTasks();
+													userId: user.id
+												})
+												fetchTasks()
 											}}
 											title="Envoyer"
 										/>
 									)}
 								</React.Fragment>
-							);
+							)
 						})}
 					</GridContainer>
 				</ModalBody>

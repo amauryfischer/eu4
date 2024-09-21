@@ -11,6 +11,8 @@ import { Avatar, AvatarGroup } from "@nextui-org/react"
 import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import { TaskType } from "@/type/data/ITask"
 import moment from "moment"
+import FuelBar from "../FuelBar"
+import FleetService from "@/services/FleetService"
 
 const ListFleet = ({
 	fleets,
@@ -20,7 +22,7 @@ const ListFleet = ({
 	const dispatch = useDispatch()
 	const tasks = useTasks()
 	return (
-		<FleetGridContainer numberOfRows={additionalRows === undefined ? 3 : 5}>
+		<FleetGridContainer numberOfRows={additionalRows === undefined ? 4 : 6}>
 			{fleets.map((fleet) => {
 				const shipList = fleet.shipIds.map((shipId) => ships[shipId])
 				const shipClasses = shipList.map(
@@ -45,6 +47,14 @@ const ListFleet = ({
 							))}
 						</AvatarGroup>
 						<div className="text-lg font-bold text-white">{fleet.name}</div>
+						<FuelBar
+							progress={
+								(fleet?.fuel * 100) /
+								FleetService.getTotalFuel({
+									ships: fleet.shipIds.map((shipId) => ships[shipId])
+								})
+							}
+						/>
 						{assembleFleetTask ? (
 							<div className="text-white">
 								Décollage... en orbite dans :{" "}

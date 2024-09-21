@@ -29,7 +29,7 @@ const PlanetResearch = () => {
 		createTask({
 			type: TaskType.RESEARCH,
 			endDate: moment()
-				.add(ResearchService.allResearch[researchId].time, "minutes")
+				.add(ResearchService.allResearch[researchId].time, "milliseconds")
 				.toISOString(),
 			userId: user?.id,
 			details: {

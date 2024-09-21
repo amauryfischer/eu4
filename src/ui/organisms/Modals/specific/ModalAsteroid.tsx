@@ -17,7 +17,7 @@ import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
 import CollectButton from "@/ui/atoms/buttons/CollectButton"
 import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
 import BModal from "@/ui/molecules/modal/BModal"
-import ListFleet from "@/ui/organisms/ListFleet"
+import ListFleet from "@/ui/organisms/entity/fleet/ListFleet"
 import RenderResources from "@/ui/organisms/RenderResources"
 import {
 	ModalBody,

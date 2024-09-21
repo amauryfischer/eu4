@@ -12,30 +12,19 @@ import {
 	StyledProgress,
 	TaskContainer
 } from "../TaskFlyingFleet/TaskFlyingFleet.styled"
-import Moment from "moment"
+import TaskCardBasic from "../TaskCardBasic/TaskCardBasic"
 const TaskBuildShip = ({
 	task,
 	progress
 }: { task: ITaskBuildShip; progress: number }) => {
-	const remainingTime = Moment(task.endDate).diff(Moment())
-	const readableRemainingTime = Moment.duration(remainingTime).humanize()
 	return (
-		<TaskContainer $color="blue">
-			<Image
-				src={ShipService.getAllShips()[task.details.class]?.img}
-				width="100%"
-				height={200}
-			/>
-			<SpaceShipContainer>
-				<Mine width="36px" />
-			</SpaceShipContainer>
-			<RemainingTime>{readableRemainingTime}</RemainingTime>
-			<StyledProgress
-				aria-label="Loading..."
-				value={progress}
-				className="max-w-md"
-			/>
-		</TaskContainer>
+		<TaskCardBasic
+			task={task}
+			progress={progress}
+			icon={<Mine />}
+			color="blue"
+			imgSrc={ShipService.getAllShips()[task.details.class]?.img}
+		/>
 	)
 }
 

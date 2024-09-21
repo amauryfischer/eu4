@@ -25,35 +25,39 @@ import ShipStats from "@/ui/molecules/entity/ship/ShipStats";
 import BModal from "@/ui/molecules/modal/BModal";
 import { Dialog } from "@mui/material";
 import {
+	Image,
 	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
-	ModalHeader,
-} from "@nextui-org/react";
+	ModalHeader
+} from "@nextui-org/react"
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const ModalShip = () => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
-	const currentShip = useCurrentShip();
-	if (!currentShip) return null;
+	const currentShip = useCurrentShip()
+	if (!currentShip) return null
 	return (
 		<BModal
 			size={"5xl"}
 			isOpen={!!currentShip}
 			onOpenChange={() => {
-				dispatch(setCurrentShip(undefined));
+				dispatch(setCurrentShip(undefined))
 			}}
 			scrollBehavior="inside"
 			title="Selectionnez une flotte"
 		>
 			<ModalContent>
 				<ModalHeader>
-					<BAvatar src={ShipService.getAllShips()[currentShip.class].img} />
+					<Image
+						height={200}
+						src={ShipService.getAllShips()[currentShip.class].img}
+					/>
 					Vaisseau : {currentShip?.name}
 				</ModalHeader>
 				<ModalBody>
@@ -68,7 +72,7 @@ const ModalShip = () => {
 				</ModalFooter>
 			</ModalContent>
 		</BModal>
-	);
+	)
 };
 
 export default ModalShip;

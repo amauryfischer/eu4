@@ -8,8 +8,6 @@ import { generateInitialValues } from "./initialData"
 import scheduleTask from "./task/scheduleTask"
 import syncDataPlanet from "./utils/syncDataPlanet"
 
-const RESOURCES_MINING_MULTIPLIER = 50
-
 const deleteEveryThing = async () => {
 	console.log("🚮 Droping the base")
 	await db.task.deleteMany()
@@ -26,45 +24,45 @@ export const fetchServerData = async (
 	session: Session
 ) => {
 	// delete all data
-	//await deleteEveryThing()
+		//await deleteEveryThing()
 
-	// ? delete finished task if finished
-	const tasks = await db.task.findMany()
-	tasks.forEach(async (task) => {
-		const endDate = moment(task.endDate).add("5", "minute")
-		if (endDate.isBefore(moment())) {
-			console.log("deleting task : ", task.id)
-			await db.task.delete({
-				where: {
-					id: task.id
-				}
-			})
+		// ? delete finished task if finished
+		const tasks = await db.task.findMany()
+		tasks.forEach(async (task) => {
+			const endDate = moment(task.endDate).add("5", "minute")
+			if (endDate.isBefore(moment())) {
+				console.log("deleting task : ", task.id)
+				await db.task.delete({
+					where: {
+						id: task.id
+					}
+				})
+			}
+		})
+
+		const prismaType = type.toLowerCase() as any
+
+		if (type === "Planet") {
+			await syncDataPlanet()
 		}
-	})
 
-	const prismaType = type.toLowerCase() as any
-
-	if (type === "Planet") {
-		await syncDataPlanet()
-	}
-
-	if (type === "User") {
-		if (session) {
-			const user = await db.user.findUnique({
-				where: {
-					email: session.user.email
-				}
-			})
-			return [user]
+		if (type === "User") {
+			if (session) {
+				const user = await db.user.findUnique({
+					where: {
+						email: session.user.email
+					}
+				})
+				return [user]
+			}
 		}
-	}
 
-	// @ts-ignore
-	const data = await db[prismaType].findMany()
-	if (type === "Planet" && data.length === 0) {
-		generateInitialValues()
-	}
-	return data
+		// @ts-ignore
+		const data = await db[prismaType].findMany()
+		if (type === "Planet" && data.length === 0) {
+			generateInitialValues()
+		}
+		return data
 }
 
 export const updateServerData = async (type: any, id: any, data: any) => {

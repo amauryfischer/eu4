@@ -124,7 +124,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Cargo XL 230",
 		// TODO replace lorem
 		description:
-			"Un cargo immense, il peut contenir 100 000 ressources différentes",
+			"Un cargo immense, il peut contenir 230 000 ressources différentes",
 		img: "/images/modules/cargo/cargo_xl.webp",
 		type: IModuleType.CARGO,
 		emplacement: 19,
@@ -145,11 +145,11 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		requiredResearch: [Research.CARGOXL]
 	},
 	cargoXL270: {
-		id: "cargoXL",
-		name: "Cargo XL",
+		id: "cargoXL270",
+		name: "Cargo XL 270",
 		// TODO replace lorem
 		description:
-			"Un cargo immense, il peut contenir 100 000 ressources différentes",
+			"Un cargo immense, il peut contenir 270 000 ressources différentes",
 		img: "/images/modules/cargo/cargo_xl.webp",
 		type: IModuleType.CARGO,
 		emplacement: 19,
