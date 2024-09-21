@@ -3,7 +3,8 @@ import { IResearchType } from "@/type/data/IResearch"
 export const ResearchCargo = {
 	CARGOM: "cargom",
 	CARGOL: "cargol",
-	CARGOXL: "cargoxl"
+	CARGOXL: "cargoxl",
+	CARGOXL230: "cargoxl230"
 }
 
 export const cargoSearch = {
@@ -33,5 +34,12 @@ export const cargoSearch = {
 		time: 300,
 		required: [ResearchCargo.CARGOL],
 		id: ResearchCargo.CARGOXL
+	},
+	[ResearchCargo.CARGOXL230]: {
+		name: "Optimisation de stockage 230K",
+		description: "Optimisation de stockage 230K",
+		type: IResearchType.CARGO,
+		time: 350,
+		required: [ResearchCargo.CARGOXL230]
 	}
 }

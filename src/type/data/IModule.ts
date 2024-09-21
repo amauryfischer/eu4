@@ -1,4 +1,4 @@
-import { IResearch } from "@/services/research/ResearchService"
+import { IResearch } from "./IResearch"
 
 export enum IModifier {
 	IMPULSION = "impulsion",
@@ -25,7 +25,7 @@ export interface IModule {
 		type: string
 		img: string
 		emplacement: number
-		modifier?: Record<IModifier, number>
+		modifier?: Partial<Record<IModifier, number>>
 		weapon?: {
 			type: IDamage
 			damage: number

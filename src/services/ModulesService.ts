@@ -27,17 +27,21 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			"Un cargo de base, il peut contenir 10 000 ressources différentes",
 		img: "/images/modules/cargo/cargo_s.webp",
 		type: IModuleType.CARGO,
-		emplacement: 5,
+		emplacement: 1,
+		requiredResearch: [],
 		modifier: {
-			[IModifier.CARGO]: 10_000,
+			[IModifier.CARGO]: 5_000,
 			[IModifier.CONSO]: 100
 		},
 		cost: {
-			[TITANE.name]: 1_500,
-			[CUIVRE.name]: 3_000,
-			[AZOTE.name]: 800,
-			[FER.name]: 1_400,
-			[SILICIUM.name]: 3_800
+			[TITANE.name]: 350,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 500,
+			[FER.name]: 0,
+			[URANIUM.name]: 250,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 350,
+			[HYDROGENE.name]: 0
 		}
 	},
 	cargom: {
@@ -48,17 +52,20 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			"Un cargo moyen, il peut contenir 25 000 ressources différentes",
 		img: "/images/modules/cargo/cargo_m.webp",
 		type: IModuleType.CARGO,
-		emplacement: 10,
+		emplacement: 3,
 		modifier: {
-			[IModifier.CARGO]: 25_000,
+			[IModifier.CARGO]: 18_000,
 			[IModifier.CONSO]: 200
 		},
 		cost: {
-			[TITANE.name]: 3_500,
-			[CUIVRE.name]: 7_000,
-			[AZOTE.name]: 2_00,
-			[FER.name]: 3_000,
-			[SILICIUM.name]: 5_900
+			[TITANE.name]: 900,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 1_300,
+			[FER.name]: 0,
+			[URANIUM.name]: 700,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 800,
+			[HYDROGENE.name]: 0
 		},
 		requiredResearch: [Research.CARGOM]
 	},
@@ -70,17 +77,20 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			"Un cargo lourd, il peut contenir 50 000 ressources différentes",
 		img: "/images/modules/cargo/cargo_l.webp",
 		type: IModuleType.CARGO,
-		emplacement: 10,
+		emplacement: 9,
 		modifier: {
-			[IModifier.CARGO]: 50_000,
+			[IModifier.CARGO]: 70_000,
 			[IModifier.CONSO]: 300
 		},
 		cost: {
-			[TITANE.name]: 3_500,
-			[CUIVRE.name]: 7_000,
-			[AZOTE.name]: 2_00,
-			[FER.name]: 3_000,
-			[SILICIUM.name]: 5_900
+			[TITANE.name]: 4_000,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 6_000,
+			[FER.name]: 0,
+			[URANIUM.name]: 2_500,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 3_500,
+			[HYDROGENE.name]: 0
 		},
 		requiredResearch: [Research.CARGOL]
 	},
@@ -92,20 +102,124 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			"Un cargo immense, il peut contenir 100 000 ressources différentes",
 		img: "/images/modules/cargo/cargo_xl.webp",
 		type: IModuleType.CARGO,
-		emplacement: 10,
+		emplacement: 20,
+		modifier: {
+			[IModifier.CARGO]: 200_000,
+			[IModifier.CONSO]: 200
+		},
+		cost: {
+			[TITANE.name]: 23_000,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 29_000,
+			[FER.name]: 0,
+			[URANIUM.name]: 11_000,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 14_000,
+			[HYDROGENE.name]: 0
+		},
+		requiredResearch: [Research.CARGOXL]
+	},
+	cargoXL230: {
+		id: "cargoXL230",
+		name: "Cargo XL 230",
+		// TODO replace lorem
+		description:
+			"Un cargo immense, il peut contenir 100 000 ressources différentes",
+		img: "/images/modules/cargo/cargo_xl.webp",
+		type: IModuleType.CARGO,
+		emplacement: 19,
+		modifier: {
+			[IModifier.CARGO]: 230_000,
+			[IModifier.CONSO]: 200
+		},
+		cost: {
+			[TITANE.name]: 27_000,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 30_000,
+			[FER.name]: 0,
+			[URANIUM.name]: 13_000,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 17_000,
+			[HYDROGENE.name]: 0
+		},
+		requiredResearch: [Research.CARGOXL]
+	},
+	cargoXL270: {
+		id: "cargoXL",
+		name: "Cargo XL",
+		// TODO replace lorem
+		description:
+			"Un cargo immense, il peut contenir 100 000 ressources différentes",
+		img: "/images/modules/cargo/cargo_xl.webp",
+		type: IModuleType.CARGO,
+		emplacement: 19,
+		modifier: {
+			[IModifier.CARGO]: 270_000,
+			[IModifier.CONSO]: 200
+		},
+		cost: {
+			[TITANE.name]: 33_000,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 41_000,
+			[FER.name]: 0,
+			[URANIUM.name]: 20_000,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 21_000,
+			[HYDROGENE.name]: 0
+		},
+		requiredResearch: [Research.CARGOXL]
+	},
+	cargoMini: {
+		id: "cargoMini",
+		name: "Cargo Mini",
+		// TODO replace lorem
+		description:
+			"Un cargo mini, il peut contenir 10 000 ressources différentes",
+		img: "/images/modules/cargo/cargo_mini.webp",
+		type: IModuleType.CARGO,
+		emplacement: 4,
 		modifier: {
 			[IModifier.CARGO]: 100_000,
 			[IModifier.CONSO]: 200
 		},
 		cost: {
-			[TITANE.name]: 3_500,
-			[CUIVRE.name]: 7_000,
-			[AZOTE.name]: 2_00,
-			[FER.name]: 3_000,
-			[SILICIUM.name]: 5_900
+			[TITANE.name]: 8_000,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 12_000,
+			[FER.name]: 0,
+			[URANIUM.name]: 4_000,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 5_500,
+			[HYDROGENE.name]: 0
 		},
 		requiredResearch: [Research.CARGOXL]
 	},
+	cargoJumbo: {
+		id: "cargoJumbo",
+		name: "Cargo Jumbo",
+		// TODO replace lorem
+		description:
+			"Un cargo immense, il peut contenir 100 000 ressources différentes",
+		img: "/images/modules/cargo/cargo_xl.webp",
+		type: IModuleType.CARGO,
+		emplacement: 35,
+		modifier: {
+			[IModifier.CARGO]: 100_000,
+			[IModifier.CONSO]: 200
+		},
+		cost: {
+			[TITANE.name]: 140_000,
+			[CUIVRE.name]: 0,
+			[ALUMINUM.name]: 180_000,
+			[FER.name]: 0,
+			[URANIUM.name]: 70_000,
+			[SILICIUM.name]: 0,
+			[AZOTE.name]: 80_000,
+			[HYDROGENE.name]: 0
+		},
+		requiredResearch: [Research.CARGOXL]
+	},
+
 	laser1: {
 		id: "laser1",
 		name: "Laser 1",
