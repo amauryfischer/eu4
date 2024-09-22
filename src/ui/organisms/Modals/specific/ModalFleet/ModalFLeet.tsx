@@ -50,6 +50,7 @@ import moment from "moment"
 import FuelBar from "../../../entity/fleet/FuelBar"
 import FleetService from "@/services/FleetService"
 import ModalFleetCargo from "./ModalFleetCargo"
+import ModalFleetFuel from "./ModalFleetFuel"
 
 const ModalFleet = () => {
 	const currentFleet = useCurrentFleet()
@@ -63,6 +64,7 @@ const ModalFleet = () => {
 	const fetParcels = useParcelsActions()
 	const ships = useShips()
 	const [isOpeningSoute, setIsOpeningSoute] = useState(false)
+	const [isOpeningFuel, setIsOpeningFuel] = useState(false)
 
 	const planets = usePlanets()
 	const { updateFleet } = useFleetsActions()
@@ -129,7 +131,6 @@ const ModalFleet = () => {
 						<Flex gap="1rem" fullWidth justifyContent="space-between">
 							<Flex gap="1rem" wrap="wrap" direction="column">
 								{shipIds.map((shipId, index) => {
-									const numberOfNeededRows = Math.ceil((shipIds.length + 1) / 3)
 									const img =
 										ShipService.getAllShips()[ships?.[shipId]?.class]?.img
 									return (
@@ -138,7 +139,7 @@ const ModalFleet = () => {
 											isZoomed
 											key={shipId}
 											src={img}
-											width={100}
+											width={200}
 											alt={ships?.[shipId]?.name}
 											onClick={() => {
 												dispatch(setCurrentShip(shipId))
@@ -147,7 +148,7 @@ const ModalFleet = () => {
 									)
 								})}
 							</Flex>
-							{!isOpeningSoute && (
+							{!isOpeningSoute && !isOpeningFuel && (
 								<Flex direction="column" gap="1rem">
 									<Flex direction="column">
 										<div className="text-white">Carburant</div>
@@ -231,24 +232,18 @@ const ModalFleet = () => {
 						isOpeningSoute && (
 							<ModalFleetCargo setIsOpeningSoute={setIsOpeningSoute} />
 						)}
-					{!isOpeningSoute && (
+					{remainingPlanet.length > 0 &&
+						remainingPlanet[0].userId === user.id &&
+						isOpeningFuel && (
+							<ModalFleetFuel setIsOpeningFuel={setIsOpeningFuel} />
+						)}
+					{!isOpeningSoute && !isOpeningFuel && (
 						<ModalFooter>
 							<>
 								<CloseElementButton
 									onPress={() => dispatch(setCurrentFleet(undefined))}
 								/>
-								<Popover>
-									<PopoverTrigger>
-										<Button color="primary" variant="bordered">
-											Réservoir
-										</Button>
-									</PopoverTrigger>
-									<PopoverContent>
-										<div className="p-4">
-											<Slider />
-										</div>
-									</PopoverContent>
-								</Popover>
+
 								{!isOpeningSoute && (
 									<>
 										{remainingPlanet.length > 0 && (
@@ -260,6 +255,17 @@ const ModalFleet = () => {
 												}}
 											>
 												Remplir la soute
+											</Button>
+										)}
+										{remainingPlanet.length > 0 && (
+											<Button
+												color="cyan"
+												variant="bordered"
+												onClick={() => {
+													setIsOpeningFuel(true)
+												}}
+											>
+												Remplir le carburant
 											</Button>
 										)}
 									</>

@@ -16,6 +16,11 @@
 		"plugins": [
 			{
 				"name": "next"
+			},
+			{
+				"name": "ts-plugin-sort-import-suggestions",
+				"moveUpPatterns": ["@/", "@/nextui-org/", "\\.{1,2}/"],
+				"moveDownPatterns": ["@/mui/", "dist", "node_modules"]
 			}
 		],
 		"paths": {

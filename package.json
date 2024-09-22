@@ -45,6 +45,7 @@
 		"react-xarrows": "^2.0.2",
 		"styled-components": "^6.1.11",
 		"three": "^0.168.0",
+		"ts-plugin-sort-import-suggestions": "^1.0.4",
 		"uuid": "^10.0.0",
 		"yup": "^1.4.0"
 	},

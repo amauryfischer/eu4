@@ -116,7 +116,7 @@ const ModalFleetCargo = ({
 	}, [oldFleetCargo])
 
 	if (!orbitPlanet) {
-		return <>vide</>
+		return null
 	}
 
 	return (

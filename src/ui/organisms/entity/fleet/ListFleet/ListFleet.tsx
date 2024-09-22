@@ -28,7 +28,7 @@ const ListFleet = ({
 	const dispatch = useDispatch()
 	const tasks = useTasks()
 	return (
-		<FleetGridContainer numberOfRows={additionalRows === undefined ? 4 : 6}>
+		<FleetGridContainer numberOfRows={additionalRows === undefined ? 5 : 7}>
 			{fleets.map((fleet) => {
 				const shipList = fleet.shipIds.map((shipId) => ships[shipId])
 				const shipClasses = shipList.map(
@@ -53,6 +53,11 @@ const ListFleet = ({
 							))}
 						</AvatarGroup>
 						<div className="text-lg font-bold text-white">{fleet.name}</div>
+						<div className="text-white">
+							{fleet.position?.system}:{fleet.position?.systemPosition.x}:
+							{fleet.position?.systemPosition.y}:
+							{fleet.position?.systemPosition.z}
+						</div>
 						<FuelBar
 							progress={
 								(fleet?.fuel * 100) /
