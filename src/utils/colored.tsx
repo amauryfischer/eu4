@@ -2,6 +2,28 @@ import shadow from "@/ui/fondations/shadow"
 import { ComponentType, ReactNode } from "react"
 import styled, { css } from "styled-components"
 
+type IColor =
+	| "emerald"
+	| "cyan"
+	| "blue"
+	| "red"
+	| "caramel"
+	| "yellow"
+	| "green"
+	| "brown"
+	| "orange"
+	| "purple"
+	| "grey"
+	| "white"
+
+export interface ColoredProps {
+	$backgroundColor?: IColor
+	$textColor?: IColor
+	$borderColor?: IColor
+	$color?: IColor
+	$fontSize?: string
+}
+
 const colored = (Component: ComponentType<any>) => styled(Component)<{
 	color?: string
 	backgroundColor?: string
@@ -33,7 +55,7 @@ const colored = (Component: ComponentType<any>) => styled(Component)<{
             `
 			// if color not same as colorxxx then analyze xxx and if xxx > 500 then text-color white, else text-color black
 			if (color !== colorXXX) {
-				if (parseInt(xxx) > 500) {
+				if (Number.parseInt(xxx) > 500) {
 					css += `
                         --text-color: white;
                     `
@@ -66,7 +88,7 @@ const colored = (Component: ComponentType<any>) => styled(Component)<{
                 );
             `
 			if (backgroundColor !== backgroundColorXXX) {
-				if (parseInt(backgroundColorXXX?.replace(/\D+/, "")) > 500) {
+				if (Number.parseInt(backgroundColorXXX?.replace(/\D+/, "")) > 500) {
 					css += `
                         --text-color: white;
                     `

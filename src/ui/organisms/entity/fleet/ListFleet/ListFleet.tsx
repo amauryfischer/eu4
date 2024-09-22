@@ -3,16 +3,22 @@ import React from "react"
 import { FleetGridContainer } from "./ListFleet.styled"
 import useShips from "@/hooks/data/entity/use-ships.hook"
 import ShipService from "@/services/ShipService"
-import BButton from "@/ui/atoms/buttons/Button"
 import { setCurrentFleet } from "@/redux/slice/current.slice"
 import { useDispatch } from "react-redux"
 import ManageButton from "@/ui/atoms/buttons/ManageButton"
-import { Avatar, AvatarGroup } from "@nextui-org/react"
+import {
+	Avatar,
+	AvatarGroup,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
+} from "@nextui-org/react"
 import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import { TaskType } from "@/type/data/ITask"
 import moment from "moment"
 import FuelBar from "../FuelBar"
 import FleetService from "@/services/FleetService"
+import Button from "@/ui/atoms/buttons/Button"
 
 const ListFleet = ({
 	fleets,
