@@ -102,11 +102,7 @@ const ModalFleetCargo = ({
 	const currentResourcesAmount = Object.values(
 		ResourcesService.getAllResources()
 	).reduce((accumulator, resource) => {
-		return (
-			accumulator +
-			(currentFleet?.cargo?.[resource?.name] ?? 0) +
-			(newResourcesValue?.[resource?.name] ?? 0)
-		)
+		return accumulator + (newResourcesValue?.[resource?.name] ?? 0)
 	}, 0)
 
 	useEffect(() => {
@@ -155,8 +151,7 @@ const ModalFleetCargo = ({
 											}
 											return (
 												accumulator +
-												((currentFleet?.cargo?.[currentResource?.name] ?? 0) +
-													(newResourcesValue?.[currentResource?.name] ?? 0))
+												(newResourcesValue?.[currentResource?.name] ?? 0)
 											)
 										},
 										0
@@ -243,6 +238,9 @@ const ModalFleetCargo = ({
 											minValue={0}
 											value={newResourcesValue?.[resource?.name] ?? 0}
 											onChange={(value: SliderValue) => {
+												if (Number(value) < 0) {
+													return
+												}
 												// @ts-ignore
 												if (
 													Number(value) +
@@ -250,6 +248,13 @@ const ModalFleetCargo = ({
 													cargoCapacity
 												) {
 													// @ts-ignore
+													// set at max
+													setNewResourcesValue({
+														...newResourcesValue,
+														[resource?.name]:
+															cargoCapacity -
+															resourcesAlreadyInFleetInAllOtherResources
+													})
 													return
 												}
 												if (!resource.name) {
@@ -264,6 +269,7 @@ const ModalFleetCargo = ({
 											maxValue={Math.min(maxResource, cargoCapacity)}
 										/>
 										<div>
+											Max : {Math.min(maxResource, cargoCapacity)} /
 											{ResourcesService.renderResources(
 												(orbitPlanet?.resources?.[resource?.name] ?? 0) -
 													(newResourcesValue?.[resource?.name] ?? 0) +
