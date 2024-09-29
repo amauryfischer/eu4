@@ -12,6 +12,7 @@ export enum TaskType {
 		FLYING_FLEET = "FLYING_FLEET",
 		UPGRADE_RESOURCE = "UPGRADE_RESOURCE",
 		UPGRADE_BUILDING = "UPGRADE_BUILDING"
+		FIGHT = "FIGHT"
 	}
 export interface ITaskUpgradeResource extends Omit<Task, "details"> {
 	type: TaskType.UPGRADE_RESOURCE
@@ -38,6 +39,8 @@ export interface ITaskAsteroid extends Omit<Task, "details"> {
 		fleetId: string
 	}
 }
+
+
 
 // export interface ITaskConstructModule extends Omit<Task, "details"> {
 // 	type: TaskType.CONSTRUCT_MODULE
@@ -73,6 +76,16 @@ export interface ITaskBuildShip extends Omit<Task, "details"> {
 		}
 	}
 }
+
+export interface ITaskFight extends Omit<Task, "details"> {
+	type: TaskType.FIGHT
+	endDate: string
+	details: {
+		fleetIds: string[]
+		pirateIds: string[]
+		position: IPosition
+	}
+}
 export interface ITaskAssembleFleet extends Omit<Task, "details"> {
 	type: TaskType.ASSEMBLE_FLEET
 	endDate: string
@@ -99,3 +112,4 @@ export type ITask =
 		| ITaskResearch
 		| ITaskUpgradeResource
 		| ITaskUpgradeBuilding
+		| ITaskFight

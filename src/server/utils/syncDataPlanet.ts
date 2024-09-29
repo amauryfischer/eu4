@@ -1,7 +1,7 @@
 import db from "@/app/db"
 import ResourcesService from "@/services/ResourcesService"
 
-const MULTIPLIER = process.env.FAST === "true" ? 10 : 1
+const MULTIPLIER = process.env.NEXT_PUBLIC_FAST === "true" ? 2000 : 1
 
 const syncDataPlanet = async () => {
 	const planets = await db.planet.findMany()

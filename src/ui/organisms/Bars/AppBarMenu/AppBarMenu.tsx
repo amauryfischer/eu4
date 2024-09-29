@@ -85,7 +85,7 @@ export default function AppBarMenu() {
 		}
 	}, [planets, currentPlanet])
 	useEffect(() => {
-		setInterval(() => gameLoop(), 20000)
+		setInterval(() => gameLoop(), 20_000)
 	}, [])
 	const allResources = ResourcesService.getAllResources()
 	const { data } = useSession()

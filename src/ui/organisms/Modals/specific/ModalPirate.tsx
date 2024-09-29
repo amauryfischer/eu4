@@ -1,11 +1,13 @@
 "use client";
 import useCurrentPirate from "@/hooks/current/use-current-pirate.hook";
 import useFleetsOnPosition from "@/hooks/data/entity/use-fleets-on-position.hook";
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import {
 	setCurrentPirate,
 	setCurrentSendPosition,
 } from "@/redux/slice/current.slice";
 import { IFleet } from "@/type/data/IFleet";
+import { TaskType } from "@/type/data/ITask"
 import Flex from "@/ui/atoms/Flex";
 import AttackButton from "@/ui/atoms/buttons/AttackButton";
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton";
@@ -28,12 +30,18 @@ const CanvasContainer = styled.div`
 `;
 
 const ModalPirate = () => {
-	const dispatch = useDispatch();
-	const pirate = useCurrentPirate();
-	const fleets = useFleetsOnPosition(pirate?.position);
+	const dispatch = useDispatch()
+	const pirate = useCurrentPirate()
+	const fleets = useFleetsOnPosition(pirate?.position)
+	const tasks = useTasks()
 	if (!pirate) {
-		return null;
+		return null
 	}
+	const combatTask = Object.values(tasks).find(
+		(task) =>
+			task.type === TaskType.FIGHT &&
+			fleets.some((fleet) => task.details?.fleetIds?.includes(fleet.id))
+	)
 	return (
 		<>
 			<BModal
@@ -82,21 +90,23 @@ const ModalPirate = () => {
 							<Spacer y={12} />
 							<ListFleet
 								fleets={fleets}
-								additionalRows={(fleet: IFleet) => (
-									<AttackButton onClick={() => {}} title="Attaquer" />
-								)}
+								additionalRows={[
+									(fleet: IFleet) => (
+										<AttackButton onClick={() => {}} title="Attaquer" />
+									)
+								]}
 							/>
 						</Flex>
 					</ModalBody>
 					<ModalFooter>
 						<CloseElementButton
 							onClick={() => {
-								dispatch(setCurrentPirate(undefined));
+								dispatch(setCurrentPirate(undefined))
 							}}
 						/>
 						<SendFleetButton
 							onClick={() => {
-								dispatch(setCurrentSendPosition(pirate.position));
+								dispatch(setCurrentSendPosition(pirate.position))
 							}}
 							title="Envoyer une flotte"
 						/>
@@ -104,7 +114,7 @@ const ModalPirate = () => {
 				</ModalContent>
 			</BModal>
 		</>
-	);
+	)
 };
 
 export default ModalPirate;

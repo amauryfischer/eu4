@@ -6,8 +6,6 @@ import { IModifier } from "@/type/data/IModule"
 import { HOURS, MINUTES } from "@/utils/time"
 import { ResearchChassis } from "./research/chassis/chassisSearch"
 
-
-
 const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 	// polished
 	sonde: {
@@ -459,7 +457,15 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 	}
 })
 
-
+const getShipFullCoque = (ship: IShip) => {
+	return (
+		getAllStatFromModules({ ship, state: IModifier.COQUE }) +
+		getAllShips()[ship.class].baseCoque
+	)
+}
+const getShipFullShield = (ship: IShip) => {
+	return getAllStatFromModules({ ship, state: IModifier.SHIELD })
+}
 const getAllStatFromModules = ({
 	ship,
 	state
@@ -472,5 +478,7 @@ const getAllStatFromModules = ({
 }
 export default {
 	getAllShips,
-	getAllStatFromModules
+	getAllStatFromModules,
+	getShipFullCoque,
+	getShipFullShield
 }

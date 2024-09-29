@@ -1,10 +1,15 @@
-import { ITaskFlyingFleet } from "@/type/data/ITask"
+import { ITaskFlyingFleet, TaskType } from "@/type/data/ITask"
 import moment from "moment"
 import db from "@/app/db"
 import { IFleet } from "@/type/data/IFleet"
 import IShip from "@/type/data/IShip"
 import UniverseService from "@/services/UniverseService"
 import FleetService from "@/services/FleetService"
+import IPirate from "@/type/data/IPirate"
+import scheduleTask from "../scheduleTask"
+import ModulesService from "@/services/ModulesService"
+import { IModifier } from "@/type/data/IModule"
+import ShipService from "@/services/ShipService"
 
 const taskFlyingFleet = {
 	onCreate: async (task: ITaskFlyingFleet) => {
@@ -25,6 +30,10 @@ const taskFlyingFleet = {
 			ships
 		})
 		const fuelConsumption = FleetService.getFuelConsumption({ ships })
+		const stat = ShipService.getAllStatFromModules({
+			ship: ships[0],
+			state: IModifier.CONSO
+		})
 		const fuelConsumptionTravel = fuelConsumption * timeToAdd
 
 		
@@ -36,8 +45,8 @@ const taskFlyingFleet = {
 				fuel: fleet.fuel - fuelConsumptionTravel
 			}
 		})
-
-		const endDate = moment().add(timeToAdd, "seconds")
+		const fast = process.env.NEXT_PUBLIC_FAST === "true"
+		const endDate = moment().add(fast ? 30 : timeToAdd, "seconds")
 		return endDate.toDate()
 	},
 	onDestroy: async (task: ITaskFlyingFleet) => {
@@ -53,6 +62,49 @@ const taskFlyingFleet = {
 				position: task.details.position as any
 			}
 		})
+		// check if pirate on same position maybe start a fight
+		const pirates = (await db.pirate.findMany({
+			where: {
+				position: {
+					equals: task.details.position as any
+				}
+			}
+		})) as unknown as Array<IPirate>
+		if (pirates.length > 0) {
+			console.log("⚔️ Fight detected! Fleet vs Pirates, schedule fight 🏴‍☠️")
+			// for each pirate initialize the ship
+			await Promise.all(
+				pirates.map(async (pirate) => {
+					const ship = await db.ship.create({
+						data: {
+							class: "navette",
+							name: "Navette",
+							modules: [ModulesService.getAllModules()["laser1"]]
+						}
+					})
+					// attach ship to pirate
+					await db.pirate.update({
+						where: { id: pirate.id },
+						data: {
+							shipIds: [ship.id]
+						}
+					})
+					return { pirate, ship }
+				})
+			)
+			scheduleTask({
+				type: TaskType.FIGHT,
+				endDate: moment()
+					.add(Math.random() * 30 + 30, "seconds")
+					.toISOString(),
+				details: {
+					fleetIds: [fleet.id],
+					pirateIds: pirates.map((p) => p.id),
+					position: task.details.position
+				},
+				userId: task.userId
+			})
+		}
 		// todo : later add check if fleet on same position maybe start a fight
 	}
 }

@@ -3,6 +3,7 @@ import { ITaskBuildShip } from "@/type/data/ITask"
 import moment from "moment"
 import db from "@/app/db"
 import TimeService from "@/services/TimeService"
+import ShipService from "@/services/ShipService"
 
 const taskBuildShip = {
 	onCreate: async (task: ITaskBuildShip) => {
@@ -23,10 +24,10 @@ const taskBuildShip = {
 				resources: newResources
 			}
 		})
-
+		const fast = process.env.NEXT_PUBLIC_FAST === "true"
 		return moment()
 			.add(
-				TimeService.calculateTimeFromResourceCost(task.details.cost),
+				fast ? 1 : TimeService.calculateTimeFromResourceCost(task.details.cost),
 				"minutes"
 			)
 			.toDate()
@@ -38,7 +39,15 @@ const taskBuildShip = {
 				class: task.details.class,
 				modules: task.details.modules as any,
 				name: task.details.name,
-				planetId: task.details.planetId
+				planetId: task.details.planetId,
+				coque: ShipService.getShipFullCoque({
+					class: task.details.class,
+					modules: task.details.modules
+				}),
+				shield: ShipService.getShipFullShield({
+					class: task.details.class,
+					modules: task.details.modules
+				})
 			}
 		})
 	}

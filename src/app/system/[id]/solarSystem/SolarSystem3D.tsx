@@ -271,6 +271,11 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 										e.stopPropagation()
 									}}
 								/>
+								<BillboardText
+									position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
+								>
+									Pirate niveau {pirate.level}
+								</BillboardText>
 							</Suspense>
 						)
 					})}
