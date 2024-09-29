@@ -23,6 +23,8 @@ model Ship {
   modules Json
   fleetId String?
   planetId String?
+  coque    Int      @default(100)
+  shield   Int      @default(0)
 }
 
 enum TaskType {
@@ -36,6 +38,7 @@ enum TaskType {
   ASSEMBLE_FLEET
   BUILD_SHIP
   UPGRADE_RESOURCE
+  FIGHT
 }
 
 model Task {
@@ -62,6 +65,7 @@ model Pirate {
   name     String
   level    Int
   position Json
+  shipIds  String[]
 }
 
 model Planet {

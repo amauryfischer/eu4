@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Pirate" ADD COLUMN     "shipIds" TEXT[];
+
+-- AlterTable
+ALTER TABLE "Ship" ADD COLUMN     "coque" INTEGER NOT NULL DEFAULT 100,
+ADD COLUMN     "shield" INTEGER NOT NULL DEFAULT 100;

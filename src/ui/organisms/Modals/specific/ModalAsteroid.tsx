@@ -117,32 +117,34 @@ const ModalAsteroid = () => {
 							<Spacer y={12} />
 							<ListFleet
 								fleets={fleets}
-								additionalRows={(fleet: IFleet) => {
-									const isMining = Object.values(tasks).some(
-										(task) =>
-											task.type === TaskType.COLLECT_ASTEROIDS &&
-											task.details?.fleetId === fleet.id &&
-											!moment().isAfter(moment(task.endDate))
-									)
-									return (
-										<CollectButton
-											onClick={() => {
-												createTask({
-													type: TaskType.COLLECT_ASTEROIDS,
-													endDate: moment().add(20, "seconds").format(),
-													details: {
-														asteroidId: currentAsteroid.id,
-														fleetId: fleet.id
-													},
-													userId: user.id
-												})
-												fetchTasks()
-											}}
-											title={isMining ? "Minage en cours" : "Miner"}
-											isDisabled={isMining}
-										/>
-									)
-								}}
+								additionalRows={[
+									(fleet: IFleet) => {
+										const isMining = Object.values(tasks).some(
+											(task) =>
+												task.type === TaskType.COLLECT_ASTEROIDS &&
+												task.details?.fleetId === fleet.id &&
+												!moment().isAfter(moment(task.endDate))
+										)
+										return (
+											<CollectButton
+												onClick={() => {
+													createTask({
+														type: TaskType.COLLECT_ASTEROIDS,
+														endDate: moment().add(20, "seconds").format(),
+														details: {
+															asteroidId: currentAsteroid.id,
+															fleetId: fleet.id
+														},
+														userId: user.id
+													})
+													fetchTasks()
+												}}
+												title={isMining ? "Minage en cours" : "Miner"}
+												isDisabled={isMining}
+											/>
+										)
+									}
+								]}
 							/>
 						</Flex>
 					</ModalBody>

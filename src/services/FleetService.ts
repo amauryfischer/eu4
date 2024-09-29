@@ -14,6 +14,9 @@ const getFleetStats = ({
 }
 
 const getTotalFuel = ({ ships }: { ships: Array<IShip> }) => {
+	if (ships.some((s) => s === undefined)) {
+		return 0
+	}
 	const allClass = ShipService.getAllShips()
 	let totalFuel = _.sumBy(ships, (s) => allClass[s.class].fuelSpace)
 	ships.forEach((s) => {
@@ -30,10 +33,12 @@ const getFuelConsumption = ({ ships }: { ships: Array<IShip> }) => {
 	let totalFuelConsumption = 0
 	ships.forEach((s) => {
 		totalFuelConsumption +=
-			ShipService.getAllStatFromModules({
+			(ShipService.getAllStatFromModules({
 				ship: s,
 				state: IModifier.CONSO
-			}) * allClass[s.class].multiplier.conso
+			}) *
+				allClass[s.class].multiplier.conso) /
+			10
 	})
 	return totalFuelConsumption
 }

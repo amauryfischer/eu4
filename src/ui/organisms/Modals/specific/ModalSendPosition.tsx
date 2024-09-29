@@ -34,6 +34,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import FuelBar from "../../entity/fleet/FuelBar"
 import FleetService from "@/services/FleetService"
+import ListFleet from "../../entity/fleet/ListFleet"
 
 const GridContainer = styled.div`
   display: grid;
@@ -45,19 +46,19 @@ const GridContainer = styled.div`
   align-items: center;
 `
 const ModalSendPosition = () => {
-	const fleets = useFleets();
-	const ships = useShips();
-	const currentSendPosition = useCurrentSendPosition();
+	const fleets = useFleets()
+	const ships = useShips()
+	const currentSendPosition = useCurrentSendPosition()
 	const dispatch = useDispatch()
-	const { fetchTasks, createTask } = useTasksActions();
-	const tasks = useTasks();
-	const user = useCurrentUser();
+	const { fetchTasks, createTask } = useTasksActions()
+	const tasks = useTasks()
+	const user = useCurrentUser()
 	return (
 		<BModal
 			size={"5xl"}
 			isOpen={!!currentSendPosition}
 			onOpenChange={() => {
-				dispatch(setCurrentSendPosition(undefined));
+				dispatch(setCurrentSendPosition(undefined))
 			}}
 			scrollBehavior="inside"
 			title="Selectionnez une flotte"
@@ -65,89 +66,62 @@ const ModalSendPosition = () => {
 			<ModalContent>
 				<ModalHeader>Selectionnez une flotte</ModalHeader>
 				<ModalBody>
-					<GridContainer>
-						{(Object.values(fleets) ?? []).map((fleet) => {
-							const shipId = fleet.shipIds[0];
-							const isFlying = Object.values(tasks).some(
-								(task) =>
-									task.type === TaskType.FLYING_FLEET &&
-									task.details?.fleetId === fleet.id &&
-									!moment().isAfter(moment(task.endDate)),
-							);
-							return (
-								<React.Fragment key={fleet.id}>
-									<Image
-										isZoomed
-										isBlurred
-										width={200}
-										src={ShipService.getAllShips()[ships?.[shipId]?.class]?.img}
-										className="w-32 h-32"
-										radius="lg"
-										onClick={() => {
-											dispatch(setCurrentFleet(fleet.id))
-										}}
-									/>
-									<div>{fleet.name}</div>
-									<div>
-										{fleet.position.system}
-										{":"}
-										{fleet.position.systemPosition.x}
-										{":"}
-										{fleet.position.systemPosition.y}
-										{":"}
-										{fleet.position.systemPosition.z}
-									</div>
-									<FuelBar
-										progress={
-											(fleet.fuel * 100) /
-											FleetService.getTotalFuel({
-												ships: fleet.shipIds.map((shipId) => ships[shipId])
-											})
-										}
-										className="max-w-[100px]"
-									/>
-									{isFlying && (
-										<Flex gap="1rem" alignItems="center">
-											<Spaceship /> <div>Voyage en cours</div>
-										</Flex>
-									)}
-									{!isFlying && (
-										<SendFleetButton
-											isDisabled={
-												fleet.position.system === currentSendPosition?.system &&
-												fleet.position.systemPosition.x ===
-													currentSendPosition?.systemPosition.x &&
-												fleet.position.systemPosition.y ===
-													currentSendPosition?.systemPosition.y &&
-												fleet.position.systemPosition.z ===
-													currentSendPosition?.systemPosition.z
-											}
-											onClick={() => {
-												createTask({
-													type: TaskType.FLYING_FLEET,
-													endDate: moment().add(10, "seconds").format(),
-													details: {
-														position: {
-															system: currentSendPosition.system,
-															systemPosition: {
-																x: currentSendPosition.systemPosition.x,
-																y: currentSendPosition.systemPosition.y,
-																z: currentSendPosition.systemPosition.z
-															}
+					<ListFleet
+						fleets={Object.values(fleets)}
+						additionalRows={[
+							(fleet) => {
+								const isFlying = Object.values(tasks).some(
+									(task) =>
+										task.type === TaskType.FLYING_FLEET &&
+										task.details?.fleetId === fleet.id &&
+										!moment().isAfter(moment(task.endDate))
+								)
+								return (
+									<>
+										{isFlying && (
+											<Flex gap="1rem" alignItems="center">
+												<Spaceship /> <div>Voyage en cours</div>
+											</Flex>
+										)}
+										{!isFlying && (
+											<SendFleetButton
+												isDisabled={
+													fleet.position.system ===
+														currentSendPosition?.system &&
+													fleet.position.systemPosition.x ===
+														currentSendPosition?.systemPosition.x &&
+													fleet.position.systemPosition.y ===
+														currentSendPosition?.systemPosition.y &&
+													fleet.position.systemPosition.z ===
+														currentSendPosition?.systemPosition.z
+												}
+												onClick={() => {
+													createTask({
+														type: TaskType.FLYING_FLEET,
+														endDate: moment().add(10, "seconds").format(),
+														details: {
+															position: {
+																system: currentSendPosition.system,
+																systemPosition: {
+																	x: currentSendPosition.systemPosition.x,
+																	y: currentSendPosition.systemPosition.y,
+																	z: currentSendPosition.systemPosition.z
+																}
+															},
+															fleetId: fleet.id
 														},
-														fleetId: fleet.id
-													},
-													userId: user.id
-												})
-												fetchTasks()
-											}}
-											title="Envoyer"
-										/>
-									)}
-								</React.Fragment>
-							)
-						})}
-					</GridContainer>
+														userId: user.id
+													})
+													fetchTasks()
+												}}
+												title="Envoyer"
+											/>
+										)}
+									</>
+								)
+							}
+						]}
+					/>
 				</ModalBody>
 				<ModalFooter>
 					<CloseElementButton
@@ -156,7 +130,7 @@ const ModalSendPosition = () => {
 				</ModalFooter>
 			</ModalContent>
 		</BModal>
-	);
+	)
 };
 
 export default ModalSendPosition;

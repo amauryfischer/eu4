@@ -230,7 +230,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		emplacement: 1,
 		modifier: {
 			[IModifier.LASER]: 10,
-			[IModifier.CONSO]: 100
+			[IModifier.CONSO]: 100,
+			[IModifier.PRECISION]: 80
 		},
 		cost: {
 			[TITANE.name]: 1_500,
@@ -250,7 +251,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		emplacement: 1,
 		modifier: {
 			[IModifier.LASER]: 20,
-			[IModifier.CONSO]: 200
+			[IModifier.CONSO]: 200,
+			[IModifier.PRECISION]: 90
 		},
 		cost: {
 			[TITANE.name]: 3_500,
@@ -271,7 +273,8 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		emplacement: 1,
 		modifier: {
 			[IModifier.LASER]: 30,
-			[IModifier.CONSO]: 300
+			[IModifier.CONSO]: 300,
+			[IModifier.PRECISION]: 95
 		},
 		cost: {
 			[TITANE.name]: 3_500,

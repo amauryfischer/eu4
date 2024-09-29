@@ -16,50 +16,29 @@ import {
 } from "./TaskFlyingFleet.styled"
 import BProgress from "@/ui/molecules/progress/BProgress"
 import { cloneElement } from "react"
+import TaskCardBasic from "../TaskCardBasic/TaskCardBasic"
 
 const TaskFlyingFleet = ({
 	task,
-	progress,
-	icon,
-	color
+	progress
 }: {
-	task: ITaskAsteroid | ITaskFlyingFleet
+	task: ITaskFlyingFleet
 	progress: number
-	icon: JSX.Element
-	color: string
 }) => {
 	const fleets = useFleets()
 	const ships = useShips()
-	const remainingTime = Moment(task.endDate).diff(Moment())
-	const readableRemainingTime = Moment.duration(remainingTime).humanize()
-	const iconWithColor = cloneElement(icon, { color: color })
 	return (
-		<TaskContainer $color={color}>
-			<SImage
-				src={
-					ShipService.getAllShips()[
-						ships[fleets[task.details.fleetId].shipIds[0]].class
-					]?.img
-				}
-				width={300}
-				classNames={{
-					wrapper: "!max-w-full"
-				}}
-			/>
-			<SpaceShipContainer>{iconWithColor}</SpaceShipContainer>
-			<RemainingTime>{readableRemainingTime}</RemainingTime>
-			<StyledProgress
-				aria-label="Loading..."
-				value={progress}
-				className="max-w-md"
-			/>
-			{/* <CardBody>
-				<Flex alignItems="center" gap="1rem">
-					<Spaceship width="36px" />
-					Déplacement en cours
-				</Flex>
-			</CardBody> */}
-		</TaskContainer>
+		<TaskCardBasic
+			task={task}
+			progress={progress}
+			icon={<Spaceship />}
+			color="blue"
+			imgSrc={
+				ShipService.getAllShips()[
+					ships[fleets[task.details.fleetId].shipIds[0]].class
+				]?.img
+			}
+		/>
 	)
 }
 

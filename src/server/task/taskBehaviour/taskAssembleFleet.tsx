@@ -5,6 +5,10 @@ import FleetService from "@/services/FleetService"
 
 const taskAssembleFleet = {
 	onCreate: async (task: ITaskAssembleFleet) => {
+		const fast = process.env.NEXT_PUBLIC_FAST === "true"
+		if (fast) {
+			return moment().add(1, "minutes").toDate()
+		}
 		return moment(task.endDate).toDate()
 	},
 	onDestroy: async (task: ITaskAssembleFleet) => {

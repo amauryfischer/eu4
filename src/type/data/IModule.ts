@@ -1,18 +1,19 @@
 import { IResearch } from "./IResearch"
 
 export enum IModifier {
-	IMPULSION = "impulsion",
-	WARP = "warp",
-	COQUE = "coque",
-	SHIELD = "shield",
-	FUEL = "FUEL",
-	CARGO = "cargo",
-	CONSO = "conso",
-	LASER = "laser",
-	MISSILE = "missile",
-	IEM = "iem",
-	EXTRACTION_ASTEROID = "extraction_asteroid"
-}
+		IMPULSION = "impulsion",
+		WARP = "warp",
+		COQUE = "coque",
+		SHIELD = "shield",
+		FUEL = "FUEL",
+		CARGO = "cargo",
+		CONSO = "conso",
+		LASER = "laser",
+		MISSILE = "missile",
+		PRECISION = "precision",
+		ION = "ion",
+		EXTRACTION_ASTEROID = "extraction_asteroid"
+	}
 export enum IDamage {
 	LASER = "laser",
 	MISSILE = "missile",

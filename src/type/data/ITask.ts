@@ -4,13 +4,14 @@ import { Task } from "@prisma/client"
 import { IPosition } from "./IPosition"
 
 export enum TaskType {
-	BUILD_SHIP = "BUILD_SHIP",
-	ASSEMBLE_FLEET = "ASSEMBLE_FLEET",
-	COLLECT_ASTEROIDS = "COLLECT_ASTEROIDS",
-	RESEARCH = "RESEARCH",
-	FLYING_FLEET = "FLYING_FLEET",
-	UPGRADE_RESOURCE = "UPGRADE_RESOURCE"
-}
+		BUILD_SHIP = "BUILD_SHIP",
+		ASSEMBLE_FLEET = "ASSEMBLE_FLEET",
+		COLLECT_ASTEROIDS = "COLLECT_ASTEROIDS",
+		RESEARCH = "RESEARCH",
+		FLYING_FLEET = "FLYING_FLEET",
+		UPGRADE_RESOURCE = "UPGRADE_RESOURCE",
+		FIGHT = "FIGHT"
+	}
 export interface ITaskUpgradeResource extends Omit<Task, "details"> {
 	type: TaskType.UPGRADE_RESOURCE
 	endDate: string
@@ -28,6 +29,8 @@ export interface ITaskAsteroid extends Omit<Task, "details"> {
 		fleetId: string
 	}
 }
+
+
 
 // export interface ITaskConstructModule extends Omit<Task, "details"> {
 // 	type: TaskType.CONSTRUCT_MODULE
@@ -63,6 +66,16 @@ export interface ITaskBuildShip extends Omit<Task, "details"> {
 		}
 	}
 }
+
+export interface ITaskFight extends Omit<Task, "details"> {
+	type: TaskType.FIGHT
+	endDate: string
+	details: {
+		fleetIds: string[]
+		pirateIds: string[]
+		position: IPosition
+	}
+}
 export interface ITaskAssembleFleet extends Omit<Task, "details"> {
 	type: TaskType.ASSEMBLE_FLEET
 	endDate: string
@@ -82,9 +95,10 @@ export interface ITaskResearch extends Omit<Task, "details"> {
 	}
 }
 export type ITask =
-	| ITaskAsteroid
-	| ITaskFlyingFleet
-	| ITaskAssembleFleet
-	| ITaskBuildShip
-	| ITaskResearch
-	| ITaskUpgradeResource
+		| ITaskAsteroid
+		| ITaskFlyingFleet
+		| ITaskAssembleFleet
+		| ITaskBuildShip
+		| ITaskResearch
+		| ITaskUpgradeResource
+		| ITaskFight
