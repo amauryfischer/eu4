@@ -40,6 +40,8 @@ const CanvasContainer = ({ children, cameraRef }) => {
 				position={[600, 400, 1000]}
 				fov={60}
 				zoom={10}
+				near={0.1} // Adjusted near clipping plane
+				far={10000} // Adjusted far clipping plane
 			/>
 			{children}
 		</>
@@ -51,7 +53,13 @@ const BillboardText = ({ position, children, color = "#ffffff" }) => {
 
 	useFrame(() => {
 		if (textRef.current) {
-			textRef.current.lookAt(camera.position)
+			const currentLookAt = new THREE.Vector3()
+			textRef.current.getWorldPosition(currentLookAt)
+			const distance = currentLookAt.distanceTo(camera.position)
+			if (distance > 0.1) {
+				// Add a small threshold to reduce flickering
+				textRef.current.lookAt(camera.position)
+			}
 		}
 	})
 
@@ -92,17 +100,12 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 	const zoomToEntity = (position) => {
 		if (cameraRef.current && Array.isArray(position) && position.length === 3) {
 			const [x, y, z] = position
-			// const vector = new THREE.Vector3(x, y, z)
-			// cameraRef.current.position.set(x, y, z) // Adjust the offset as needed
-			// cameraRef.current.lookAt(vector)
-			// cameraRef.current.zoom = -5000
-			// cameraRef.current.updateMatrixWorld()
 
 			if (controlsRef.current) {
 				controlsRef.current.target.set(x, y, z)
 				controlsRef.current.update()
-				// zoom to 100
-				cameraRef.current.zoom = 100
+				// Adjust zoom level to prevent black screen
+				cameraRef.current.zoom = 50
 				cameraRef.current.updateProjectionMatrix()
 			}
 		} else {
@@ -151,7 +154,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 						autoRotate
 						autoRotateSpeed={0.3}
 					/>
-					<mesh position={[0, 0, 0]}>
+					{/* <mesh position={[0, 0, 0]}>
 						<boxGeometry args={[100, 100, 100]} />
 						<meshStandardMaterial
 							color="#255e97"
@@ -159,7 +162,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 							opacity={0.1}
 							transparent
 						/>
-					</mesh>
+					</mesh> */}
 					{(Object.values(fleets) ?? []).map((fleet) => {
 						const { x, y, z } = fleet.position.systemPosition
 						if (fleet.position.system?.toString() !== systemId) return null
