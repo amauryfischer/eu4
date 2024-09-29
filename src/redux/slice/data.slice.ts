@@ -67,10 +67,27 @@ export const dynamicSlice = createAppSlice({
 		) => {
 			const { type, dataId } = action.payload
 			delete state.entity[type][dataId]
+		},
+		removeDataConditional: (
+			state,
+			action: PayloadAction<{ type: string; condition: (data: any) => boolean }>
+		) => {
+			const { type, condition } = action.payload
+			Object.keys(state.entity[type] ?? {}).forEach((key) => {
+				if (condition(state.entity[type][key])) {
+					delete state.entity[type][key]
+				}
+			})
 		}
 	}
 })
 
-export const { setData, addData, updateData, deleteData } = dynamicSlice.actions
+export const {
+	setData,
+	addData,
+	updateData,
+	deleteData,
+	removeDataConditional
+} = dynamicSlice.actions
 
 export default dynamicSlice.reducer

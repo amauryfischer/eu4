@@ -20,7 +20,7 @@ const allTasks: {
 	[TaskType.RESEARCH]: taskResearch,
 	[TaskType.ASSEMBLE_FLEET]: taskAssembleFleet,
 	[TaskType.UPGRADE_RESOURCE]: taskUpgradeResource,
-	[TaskType.UPGRADE_BUILDING]: taskUpgradeBuilding
+	[TaskType.UPGRADE_BUILDING]: taskUpgradeBuilding,
 	[TaskType.FIGHT]: taskFight
 }
 

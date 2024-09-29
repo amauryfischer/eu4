@@ -58,11 +58,12 @@ const taskUpgradeBuilding = {
 			},
 			data: {
 				buildingLevel: {
-                    ...planet?.buildingLevel,
-					[task.details.buildingType]: (planet?.buildingLevel[task.details.buildingType] as number) + 1
+					...planet?.buildingLevel,
+					[task.details.buildingType]:
+						(planet?.buildingLevel[task.details.buildingType] as number) + 1
 				}
 			}
-		}
+		})
 	}
 }
 

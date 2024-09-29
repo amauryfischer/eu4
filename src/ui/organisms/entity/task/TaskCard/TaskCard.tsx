@@ -7,6 +7,7 @@ import {
 	ITaskAssembleFleet,
 	ITaskAsteroid,
 	ITaskBuildShip,
+	ITaskFight,
 	ITaskFlyingFleet,
 	ITaskResearch,
 	ITaskUpgradeResource,
@@ -25,6 +26,8 @@ import useUserActions from "@/hooks/data/actions/use-user-actions.hook"
 import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
 import TaskResearch from "../TaskResearch/TaskResearch"
 import TaskUpgradeResource from "./TaskUpgradeResource/TaskUpgradeResource"
+import TaskFight from "./TaskFight/TaskFight"
+import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
 
 const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
@@ -34,6 +37,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
 	const { fetchShips } = useShipsActions()
 	const { fetchUser } = useUserActions()
 	const { fetchPlanets } = usePlanetsActions()
+	const fetParcels = useParcelsActions()
 	// tick every seconds
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -62,6 +66,11 @@ const TaskCard = ({ task }: { task: ITask }) => {
 				}
 				if (task.type === TaskType.UPGRADE_RESOURCE) {
 					fetchPlanets()
+					fetchTasks()
+				}
+				if (task.type === TaskType.FIGHT) {
+					fetParcels(task.details.position.system)
+					fetchFleets()
 					fetchTasks()
 				}
 			}
@@ -114,6 +123,13 @@ const TaskCard = ({ task }: { task: ITask }) => {
 					progress={progress}
 					color="caramel300"
 					task={task as unknown as ITaskUpgradeResource}
+				/>
+			)}
+			{task.type === TaskType.FIGHT && (
+				<TaskFight
+					progress={progress}
+					color="red300"
+					task={task as unknown as ITaskFight}
 				/>
 			)}
 			{/* <div>

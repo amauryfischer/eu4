@@ -105,7 +105,7 @@ export const chassisSearch = {
 			"L'Intercepteur est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
 		type: IResearchType.CHASSIS,
 		time: 12 * DAYS + 10 * HOURS,
-		require: [ResearchChassis.Croiseur],
+		required: [ResearchChassis.Croiseur],
 		researchBuildingLevel: 4,
 		id: ResearchChassis.Intercepteur
 	},
@@ -115,7 +115,7 @@ export const chassisSearch = {
 			"Le Croiseur Intergalactique est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
 		type: IResearchType.CHASSIS,
 		time: 15 * DAYS + 2 * HOURS,
-		require: [ResearchChassis.Intercepteur],
+		required: [ResearchChassis.Intercepteur],
 		researchBuildingLevel: 4,
 		id: ResearchChassis.Croiseur_intergalactique
 	},
@@ -125,7 +125,9 @@ export const chassisSearch = {
 			"Le Croiseur de combat est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
 		type: IResearchType.CHASSIS,
 		time: 17 * DAYS,
-		require: [ResearchChassis.Croiseur_intergalactique]
+		required: [ResearchChassis.Croiseur_intergalactique],
+		researchBuildingLevel: 5,
+		id: ResearchChassis.Croiseur_combat
 	},
 	[ResearchChassis.Warrior]: {
 		name: "Warrior",
@@ -133,7 +135,9 @@ export const chassisSearch = {
 			"Le warrior est un dérivé du croiseur de combat optimisé pour les missions de combat.",
 		type: IResearchType.CHASSIS,
 		timee: 21 * DAYS,
-		require: [ResearchChassis.Croiseur_combat]
+		required: [ResearchChassis.Croiseur_combat],
+		researchBuildingLevel: 5,
+		id: ResearchChassis.Warrior
 	},
 	[ResearchChassis.Centaure]: {
 		name: "Centaure",
@@ -141,7 +145,9 @@ export const chassisSearch = {
 			"Le Centaure est basé sur la nouvelle architecture B413-R, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
 		time: 25 * DAYS,
-		require: [ResearchChassis.Warrior]
+		required: [ResearchChassis.Warrior],
+		researchBuildingLevel: 6,
+		id: ResearchChassis.Centaure
 	},
 	[ResearchChassis.Minotaure]: {
 		name: "Minotaure",
@@ -149,7 +155,9 @@ export const chassisSearch = {
 			"Le Minotaure cumule les avantages du Centaure et du Warrior, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
 		time: 29 * DAYS,
-		require: [ResearchChassis.Centaure]
+		required: [ResearchChassis.Centaure],
+		researchBuildingLevel: 6,
+		id: ResearchChassis.Minotaure
 	},
 	[ResearchChassis.Titan]: {
 		name: "Titan",
@@ -157,7 +165,9 @@ export const chassisSearch = {
 			"Le Titan est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
 		time: 35 * DAYS,
-		require: [ResearchChassis.Minotaure]
+		required: [ResearchChassis.Minotaure],
+		researchBuildingLevel: 7,
+		id: ResearchChassis.Titan
 	},
 	[ResearchChassis.Behemot]: {
 		name: "Behemot",
@@ -165,7 +175,9 @@ export const chassisSearch = {
 			"Le Behemot est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
 		time: 40 * DAYS,
-		require: [ResearchChassis.Titan]
+		required: [ResearchChassis.Titan],
+		researchBuildingLevel: 7,
+		id: ResearchChassis.Behemot
 	},
 	[ResearchChassis.Hades]: {
 		name: "Hades",
@@ -173,7 +185,9 @@ export const chassisSearch = {
 			"Le Hades est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
 		time: 45 * DAYS,
-		require: [ResearchChassis.Behemot]
+		required: [ResearchChassis.Behemot],
+		researchBuildingLevel: 8,
+		id: ResearchChassis.Hades
 	},
 	[ResearchChassis.Leviathan]: {
 		name: "Leviathan",
@@ -181,6 +195,8 @@ export const chassisSearch = {
 			"Le Leviathan est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
 		time: 50 * DAYS,
-		require: [ResearchChassis.Hades]
+		required: [ResearchChassis.Hades],
+		researchBuildingLevel: 9,
+		id: ResearchChassis.Leviathan
 	}
 } as Record<string, IResearch>

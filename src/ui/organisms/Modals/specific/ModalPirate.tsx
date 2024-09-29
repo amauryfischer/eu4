@@ -23,6 +23,7 @@ import {
 } from "@nextui-org/react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import ModalFight from "./ModalFight"
 
 const CanvasContainer = styled.div`
   width: 300px;
@@ -42,6 +43,9 @@ const ModalPirate = () => {
 			task.type === TaskType.FIGHT &&
 			fleets.some((fleet) => task.details?.fleetIds?.includes(fleet.id))
 	)
+	if (combatTask) {
+		return <ModalFight />
+	}
 	return (
 		<>
 			<BModal

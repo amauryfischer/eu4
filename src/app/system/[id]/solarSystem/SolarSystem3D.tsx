@@ -44,7 +44,7 @@ const CanvasContainer = ({ children, cameraRef }) => {
 		</>
 	)
 }
-const BillboardText = ({ position, children }) => {
+const BillboardText = ({ position, children, color = "#ffffff" }) => {
 	const textRef = useRef()
 	const { camera } = useThree() // Utilisation de useThree pour accéder à la caméra
 
@@ -59,7 +59,7 @@ const BillboardText = ({ position, children }) => {
 			ref={textRef}
 			position={position}
 			fontSize={2.5}
-			color="#ffffff"
+			color={color}
 			anchorX="center"
 			anchorY="middle"
 		>
@@ -101,7 +101,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 				controlsRef.current.target.set(x, y, z)
 				controlsRef.current.update()
 				// zoom to 100
-				cameraRef.current.zoom = 500
+				cameraRef.current.zoom = 700
 				cameraRef.current.updateProjectionMatrix()
 			}
 		} else {
@@ -190,7 +190,6 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 						) {
 							return null
 						}
-						debugger
 						return (
 							<Suspense fallback={null} key={fleet.id}>
 								<>
@@ -208,6 +207,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									{/** fleet name as floating text */}
 									<BillboardText
 										position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
+										color="#1469ad"
 									>
 										{fleet.name}
 									</BillboardText>
@@ -273,6 +273,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 								/>
 								<BillboardText
 									position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
+									color="#ff0000"
 								>
 									Pirate niveau {pirate.level}
 								</BillboardText>

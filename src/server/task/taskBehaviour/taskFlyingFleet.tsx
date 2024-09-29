@@ -78,15 +78,34 @@ const taskFlyingFleet = {
 					const ship = await db.ship.create({
 						data: {
 							class: "navette",
-							name: "Navette",
+							name: "Navette 1",
 							modules: [ModulesService.getAllModules()["laser1"]]
+						}
+					})
+					const ship2 = await db.ship.create({
+						data: {
+							class: "navette",
+							name: "Navette 2",
+							modules: [ModulesService.getAllModules()["laser1"]]
+						}
+					})
+					const ship3 = await db.ship.create({
+						data: {
+							class: "chasseur",
+							name: "Chasseur",
+							modules: [
+								ModulesService.getAllModules()["laser1"],
+								ModulesService.getAllModules()["laser1"],
+								ModulesService.getAllModules()["laser1"],
+								ModulesService.getAllModules()["shield1"]
+							]
 						}
 					})
 					// attach ship to pirate
 					await db.pirate.update({
 						where: { id: pirate.id },
 						data: {
-							shipIds: [ship.id]
+							shipIds: [ship.id, ship2.id, ship3.id]
 						}
 					})
 					return { pirate, ship }
@@ -94,9 +113,7 @@ const taskFlyingFleet = {
 			)
 			scheduleTask({
 				type: TaskType.FIGHT,
-				endDate: moment()
-					.add(Math.random() * 30 + 30, "seconds")
-					.toISOString(),
+				endDate: moment().add(1, "seconds").toISOString(),
 				details: {
 					fleetIds: [fleet.id],
 					pirateIds: pirates.map((p) => p.id),
