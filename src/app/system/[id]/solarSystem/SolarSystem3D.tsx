@@ -21,6 +21,7 @@ import { IPlanet } from "@/type/data/IPlanet"
 import { useDispatch } from "react-redux"
 import Image3D from "./Image3D"
 import Button from "@/ui/atoms/buttons/Button"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const CanvasContainer = ({ children, cameraRef }) => {
 	return (
@@ -74,7 +75,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 	const planets = usePlanets() ?? {}
 	const asteroids = useAsteroids() ?? {}
 	const pirates = usePirates() ?? {}
-
+	const user = useCurrentUser()
 	const ships = useShips()
 	const dispatch = useDispatch()
 	const fetParcels = useParcelsActions()
@@ -101,7 +102,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 				controlsRef.current.target.set(x, y, z)
 				controlsRef.current.update()
 				// zoom to 100
-				cameraRef.current.zoom = 700
+				cameraRef.current.zoom = 100
 				cameraRef.current.updateProjectionMatrix()
 			}
 		} else {
@@ -218,7 +219,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 					{(Object.values(planets) ?? []).map((planet) => {
 						const { x, y, z } = planet?.position?.systemPosition
 						if (planet?.position?.system?.toString() !== systemId) return null
-
+						const isAtUser = planet.userId === user?.id
 						return (
 							<Suspense fallback={null} key={planet.id}>
 								<Image3D
@@ -232,6 +233,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									geometry="sphere"
 								/>
 								<BillboardText
+									color={isAtUser ? "#1469ad" : "#ffffff"}
 									position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
 								>
 									{planet.name}
