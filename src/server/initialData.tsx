@@ -1,4 +1,5 @@
 import db from "@/app/db"
+import { BUILDING_TYPE } from "@/type/data/IPlanet"
 
 export const generateInitialValues = async () => {
 	const types = [
@@ -86,7 +87,17 @@ export const generateInitialValues = async () => {
 				resources: {},
 				resourcesMultiplier,
 				mines: Object.fromEntries(available_resources.map((el) => [el, 1])),
-				type: randomType
+				type: randomType,
+				buildingLevel: {
+					[BUILDING_TYPE.COMMUNICATION]: 0,
+					[BUILDING_TYPE.MINES]: 0,
+					[BUILDING_TYPE.RESEARCH]: 0,
+					[BUILDING_TYPE.SHIP_FACTORY]: 0,
+					[BUILDING_TYPE.SPATIOPORT]: 0,
+					[BUILDING_TYPE.FACTORY]: 0,
+					[BUILDING_TYPE.HANGAR]: 0,
+					[BUILDING_TYPE.UNIVERSITY]: 0
+				}
 			}
 		})
 

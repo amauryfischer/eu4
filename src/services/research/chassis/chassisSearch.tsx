@@ -10,7 +10,17 @@ export const ResearchChassis = {
 	Corvette: "Corvette",
 	Fregate: "Fregate",
 	Destroyer: "Destroyer",
-	Croiseur: "Croiseur"
+	Croiseur: "Croiseur",
+	Intercepteur: "Intercepteur",
+	Croiseur_intergalactique: "Croiseur_intergalactique",
+	Croiseur_combat: "Croiseur_combat",
+	Warrior: "Warrior",
+	Centaure: "Centaure",
+	Minotaure: "Minotaure",
+	Titan: "Titan",
+	Behemot: "Behemot",
+	Hades: "Hades",
+	Leviathan: "Leviathan"
 }
 
 export const chassisSearch = {
@@ -78,5 +88,89 @@ export const chassisSearch = {
 		],
 		researchBuildingLevel: 4,
 		id: ResearchChassis.Croiseur
+	},
+	[ResearchChassis.Intercepteur]: {
+		name: "Intercepteur",
+		description:
+			"L'Intercepteur est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
+		type: IResearchType.CHASSIS,
+		time: 12 * DAYS + 10 * HOURS,
+		require: [ResearchChassis.Croiseur],
+		researchBuildingLevel: 4,
+		id: ResearchChassis.Intercepteur
+	},
+	[ResearchChassis.Croiseur_intergalactique]: {
+		name: "Croiseur Intergalactique",
+		description:
+			"Le Croiseur Intergalactique est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
+		type: IResearchType.CHASSIS,
+		time: 15 * DAYS + 2 * HOURS,
+		require: [ResearchChassis.Intercepteur],
+		researchBuildingLevel: 4,
+		id: ResearchChassis.Croiseur_intergalactique
+	},
+	[ResearchChassis.Croiseur_combat]: {
+		name: "Croiseur de combat",
+		description:
+			"Le Croiseur de combat est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
+		type: IResearchType.CHASSIS,
+		time: 17 * DAYS,
+		require: [ResearchChassis.Croiseur_intergalactique]
+	},
+	[ResearchChassis.Warrior]: {
+		name: "Warrior",
+		description:
+			"Le warrior est un dérivé du croiseur de combat optimisé pour les missions de combat.",
+		type: IResearchType.CHASSIS,
+		timee: 21 * DAYS,
+		require: [ResearchChassis.Croiseur_combat]
+	},
+	[ResearchChassis.Centaure]: {
+		name: "Centaure",
+		description:
+			"Le Centaure est basé sur la nouvelle architecture B413-R, il est plus rapide et plus résistant que les autres vaisseaux.",
+		type: IResearchType.CHASSIS,
+		time: 25 * DAYS,
+		require: [ResearchChassis.Warrior]
+	},
+	[ResearchChassis.Minotaure]: {
+		name: "Minotaure",
+		description:
+			"Le Minotaure cumule les avantages du Centaure et du Warrior, il est plus rapide et plus résistant que les autres vaisseaux.",
+		type: IResearchType.CHASSIS,
+		time: 29 * DAYS,
+		require: [ResearchChassis.Centaure]
+	},
+	[ResearchChassis.Titan]: {
+		name: "Titan",
+		description:
+			"Le Titan est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
+		type: IResearchType.CHASSIS,
+		time: 35 * DAYS,
+		require: [ResearchChassis.Minotaure]
+	},
+	[ResearchChassis.Behemot]: {
+		name: "Behemot",
+		description:
+			"Le Behemot est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
+		type: IResearchType.CHASSIS,
+		time: 40 * DAYS,
+		require: [ResearchChassis.Titan]
+	},
+	[ResearchChassis.Hades]: {
+		name: "Hades",
+		description:
+			"Le Hades est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
+		type: IResearchType.CHASSIS,
+		time: 45 * DAYS,
+		require: [ResearchChassis.Behemot]
+	},
+	[ResearchChassis.Leviathan]: {
+		name: "Leviathan",
+		description:
+			"Le Leviathan est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
+		type: IResearchType.CHASSIS,
+		time: 50 * DAYS,
+		require: [ResearchChassis.Hades]
 	}
 }

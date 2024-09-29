@@ -7,8 +7,7 @@ export enum RESOURCE_TYPES {
 		URANIUM = "Uranium",
 		AZOTE = "Azote",
 		HYDROGENE = "Hydrogène",
-		MERCURE = "Mercure",
-		KRYPTON = "Krypton"
+		MERCURE = "Mercure"
 	}
 export type IResource = {
 	name: RESOURCE_TYPES

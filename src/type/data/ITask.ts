@@ -2,21 +2,31 @@ import { RESOURCE_TYPES } from "@/services/ResourcesService"
 import { IModule } from "./IModule"
 import { Task } from "@prisma/client"
 import { IPosition } from "./IPosition"
+import { BUILDING_TYPE } from "./IPlanet"
 
 export enum TaskType {
-	BUILD_SHIP = "BUILD_SHIP",
-	ASSEMBLE_FLEET = "ASSEMBLE_FLEET",
-	COLLECT_ASTEROIDS = "COLLECT_ASTEROIDS",
-	RESEARCH = "RESEARCH",
-	FLYING_FLEET = "FLYING_FLEET",
-	UPGRADE_RESOURCE = "UPGRADE_RESOURCE"
-}
+		BUILD_SHIP = "BUILD_SHIP",
+		ASSEMBLE_FLEET = "ASSEMBLE_FLEET",
+		COLLECT_ASTEROIDS = "COLLECT_ASTEROIDS",
+		RESEARCH = "RESEARCH",
+		FLYING_FLEET = "FLYING_FLEET",
+		UPGRADE_RESOURCE = "UPGRADE_RESOURCE",
+		UPGRADE_BUILDING = "UPGRADE_BUILDING"
+	}
 export interface ITaskUpgradeResource extends Omit<Task, "details"> {
 	type: TaskType.UPGRADE_RESOURCE
 	endDate: string
 	details: {
 		resource: RESOURCE_TYPES
 		level: number
+		planetId: string
+	}
+}
+export interface ITaskUpgradeBuilding extends Omit<Task, "details"> {
+	type: TaskType.UPGRADE_BUILDING
+	endDate: string
+	details: {
+		buildingType: BUILDING_TYPE
 		planetId: string
 	}
 }
@@ -82,9 +92,10 @@ export interface ITaskResearch extends Omit<Task, "details"> {
 	}
 }
 export type ITask =
-	| ITaskAsteroid
-	| ITaskFlyingFleet
-	| ITaskAssembleFleet
-	| ITaskBuildShip
-	| ITaskResearch
-	| ITaskUpgradeResource
+		| ITaskAsteroid
+		| ITaskFlyingFleet
+		| ITaskAssembleFleet
+		| ITaskBuildShip
+		| ITaskResearch
+		| ITaskUpgradeResource
+		| ITaskUpgradeBuilding

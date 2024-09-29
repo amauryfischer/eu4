@@ -10,7 +10,10 @@ import { generateInitialValues } from "./server/initialData"
 export default {
 	providers: [
 		GitHub,
-		Google
+		Google({
+			clientId: process.env.GOOGLE_CLIENT_ID,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET
+		})
 		// Authentik({
 		// 	name: "EU4 registration portal",
 		// 	style: {
