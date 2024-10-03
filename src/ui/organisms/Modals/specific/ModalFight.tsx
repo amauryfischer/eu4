@@ -36,6 +36,7 @@ import useShips from "@/hooks/data/entity/use-ships.hook"
 import ShipService from "@/services/ShipService"
 import { RootState } from "@/redux/store"
 import { v4 as uuidv4 } from "uuid"
+import IShip from "@/type/data/IShip"
 
 const LogContainer = styled.div`
 	max-height: 70vh;
@@ -46,10 +47,7 @@ const LogContainer = styled.div`
 	flex-grow: 2;
 	width: 100%;
 `
-const CanvasContainer = styled.div`
-  width: 300px;
-  height: 300px;
-`
+
 
 const ModalFight = () => {
 	const dispatch = useDispatch()
@@ -58,9 +56,7 @@ const ModalFight = () => {
 	const allPirates = usePirates()
 	const allShips = useShips()
 	const allFleets = useFleets()
-	const [shipDetails, setShipDetails] = useState<{
-		[key: string]: { name: string; image: string }
-	}>({})
+
 	const currentCombatTask = useSelector(
 		(state: RootState) => state.current.currentCombatTask
 	)
@@ -83,26 +79,7 @@ const ModalFight = () => {
 		}
 	}, [combatTask?.details?.log])
 
-	useEffect(() => {
-		const fetchShipDetails = async () => {
-			const shipIds = (combatTask?.details?.log ?? []).flatMap(
-				(log) => log.match(/(\b[a-f0-9]{24}\b)/g) || []
-			)
-			const uniqueShipIds = [...new Set(shipIds)]
-			const details = await Promise.all(
-				uniqueShipIds.map(async (id) => {
-					const ship = (await db.ship.findUnique({ where: { id } })) as IShip
-					return { id, name: ship.name, image: ship.image }
-				})
-			)
-			const detailsMap = details.reduce((acc, { id, name, image }) => {
-				acc[id] = { name, image }
-				return acc
-			}, {})
-			setShipDetails(detailsMap)
-		}
-		fetchShipDetails()
-	}, [combatTask?.details?.log])
+
 
 	const renderLog = (log: string) => {
 		return log
