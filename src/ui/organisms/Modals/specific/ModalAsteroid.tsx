@@ -31,6 +31,9 @@ import { useDispatch } from "react-redux"
 import { Canvas, useLoader } from "@react-three/fiber"
 import { Suspense, useMemo } from "react"
 import { OrbitControls, useGLTF } from "@react-three/drei"
+import FleetService from "@/services/FleetService"
+import { IModifier } from "@/type/data/IModule"
+import useShips from "@/hooks/data/entity/use-ships.hook"
 
 const CanvasContainer = styled.div`
   width: 300px;
@@ -51,20 +54,15 @@ const ModalAsteroid = () => {
 	const tasks = useTasks()
 	const fleets = useFleetsOnPosition(currentAsteroid?.position)
 	const user = useCurrentUser()
-	// const { scene } = useGLTF("./obj/Vaisseau.gltf")
-	// more metallic
+	const ships = useShips()
 	const metallic = useMemo(() => {
 		return Math.random() > 0.5 ? 1 : 0
 	}, [])
-	// scene.traverse((child) => {
-	// 	if (child.isMesh) {
-	// 		child.material.metalness = metallic
-	// 	}
-	// })
 	if (!currentAsteroid) {
 		return null
 	}
 	const { createTask, fetchTasks } = useTasksActions()
+
 	return (
 		<>
 			<BModal
@@ -125,6 +123,10 @@ const ModalAsteroid = () => {
 												task.details?.fleetId === fleet.id &&
 												!moment().isAfter(moment(task.endDate))
 										)
+										const cannotMine = FleetService.getFleetStats({
+											ships: fleet.shipIds.map((shipId) => ships[shipId]),
+											modifier: IModifier.EXTRACTION_ASTEROID
+										})
 										return (
 											<CollectButton
 												onClick={() => {
@@ -140,7 +142,7 @@ const ModalAsteroid = () => {
 													fetchTasks()
 												}}
 												title={isMining ? "Minage en cours" : "Miner"}
-												isDisabled={isMining}
+												isDisabled={isMining || cannotMine === 0}
 											/>
 										)
 									}

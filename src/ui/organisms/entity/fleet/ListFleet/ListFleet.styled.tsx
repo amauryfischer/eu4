@@ -6,5 +6,5 @@ export const FleetGridContainer = styled.div<{ numberOfRows: number }>`
     padding: 1rem;
     justify-items: center; // Center items horizontally
     align-items: center;   // Center items vertically
-
+    gap: 1rem;
 `

@@ -2,6 +2,7 @@ import type { IPosition } from "@/type/data/IPosition"
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppSlice } from "../createAppSlice"
 import { BUILDING_TYPE } from "@/type/data/IPlanet"
+import { ITaskFight } from "@/type/data/ITask"
 
 export const currentSlice = createAppSlice({
 	name: "current",
@@ -14,7 +15,8 @@ export const currentSlice = createAppSlice({
 		shipId: undefined,
 		playerActivePlanetId: undefined,
 		user: undefined,
-		upgradeBuilding: undefined
+		upgradeBuilding: undefined,
+		currentCombatTask: undefined
 	},
 	reducers: {
 		setCurrentUpgradeBuilding: (
@@ -22,6 +24,12 @@ export const currentSlice = createAppSlice({
 			{ payload: buildingType }: { payload: BUILDING_TYPE | undefined }
 		) => {
 			state.upgradeBuilding = buildingType
+		},
+		setCurrentCombatTask: (
+			state,
+			{ payload: combatTask }: { payload: ITaskFight | undefined }
+		) => {
+			state.currentCombatTask = combatTask
 		},
 		setCurrentPlanet: (
 			state,
@@ -92,7 +100,8 @@ export const {
 	setCurrentShip,
 	setCurrentPlayerActivePlanetId,
 	setCurrentUser,
-	setCurrentUpgradeBuilding
+	setCurrentUpgradeBuilding,
+	setCurrentCombatTask
 } = currentSlice.actions
 
 export default currentSlice.reducer

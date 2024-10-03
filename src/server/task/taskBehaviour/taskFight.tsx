@@ -14,7 +14,13 @@ const taskFight = {
 		return moment(task.endDate).toDate()
 	},
 	onDestroy: async (task: ITaskFight) => {
-		console.log("💥 Fight turn starting 💥")
+		const log = task.details.log || []
+		const logMessage = (message: string) => {
+			console.log(message)
+			log.push(message)
+		}
+
+		logMessage("💥 Fight turn starting 💥")
 		const fleets = (await db.fleet.findMany({
 			where: {
 				id: {
@@ -80,12 +86,8 @@ const taskFight = {
 					continue
 				}
 				const weapon = groupsWeapons[groupIndexOrder].pop()
-				console.log(
-					"💥 Remaining weapons ",
-					groupsWeapons[groupIndexOrder].length
-				)
+
 				if (!weapon) {
-					console.log("💥 No weapon in group ", groupIndexOrder)
 					continue
 				}
 				// if weapong belong to a dead ship, skip
@@ -125,31 +127,39 @@ const taskFight = {
 				if (random < precision) {
 					if (targetShip.shield > 0) {
 						if (laser) {
-							console.log("💥 Laser hit for ", laser * 1.5, " shield")
+							logMessage(
+								`💥${ship.id} Laser hit ${targetShip.id} for ${laser * 1.5} shield`
+							)
 							targetShip.shield -= laser * 1.5
 						}
 						if (missile) {
-							console.log("💥 Missile hit for ", missile * 0.5, " shield")
+							logMessage(
+								`💥${ship.id} Missile hit ${targetShip.id} for ${missile * 0.5} shield`
+							)
 							targetShip.shield -= missile * 0.5
 						}
 					} else {
 						if (laser) {
-							console.log("💥 Laser hit for ", laser * 0.5, " coque")
+							logMessage(
+								`💥${ship.id} Laser hit ${targetShip.id} for ${laser * 0.5} coque`
+							)
 							targetShip.coque -= laser * 0.5
 						}
 						if (missile) {
-							console.log("💥 Missile hit for ", missile * 1.5, " coque")
+							logMessage(
+								`💥${ship.id} Missile hit ${targetShip.id} for ${missile * 1.5} coque`
+							)
 							targetShip.coque -= missile * 1.5
 						}
 					}
 				} else {
-					console.log("💥 Missed 💥")
+					logMessage(`${ship.id} Missed target`)
 				}
 				if (targetShip.coque <= 0) {
 					groups[targetGroupIndex].shipIds = groups[
 						targetGroupIndex
 					].shipIds.filter((shipId) => shipId !== targetShipIndex)
-					console.log("💥 Ship destroyed 💥")
+					logMessage(`💥 ${targetShip.id} destroyed 💥`)
 					await db.ship.delete({
 						where: {
 							id: targetShipIndex
@@ -217,7 +227,7 @@ const taskFight = {
 				}
 			})
 		)
-		console.log("💥 Fight turn finished 💥")
+		logMessage("💥 Fight turn finished 💥")
 		const remainingFleets = await db.fleet.findMany({
 			where: {
 				id: {
@@ -241,7 +251,6 @@ const taskFight = {
 				)
 			)
 		)
-		// if not remaining ships delete fleet
 		if (
 			remainingFleets
 				.map((fleet) =>
@@ -249,7 +258,8 @@ const taskFight = {
 				)
 				.every((shipIds) => shipIds.length === 0)
 		) {
-			console.log("💥 Fleet destroyed 💥")
+			// if not remaining ships delete fleet
+			logMessage("💥 Fleet destroyed 💥")
 			const fleetToDelete = await db.fleet.findUnique({
 				where: { id: task.details.fleetIds[0] }
 			})
@@ -292,7 +302,7 @@ const taskFight = {
 				)
 				.every((shipIds) => shipIds.length === 0)
 		) {
-			console.log("💥 Pirate destroyed 💥")
+			logMessage("💥 Pirate destroyed 💥")
 			const pirateToDelete = await db.pirate.findUnique({
 				where: { id: task.details.pirateIds[0] }
 			})
@@ -302,8 +312,8 @@ const taskFight = {
 				})
 			}
 		}
-		// if 2 groups not empty, create new fight
 		if (groups.filter((group) => group.shipIds.length > 0).length > 1) {
+			// if 2 groups not empty, create new fight
 			const newTask = {
 				type: TaskType.FIGHT,
 				endDate: moment()
@@ -312,11 +322,12 @@ const taskFight = {
 				details: {
 					fleetIds: remainingFleets.map((fleet) => fleet.id),
 					pirateIds: remainingPirates.map((pirate) => pirate.id),
-					position: task.details.position
+					position: task.details.position,
+					log: log
 				},
 				userId: task.userId
 			}
-			console.log("💥 New fight scheduled 💥")
+			logMessage("💥 New fight scheduled 💥")
 			scheduleTask(newTask)
 		}
 	}

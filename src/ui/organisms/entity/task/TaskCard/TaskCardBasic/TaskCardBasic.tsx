@@ -13,18 +13,20 @@ const TaskCardBasic = ({
 	imgSrc,
 	icon,
 	task,
-	progress
+	progress,
+	onClick
 }: {
 	color: string
 	imgSrc: string
 	icon: JSX.Element
 	task: Task
 	progress: number
+	onClick: () => void
 }) => {
 	const remainingTime = Moment(task.endDate).diff(Moment())
 	const readableRemainingTime = Moment.duration(remainingTime).humanize()
 	return (
-		<TaskContainer $color={color}>
+		<TaskContainer $color={color} onClick={onClick}>
 			<SImage
 				src={imgSrc}
 				width={300}

@@ -12,7 +12,8 @@ import {
 	Image,
 	Popover,
 	PopoverContent,
-	PopoverTrigger
+	PopoverTrigger,
+	Skeleton
 } from "@nextui-org/react"
 import useTasks from "@/hooks/data/entity/use-tasks.hook"
 import { TaskType } from "@/type/data/ITask"
@@ -22,36 +23,36 @@ import FleetService from "@/services/FleetService"
 import Button from "@/ui/atoms/buttons/Button"
 import BProgress from "@/ui/molecules/progress/BProgress"
 import { ShieldProgress } from "@/ui/molecules/progress/BProgress/BProgress.styled"
+import Flex from "@/ui/atoms/Flex"
+import _ from "lodash"
+import IPirate from "@/type/data/IPirate"
 
 const ListFleetCombat = ({
-	fleets,
-	additionalRows
+	fleet
 }: {
-	fleets: IFleet[]
-	additionalRows?: Array<(fleet: IFleet) => JSX.Element>
+	fleet: IFleet | IPirate
 }) => {
 	const ships = useShips()
 	const dispatch = useDispatch()
 	const tasks = useTasks()
+	const shipList = fleet.shipIds.map((shipId) => ships[shipId])
+	if (shipList.length === 0) {
+		return null
+	}
+	const shipClasses = shipList.map(
+		(ship) => ShipService.getAllShips()[ship?.class]
+	)
 	return (
-		<FleetGridContainer
-			numberOfRows={
-				additionalRows === undefined ? 3 : 3 + additionalRows.length
-			}
-		>
-			{fleets.map((fleet) => {
-				const shipList = fleet.shipIds.map((shipId) => ships[shipId])
-				if (shipList.length === 0) {
-					return null
+		<div className="flex flex-col gap-2 w-full items-center justify-center">
+			{shipList.map((ship, index) => {
+				if (_.isEmpty(ship)) {
+					return <Skeleton className="w-full h-full" />
 				}
-				const shipClasses = shipList.map(
-					(ship) => ShipService.getAllShips()[ship?.class]
-				)
-				return shipList.map((ship, index) => (
-					<React.Fragment key={`${fleet.id}-${ship.id}`}>
-						<Image src={shipClasses[index]?.img} isBlurred width="400px" />
-						<div className="text-lg font-bold text-white">{fleet.name}</div>
+				return (
+					<Flex key={`${fleet.id}-${ship.id}`} gap="1rem" alignItems="center">
+						<Image src={shipClasses[index]?.img} isBlurred width="150px" />
 						<div className="text-white min-w-[200px] flex flex-col gap-2">
+							<div className="text-lg font-bold text-white">{ship.name}</div>
 							<ShieldProgress
 								value={
 									(ship.shield * 100) / ShipService.getShipFullShield(ship)
@@ -61,10 +62,10 @@ const ListFleetCombat = ({
 								value={(ship.coque * 100) / ShipService.getShipFullCoque(ship)}
 							/>
 						</div>
-					</React.Fragment>
-				))
+					</Flex>
+				)
 			})}
-		</FleetGridContainer>
+		</div>
 	)
 }
 

@@ -54,6 +54,10 @@ const TaskCard = ({ task }: { task: ITask }) => {
 				}
 				if (task.type === TaskType.FLYING_FLEET) {
 					fetchFleets()
+					setTimeout(() => {
+						fetchTasks()
+						fetParcels(task.details.position.system)
+					}, 500)
 				}
 				if (task.type === TaskType.ASSEMBLE_FLEET) {
 					fetchFleets()
@@ -69,9 +73,11 @@ const TaskCard = ({ task }: { task: ITask }) => {
 					fetchTasks()
 				}
 				if (task.type === TaskType.FIGHT) {
-					fetParcels(task.details.position.system)
 					fetchFleets()
 					fetchTasks()
+					setTimeout(() => {
+						fetParcels(task.details.position.system)
+					}, 500)
 				}
 			}
 		}, 2000)

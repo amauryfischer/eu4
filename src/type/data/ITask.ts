@@ -84,6 +84,7 @@ export interface ITaskFight extends Omit<Task, "details"> {
 		fleetIds: string[]
 		pirateIds: string[]
 		position: IPosition
+		log: string[]
 	}
 }
 export interface ITaskAssembleFleet extends Omit<Task, "details"> {
