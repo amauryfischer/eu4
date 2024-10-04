@@ -15,4 +15,7 @@ const Button = React.forwardRef<
 	return <SButton ref={ref} {...props} />
 })
 
+// Add displayName to the Button component
+Button.displayName = "Button";
+
 export default Button;

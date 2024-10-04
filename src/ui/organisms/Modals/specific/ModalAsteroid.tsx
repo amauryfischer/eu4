@@ -58,11 +58,11 @@ const ModalAsteroid = () => {
 	const metallic = useMemo(() => {
 		return Math.random() > 0.5 ? 1 : 0
 	}, [])
+
+	const { createTask, fetchTasks } = useTasksActions()
 	if (!currentAsteroid) {
 		return null
 	}
-	const { createTask, fetchTasks } = useTasksActions()
-
 	return (
 		<>
 			<BModal

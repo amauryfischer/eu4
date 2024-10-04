@@ -11,7 +11,7 @@ export enum TaskType {
 		RESEARCH = "RESEARCH",
 		FLYING_FLEET = "FLYING_FLEET",
 		UPGRADE_RESOURCE = "UPGRADE_RESOURCE",
-		UPGRADE_BUILDING = "UPGRADE_BUILDING"
+		UPGRADE_BUILDING = "UPGRADE_BUILDING",
 		FIGHT = "FIGHT"
 	}
 export interface ITaskUpgradeResource extends Omit<Task, "details"> {

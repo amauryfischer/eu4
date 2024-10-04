@@ -24,6 +24,7 @@ const getRenderedValueFromSchemaPropertie = ({
 					<div className="flex flex-col">
 						{values?.map((value) => (
 							<span
+								key={value}
 								className="bg-gray-200 rounded-full px-2 py-1 text-xs font-bold mr-1 mb-1"
 								style={{
 									border: `1px solid ${stringToColour(value)}`,

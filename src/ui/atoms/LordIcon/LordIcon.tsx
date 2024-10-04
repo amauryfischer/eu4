@@ -104,4 +104,8 @@ const LordIcon = React.memo(
 		)
 	},
 )
+
+// Add displayName to the LordIcon component
+LordIcon.displayName = "LordIcon";
+
 export default LordIcon

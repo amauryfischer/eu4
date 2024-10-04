@@ -105,7 +105,7 @@ const ShipStats = ({ ship }: { ship: IShip }) => {
 					totalAmount: totalStat.conso,
 				},
 			].map((shipProperty) => (
-				<ShipPropertyContainer>
+				<ShipPropertyContainer key={shipProperty.name}>
 					<Flex gap="0.5rem">
 						<div>{shipProperty.icon}</div>
 						<div>{shipProperty.name}</div>

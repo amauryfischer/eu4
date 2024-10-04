@@ -16,7 +16,8 @@ const quantico = Quantico({
 	weight: ["400", "700"],
 	display: "swap",
 	variable: "--font-quantico",
-	adjustFontFallback: false
+	adjustFontFallback: false,
+	subsets: ["latin"]
 })
 
 export const metadata: Metadata = {

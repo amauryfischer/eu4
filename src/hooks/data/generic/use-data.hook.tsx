@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 
 const useData: (type: Prisma.ModelName) => Record<string, any> =
 	(type) => () => {
+		// @ts-ignore
 		const data = useSelector((state: any) => state.data?.entity?.[type])
 		return data ?? {}
 	}
