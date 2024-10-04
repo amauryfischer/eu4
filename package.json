@@ -4,8 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbo",
-		"build": "next build --experimental-build-mode 'compile'",
-		"start": "next start",
+		"build": "next build --experimental-build-mode 'compile' && node copy-assets.js",
+		"start": "node .next/standalone/server.js",
 		"lint": "next lint",
 		"db": "npx prisma studio",
 		"migrate": "npx prisma migrate dev --name dev",
