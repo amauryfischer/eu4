@@ -10,7 +10,7 @@ import scheduleTask from "../scheduleTask"
 import ModulesService from "@/services/ModulesService"
 import { IModifier } from "@/type/data/IModule"
 import ShipService from "@/services/ShipService"
-
+import _ from "lodash"
 const taskFlyingFleet = {
 	onCreate: async (task: ITaskFlyingFleet) => {
 		const fleet = (await db.fleet.findUnique({
@@ -112,16 +112,14 @@ const taskFlyingFleet = {
 				})
 			)
 			// if fight already scheduled, join, else create
-			const fightAlreadyScheduled = await db.task.findFirst({
+			const allFights = await db.task.findMany({
 				where: {
-					type: TaskType.FIGHT,
-					details: {
-						position: {
-							equals: task.details.position as any
-						}
-					}
+					type: TaskType.FIGHT
 				}
 			})
+			const fightAlreadyScheduled = allFights.find((f) =>
+				_.isEqual(JSON.parse(f.details).position, task.details.position as any)
+			)
 			if (fightAlreadyScheduled) {
 				await db.task.update({
 					where: { id: fightAlreadyScheduled.id },
@@ -163,16 +161,15 @@ const taskFlyingFleet = {
 			console.log("🚩 Fleet detected! Fleet vs Fleet, schedule fight 🏴‍☠️")
 			// for each fleet initialize the ship
 			// if fight already scheduled, join, else create
-			const fightAlreadyScheduled = await db.task.findFirst({
+			const allFights = await db.task.findMany({
 				where: {
-					type: TaskType.FIGHT,
-					details: {
-						position: {
-							equals: task.details.position as any
-						}
-					}
+					type: TaskType.FIGHT
 				}
 			})
+			const fightAlreadyScheduled = allFights.find((f) =>
+				_.isEqual(JSON.parse(f.details).position, task.details.position as any)
+			)
+			
 			if (fightAlreadyScheduled) {
 				await db.task.update({
 					where: { id: fightAlreadyScheduled.id },

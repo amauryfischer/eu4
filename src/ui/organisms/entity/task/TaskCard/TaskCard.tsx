@@ -28,6 +28,7 @@ import TaskResearch from "../TaskResearch/TaskResearch"
 import TaskUpgradeResource from "./TaskUpgradeResource/TaskUpgradeResource"
 import TaskFight from "./TaskFight/TaskFight"
 import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
@@ -38,6 +39,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
 	const { fetchUser } = useUserActions()
 	const { fetchPlanets } = usePlanetsActions()
 	const fetParcels = useParcelsActions()
+	const user = useCurrentUser()
 	// tick every seconds
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -85,6 +87,12 @@ const TaskCard = ({ task }: { task: ITask }) => {
 	}, [task])
 
 	if (moment().isAfter(moment(task.endDate))) {
+		return null
+	}
+	if (!user) {
+		return null
+	}
+	if (task.userId !== user.id && task.type !== TaskType.FIGHT) {
 		return null
 	}
 
