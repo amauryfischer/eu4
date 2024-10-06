@@ -111,17 +111,42 @@ const taskFlyingFleet = {
 					return { pirate, ship }
 				})
 			)
-			scheduleTask({
-				type: TaskType.FIGHT,
-				endDate: moment().add(1, "seconds").toISOString(),
-				details: {
-					fleetIds: [fleet.id],
-					pirateIds: pirates.map((p) => p.id),
-					position: task.details.position
-				},
-				userId: task.userId
+			// if fight already scheduled, join, else create
+			const fightAlreadyScheduled = await db.task.findFirst({
+				where: {
+					type: TaskType.FIGHT,
+					details: {
+						position: {
+							equals: task.details.position as any
+						}
+					}
+				}
 			})
+			if (fightAlreadyScheduled) {
+				await db.task.update({
+					where: { id: fightAlreadyScheduled.id },
+					data: {
+						details: {
+							fleetIds: [...fightAlreadyScheduled.details.fleetIds, fleet.id]
+						}
+					}
+				})
+			} else {
+				scheduleTask({
+					type: TaskType.FIGHT,
+					endDate: moment().add(1, "seconds").toISOString(),
+					details: {
+						fleetIds: [fleet.id],
+						pirateIds: pirates.map((p) => p.id),
+						position: task.details.position
+					},
+					userId: task.userId
+				})
+			}
+		} else {
+			console.log("🚩 No pirate detected at position ", task.details.position)
 		}
+
 		// todo : later add check if fleet on same position maybe start a fight
 		const fleetSamePosition = await db.fleet.findMany({
 			where: {
@@ -137,16 +162,38 @@ const taskFlyingFleet = {
 		if (fleetDifferentUser.length > 0) {
 			console.log("🚩 Fleet detected! Fleet vs Fleet, schedule fight 🏴‍☠️")
 			// for each fleet initialize the ship
-			scheduleTask({
-				type: TaskType.FIGHT,
-				endDate: moment().add(1, "seconds").toISOString(),
-				details: {
-					fleetIds: [...fleetSamePosition.map((f) => f.id), fleet.id],
-					pirateIds: [],
-					position: task.details.position
-				},
-				userId: task.userId
+			// if fight already scheduled, join, else create
+			const fightAlreadyScheduled = await db.task.findFirst({
+				where: {
+					type: TaskType.FIGHT,
+					details: {
+						position: {
+							equals: task.details.position as any
+						}
+					}
+				}
 			})
+			if (fightAlreadyScheduled) {
+				await db.task.update({
+					where: { id: fightAlreadyScheduled.id },
+					data: {
+						details: {
+							fleetIds: [...fightAlreadyScheduled.details.fleetIds, fleet.id]
+						}
+					}
+				})
+			} else {
+				scheduleTask({
+					type: TaskType.FIGHT,
+					endDate: moment().add(1, "seconds").toISOString(),
+					details: {
+						fleetIds: [...fleetSamePosition.map((f) => f.id), fleet.id],
+						pirateIds: [],
+						position: task.details.position
+					},
+					userId: task.userId
+				})
+			}
 		} else {
 			console.log("🚩 No fleet detected at position ", task.details.position)
 		}

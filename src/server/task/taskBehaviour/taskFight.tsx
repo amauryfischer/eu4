@@ -306,7 +306,8 @@ const taskFight = {
 				.map((pirate) =>
 					pirate.shipIds.filter((shipId) => !destroyedShips.includes(shipId))
 				)
-				.every((shipIds) => shipIds.length === 0)
+				.every((shipIds) => shipIds.length === 0) &&
+			pirates.length > 0
 		) {
 			logMessage("💥 Pirate destroyed 💥")
 			const pirateToDelete = await db.pirate.findUnique({
