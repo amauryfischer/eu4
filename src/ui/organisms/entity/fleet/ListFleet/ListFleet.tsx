@@ -21,6 +21,7 @@ import FleetService from "@/services/FleetService"
 import Button from "@/ui/atoms/buttons/Button"
 import BProgress from "@/ui/molecules/progress/BProgress"
 import { ShieldProgress } from "@/ui/molecules/progress/BProgress/BProgress.styled"
+import useCurrentUser from "@/hooks/current/use-current-user.hook"
 
 const ListFleet = ({
 	fleets,
@@ -29,19 +30,23 @@ const ListFleet = ({
 	fleets: IFleet[]
 	additionalRows?: Array<(fleet: IFleet) => JSX.Element>
 }) => {
+	const user = useCurrentUser()
 	const ships = useShips()
 	const dispatch = useDispatch()
 	const tasks = useTasks()
+	const ownerFleets = Object.values(fleets).filter(
+		(fleet) => fleet.userId === user?.id
+	)
 	return (
 		<FleetGridContainer
 			numberOfRows={
 				additionalRows === undefined ? 6 : 6 + additionalRows.length
 			}
 		>
-			{fleets.map((fleet) => {
+			{ownerFleets.map((fleet) => {
 				const shipList = fleet.shipIds.map((shipId) => ships[shipId])
 				const shipClasses = shipList.map(
-					(ship) => ShipService.getAllShips()[ship.class]
+					(ship) => ShipService.getAllShips()[ship?.class]
 				)
 				const assembleFleetTask = Object.values(tasks).find(
 					(task) =>
@@ -53,11 +58,11 @@ const ListFleet = ({
 						<AvatarGroup>
 							{shipClasses.map((shipClass) => (
 								<Avatar
-									src={shipClass.img}
+									src={shipClass?.img}
 									radius="lg"
 									size="lg"
 									isBordered
-									key={shipClass.id}
+									key={shipClass?.id}
 								/>
 							))}
 						</AvatarGroup>
@@ -67,7 +72,7 @@ const ListFleet = ({
 							<ShieldProgress
 								value={
 									(fleet.shipIds.reduce(
-										(acc, shipId) => acc + ships[shipId].shield,
+										(acc, shipId) => acc + (ships[shipId]?.shield || 0),
 										0
 									) *
 										100) /

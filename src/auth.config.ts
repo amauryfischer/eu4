@@ -11,8 +11,8 @@ export default {
 	providers: [
 		GitHub,
 		Google({
-			clientId: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET
+			clientId: process.env.AUTH_GITHUB_ID,
+			clientSecret: process.env.AUTH_GITHUB_SECRET
 		})
 		// Authentik({
 		// 	name: "EU4 registration portal",

@@ -50,14 +50,22 @@ const ListFleetCombat = ({
 				}
 				return (
 					<Flex key={`${fleet.id}-${ship.id}`} gap="1rem" alignItems="center">
-						<Image src={shipClasses[index]?.img} isBlurred width="150px" />
-						<div className="text-white min-w-[200px] flex flex-col gap-2">
+						<div className="flex flex-col gap-2">
 							<div className="text-lg font-bold text-white">{ship.name}</div>
+							<Image src={shipClasses[index]?.img} isBlurred width="150px" />
+						</div>
+						<div className="text-white min-w-[200px] flex flex-col gap-2">
+							<div className="font-bold text-white text-sm">
+								{ship.shield} / {ShipService.getShipFullShield(ship)}
+							</div>
 							<ShieldProgress
 								value={
 									(ship.shield * 100) / ShipService.getShipFullShield(ship)
 								}
 							/>
+							<div className="font-bold text-white text-sm">
+								{ship.coque} / {ShipService.getShipFullCoque(ship)}
+							</div>
 							<BProgress
 								value={(ship.coque * 100) / ShipService.getShipFullCoque(ship)}
 							/>

@@ -34,7 +34,8 @@ const taskAssembleFleet = {
 				position: planet?.position as any,
 				name: task.details.name,
 				cargo: {},
-				fuel: takenFuel
+				fuel: takenFuel,
+				userId: task.userId
 			}
 		})
 		await db.planet.update({

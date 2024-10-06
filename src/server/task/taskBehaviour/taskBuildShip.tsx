@@ -47,7 +47,8 @@ const taskBuildShip = {
 				shield: ShipService.getShipFullShield({
 					class: task.details.class,
 					modules: task.details.modules
-				})
+				}),
+				userId: task.userId
 			}
 		})
 	}

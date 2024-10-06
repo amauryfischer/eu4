@@ -25,6 +25,7 @@ model Ship {
   planetId String?
   coque    Int      @default(100)
   shield   Int      @default(0)
+  userId   String?
 }
 
 enum TaskType {

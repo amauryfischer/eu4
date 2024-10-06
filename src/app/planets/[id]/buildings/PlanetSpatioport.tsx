@@ -78,6 +78,9 @@ const PlanetSpatioport = () => {
 	}
 
 	const shipClasses = ShipService.getAllShips()
+	const ownerShips = Object.values(ships).filter(
+		(ship: IShip) => ship.userId === user.id && ship.planetId === planet.id
+	)
 
 	return (
 		<Flex direction="column" gap="2rem">
@@ -95,7 +98,7 @@ const PlanetSpatioport = () => {
 					</Button>
 				</Flex>
 			</Flex>
-			{Object.values(ships).map((ship: IShip) => {
+			{ownerShips.map((ship: IShip) => {
 				if (
 					Object.values(fleets).some((fleet: IFleet) =>
 						fleet?.shipIds?.includes(ship.id)

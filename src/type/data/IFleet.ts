@@ -8,4 +8,5 @@ export interface IFleet {
 		position: IPosition
 		cargo?: Record<RESOURCE_TYPES, number>
 		fuel: number
+		userId: string
 	}

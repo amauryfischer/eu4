@@ -194,6 +194,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 						) {
 							return null
 						}
+						const isAtUser = fleet.userId === user?.id
 						return (
 							<Suspense fallback={null} key={fleet.id}>
 								<>
@@ -211,7 +212,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 									{/** fleet name as floating text */}
 									<BillboardText
 										position={[x, y - 3.5, z]} // Ajustez l'offset selon vos besoins
-										color="#1469ad"
+										color={isAtUser ? "#1469ad" : "#d506fe"}
 									>
 										{fleet.name}
 									</BillboardText>

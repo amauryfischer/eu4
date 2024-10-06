@@ -470,6 +470,9 @@ const getAllStatFromModules = ({
 	ship,
 	state
 }: { ship: IShip; state: IModifier }) => {
+	if (!ship) {
+		return 0
+	}
 	const modules = ship.modules
 	const stateModifier = modules.reduce((acc, module) => {
 		return acc + (module.modifier?.[state] ?? 0)

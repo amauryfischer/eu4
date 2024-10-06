@@ -50,7 +50,7 @@ export const chassisSearch = {
 		description:
 			"La Corvette est notre réponse aux menaces croissantes dans l'espace. Conçue pour être rapide, agile et lourdement armée, elle est capable de mener des missions de reconnaissance et d'attaque avec une efficacité redoutable.",
 		type: IResearchType.CHASSIS,
-		time: process.env.NEXT_PUBLIC_FAST === "true" ? 8 * MINUTES : 18 * HOURS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 18 * HOURS,
 		required: [ResearchChassis.Chasseur],
 		researchBuildingLevel: 2,
 		id: ResearchChassis.Corvette
@@ -62,7 +62,7 @@ export const chassisSearch = {
 		type: IResearchType.CHASSIS,
 		time:
 			process.env.NEXT_PUBLIC_FAST === "true"
-				? 12 * MINUTES
+				? 3 * MINUTES
 				: 10 * HOURS + 2 * DAYS,
 		required: [ResearchChassis.Corvette, ResearchPropulsion.WARP2],
 		researchBuildingLevel: 2,
@@ -75,7 +75,7 @@ export const chassisSearch = {
 		type: IResearchType.CHASSIS,
 		time:
 			process.env.NEXT_PUBLIC_FAST === "true"
-				? 15 * MINUTES
+				? 3 * MINUTES
 				: 7 * DAYS + 3 * HOURS,
 		required: [ResearchChassis.Fregate, ResearchDefense.COQUE2],
 		researchBuildingLevel: 3,
@@ -88,7 +88,7 @@ export const chassisSearch = {
 		type: IResearchType.CHASSIS,
 		time:
 			process.env.NEXT_PUBLIC_FAST === "true"
-				? 30 * MINUTES
+				? 3 * MINUTES
 				: 8 * DAYS + 11 * HOURS,
 		required: [
 			ResearchChassis.Destroyer,
@@ -104,7 +104,10 @@ export const chassisSearch = {
 		description:
 			"L'Intercepteur est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
 		type: IResearchType.CHASSIS,
-		time: 12 * DAYS + 10 * HOURS,
+		time:
+			process.env.NEXT_PUBLIC_FAST === "true"
+				? 3 * MINUTES
+				: 12 * DAYS + 10 * HOURS,
 		required: [ResearchChassis.Croiseur],
 		researchBuildingLevel: 4,
 		id: ResearchChassis.Intercepteur
@@ -114,7 +117,10 @@ export const chassisSearch = {
 		description:
 			"Le Croiseur Intergalactique est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
 		type: IResearchType.CHASSIS,
-		time: 15 * DAYS + 2 * HOURS,
+		time:
+			process.env.NEXT_PUBLIC_FAST === "true"
+				? 3 * MINUTES
+				: 15 * DAYS + 2 * HOURS,
 		required: [ResearchChassis.Intercepteur],
 		researchBuildingLevel: 4,
 		id: ResearchChassis.Croiseur_intergalactique
@@ -124,7 +130,7 @@ export const chassisSearch = {
 		description:
 			"Le Croiseur de combat est un vaisseau de combat léger conçu pour intercepter et neutraliser les menaces spatiales.",
 		type: IResearchType.CHASSIS,
-		time: 17 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 17 * DAYS,
 		required: [ResearchChassis.Croiseur_intergalactique],
 		researchBuildingLevel: 5,
 		id: ResearchChassis.Croiseur_combat
@@ -134,7 +140,7 @@ export const chassisSearch = {
 		description:
 			"Le warrior est un dérivé du croiseur de combat optimisé pour les missions de combat.",
 		type: IResearchType.CHASSIS,
-		timee: 21 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 21 * DAYS,
 		required: [ResearchChassis.Croiseur_combat],
 		researchBuildingLevel: 5,
 		id: ResearchChassis.Warrior
@@ -144,7 +150,7 @@ export const chassisSearch = {
 		description:
 			"Le Centaure est basé sur la nouvelle architecture B413-R, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
-		time: 25 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 25 * DAYS,
 		required: [ResearchChassis.Warrior],
 		researchBuildingLevel: 6,
 		id: ResearchChassis.Centaure
@@ -154,7 +160,7 @@ export const chassisSearch = {
 		description:
 			"Le Minotaure cumule les avantages du Centaure et du Warrior, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
-		time: 29 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 29 * DAYS,
 		required: [ResearchChassis.Centaure],
 		researchBuildingLevel: 6,
 		id: ResearchChassis.Minotaure
@@ -164,7 +170,7 @@ export const chassisSearch = {
 		description:
 			"Le Titan est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
-		time: 35 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 35 * DAYS,
 		required: [ResearchChassis.Minotaure],
 		researchBuildingLevel: 7,
 		id: ResearchChassis.Titan
@@ -174,7 +180,7 @@ export const chassisSearch = {
 		description:
 			"Le Behemot est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
-		time: 40 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 40 * DAYS,
 		required: [ResearchChassis.Titan],
 		researchBuildingLevel: 7,
 		id: ResearchChassis.Behemot
@@ -184,7 +190,7 @@ export const chassisSearch = {
 		description:
 			"Le Hades est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
-		time: 45 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 45 * DAYS,
 		required: [ResearchChassis.Behemot],
 		researchBuildingLevel: 8,
 		id: ResearchChassis.Hades
@@ -194,7 +200,7 @@ export const chassisSearch = {
 		description:
 			"Le Leviathan est le vaisseau le plus puissant de notre armée spatiale, il est plus rapide et plus résistant que les autres vaisseaux.",
 		type: IResearchType.CHASSIS,
-		time: 50 * DAYS,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 50 * DAYS,
 		required: [ResearchChassis.Hades],
 		researchBuildingLevel: 9,
 		id: ResearchChassis.Leviathan

@@ -123,6 +123,30 @@ const taskFlyingFleet = {
 			})
 		}
 		// todo : later add check if fleet on same position maybe start a fight
+		const fleetSamePosition = await db.fleet.findMany({
+			where: {
+				position: {
+					equals: task.details.position as any
+				},
+				userId: {
+					not: task.userId
+				}
+			}
+		})
+		if (fleetSamePosition.length > 0) {
+			console.log("🚩 Fleet detected! Fleet vs Fleet, schedule fight 🏴‍☠️")
+			// for each fleet initialize the ship
+			scheduleTask({
+				type: TaskType.FIGHT,
+				endDate: moment().add(1, "seconds").toISOString(),
+				details: {
+					fleetIds: [...fleetSamePosition.map((f) => f.id), fleet.id],
+					pirateIds: [],
+					position: task.details.position
+				},
+				userId: task.userId
+			})
+		}
 	}
 }
 

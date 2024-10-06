@@ -1,5 +1,5 @@
 import { IResearchType } from "@/type/data/IResearch"
-import { MINUTES } from "@/utils/time"
+import { DAYS, HOURS, MINUTES } from "@/utils/time"
 
 export const ResearchCargo = {
 	CARGOM: "cargom",
@@ -17,7 +17,7 @@ export const cargoSearch = {
 		description:
 			"Nos scientifiques ont découvert que la répartition de la charge dans les cargos pouvait être optimisée pour augmenter la capacité de charge des cargos tout en améliorant leur résistance aux radiations cosmiques.",
 		type: IResearchType.CARGO,
-		time: 5 * MINUTES,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 2 * HOURS,
 		required: [],
 		id: ResearchCargo.CARGOM
 	},
@@ -26,7 +26,7 @@ export const cargoSearch = {
 		description:
 			"Nos scientifiques pensent qu'en altérant la structure interne atomique du titane, ils peuvent augmenter significativement la capacité de charge des cargos de classe L tout en améliorant leur résistance aux radiations cosmiques.",
 		type: IResearchType.CARGO,
-		time: 200,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 10 * HOURS,
 		required: [ResearchCargo.CARGOM],
 		id: ResearchCargo.CARGOL
 	},
@@ -35,7 +35,7 @@ export const cargoSearch = {
 		description:
 			"Nos chercheurs ont imaginé les plans d'un système de confinement magnétique avancé pour les cargos de classe XL, permettant de stabiliser des charges massives et de réduire les risques de défaillance structurelle lors des voyages interstellaires prolongés.",
 		type: IResearchType.CARGO,
-		time: 300,
+		time: process.env.NEXT_PUBLIC_FAST === "true" ? 3 * MINUTES : 1 * DAYS,
 		required: [ResearchCargo.CARGOL],
 		id: ResearchCargo.CARGOXL
 	},
@@ -43,7 +43,10 @@ export const cargoSearch = {
 		name: "Optimisation de stockage 230K",
 		description: "Optimisation de stockage 230K",
 		type: IResearchType.CARGO,
-		time: 350,
+		time:
+			process.env.NEXT_PUBLIC_FAST === "true"
+				? 3 * MINUTES
+				: 1 * DAYS + 12 * HOURS,
 		required: [ResearchCargo.CARGOXL],
 		id: ResearchCargo.CARGOXL230
 	},
@@ -51,7 +54,10 @@ export const cargoSearch = {
 		name: "Optimisation de stockage 270K",
 		description: "Optimisation de stockage 270K",
 		type: IResearchType.CARGO,
-		time: 350,
+		time:
+			process.env.NEXT_PUBLIC_FAST === "true"
+				? 3 * MINUTES
+				: 1 * DAYS + 20 * HOURS,
 		required: [ResearchCargo.CARGOXL230],
 		id: ResearchCargo.CARGOXL270
 	},
@@ -59,7 +65,10 @@ export const cargoSearch = {
 		name: "Optimisation de stockage mini",
 		description: "Optimisation de stockage mini",
 		type: IResearchType.CARGO,
-		time: 350,
+		time:
+			process.env.NEXT_PUBLIC_FAST === "true"
+				? 3 * MINUTES
+				: 2 * DAYS + 15 * HOURS,
 		required: [ResearchCargo.CARGOXL270],
 		id: ResearchCargo.CARGOMINI
 	},
@@ -67,7 +76,10 @@ export const cargoSearch = {
 		name: "Optimisation de stockage jumbo",
 		description: "Optimisation de stockage jumbo",
 		type: IResearchType.CARGO,
-		time: 350,
+		time:
+			process.env.NEXT_PUBLIC_FAST === "true"
+				? 3 * MINUTES
+				: 4 * DAYS + 1 * HOURS,
 		required: [ResearchCargo.CARGOMINI],
 		id: ResearchCargo.CARGOJUMBO
 	}
