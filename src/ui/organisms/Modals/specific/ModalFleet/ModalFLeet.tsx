@@ -51,6 +51,9 @@ import FuelBar from "../../../entity/fleet/FuelBar"
 import FleetService from "@/services/FleetService"
 import ModalFleetCargo from "./ModalFleetCargo"
 import ModalFleetFuel from "./ModalFleetFuel"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
+import Fleet from "@/app/fleets/Fleet"
+import ModalFleetNotOwner from "./ModalFleetNotOwner"
 
 const ModalFleet = () => {
 	const currentFleet = useCurrentFleet()
@@ -58,6 +61,7 @@ const ModalFleet = () => {
 	const [x, setX] = useState(currentFleet?.position?.systemPosition?.x)
 	const [y, setY] = useState(currentFleet?.position?.systemPosition?.y)
 	const [z, setZ] = useState(currentFleet?.position?.systemPosition?.z)
+	const [isDirty, setIsDirty] = useState(false)
 	const dispatch = useDispatch()
 	const { createTask, fetchTasks } = useTasksActions()
 	const user = useCurrentUser()
@@ -65,6 +69,13 @@ const ModalFleet = () => {
 	const ships = useShips()
 	const [isOpeningSoute, setIsOpeningSoute] = useState(false)
 	const [isOpeningFuel, setIsOpeningFuel] = useState(false)
+	const tasks = useTasks()
+
+	const isMoving = Object.values(tasks).some(
+		(task) =>
+			task.type === TaskType.FLYING_FLEET &&
+			task.details.fleetId === currentFleet?.id
+	)
 
 	const planets = usePlanets()
 	const { updateFleet } = useFleetsActions()
@@ -93,11 +104,13 @@ const ModalFleet = () => {
 	}
 
 	useEffect(() => {
-		setSystem(currentFleet?.position?.system)
-		setX(currentFleet?.position?.systemPosition?.x)
-		setY(currentFleet?.position?.systemPosition?.y)
-		setZ(currentFleet?.position?.systemPosition?.z)
-	}, [currentFleet])
+		if (!isDirty) {
+			setSystem(currentFleet?.position?.system)
+			setX(currentFleet?.position?.systemPosition?.x)
+			setY(currentFleet?.position?.systemPosition?.y)
+			setZ(currentFleet?.position?.systemPosition?.z)
+		}
+	}, [currentFleet, isDirty])
 
 	if (!currentFleet) {
 		return null
@@ -113,6 +126,10 @@ const ModalFleet = () => {
 
 	if (!currentFleet) {
 		return null
+	}
+
+	if (currentFleet.userId !== user.id) {
+		return <ModalFleetNotOwner />
 	}
 
 	return (
@@ -165,25 +182,37 @@ const ModalFleet = () => {
 										<Flex gap="0.5rem" className="max-w-[500px]">
 											<Input
 												value={system?.toString()}
-												onValueChange={(e) => setSystem(e)}
+												onValueChange={(e) => {
+													setSystem(e)
+													setIsDirty(true)
+												}}
 												type="number"
 												variant="bordered"
 											/>
 											<Input
 												value={x?.toString()}
-												onValueChange={(e) => setX(Number(e))}
+												onValueChange={(e) => {
+													setX(Number(e))
+													setIsDirty(true)
+												}}
 												type="number"
 												variant="bordered"
 											/>
 											<Input
 												value={y?.toString()}
-												onValueChange={(e) => setY(Number(e))}
+												onValueChange={(e) => {
+													setY(Number(e))
+													setIsDirty(true)
+												}}
 												type="number"
 												variant="bordered"
 											/>
 											<Input
 												value={z?.toString()}
-												onValueChange={(e) => setZ(Number(e))}
+												onValueChange={(e) => {
+													setZ(Number(e))
+													setIsDirty(true)
+												}}
 												type="number"
 												variant="bordered"
 											/>
@@ -214,7 +243,8 @@ const ModalFleet = () => {
 													system === currentFleet?.position?.system &&
 													x === currentFleet?.position?.systemPosition?.x &&
 													y === currentFleet?.position?.systemPosition?.y &&
-													z === currentFleet?.position?.systemPosition?.z
+													z === currentFleet?.position?.systemPosition?.z &&
+													!isMoving
 												}
 											>
 												Déplacer

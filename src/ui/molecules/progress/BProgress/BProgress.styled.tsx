@@ -59,7 +59,7 @@ export const ShieldProgress = styled(Progress)<{ value: number }>`
 			if (value < 100) {
 				return "var(--blue400)"
 			}
-			return "var(--blue900)"
+			return "var(--blue700)"
 		}};
 				&  .bg-primary {
         background-color: var(--color);

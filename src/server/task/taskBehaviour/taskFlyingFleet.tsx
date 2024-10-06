@@ -127,13 +127,14 @@ const taskFlyingFleet = {
 			where: {
 				position: {
 					equals: task.details.position as any
-				},
-				userId: {
-					not: task.userId
 				}
 			}
 		})
-		if (fleetSamePosition.length > 0) {
+		console.table(fleetSamePosition)
+		const fleetDifferentUser = fleetSamePosition.filter(
+			(f) => f.userId !== task.userId
+		)
+		if (fleetDifferentUser.length > 0) {
 			console.log("🚩 Fleet detected! Fleet vs Fleet, schedule fight 🏴‍☠️")
 			// for each fleet initialize the ship
 			scheduleTask({
@@ -146,6 +147,8 @@ const taskFlyingFleet = {
 				},
 				userId: task.userId
 			})
+		} else {
+			console.log("🚩 No fleet detected at position ", task.details.position)
 		}
 	}
 }

@@ -28,11 +28,14 @@ const taskFight = {
 				}
 			}
 		})) as unknown as Array<IFleet>
-		const pirates = (await db.pirate.findMany({
-			where: {
-				id: { in: task.details.pirateIds }
-			}
-		})) as unknown as Array<IPirate>
+		let pirates = [] as Array<IPirate>
+		if (task.details.pirateIds.length > 0) {
+			pirates = (await db.pirate.findMany({
+				where: {
+					id: { in: task.details.pirateIds }
+				}
+			})) as unknown as Array<IPirate>
+		}
 
 		// make group of ennemies and allies
 		// ! todo implement ally fight when same empire
@@ -272,13 +275,16 @@ const taskFight = {
 		if (remainingFleets.length === 0) {
 			return
 		}
-		const remainingPirates = await db.pirate.findMany({
-			where: {
-				id: {
-					in: pirates.map((pirate) => pirate.id)
+		let remainingPirates = [] as Array<IPirate>
+		if (task.details.pirateIds.length > 0) {
+			remainingPirates = await db.pirate.findMany({
+				where: {
+					id: {
+						in: pirates.map((pirate) => pirate.id)
+					}
 				}
-			}
-		})
+			})
+		}
 		console.log("💥 Remaining pirates shipIds 💥")
 		console.table(
 			_.flattenDeep(
