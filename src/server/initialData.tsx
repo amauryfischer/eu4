@@ -84,7 +84,16 @@ export const generateInitialValues = async () => {
 						z
 					}
 				},
-				resources: {},
+				resources: {
+					Titane: 20_000,
+					Cuivre: 20_000,
+					Fer: 20_000,
+					Azote: 20_000,
+					Uranium: 20_000,
+					Silicium: 20_000,
+					Hydrogène: 20_000,
+					Aluminium: 20_000
+				},
 				resourcesMultiplier,
 				mines: Object.fromEntries(available_resources.map((el) => [el, 1])),
 				type: randomType,

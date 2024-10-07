@@ -7,6 +7,7 @@ import { Session } from "next-auth"
 import { generateInitialValues } from "./initialData"
 import scheduleTask from "./task/scheduleTask"
 import syncDataPlanet from "./utils/syncDataPlanet"
+import { TaskType } from "@/type/data/ITask"
 
 const deleteEveryThing = async () => {
 	console.log("🚮 Droping the base")
@@ -41,6 +42,9 @@ export const fetchServerData = async (
 		})
 
 		const prismaType = type.toLowerCase() as any
+		if (!session?.user) {
+			return []
+		}
 
 		if (type === "Planet") {
 			await syncDataPlanet()
@@ -57,7 +61,20 @@ export const fetchServerData = async (
 			}
 		}
 
-		// @ts-ignore
+		if (type === "Task") {
+			const userTasks = await db.task.findMany({
+				where: {
+					userId: session.user.id
+				}
+			})
+			const fightTasks = await db.task.findMany({
+				where: {
+					type: TaskType.FIGHT
+				}
+			})
+			return [...userTasks, ...fightTasks]
+		}
+
 		const data = await db[prismaType].findMany()
 		if (type === "Planet" && data.length === 0) {
 			generateInitialValues()

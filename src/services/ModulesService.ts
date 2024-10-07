@@ -225,12 +225,11 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Laser 1",
 		description:
 			"Un laser de base, il peut détruire des vaisseaux avec une cadence faible, mais est étonnamment précis",
-		img: "/images/modules/weapons/laser1.png",
+		img: "/images/modules/weapons/laser1.webp",
 		type: IModuleType.WEAPON,
 		emplacement: 1,
 		modifier: {
 			[IModifier.LASER]: 10,
-			[IModifier.CONSO]: 100,
 			[IModifier.PRECISION]: 80
 		},
 		cost: {
@@ -246,12 +245,11 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Laser 2",
 		description:
 			"Un laser plus puissant, il peut détruire des vaisseaux avec une cadence moyenne, mais est moins précis",
-		img: "/images/modules/weapons/laser3.png",
+		img: "/images/modules/weapons/laser2.png",
 		type: IModuleType.WEAPON,
-		emplacement: 1,
+		emplacement: 2,
 		modifier: {
 			[IModifier.LASER]: 20,
-			[IModifier.CONSO]: 200,
 			[IModifier.PRECISION]: 90
 		},
 		cost: {
@@ -268,12 +266,11 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Laser 3",
 		description:
 			"Un laser puissant, il peut détruire des vaisseaux avec une cadence élevée, mais est très imprécis",
-		img: "/images/modules/weapons/laser5.png",
+		img: "/images/modules/weapons/laser3.png",
 		type: IModuleType.WEAPON,
-		emplacement: 1,
+		emplacement: 4,
 		modifier: {
-			[IModifier.LASER]: 30,
-			[IModifier.CONSO]: 300,
+			[IModifier.LASER]: 40,
 			[IModifier.PRECISION]: 95
 		},
 		cost: {
@@ -284,6 +281,158 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 			[SILICIUM.name]: 5_900
 		},
 		requiredResearch: [Research.LASER3]
+	},
+	miniLaser: {
+		id: "miniLaser",
+		name: "Mini laser",
+		description:
+			"Un laser très puissant, il peut détruire des vaisseaux avec une cadence élevée, mais est très imprécis",
+		img: "/images/modules/weapons/laser3.png",
+		type: IModuleType.WEAPON,
+		emplacement: 5,
+		modifier: {
+			[IModifier.LASER]: 80,
+			[IModifier.PRECISION]: 80
+		},
+		cost: {
+			[TITANE.name]: 70_000,
+			[CUIVRE.name]: 45_000,
+			[AZOTE.name]: 20_000,
+			[FER.name]: 40_000,
+			[SILICIUM.name]: 60_000
+		},
+		requiredResearch: [Research.MINI_LASER]
+	},
+	jumboLaser: {
+		id: "jumboLaser",
+		name: "Laser jumbo",
+		description:
+			"Un laser puissant, il peut détruire des vaisseaux avec une cadence élevée, mais est très imprécis",
+		img: "/images/modules/weapons/laser3.png",
+		type: IModuleType.WEAPON,
+		emplacement: 12,
+		modifier: {
+			[IModifier.LASER]: 250,
+			[IModifier.PRECISION]: 50
+		},
+		cost: {
+			[TITANE.name]: 120_000,
+			[CUIVRE.name]: 90_000,
+			[AZOTE.name]: 50_000,
+			[FER.name]: 100_000,
+			[SILICIUM.name]: 200_000
+		},
+		requiredResearch: [Research.LASER_JUMBO]
+	},
+	ballista: {
+		id: "ballista",
+		name: "Ballista",
+		description:
+			"Un lanceur de roquettes simple mais efficace, il inflige de lourds dégats à la coque des vaisseaux, mais les boucliers ne sont presque pas affectés",
+		img: "/images/modules/weapons/ballista.webp",
+		type: IModuleType.WEAPON,
+		emplacement: 2,
+		modifier: {
+			[IModifier.MISSILE]: 30,
+			[IModifier.PRECISION]: 40
+		},
+		cost: {
+			[TITANE.name]: 2_500,
+			[AZOTE.name]: 2_000,
+			[FER.name]: 1_400,
+			[SILICIUM.name]: 2_800,
+			[HYDROGENE.name]: 1_000,
+			[URANIUM.name]: 2_000
+		},
+		requiredResearch: [Research.BALLISTA]
+	},
+	sniper: {
+		id: "sniper",
+		name: "Sniper",
+		description:
+			"Un lanceur de roquettes simple mais efficace, il inflige de lourds dégats à la coque des vaisseaux, mais les boucliers ne sont presque pas affectés",
+		img: "/images/modules/weapons/sniper.webp",
+		type: IModuleType.WEAPON,
+		emplacement: 4,
+		modifier: {
+			[IModifier.MISSILE]: 70,
+			[IModifier.PRECISION]: 35
+		},
+		cost: {
+			[TITANE.name]: 8_000,
+			[AZOTE.name]: 6_000,
+			[FER.name]: 4_000,
+			[SILICIUM.name]: 16_000,
+			[HYDROGENE.name]: 6_000,
+			[URANIUM.name]: 12_000
+		},
+		requiredResearch: [Research.SNIPER]
+	},
+	vendetta: {
+		id: "vendetta",
+		name: "Vendetta",
+		description:
+			"Un lanceur de roquettes simple mais efficace, il inflige de lourds dégats à la coque des vaisseaux, mais les boucliers ne sont presque pas affectés",
+		img: "/images/modules/weapons/vendetta.webp",
+		type: IModuleType.WEAPON,
+		emplacement: 8,
+		modifier: {
+			[IModifier.MISSILE]: 70,
+			[IModifier.PRECISION]: 75
+		},
+		cost: {
+			[TITANE.name]: 10_000,
+			[AZOTE.name]: 8_000,
+			[FER.name]: 6_000,
+			[SILICIUM.name]: 24_000,
+			[HYDROGENE.name]: 6_000,
+			[URANIUM.name]: 12_000
+		},
+		requiredResearch: [Research.VENDETTA]
+	},
+	miniBallista: {
+		id: "miniBallista",
+		name: "Mini ballista",
+		description:
+			"Un puissant lanceur de roquettes miniaturisé, il inflige de très lourds dégats à la coque des vaisseaux, mais les boucliers ne sont presque pas affectés",
+		img: "/images/modules/weapons/mini_ballista.webp",
+		type: IModuleType.WEAPON,
+		emplacement: 6,
+		modifier: {
+			[IModifier.MISSILE]: 80,
+			[IModifier.PRECISION]: 50
+		},
+		cost: {
+			[TITANE.name]: 42_000,
+			[AZOTE.name]: 30_000,
+			[FER.name]: 20_000,
+			[SILICIUM.name]: 80_000,
+			[HYDROGENE.name]: 30_000,
+			[URANIUM.name]: 60_000
+		},
+		requiredResearch: [Research.MINI_BALLISTA]
+	},
+	jumboBallista: {
+		id: "jumboBallista",
+		name: "Jumbo ballista",
+		description:
+			"Le Jumbo Ballista, fruit de décennies de recherche par les ingénieurs militaires de la Corporation Orion, représente l'apogée de la technologie des lanceurs de roquettes. Cette arme colossale, capable de tirer des salves de missiles guidés à tête chercheuse, peut réduire en poussière la coque des plus grands vaisseaux de guerre. Cependant, son efficacité contre les boucliers énergétiques reste limitée, ce qui en fait une arme de choix pour les attaques surprises et les embuscades spatiales. Son déploiement est souvent considéré comme un tournant décisif dans tout conflit interstellaire.",
+		img: "/images/modules/weapons/jumbo_ballista.webp",
+		type: IModuleType.WEAPON,
+		emplacement: 24,
+		modifier: {
+			[IModifier.MISSILE]: 400,
+			[IModifier.PRECISION]: 30
+		},
+		cost: {
+			[TITANE.name]: 200_000,
+			[AZOTE.name]: 150_000,
+			[FER.name]: 100_000,
+			[SILICIUM.name]: 400_000,
+			[HYDROGENE.name]: 150_000,
+			[URANIUM.name]: 300_000
+		},
+		requiredResearch: [Research.JUMBO_BALLISTA]
 	},
 	gps1: {
 		id: "gps1",
