@@ -85,14 +85,14 @@ export const generateInitialValues = async () => {
 					}
 				},
 				resources: {
-					Titane: 20_000,
-					Cuivre: 20_000,
-					Fer: 20_000,
-					Azote: 20_000,
-					Uranium: 20_000,
-					Silicium: 20_000,
-					Hydrogène: 20_000,
-					Aluminium: 20_000
+					Titane: 1,
+					Cuivre: 1,
+					Fer: 1,
+					Azote: 1,
+					Uranium: 1,
+					Silicium: 1,
+					Hydrogène: 1,
+					Aluminium: 1
 				},
 				resourcesMultiplier,
 				mines: Object.fromEntries(available_resources.map((el) => [el, 1])),
@@ -106,7 +106,8 @@ export const generateInitialValues = async () => {
 					[BUILDING_TYPE.FACTORY]: 0,
 					[BUILDING_TYPE.HANGAR]: 0,
 					[BUILDING_TYPE.UNIVERSITY]: 0
-				}
+				},
+				lastSync: new Date().toISOString()
 			}
 		})
 

@@ -9,7 +9,8 @@
 		"lint": "next lint",
 		"db": "npx prisma studio",
 		"migrate": "npx prisma migrate dev --name dev",
-		"dbreset": "npx prisma db push --force-reset && npx prisma generate && npx prisma migrate dev --name dev"
+		"dbreset": "npx prisma db push --force-reset && npx prisma generate && npx prisma migrate dev --name dev",
+		"prod_reset": "npm install -g prisma && npx prisma migrate reset"
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.4.2",
