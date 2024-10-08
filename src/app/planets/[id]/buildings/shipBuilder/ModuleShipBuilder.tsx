@@ -8,11 +8,20 @@ import styled from "styled-components"
 import { ModuleDescription, ModuleMainName } from "./ModuleShipBuilder.styled"
 import { IModule } from "@/type/data/IModule"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import { Image } from "@nextui-org/react"
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: 100px 300px 200px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 1rem;
+  gap: 3rem;
+  &:hover {
+    cursor: pointer;
+	img {
+		opacity: 0.8;
+	}
+  }
 `
 
 const ModuleShipBuilder = ({
@@ -38,10 +47,23 @@ const ModuleShipBuilder = ({
 		return null
 	}
 	return (
-		<Container>
-			<img src={module.img} alt={module.name} width="60px" />
+		<Container
+			onClick={() => {
+				setSelectedModules([...selectedModules, module])
+			}}
+		>
+			<Image
+				isBlurred
+				src={module.img}
+				alt={module.name}
+				width={80}
+				className="m-4 w-20 max-w-20"
+				classNames={{
+					blurredImg: "w-28 max-w-28"
+				}}
+			/>
 
-			<Flex direction="column">
+			<Flex direction="column" className="w-[300px] max-w-[300px]">
 				<ModuleMainName>{module.name}</ModuleMainName>
 				<ModuleDescription>{module.description}</ModuleDescription>
 			</Flex>

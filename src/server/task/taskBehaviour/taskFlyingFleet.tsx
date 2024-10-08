@@ -46,7 +46,7 @@ const taskFlyingFleet = {
 			}
 		})
 		const fast = process.env.NEXT_PUBLIC_FAST === "true"
-		const endDate = moment().add(fast ? 30 : timeToAdd, "seconds")
+		const endDate = moment().add(fast ? 15 : timeToAdd, "seconds")
 		return endDate.toDate()
 	},
 	onDestroy: async (task: ITaskFlyingFleet) => {
@@ -79,14 +79,16 @@ const taskFlyingFleet = {
 						data: {
 							class: "navette",
 							name: "Navette 1",
-							modules: [ModulesService.getAllModules()["laser1"]]
+							modules: [ModulesService.getAllModules()["laser1"]],
+							coque: 100
 						}
 					})
 					const ship2 = await db.ship.create({
 						data: {
 							class: "navette",
 							name: "Navette 2",
-							modules: [ModulesService.getAllModules()["laser1"]]
+							modules: [ModulesService.getAllModules()["laser1"]],
+							coque: 100
 						}
 					})
 					const ship3 = await db.ship.create({
@@ -98,7 +100,9 @@ const taskFlyingFleet = {
 								ModulesService.getAllModules()["laser1"],
 								ModulesService.getAllModules()["laser1"],
 								ModulesService.getAllModules()["shield1"]
-							]
+							],
+							coque: 150,
+							shield: 200
 						}
 					})
 					// attach ship to pirate
@@ -118,7 +122,7 @@ const taskFlyingFleet = {
 				}
 			})
 			const fightAlreadyScheduled = allFights.find((f) =>
-				_.isEqual(JSON.parse(f.details).position, task.details.position as any)
+				_.isEqual(f.details.position, task.details.position as any)
 			)
 			if (fightAlreadyScheduled) {
 				await db.task.update({

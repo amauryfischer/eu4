@@ -245,7 +245,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Laser 2",
 		description:
 			"Un laser plus puissant, il peut détruire des vaisseaux avec une cadence moyenne, mais est moins précis",
-		img: "/images/modules/weapons/laser2.png",
+		img: "/images/modules/weapons/laser2.webp",
 		type: IModuleType.WEAPON,
 		emplacement: 2,
 		modifier: {
@@ -266,7 +266,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Laser 3",
 		description:
 			"Un laser puissant, il peut détruire des vaisseaux avec une cadence élevée, mais est très imprécis",
-		img: "/images/modules/weapons/laser3.png",
+		img: "/images/modules/weapons/laser3.webp",
 		type: IModuleType.WEAPON,
 		emplacement: 4,
 		modifier: {
@@ -287,7 +287,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Mini laser",
 		description:
 			"Un laser très puissant, il peut détruire des vaisseaux avec une cadence élevée, mais est très imprécis",
-		img: "/images/modules/weapons/laser3.png",
+		img: "/images/modules/weapons/mini_laser.webp",
 		type: IModuleType.WEAPON,
 		emplacement: 5,
 		modifier: {
@@ -308,7 +308,7 @@ const getAllModules: () => { [name: string]: IModule } = () => ({
 		name: "Laser jumbo",
 		description:
 			"Un laser puissant, il peut détruire des vaisseaux avec une cadence élevée, mais est très imprécis",
-		img: "/images/modules/weapons/laser3.png",
+		img: "/images/modules/weapons/jumbo_laser.webp",
 		type: IModuleType.WEAPON,
 		emplacement: 12,
 		modifier: {

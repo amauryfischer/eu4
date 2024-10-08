@@ -287,7 +287,7 @@ const ShipBuilder = ({
 							{Object.values(ResourcesService.getAllResources()).map(
 								(resource) => (
 									<React.Fragment key={resource.name}>
-										<img
+										<Image
 											src={resource.img}
 											height="25px"
 											width="25px"

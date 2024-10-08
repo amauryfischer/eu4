@@ -46,7 +46,7 @@ const ListFleetCombat = ({
 		<div className="flex flex-col gap-2 w-full items-center justify-center">
 			{shipList.map((ship, index) => {
 				if (_.isEmpty(ship)) {
-					return <Skeleton key={`${fleet.id}-${ship.id}`} className="w-full h-full" />
+					return <Skeleton key={`${fleet.id}`} className="w-full h-full" />
 				}
 				return (
 					<Flex key={`${fleet.id}-${ship.id}`} gap="1rem" alignItems="center">

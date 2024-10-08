@@ -18,10 +18,10 @@ const FuelBar = ({
 		<div className="flex items-center gap-2">
 			<StyledProgress
 				aria-label="Loading..."
-				value={progress}
+				value={Math.floor(progress * 100) / 100}
 				className={`max-w-md min-w-[200px] ${className}`}
 			/>
-			<span className="text-white">{progress}%</span>
+			<span className="text-white">{Math.floor(progress * 100) / 100}%</span>
 		</div>
 	)
 }

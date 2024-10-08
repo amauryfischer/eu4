@@ -9,6 +9,7 @@ import IPirate from "@/type/data/IPirate"
 import scheduleTask from "../scheduleTask"
 import { IModuleType } from "@/services/ModulesService"
 import _ from "lodash"
+import { IModifier } from "@/type/data/IModule"
 const taskFight = {
 	onCreate: async (task: ITaskFight) => {
 		return moment(task.endDate).toDate()
@@ -39,65 +40,43 @@ const taskFight = {
 
 		// make group of ennemies and allies
 		// ! todo implement ally fight when same empire
-		const groups = [...pirates, ...fleets]
+		const allFleet = [...pirates, ...fleets]
+		const groups = _(allFleet)
+			.groupBy((fleet) => fleet.userId || "neutral")
+			.map((fleets, userId) => ({
+				userId: userId,
+				shipIds: _.flatten(fleets.map((fleet) => fleet.shipIds))
+			}))
+			.value()
+		const initialGroups = _.cloneDeep(groups)
 
-		// filter out empty groups
-		const nonEmptyGroups = groups.filter((group) => group.shipIds.length > 0)
-
-		// build groups weapons
-		const groupsWeapons = await Promise.all(
-			nonEmptyGroups.map(async (group, index) => {
-				return _.shuffle(
-					_.flattenDeep(
-						await Promise.all(
-							group.shipIds.map(async (shipId) => {
-								const ship = (await db.ship.findUnique({
-									where: {
-										id: shipId
-									}
-								})) as unknown as IShip
-								const weapons = ship.modules.filter(
-									(module) => module.type === IModuleType.WEAPON
-								)
-								return weapons.map((weapon) => {
-									return {
-										laser: weapon.modifier?.laser,
-										precision: weapon.modifier?.precision,
-										missile: weapon.modifier?.missile,
-										ion: weapon.modifier?.ion,
-										ship: ship,
-										groupIndex: index
-									}
-								})
-							})
-						)
-					)
-				)
-			})
-		)
 		// turn by turn weapon hit random ship of other group, weapons can hit once
 		const destroyedShips: Array<string> = []
-		while (_.flattenDeep(groupsWeapons).length > 0) {
+		while (_.flattenDeep(groups.map((group) => group.shipIds)).length > 0) {
 			// randomize group order
 			const groupOrder = _.shuffle(groups.map((group, index) => index))
 			for (const groupIndexOrder of groupOrder) {
 				// skip group if no weapons or invalid index
 				if (
-					!groupsWeapons[groupIndexOrder] ||
-					groupsWeapons[groupIndexOrder].length === 0
+					!groups[groupIndexOrder] ||
+					groups[groupIndexOrder].shipIds.length === 0
 				) {
 					continue
 				}
-				const weapon = groupsWeapons[groupIndexOrder].pop()
+				const shipId = groups[groupIndexOrder].shipIds.pop()
 
-				if (!weapon) {
+				if (!shipId) {
 					continue
 				}
 				// if weapong belong to a dead ship, skip
-				if (destroyedShips.includes(weapon.ship.id)) {
+				if (destroyedShips.includes(shipId)) {
 					continue
 				}
-				const { laser, precision, missile, ship, groupIndex } = weapon
+				const ship = (await db.ship.findUnique({
+					where: {
+						id: shipId
+					}
+				})) as unknown as IShip
 				// if ship is dead, skip
 				if (ship.coque <= 0) {
 					continue
@@ -107,12 +86,16 @@ const taskFight = {
 				)[0]
 				// randomize target ship
 				const targetShipIndex = _.shuffle(
-					groups[targetGroupIndex].shipIds.filter(
+					initialGroups[targetGroupIndex].shipIds.filter(
 						(shipId) => !destroyedShips.includes(shipId)
 					)
 				)[0]
 				if (!targetShipIndex) {
 					console.log("💥 No target ship in group ", targetGroupIndex)
+					console.log(
+						"💥 Available ships in group: ",
+						initialGroups[targetGroupIndex].shipIds
+					)
 					continue
 				}
 				const targetShip = (await db.ship.findUnique({
@@ -123,40 +106,55 @@ const taskFight = {
 				// hit target ship
 				// laser hit
 				// precision hit
-				if (!precision) {
-					continue
-				}
-				const random = Math.random() * 100
-				if (random < precision) {
-					if (targetShip.shield > 0) {
-						if (laser) {
-							logMessage(
-								`💥${ship.id} Laser hit ${targetShip.id} for ${laser * 1.5} shield`
-							)
-							targetShip.shield -= laser * 1.5
-						}
-						if (missile) {
-							logMessage(
-								`💥${ship.id} Missile hit ${targetShip.id} for ${missile * 0.5} shield`
-							)
-							targetShip.shield -= missile * 0.5
-						}
-					} else {
-						if (laser) {
-							logMessage(
-								`💥${ship.id} Laser hit ${targetShip.id} for ${laser * 0.5} coque`
-							)
-							targetShip.coque -= laser * 0.5
-						}
-						if (missile) {
-							logMessage(
-								`💥${ship.id} Missile hit ${targetShip.id} for ${missile * 1.5} coque`
-							)
-							targetShip.coque -= missile * 1.5
+
+				let laser = 0
+				let missile = 0
+				ship.modules.forEach((module) => {
+					if (
+						module.type === IModuleType.WEAPON &&
+						module.modifier &&
+						module.modifier[IModifier.PRECISION] &&
+						module.modifier[IModifier.LASER]
+					) {
+						const random = Math.random() * 100
+						if (random < module.modifier[IModifier.PRECISION]) {
+							laser += module.modifier[IModifier.LASER]
 						}
 					}
+					if (
+						module.type === IModuleType.WEAPON &&
+						module.modifier &&
+						module.modifier[IModifier.MISSILE]
+					) {
+						missile += module.modifier[IModifier.MISSILE]
+					}
+				})
+				// 100% of laser hit shield with 1.5 multiplier, if no shield hit coque with 0.5 multiplier
+				// 80% of missile hit shield with 0.5 multiplier, if no shield hit coque with 1.5 multiplier, 20% of missile hit coque with 0.75 multiplier
+				if (targetShip.shield > 0) {
+					if (laser) {
+						logMessage(
+							`💥${ship.id} Laser hit ${targetShip.id} for ${laser * 1.5} shield`
+						)
+						targetShip.shield -= laser * 1.5
+					}
+					if (missile) {
+						targetShip.shield -= missile * 0.5 * 0.8
+						targetShip.coque -= missile * 0.75 * 0.2
+					}
 				} else {
-					logMessage(`${ship.id} Missed target`)
+					if (laser) {
+						logMessage(
+							`💥${ship.id} Laser hit ${targetShip.id} for ${laser * 0.5} coque`
+						)
+						targetShip.coque -= laser * 0.5
+					}
+					if (missile) {
+						logMessage(
+							`💥${ship.id} Missile hit ${targetShip.id} for ${missile * 1.5} coque`
+						)
+						targetShip.coque -= missile * 1.5
+					}
 				}
 				if (targetShip.coque <= 0) {
 					groups[targetGroupIndex].shipIds = groups[
@@ -319,7 +317,16 @@ const taskFight = {
 				})
 			}
 		}
-		if (groups.filter((group) => group.shipIds.length > 0).length > 1) {
+
+		// check if there is remaining ships
+		const newGroups = _([...remainingFleets, ...remainingPirates])
+			.groupBy((fleet) => fleet.userId || "neutral")
+			.map((fleets, userId) => ({
+				userId: userId,
+				shipIds: _.flatten(fleets.map((fleet) => fleet.shipIds))
+			}))
+			.value()
+		if (newGroups.length > 1) {
 			// if 2 groups not empty, create new fight
 			const newTask = {
 				type: TaskType.FIGHT,

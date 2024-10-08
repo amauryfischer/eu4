@@ -187,7 +187,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		},
 		agility: 70,
 		constructTime: 11 * HOURS + 45 * MINUTES,
-		baseCoque: 200,
+		baseCoque: 400,
 		classType: "A",
 		requiredResearch: [ResearchChassis.Croiseur],
 		cost: {
@@ -216,7 +216,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 1,
+		baseCoque: 350,
 		classType: "A",
 		requiredResearch: [ResearchChassis.Intercepteur],
 		cost: {
@@ -234,7 +234,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Croiseur Intergalactique",
 		class: "croiseur_intergalactique",
 		img: "/images/chassis/croiseur_intergalactique.webp",
-		emplacement: 40,
+		emplacement: 50,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -242,7 +242,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 500,
 		classType: "B",
 		requiredResearch: [ResearchChassis.Croiseur_intergalactique],
 		cost: {
@@ -259,7 +259,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Croiseur Combat",
 		class: "croiseur_combat",
 		img: "/images/chassis/croiseur_combat.webp",
-		emplacement: 40,
+		emplacement: 60,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -267,7 +267,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 600,
 		classType: "B",
 		requiredResearch: [ResearchChassis.Croiseur_combat],
 		cost: {
@@ -284,7 +284,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Warrior",
 		class: "warrior",
 		img: "/images/chassis/warrior.webp",
-		emplacement: 40,
+		emplacement: 80,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -292,7 +292,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 800,
 		classType: "B",
 		requiredResearch: [ResearchChassis.Warrior],
 		cost: {
@@ -309,7 +309,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Centaure",
 		class: "centaure",
 		img: "/images/chassis/centaure.webp",
-		emplacement: 40,
+		emplacement: 100,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -317,7 +317,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 1000,
 		classType: "B",
 		requiredResearch: [ResearchChassis.Centaure],
 		cost: {
@@ -334,7 +334,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Minotaure",
 		class: "minotaure",
 		img: "/images/chassis/minotaure.webp",
-		emplacement: 40,
+		emplacement: 120,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -342,7 +342,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 1200,
 		classType: "B",
 		requiredResearch: [ResearchChassis.Minotaure],
 		cost: {
@@ -359,7 +359,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Titan",
 		class: "titan",
 		img: "/images/chassis/titan.webp",
-		emplacement: 40,
+		emplacement: 140,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -367,7 +367,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 1400,
 		classType: "C",
 		requiredResearch: [ResearchChassis.Titan],
 		cost: {
@@ -384,7 +384,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Behemoth",
 		class: "behemoth",
 		img: "/images/chassis/behemoth.webp",
-		emplacement: 40,
+		emplacement: 170,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -392,7 +392,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 1700,
 		classType: "C",
 		requiredResearch: [ResearchChassis.Behemot],
 		cost: {
@@ -409,7 +409,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Hades",
 		class: "hades",
 		img: "/images/chassis/hades.webp",
-		emplacement: 40,
+		emplacement: 200,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -417,7 +417,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 2000,
 		classType: "C",
 		requiredResearch: [ResearchChassis.Hades],
 		cost: {
@@ -434,7 +434,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 		name: "Leviathan",
 		class: "leviathan",
 		img: "/images/chassis/leviathan.webp",
-		emplacement: 40,
+		emplacement: 250,
 		fuelSpace: 1000,
 		multiplier: {
 			warp: 10,
@@ -442,7 +442,7 @@ const getAllShips: () => { [name: string]: IShipDesign } = () => ({
 			conso: 0.1,
 			shield: 0
 		},
-		baseCoque: 400,
+		baseCoque: 2500,
 		classType: "C",
 		requiredResearch: [ResearchChassis.Leviathan],
 		cost: {

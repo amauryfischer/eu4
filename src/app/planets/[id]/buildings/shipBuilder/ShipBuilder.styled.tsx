@@ -9,6 +9,7 @@ export const Simg = styled.img`
 export const CustomGridResources = styled.div`
 	display: grid;
 	grid-template-columns: 30px 100px 1fr;
+  gap: 8px;
 `
 export const Container = styled.div<{}>`
   padding: var(--size-8);
