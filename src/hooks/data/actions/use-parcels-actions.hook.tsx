@@ -21,7 +21,7 @@ const useParcelsActions = () => {
 		}
 		startTransition(() => {
 			const fetchServer = async () => {
-				const { planets, fleets, asteroids, pirates } =
+				const { planets, fleets, asteroids, pirates, ships } =
 					await fetchParcelsData(system)
 				// remove all data on same system
 				dispatch(
@@ -48,6 +48,7 @@ const useParcelsActions = () => {
 						condition: (data) => _.isEqual(data.position.system, system)
 					})
 				)
+				
 				planets.forEach((planet) => {
 					dispatch(addData({ type: "Planet", dataId: planet.id, data: planet }))
 				})
@@ -61,6 +62,9 @@ const useParcelsActions = () => {
 				})
 				pirates.forEach((pirate) => {
 					dispatch(addData({ type: "Pirate", dataId: pirate.id, data: pirate }))
+				})
+				ships.forEach((ship) => {
+					dispatch(addData({ type: "Ship", dataId: ship.id, data: ship }))
 				})
 			}
 			fetchServer()

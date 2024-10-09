@@ -22,6 +22,7 @@ export const StyledProgress = styled(BProgress)`
     width: 100%;
     height: 0.5rem;
     border-radius: 0.5rem;
+    background-color: hsla(var(--default-hue),var(--default-saturation),var(--default-lightness),0.8);
     & > div {
         border-radius: 0.5rem;
     }

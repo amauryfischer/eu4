@@ -151,6 +151,7 @@ export const fetchParcelsData = async (system: string) => {
 	const allFleets = await db.fleet.findMany()
 	const allAsteroids = await db.asteroid.findMany()
 	const allPirates = await db.pirate.findMany()
+	const allShips = await db.ship.findMany()
 
 	// if 0 asteroids, use 6 times createRandomAsteroids
 	if (allAsteroids.length === 0) {
@@ -171,10 +172,14 @@ export const fetchParcelsData = async (system: string) => {
 	const piratesToReturn = allPirates.filter(
 		(pirate) => (pirate.position as any)?.["system"] == system
 	)
+	const shipsToReturn = allShips.filter((ship) =>
+		fleetsToReturn.some((fleet) => fleet.shipIds.some((s) => s.id === ship.id))
+	)
 	return {
 		planets: planetsToReturn,
 		fleets: fleetsToReturn,
 		asteroids: asteroidsToReturn,
-		pirates: piratesToReturn
+		pirates: piratesToReturn,
+		ships: shipsToReturn
 	}
 }

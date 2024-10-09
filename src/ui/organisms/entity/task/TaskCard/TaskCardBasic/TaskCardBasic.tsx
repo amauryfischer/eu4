@@ -31,7 +31,7 @@ const TaskCardBasic = ({
 				src={imgSrc}
 				width={300}
 				classNames={{
-					wrapper: "max-w-full",
+					wrapper: "max-w-full bg-black-500",
 					img: "max-w-full"
 				}}
 			/>

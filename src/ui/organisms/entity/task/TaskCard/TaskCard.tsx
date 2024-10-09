@@ -75,7 +75,6 @@ const TaskCard = ({ task }: { task: ITask }) => {
 					fetchTasks()
 				}
 				if (task.type === TaskType.FIGHT) {
-					fetchFleets()
 					fetchTasks()
 					setTimeout(() => {
 						fetParcels(task.details.position.system)

@@ -132,7 +132,7 @@ const SolarSystem3D = ({ systemId }: { systemId: string }) => {
 			<Button
 				variant="bordered"
 				color="primary"
-				style={{ position: "absolute", top: 100, right: 100, zIndex: 1000 }}
+				style={{ position: "absolute", top: 100, right: 100, zIndex: 400 }}
 				onClick={resetCamera}
 			>
 				Reset Camera

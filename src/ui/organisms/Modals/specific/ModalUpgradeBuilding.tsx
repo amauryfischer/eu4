@@ -73,18 +73,8 @@ const ModalUpgradeBuilding = () => {
 			title={`Upgrade ${currentBuilding}`}
 		>
 			<ModalContent>
-				<ModalHeader>
-					<Image
-						height={200}
-						src={ShipService.getAllShips()[currentShip.class].img}
-					/>
-					Vaisseau : {currentShip?.name}
-				</ModalHeader>
-				<ModalBody>
-					<h3>Modules</h3>
-					<ShipStats ship={currentShip} />
-					<ShipNumberModules ship={currentShip} />
-				</ModalBody>
+				<ModalHeader>header</ModalHeader>
+				<ModalBody>body</ModalBody>
 				<ModalFooter>
 					<CloseElementButton
 						onClick={() => dispatch(setCurrentUpgradeBuilding(undefined))}

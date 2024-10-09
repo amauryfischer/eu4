@@ -20,6 +20,9 @@ import PlanetMines from "./buildings/PlanetMines"
 import PlanetCommunication from "./buildings/PlanetCommunication"
 import { BUILDING_TYPE } from "@/type/data/IPlanet"
 import Button from "@/ui/atoms/buttons/Button"
+import { setCurrentUpgradeBuilding } from "@/redux/slice/current.slice"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/redux/store"
 const Simg = styled.img<{
 	$disabled?: boolean
 	$width: number
@@ -87,6 +90,7 @@ const PlanetMain = () => {
 	const [shipSelected, setShipSelected] = useState<IShipDesign | undefined>(
 		undefined
 	)
+	const dispatch = useDispatch<AppDispatch>()
 	const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
 		undefined
 	)
@@ -238,7 +242,13 @@ const PlanetMain = () => {
 						<Button
 							variant="bordered"
 							color="emerald200"
-							onClick={() => setIsOpen(undefined)}
+							onClick={() =>
+								dispatch(
+									setCurrentUpgradeBuilding(
+										allBuildings.find((b) => b.name === isOpen)?.type
+									)
+								)
+							}
 						>
 							Upgrade to level{" "}
 							{currentPlanet?.buildingLevel?.[
