@@ -5,6 +5,7 @@ import ModalPirate from "./specific/ModalPirate";
 import ModalPlanet from "./specific/ModalPlanet";
 import ModalSendPosition from "./specific/ModalSendPosition";
 import ModalShip from "./specific/ModalShip";
+import ModalUpgradeBuilding from "./specific/ModalUpgradeBuilding"
 
 const Modals = () => {
 	return (
@@ -16,6 +17,7 @@ const Modals = () => {
 			<ModalPirate />
 			<ModalShip />
 			<ModalFight />
+			<ModalUpgradeBuilding />
 		</>
 	)
 };

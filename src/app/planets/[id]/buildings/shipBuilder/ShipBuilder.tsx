@@ -249,7 +249,8 @@ const ShipBuilder = ({
 									Object.keys(totalResources).some(
 										(r) =>
 											totalResources[r] > currentPlayerActivePlanet.resources[r]
-									)
+									) ||
+									!shipName
 								}
 								title="Créer"
 							/>

@@ -4,10 +4,12 @@ import IShipDesign from "@/type/data/IShipDesign"
 import Flex from "@/ui/atoms/Flex"
 import BModal from "@/ui/molecules/modal/BModal"
 import {
+	Chip,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
-	ModalHeader
+	ModalHeader,
+	Tooltip
 } from "@nextui-org/react"
 import { useState } from "react"
 import styled from "styled-components"
@@ -23,6 +25,7 @@ import Button from "@/ui/atoms/buttons/Button"
 import { setCurrentUpgradeBuilding } from "@/redux/slice/current.slice"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "@/redux/store"
+import getAllBuildings from "@/utils/allBuildings"
 const Simg = styled.img<{
 	$disabled?: boolean
 	$width: number
@@ -94,82 +97,7 @@ const PlanetMain = () => {
 	const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
 		undefined
 	)
-	const allBuildings = [
-		{
-			name: "Centre de recherche",
-			src: "/images/buildings/research.png",
-			link: `/planets/${planetId}/research`,
-			width: 8,
-			height: 8,
-			row: 1,
-			percentage: 12,
-			type: BUILDING_TYPE.RESEARCH
-		},
-		{
-			name: "Usine",
-			src: "/images/buildings/usine.png",
-			link: `/planets/${planetId}/research`,
-			disabled: true,
-			width: 10,
-			height: 10,
-			row: 1,
-			percentage: 58,
-			type: BUILDING_TYPE.FACTORY
-		},
-		{
-			name: "Centre de communication",
-			src: "/images/buildings/communication.png",
-			link: `/planets/${planetId}/research`,
-			disabled: true,
-			width: 12,
-			height: 12,
-			row: 2,
-			percentage: 34,
-			type: BUILDING_TYPE.COMMUNICATION
-		},
-		{
-			name: "Mine",
-			src: "/images/buildings/mine.webp",
-			link: `/planets/${planetId}/research`,
-			disabled: false,
-			width: 15,
-			height: 15,
-			row: 2,
-			percentage: 60,
-			type: BUILDING_TYPE.MINES
-		},
-		{
-			name: "Hangar",
-			src: "/images/buildings/hangar.webp",
-			link: `/planets/${planetId}/spatioport`,
-			width: 10,
-			height: 8,
-			row: 2,
-			persentage: 85,
-			type: BUILDING_TYPE.HANGAR
-		},
-		{
-			name: "Manufacture",
-			src: "/images/buildings/manufacturing.webp",
-			link: `/planets/${planetId}/shipfactory/choose`,
-			width: 13,
-			height: 10,
-			row: 3,
-			percentage: 21,
-			type: BUILDING_TYPE.SHIP_FACTORY
-		},
-		{
-			name: "Université",
-			src: "/images/buildings/university.webp",
-			link: `/planets/${planetId}/research`,
-			disabled: true,
-			width: 8,
-			height: 10,
-			row: 3,
-			percentage: 78,
-			type: BUILDING_TYPE.UNIVERSITY
-		}
-	]
+	const allBuildings = getAllBuildings(planetId)
 	const urlType = {
 		mars: "/images/backgrounds/mars.webp",
 		fictio: "/images/backgrounds/fictio.png",
@@ -187,17 +115,55 @@ const PlanetMain = () => {
 			<SFlex gap="2rem" wrap="wrap" $url={urlType[currentPlanet?.type]}>
 				{allBuildings.map(
 					({ name, src, link, disabled, width, height, row, percentage }) => (
-						<Simg
+						<Tooltip
+							hidden={disabled}
 							key={name}
-							alt={name}
-							src={src}
-							$width={width ?? 200}
-							$height={height ?? 200}
-							onClick={() => setIsOpen(name)}
-							$disabled={disabled}
-							$row={row}
-							$percentage={percentage}
-						/>
+							content={
+								<div className="flex flex-col gap-6 p-4">
+									<div className="flex justify-between gap-8">
+										<div className="text-xl capitalize">{name}</div>
+										<Chip color="primary" variant="bordered">
+											Niveau{" "}
+											{
+												currentPlanet?.buildingLevel?.[
+													allBuildings.find((b) => b.name === name)?.type
+												]
+											}
+										</Chip>
+									</div>
+									<Button
+										variant="bordered"
+										color="cyan"
+										onClick={() => {
+											if (!disabled) {
+												dispatch(
+													setCurrentUpgradeBuilding(
+														allBuildings.find((b) => b.name === name)?.type
+													)
+												)
+											}
+										}}
+									>
+										Passer au niveau{" "}
+										{currentPlanet?.buildingLevel?.[
+											allBuildings.find((b) => b.name === name)?.type
+										] + 1}
+									</Button>
+								</div>
+							}
+						>
+							<Simg
+								key={name}
+								alt={name}
+								src={src}
+								$width={width ?? 200}
+								$height={height ?? 200}
+								onClick={() => setIsOpen(name)}
+								$disabled={disabled}
+								$row={row}
+								$percentage={percentage}
+							/>
+						</Tooltip>
 					)
 				)}
 			</SFlex>
@@ -238,24 +204,6 @@ const PlanetMain = () => {
 							}[isOpen]
 						}
 					</ModalBody>
-					<ModalFooter>
-						<Button
-							variant="bordered"
-							color="emerald200"
-							onClick={() =>
-								dispatch(
-									setCurrentUpgradeBuilding(
-										allBuildings.find((b) => b.name === isOpen)?.type
-									)
-								)
-							}
-						>
-							Upgrade to level{" "}
-							{currentPlanet?.buildingLevel?.[
-								allBuildings.find((b) => b.name === isOpen)?.type
-							] + 1}
-						</Button>
-					</ModalFooter>
 				</ModalContent>
 			</BModal>
 		</>

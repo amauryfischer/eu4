@@ -10,7 +10,7 @@ import Planet from "@/ui/fondations/icons/Planet";
 import SolarSystem from "@/ui/fondations/icons/SolarSystem";
 import Spaceship from "@/ui/fondations/icons/Spaceship";
 import { useRouter } from "next/navigation";
-import styled from "styled-components";
+import styled, { css } from "styled-components"
 
 const RightSideBarContainer = styled.div`
     transition: all 0.3s ease-in-out;
@@ -34,7 +34,7 @@ const RightSideBarContainer = styled.div`
         --width-internal: 100%;
     }
 `;
-const PlanetName = styled.div`
+const PlanetName = styled.div<{ $disabled: boolean }>`
     // transition with delay to make it appear after the width transition
     transition: all 0.3s ease-in-out;
     color: white;
@@ -44,9 +44,14 @@ const PlanetName = styled.div`
     overflow: hidden;
     text-transform: capitalize;
     padding-left: 0.5rem;
-    
-`;
-const PlanetWithNameContainer = styled(Flex)`
+    ${(props) =>
+			props.$disabled &&
+			css`
+            color: var(--grey500);
+			cursor: not-allowed;
+        `}
+`
+const PlanetWithNameContainer = styled(Flex)<{ $disabled: boolean }>`
     align-items: center;
     transition: all 0.3s ease-in-out;
     margin-right: 0.5rem;
@@ -59,6 +64,11 @@ const PlanetWithNameContainer = styled(Flex)`
     );
     border-radius: 0.5rem;
     &:hover {
+		${(props) =>
+			props.$disabled &&
+			css`
+				cursor: not-allowed;
+			`}
         background: var(--gradient-background-grey-dark);
         gap: 0.5rem;
         border-radius: 0.5rem;
@@ -68,7 +78,7 @@ const PlanetWithNameContainer = styled(Flex)`
         }
     }
     margin-bottom: 0.5rem;
-`;
+`
 
 const RightSideBar = () => {
 	const planet = useCurrentPlayerActivePlanet();
@@ -78,58 +88,65 @@ const RightSideBar = () => {
 		city: {
 			icon: <City width="42px" color="red200" />,
 			name: "Bâtiments",
-			url: `/planets/${planet?.id}`,
+			url: `/planets/${planet?.id}`
 		},
 		planet: {
 			icon: <Planet width="42px" />,
 			name: "Orbite",
 			url: "/",
+			disabled: true
 		},
 		solarSystem: {
 			icon: <SolarSystem color="yellow400" width="42px" />,
 			name: "Système solaire",
-			url: `/system/${planet?.position?.system}`,
+			url: `/system/${planet?.position?.system}`
 		},
 		universe: {
 			icon: <Galaxy color="cyan500" width="42px" />,
 			name: "Univers",
-			url: "/universe",
+			url: "/universe"
 		},
 		spaceships: {
 			icon: <Spaceship width="42px" color="caramel400" />,
 			name: "Flottes",
-			url: "/fleets",
+			url: "/fleets"
 		},
 		empire: {
 			icon: <Orga width="42px" color="emerald200" />,
 			name: "Empire",
 			url: "/empire",
+			disabled: true
 		},
 		classement: {
 			icon: <First width="42px" color="purple200" />,
 			name: "Classement",
 			url: "/classement",
+			disabled: true
 		},
 		mails: {
 			icon: <Mails width="42px" color="blue500" />,
 			name: "Messagerie",
 			url: "/mails",
-		},
-	};
+			disabled: true
+		}
+	}
 	return (
 		<RightSideBarContainer>
 			{Object.values(menus).map((el) => {
 				return (
 					<PlanetWithNameContainer
 						onClick={() => {
-							push(el.url);
+							if (!el.disabled) {
+								push(el.url)
+							}
 						}}
+						$disabled={el.disabled}
 						key={el.name}
 					>
 						{el.icon}
-						<PlanetName>{el.name}</PlanetName>
+						<PlanetName $disabled={el.disabled}>{el.name}</PlanetName>
 					</PlanetWithNameContainer>
-				);
+				)
 			})}
 		</RightSideBarContainer>
 	);

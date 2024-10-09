@@ -93,7 +93,12 @@ const PlanetSpatioport = () => {
 						onChange={(e) => setFleetName(e.target.value)}
 						variant="bordered"
 					/>
-					<Button variant="bordered" color="primary" onPress={onCreateFleet}>
+					<Button
+						variant="bordered"
+						color="primary"
+						onPress={onCreateFleet}
+						isDisabled={selectedShips.length === 0 || !fleetName}
+					>
 						Créer une flotte
 					</Button>
 				</Flex>

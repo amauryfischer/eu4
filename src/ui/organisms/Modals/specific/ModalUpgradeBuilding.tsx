@@ -1,56 +1,39 @@
 "use client"
-import useCurrentPlanet from "@/hooks/current/use-current-planet.hook"
 import useCurrentPlayerActivePlanet from "@/hooks/current/use-current-player-active-planet"
-import useCurrentSendPosition from "@/hooks/current/use-current-send-position"
-import useCurrentShip from "@/hooks/current/use-current-ship.hook"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
-import useFleetsActions from "@/hooks/data/actions/use-fleets-actions.hook"
 import usePlanetsActions from "@/hooks/data/actions/use-planets-actions.hook"
 import useTasksActions from "@/hooks/data/actions/use-tasks-actions.hook"
-import useFleets from "@/hooks/data/entity/use-fleets.hook"
-import useShips from "@/hooks/data/entity/use-ships.hook"
-import useTasks from "@/hooks/data/entity/use-tasks.hook"
-import {
-	setCurrentFleet,
-	setCurrentSendPosition,
-	setCurrentShip,
-	setCurrentUpgradeBuilding
-} from "@/redux/slice/current.slice"
+import { setCurrentUpgradeBuilding } from "@/redux/slice/current.slice"
 import { AppDispatch, RootState } from "@/redux/store"
-import ShipService from "@/services/ShipService"
 import BuildingService from "@/services/building/BuildingService"
 import { TaskType } from "@/type/data/ITask"
-import Flex from "@/ui/atoms/Flex/Flex"
-import BAvatar from "@/ui/atoms/avatar/BAvatar"
-import BButton from "@/ui/atoms/buttons/Button"
+import Button from "@/ui/atoms/buttons/Button"
 import CloseElementButton from "@/ui/atoms/buttons/CloseElementButton"
-import SendFleetButton from "@/ui/atoms/buttons/SendFleetButton"
-import Spaceship from "@/ui/fondations/icons/Spaceship"
-import ShipNumberModules from "@/ui/molecules/entity/ship/ShipNumberModules"
-import ShipStats from "@/ui/molecules/entity/ship/ShipStats"
 import BModal from "@/ui/molecules/modal/BModal"
-import { Dialog } from "@mui/material"
 import {
-	Image,
-	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
 	ModalHeader
 } from "@nextui-org/react"
 import moment from "moment"
-import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import styled from "styled-components"
+import RenderResources from "../../RenderResources"
+import useTasks from "@/hooks/data/entity/use-tasks.hook"
 
 const ModalUpgradeBuilding = () => {
 	const dispatch = useDispatch<AppDispatch>()
 	const currentPlanet = useCurrentPlayerActivePlanet()
 	const { updatePlanet } = usePlanetsActions()
 	const { createTask } = useTasksActions()
+	const tasks = useTasks()
+	const currentUser = useCurrentUser()
 
 	const currentBuilding = useSelector(
 		(state: RootState) => state.current.upgradeBuilding
+	)
+	const upgradeTask = Object.values(tasks).find(
+		(t) => t.type === TaskType.UPGRADE_BUILDING
 	)
 	if (!currentBuilding) return null
 	const onUpgrade = () => {
@@ -58,9 +41,12 @@ const ModalUpgradeBuilding = () => {
 			type: TaskType.UPGRADE_BUILDING,
 			endDate: moment().add(1, "hour").toISOString(),
 			details: {
-				buildingType: currentBuilding
-			}
+				buildingType: currentBuilding,
+				planetId: currentPlanet?.id
+			},
+			userId: currentUser?.id
 		})
+		dispatch(setCurrentUpgradeBuilding(undefined))
 	}
 	return (
 		<BModal
@@ -73,15 +59,29 @@ const ModalUpgradeBuilding = () => {
 			title={`Upgrade ${currentBuilding}`}
 		>
 			<ModalContent>
-				<ModalHeader>header</ModalHeader>
-				<ModalBody>body</ModalBody>
+				<ModalHeader>{currentBuilding}</ModalHeader>
+				<ModalBody>
+					<RenderResources
+						resources={
+							BuildingService.getAllBuildings()?.[currentBuilding]?.[
+								(currentPlanet?.buildingLevel?.[currentBuilding] ?? 0) + 1
+							]?.cost
+						}
+					/>
+				</ModalBody>
 				<ModalFooter>
 					<CloseElementButton
 						onClick={() => dispatch(setCurrentUpgradeBuilding(undefined))}
 					/>
-				</ModalFooter>
-				<ModalFooter>
-					<BButton onClick={onUpgrade}>Upgrade</BButton>
+					<Button
+						variant="bordered"
+						color="cyan"
+						onClick={onUpgrade}
+						isDisabled={!!upgradeTask}
+					>
+						Upgrade {currentBuilding} to level{" "}
+						{currentPlanet?.buildingLevel?.[currentBuilding] + 1}
+					</Button>
 				</ModalFooter>
 			</ModalContent>
 		</BModal>

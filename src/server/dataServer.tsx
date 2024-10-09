@@ -26,6 +26,11 @@ export const fetchServerData = async (
 ) => {
 	// delete all data
 		//await deleteEveryThing()
+		const user = await db.user.findUnique({
+			where: {
+				email: session.user.email
+			}
+		})
 
 		// ? delete finished task if finished
 		const tasks = await db.task.findMany()
@@ -64,7 +69,7 @@ export const fetchServerData = async (
 		if (type === "Task") {
 			const userTasks = await db.task.findMany({
 				where: {
-					userId: session.user.id
+					userId: user.id
 				}
 			})
 			const fightTasks = await db.task.findMany({

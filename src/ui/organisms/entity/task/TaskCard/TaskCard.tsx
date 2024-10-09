@@ -10,6 +10,7 @@ import {
 	ITaskFight,
 	ITaskFlyingFleet,
 	ITaskResearch,
+	ITaskUpgradeBuilding,
 	ITaskUpgradeResource,
 	TaskType
 } from "@/type/data/ITask"
@@ -29,6 +30,7 @@ import TaskUpgradeResource from "./TaskUpgradeResource/TaskUpgradeResource"
 import TaskFight from "./TaskFight/TaskFight"
 import useParcelsActions from "@/hooks/data/actions/use-parcels-actions.hook"
 import useCurrentUser from "@/hooks/current/use-current-user.hook"
+import TaskUpgradeBuilding from "./TaskUpgradeBuilding/TaskUpgradeBuilding"
 
 const TaskCard = ({ task }: { task: ITask }) => {
 	const [progress, setProgress] = useState(0)
@@ -143,6 +145,13 @@ const TaskCard = ({ task }: { task: ITask }) => {
 					progress={progress}
 					color="red300"
 					task={task as unknown as ITaskFight}
+				/>
+			)}
+			{task.type === TaskType.UPGRADE_BUILDING && (
+				<TaskUpgradeBuilding
+					progress={progress}
+					color="caramel300"
+					task={task as unknown as ITaskUpgradeBuilding}
 				/>
 			)}
 			{/* <div>

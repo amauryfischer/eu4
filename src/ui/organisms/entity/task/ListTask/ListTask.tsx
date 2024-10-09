@@ -14,6 +14,7 @@ const ListTask = () => {
 		<TaskContainer>
 			{Object.values(tasks)
 				.sort((a, b) => moment(b.endDate).diff(moment(a.endDate)))
+				.reverse()
 				.map((task) => (
 					<TaskCard task={task} key={task.id} />
 				))}
